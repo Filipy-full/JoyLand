@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fefdfb;
-  --foreground: #2c1810;
+  --background: #fafdf8;
+  --foreground: #1a3a2a;
   
-  /* Warm earth tone palette inspired by logo */
-  --sage-50: #fef9f3;
-  --sage-100: #fdf3e7;
-  --sage-200: #f9e4c8;
-  --sage-300: #e8c4a0;
-  --sage-400: #c99968;
-  --sage-500: #a67c52;
-  --sage-600: #8b5e3c;
-  --sage-700: #6b4423;
+  /* Natural green color palette */
+  --sage-50: #f0f7f4;
+  --sage-100: #d4e8e1;
+  --sage-200: #a8d5c4;
+  --sage-300: #7dc2a8;
+  --sage-400: #5ab08f;
+  --sage-500: #3d9f70;
+  --sage-600: #2b8659;
+  --sage-700: #1a6d42;
 }
 
 @theme inline {
