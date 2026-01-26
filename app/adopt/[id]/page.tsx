@@ -40,30 +40,47 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
               Adoptar árbol
             </h1>
 
-            <div className="bg-sage-50 p-6 rounded-lg mb-6">
+            <div className="bg-gradient-to-br from-sage-50 to-sage-100 p-6 rounded-lg mb-6 border-2 border-sage-300">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-4xl">
                   {tree.type === 'olive' ? '🫒' : '🌸'}
                 </span>
                 <div>
                   <h2 className="text-xl font-serif text-gray-800">
-                    {tree.name || `Árbol #${tree.id.slice(0, 8)}`}
+                    {tree.type === 'olive' ? '🏆 Paquete Olivo Premium' : '🌟 Paquete Almendro Primavera'}
                   </h2>
-                  <p className="text-gray-600">
-                    {tree.type === 'olive' ? 'Olivo' : 'Almendro'}
+                  <p className="text-sm text-gray-600">
+                    {tree.name || `Árbol #${tree.id.slice(0, 8)}`}
                   </p>
                 </div>
               </div>
 
+              <div className="bg-amber-50 border border-amber-200 p-3 rounded-lg mb-4">
+                <p className="text-sm text-amber-800 font-semibold text-center">
+                  ⚡ Solo quedan {tree.type === 'olive' ? '8' : '7'} disponibles
+                </p>
+              </div>
+
               <div className="border-t border-sage-200 pt-4">
-                <div className="flex justify-between mb-2">
-                  <span className="text-gray-600">Adopción por 1 año</span>
+                <div className="flex justify-between mb-2 text-sm">
+                  <span className="text-gray-600">Paquete Premium (12 meses)</span>
                   <span className="font-medium">€{price}</span>
                 </div>
-                <div className="flex justify-between text-lg font-serif text-sage-700 pt-2 border-t border-sage-200">
-                  <span>Total</span>
+                <div className="flex justify-between mb-2 text-sm text-green-600">
+                  <span>Envío</span>
+                  <span className="font-semibold">GRATIS</span>
+                </div>
+                <div className="flex justify-between text-sm text-gray-500 line-through mb-2">
+                  <span>Valor real</span>
+                  <span>€{tree.type === 'olive' ? '290' : '240'}</span>
+                </div>
+                <div className="flex justify-between text-2xl font-bold text-sage-700 pt-2 border-t-2 border-sage-300">
+                  <span>Total hoy</span>
                   <span>€{price}</span>
                 </div>
+                <p className="text-xs text-center text-green-600 font-semibold mt-2">
+                  Ahorras €{tree.type === 'olive' ? '170' : '140'}
+                </p>
               </div>
             </div>
 

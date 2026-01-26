@@ -2,9 +2,12 @@ export default function AboutPage() {
   return (
     <div className="container mx-auto px-6 py-12">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-5xl font-serif text-gray-800 mb-8 text-center">
-          Sobre Joyland
+        <h1 className="text-5xl font-serif text-gray-800 mb-4 text-center">
+          Por Qué Joyland Es Diferente
         </h1>
+        <p className="text-xl text-sage-600 text-center mb-12 font-medium">
+          Más de 500 adoptantes confían en nosotros
+        </p>
 
         <div className="prose prose-lg max-w-none">
           <section className="mb-12">
@@ -91,19 +94,20 @@ export default function AboutPage() {
             </p>
           </section>
 
-          <section className="bg-sage-100 p-8 rounded-lg text-center">
-            <h2 className="text-3xl font-serif text-gray-800 mb-4">
-              ¿Quieres formar parte?
+          <section className="bg-gradient-to-r from-sage-600 to-sage-700 text-white p-10 rounded-lg text-center">
+            <h2 className="text-4xl font-serif mb-4">
+              Únete a 500+ Personas Que Ya Tienen Su Árbol
             </h2>
-            <p className="text-lg text-gray-700 mb-6">
-              Adopta un árbol y conecta con la tierra de una forma real y significativa.
+            <p className="text-xl mb-8 opacity-90">
+              Plazas limitadas disponibles esta temporada
             </p>
             <a
               href="/adopt"
-              className="inline-block bg-sage-600 text-white px-10 py-4 rounded-full hover:bg-sage-700 transition-all transform hover:scale-105 text-lg font-medium"
+              className="inline-block bg-white text-sage-700 px-12 py-5 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 text-xl font-bold shadow-lg"
             >
-              Ver los árboles disponibles
+              ADOPTAR AHORA →
             </a>
+            <p className="text-sm mt-4 opacity-75">✓ Proceso en 3 minutos · ✓ Garantía de satisfacción</p>
           </section>
         </div>
       </div>

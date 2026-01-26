@@ -3,6 +3,7 @@ import { Libre_Baskerville, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FloatingCTA from "@/components/FloatingCTA";
 
 const serif = Libre_Baskerville({
   weight: ["400", "700"],
@@ -31,7 +32,8 @@ export default function RootLayout({
         className={`${sans.variable} ${serif.variable} antialiased font-sans`}
       >
         <Header />
-        <main className="min-h-screen pt-20">
+        <FloatingCTA />
+        <main className="min-h-screen pt-32">
           {children}
         </main>
         <Footer />

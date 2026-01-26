@@ -30,11 +30,14 @@ export default function AdoptPageClient({ trees }: AdoptPageClientProps) {
     <div className="container mx-auto px-6 py-12">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-5xl font-serif text-gray-800 mb-4 text-center">
-          Elige tu árbol
+          Elige Tu Árbol Ahora
         </h1>
-        <p className="text-xl text-gray-600 mb-12 text-center max-w-3xl mx-auto">
-          Explora el mapa y selecciona el árbol que quieres adoptar. 
-          Los marcadores verdes están disponibles, los rojos ya han sido adoptados.
+        <p className="text-xl text-amber-600 font-semibold mb-2 text-center">
+          ⚡ Solo 15 árboles disponibles
+        </p>
+        <p className="text-lg text-gray-600 mb-12 text-center max-w-3xl mx-auto">
+          Selecciona tu árbol en el mapa y completa tu adopción en 3 minutos. 
+          <span className="text-sage-600 font-semibold">Garantía de satisfacción 100%</span>
         </p>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -60,41 +63,41 @@ export default function AdoptPageClient({ trees }: AdoptPageClientProps) {
               {selectedTree ? (
                 <>
                   <h2 className="text-2xl font-serif mb-4 text-gray-800">
-                    Árbol seleccionado
+                    🎉 ¡Perfecto!
                   </h2>
                   
                   <div className="space-y-3 mb-6">
                     <div>
-                      <span className="text-sm text-gray-500">Tipo:</span>
+                      <span className="text-sm text-gray-500">Paquete:</span>
                       <p className="text-lg font-medium">
-                        {selectedTree.type === 'olive' ? '🫒 Olivo' : '🌸 Almendro'}
+                        {selectedTree.type === 'olive' ? '🫒 Olivo Premium' : '🌸 Almendro Primavera'}
                       </p>
                     </div>
                     
                     <div>
-                      <span className="text-sm text-gray-500">Precio:</span>
-                      <p className="text-2xl font-serif text-sage-700">
-                        €{selectedTree.type === 'olive' ? '120' : '100'} / año
+                      <span className="text-sm text-gray-500">Inversión:</span>
+                      <p className="text-3xl font-bold text-sage-700">
+                        €{selectedTree.type === 'olive' ? '120' : '100'}
                       </p>
+                      <p className="text-xs text-gray-500 line-through">Valor: €{selectedTree.type === 'olive' ? '290' : '240'}</p>
                     </div>
                     
-                    <div>
-                      <span className="text-sm text-gray-500">Coordenadas:</span>
-                      <p className="text-sm font-mono">
-                        {selectedTree.latitude.toFixed(6)}, {selectedTree.longitude.toFixed(6)}
+                    <div className="bg-amber-50 border border-amber-200 p-3 rounded-lg">
+                      <p className="text-sm text-amber-800 font-semibold">
+                        ⚡ Solo quedan {selectedTree.type === 'olive' ? '8' : '7'} {selectedTree.type === 'olive' ? 'olivos' : 'almendros'}
                       </p>
                     </div>
                   </div>
 
                   <Link
                     href={`/adopt/${selectedTree.id}`}
-                    className="block w-full bg-sage-600 text-white text-center px-6 py-3 rounded-full hover:bg-sage-700 transition-colors font-medium"
+                    className="block w-full bg-gradient-to-r from-sage-600 to-sage-700 text-white text-center px-6 py-4 rounded-full hover:shadow-xl transition-all font-bold text-lg"
                   >
-                    Continuar con la adopción
+                    ADOPTAR AHORA →
                   </Link>
 
                   <p className="text-xs text-gray-500 mt-4 text-center">
-                    Podrás nombrar tu árbol y completar el pago en el siguiente paso
+                    ✓ Pago 100% seguro · ✓ Satisfacción garantizada
                   </p>
                 </>
               ) : (
@@ -111,30 +114,32 @@ export default function AdoptPageClient({ trees }: AdoptPageClientProps) {
             </div>
 
             {/* Info Box */}
-            <div className="mt-6 bg-sage-50 p-6 rounded-lg border border-sage-100">
-              <h3 className="font-serif text-lg mb-3">Qué incluye</h3>
-              <ul className="text-sm text-gray-600 space-y-2">
+            <div className="mt-6 bg-gradient-to-br from-sage-50 to-sage-100 p-6 rounded-lg border border-sage-200">
+              <h3 className="font-serif text-lg mb-3 flex items-center">
+                <span className="text-2xl mr-2">🎁</span>
+                Paquete Premium Incluido
+              </h3>
+              <ul className="text-sm text-gray-700 space-y-2">
                 <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Adopción por 1 año</span>
+                  <span className="text-sage-600 mr-2 font-bold">✓</span>
+                  <span><strong>Acceso GPS exclusivo</strong> (valor €50)</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Página privada del árbol</span>
+                  <span className="text-sage-600 mr-2 font-bold">✓</span>
+                  <span><strong>Galería privada VIP</strong> (valor €120)</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Fotos y vídeos regulares</span>
+                  <span className="text-sage-600 mr-2 font-bold">✓</span>
+                  <span><strong>Pack gourmet premium</strong> (valor €80)</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Informe anual</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>Giftbox de temporada</span>
+                  <span className="text-sage-600 mr-2 font-bold">✓</span>
+                  <span><strong>Certificado de impacto</strong> (valor €40)</span>
                 </li>
               </ul>
+              <div className="mt-4 pt-4 border-t border-sage-200">
+                <p className="text-xs text-gray-600"><strong>Valor total:</strong> €290 → <span className="text-sage-700 font-bold text-lg">Solo €100-120</span></p>
+              </div>
             </div>
           </div>
         </div>
