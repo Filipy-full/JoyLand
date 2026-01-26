@@ -65,12 +65,17 @@ Open [http://localhost:3000](http://localhost:3000) to see the website.
 3. Add them to `.env`
 4. Set up webhook endpoint at `/api/webhooks/stripe`
 
-## Deployment to Vercel
+## Deployment
 
-1. Push your code to GitHub
-2. Import project in Vercel
-3. Add environment variables
-4. Deploy!
+### Opción A: servidor Node (cualquier proveedor)
+1. Configura variables de entorno (`.env` o panel del proveedor).
+2. Construye: `npm run build`.
+3. Arranca: `npm run start` (asegúrate de exponer el puerto 3000 o el que definas en `PORT`).
+
+### Opción B: Vercel solo como hosting
+1. Importa el repo en Vercel.
+2. Define las variables de entorno (no se usan servicios gestionados de Vercel; solo hosting).
+3. Vercel ejecutará `npm run build` automáticamente y servirá el resultado.
 
 ---
 
