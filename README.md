@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Joyland 🌿
+
+A Next.js website for tree adoption in a regenerative olive and almond grove in northern Spain.
+
+## Features
+
+- 🗺️ Interactive map with Leaflet to visualize and select trees
+- 🌳 Individual pages for each tree with photos, videos, and annual reports
+- 💳 Secure payments with Stripe
+- 📧 Email notifications (ready for Resend integration)
+- 🎁 Seasonal giftbox system
+- 📱 Fully responsive design
+- 🎨 Calm, natural aesthetic
+
+## Tech Stack
+
+- **Framework:** Next.js 14+ (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Database:** Prisma + SQLite (easily swappable to PostgreSQL)
+- **Payments:** Stripe
+- **Maps:** Leaflet + React-Leaflet
+- **Email:** Ready for Resend or Nodemailer
+- **Deployment:** Vercel-ready
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Set up environment variables:
+```bash
+cp .env.example .env
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Edit `.env` and add your credentials.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Set up the database:
+```bash
+npx prisma migrate dev
+npx prisma generate
+```
 
-## Learn More
+5. Run the development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000) to see the website.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Stripe Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Create a Stripe account at https://stripe.com
+2. Get your API keys from the Dashboard
+3. Add them to `.env`
+4. Set up webhook endpoint at `/api/webhooks/stripe`
 
-## Deploy on Vercel
+## Deployment to Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Push your code to GitHub
+2. Import project in Vercel
+3. Add environment variables
+4. Deploy!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+Made with 🌿 for Joyland

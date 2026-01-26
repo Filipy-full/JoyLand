@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Tree {
+  id            String      @id @default(cuid())
+  name          String?
+  type          String      // "olive" or "almond"
+  latitude      Float
+  longitude     Float
+  status        String      @default("available") // "available" or "adopted"
+  description   String?
+  yearlyReport  String?
+  images        String?     // JSON string array
+  videos        String?     // JSON string array
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  adoptions     Adoption[]
+}
+
+model User {
+  id        String      @id @default(cuid())
+  name      String
+  email     String      @unique
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  adoptions Adoption[]
+}
+
+model Adoption {
+  id              String    @id @default(cuid())
+  userId          String
+  treeId          String
+  startDate       DateTime
+  endDate         DateTime
+  stripeSessionId String?   @unique
+  giftMessage     String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  user            User      @relation(fields: [userId], references: [id])
+  tree            Tree      @relation(fields: [treeId], references: [id])
+  
+  @@index([userId])
+  @@index([treeId])
+}
