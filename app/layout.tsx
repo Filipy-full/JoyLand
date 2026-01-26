@@ -34,7 +34,7 @@ export default function RootLayout({
       >
         <Header />
         <FloatingCTA />
-        <main className="min-h-screen pt-32">
+        <main className="min-h-screen pt-20">
           {children}
         </main>
         <Footer />
