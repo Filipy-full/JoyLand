@@ -138,7 +138,7 @@ export default async function TreePage({ params }: { params: Promise<{ id: strin
             </h2>
             
             <div className="space-y-4">
-              {tree.adoptions.map((adoption) => {
+              {tree.adoptions.map((adoption: any) => {
                 const isActive = new Date(adoption.endDate) > new Date()
                 return (
                   <div
