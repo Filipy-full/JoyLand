@@ -4,15 +4,25 @@
   --background: #fafdf8;
   --foreground: #1a3a2a;
   
-  /* Natural green color palette */
-  --sage-50: #f0f7f4;
-  --sage-100: #d4e8e1;
-  --sage-200: #a8d5c4;
-  --sage-300: #7dc2a8;
-  --sage-400: #5ab08f;
-  --sage-500: #3d9f70;
-  --sage-600: #2b8659;
-  --sage-700: #1a6d42;
+  /* Premium Olive & Gold Palette */
+  --sage-50: #f5f8f3;
+  --sage-100: #e8f0e4;
+  --sage-200: #c8ddc0;
+  --sage-300: #a8ca9c;
+  --sage-400: #7ba86d;
+  --sage-500: #5a8c4a;
+  --sage-600: #3d6d33;
+  --sage-700: #2a5023;
+  
+  /* Gold accents */
+  --gold-light: #f4e4c1;
+  --gold: #d4af37;
+  --gold-dark: #aa8b2b;
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: rgba(31, 38, 135, 0.15);
 }
 
 @theme inline {
