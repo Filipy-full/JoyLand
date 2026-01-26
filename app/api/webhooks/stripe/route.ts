@@ -3,6 +3,9 @@ import Stripe from 'stripe'
 import { prisma } from '@/lib/prisma'
 import { headers } from 'next/headers'
 
+// Disable static generation for this route
+export const dynamic = 'force-dynamic'
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-12-15.clover',
 })
