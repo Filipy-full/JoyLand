@@ -5,9 +5,22 @@ import { prisma } from '@/lib/prisma'
 // Disable static generation for this route
 export const dynamic = 'force-dynamic'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-12-15.clover',
-})
+let stripe: Stripe | null = null
+
+function getStripe() {
+  const apiKey = process.env.STRIPE_SECRET_KEY
+  if (!apiKey) {
+    throw new Error('STRIPE_SECRET_KEY is not set')
+  }
+
+  if (!stripe) {
+    stripe = new Stripe(apiKey, {
+      apiVersion: '2025-12-15.clover',
+    })
+  }
+
+  return stripe
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,7 +39,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Create Stripe Checkout Session
-    const session = await stripe.checkout.sessions.create({
+    const stripeClient = getStripe()
+
+    const session = await stripeClient.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
