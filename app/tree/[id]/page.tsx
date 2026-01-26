@@ -31,7 +31,7 @@ export default async function TreePage({ params }: { params: Promise<{ id: strin
   const videos = tree.videos ? JSON.parse(tree.videos) : []
 
   const currentAdoption = tree.adoptions.find(
-    (adoption) => new Date(adoption.endDate) > new Date()
+    (adoption: any) => new Date(adoption.endDate) > new Date()
   )
 
   return (
