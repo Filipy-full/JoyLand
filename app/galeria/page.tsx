@@ -29,19 +29,21 @@ export default function GaleriaPage() {
           <div className="relative max-w-4xl w-full mx-4 flex items-center" onClick={e => e.stopPropagation()}>
             {/* Botón Anterior */}
             <button
-              className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-3 z-20 text-2xl"
+              className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-3 z-20 text-2xl focus:outline-none focus:ring-2 focus:ring-sage-400"
               style={{ left: '-2.5rem' }}
               onClick={() => setSelected((prev) => prev === 0 ? images.length - 1 : (prev ?? 0) - 1)}
-              aria-label="Anterior"
+              aria-label="Imagem anterior"
+              tabIndex={0}
             >&#8592;</button>
             {/* Imagen grande */}
-            <Image src={images[selected]} alt={`Foto Joyland ${selected+1}`} width={1400} height={1000} className="rounded-2xl w-full h-auto max-h-[80vh] object-contain shadow-2xl" />
+            <Image src={images[selected]} alt={`Foto grande da galeria Joyland número ${selected+1}`} width={1400} height={1000} className="rounded-2xl w-full h-auto max-h-[80vh] object-contain shadow-2xl" />
             {/* Botón Siguiente */}
             <button
-              className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-3 z-20 text-2xl"
+              className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-3 z-20 text-2xl focus:outline-none focus:ring-2 focus:ring-sage-400"
               style={{ right: '-2.5rem' }}
               onClick={() => setSelected((prev) => prev === images.length - 1 ? 0 : (prev ?? 0) + 1)}
-              aria-label="Siguiente"
+              aria-label="Imagem seguinte"
+              tabIndex={0}
             >&#8594;</button>
             {/* Botón Cerrar */}
             <button className="absolute top-2 right-2 text-white text-3xl font-bold z-30 bg-black/40 hover:bg-black/70 rounded-full px-3 py-1" onClick={() => setSelected(null)} aria-label="Cerrar">&times;</button>

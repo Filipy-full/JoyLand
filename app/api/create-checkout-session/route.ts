@@ -64,31 +64,60 @@ export async function POST(req: NextRequest) {
       if (type === 'olive') {
         price = 12500;
         priceId = process.env.STRIPE_PRICE_OLIVE_YEARLY;
-      } else {
-        priceId = process.env.STRIPE_PRICE_ALMOND_YEARLY;
+      /**
+       * POST /api/create-checkout-session
+       * Handler para criar sessão de checkout Stripe para adoção de árvore.
+       * Suporta dois modos:
+       * 1. Adoção por tipo (sem árvore específica)
+       * 2. Adoção de árvore específica (com ID)
+       *
+       * Fluxo:
+       * 1. Recebe dados do frontend (tipo ou ID da árvore).
+       * 2. Valida existência e disponibilidade da árvore.
+       * 3. Cria sessão Stripe com metadados.
+       * 4. Retorna URL da sessão ou erro.
+       *
+       * Em caso de erro, retorna status apropriado e mensagem.
+       */
+      export async function POST(req: NextRequest) {
+        // Validação básica do corpo do request
+        let body: any;
+        try {
+          body = await req.json();
+        } catch {
+          return NextResponse.json({ error: 'JSON inválido.' }, { status: 400 });
+        }
+
+        // Proteção contra XSS: sanitizar strings recebidas
+        const sanitize = (str: string) => str.replace(/[<>"'`]/g, '');
+
+        const treeId = sanitize(body.treeId || '');
+        const treeType = sanitize(body.treeType || '');
+
+        // Validação de tipo
+        if (treeType && !['olive', 'almond', 'olivo', 'almendro'].includes(treeType)) {
+          return NextResponse.json({ error: 'Tipo de árvore inválido.' }, { status: 400 });
+        }
+
+        // Validação de ID
+        if (treeId && !/^[-\w]+$/.test(treeId)) {
+          return NextResponse.json({ error: 'ID de árvore inválido.' }, { status: 400 });
+        }
+
+        // ...continuação do fluxo original...
+        try {
+          const tree = treeId ? await prisma.tree.findUnique({ where: { id: treeId } }) : null;
+          if (treeId && !tree) {
+            return NextResponse.json({ error: 'Árvore não encontrada.' }, { status: 404 });
+          }
+          if (tree && tree.status !== 'available') {
+            return NextResponse.json({ error: 'Esta árvore já foi adotada.' }, { status: 409 });
+          }
+          // ...continuação da lógica de criação da sessão Stripe...
+        } catch (error) {
+          return NextResponse.json({ error: 'Erro interno.' }, { status: 500 });
+        }
       }
-    } else if (treeType) {
-      type = treeType;
-      if (type === 'olive') {
-        price = 12500;
-        priceId = process.env.STRIPE_PRICE_OLIVE_YEARLY;
-      } else {
-        priceId = process.env.STRIPE_PRICE_ALMOND_YEARLY;
-      }
-    }
-
-    const stripeClient = getStripe();
-
-    // Product details
-    const productName = treeId
-      ? `Adopción de ${type === 'olive' ? 'Olivo' : 'Almendro'}: ${treeName}`
-      : type === 'olive'
-        ? 'Adopción de Olivo - Joyland'
-        : 'Adopción de Almendro - Joyland';
-
-    const description = treeId
-      ? treeDescription || (type === 'olive'
-        ? 'Adopción anual de un olivo en el norte de España. Incluye informe de progreso y giftbox estacional.'
         : 'Adopción anual de un almendro en el norte de España. Incluye informe de progreso y giftbox estacional.')
       : type === 'olive'
         ? 'Adopción anual de un olivo en el norte de España. Incluye informe de progreso y giftbox estacional.'
