@@ -5,14 +5,18 @@ import { prisma } from '@/lib/prisma';
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const type = searchParams.get('type');
-  if (!type || (type !== 'almendro' && type !== 'olivo')) {
-    return NextResponse.json({ error: 'Tipo de árbol inválido' }, { status: 400 });
+  let trees;
+  if (!type) {
+    trees = await prisma.tree.findMany({ orderBy: { createdAt: 'asc' } });
+  } else {
+    if (type !== 'almendro' && type !== 'olivo') {
+      return NextResponse.json({ error: 'Tipo de árbol inválido' }, { status: 400 });
+    }
+    const dbType = type === 'almendro' ? 'almond' : 'olive';
+    trees = await prisma.tree.findMany({
+      where: { type: dbType },
+      orderBy: { createdAt: 'asc' },
+    });
   }
-  // Prisma usa 'almond' y 'olive' en la base de datos
-  const dbType = type === 'almendro' ? 'almond' : 'olive';
-  const trees = await prisma.tree.findMany({
-    where: { type: dbType },
-    orderBy: { createdAt: 'asc' },
-  });
   return NextResponse.json({ trees });
 }

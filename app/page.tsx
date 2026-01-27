@@ -88,6 +88,14 @@ export default function HomePage() {
       <div className="fixed bottom-20 left-10 w-80 h-80 md:w-[500px] md:h-[500px] bg-sage-300 opacity-15 blur-3xl rounded-full animate-morph pointer-events-none" style={{ animationDelay: '3s' }}></div>
 
       {/* Hero Section Premium con Glassmorphism */}
+      <div className="flex justify-center mb-8">
+        <a
+          href="/adopt/map"
+          className="bg-sage-600 text-white px-8 py-4 rounded-full text-lg font-bold shadow hover:bg-sage-700 transition-all"
+        >
+          Ver mapa de adopción
+        </a>
+      </div>
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 px-4">
         <div 
           className="absolute inset-0 z-0"

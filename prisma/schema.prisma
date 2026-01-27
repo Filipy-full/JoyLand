@@ -6,15 +6,14 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model Tree {
   id            String      @id @default(cuid())
   name          String?
   type          String      // "olive" or "almond"
-  latitude      Float
-  longitude     Float
   status        String      @default("available") // "available" or "adopted"
   description   String?
   yearlyReport  String?
@@ -23,6 +22,8 @@ model Tree {
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   adoptions     Adoption[]
+  latitude      Float?
+  longitude     Float?
 }
 
 model User {
