@@ -18,6 +18,7 @@ export default function Header() {
                 src="/logo.jpeg" 
                 alt="Joyland Logo" 
                 fill
+                sizes="48px"
                 className="object-cover"
                 priority
               />
