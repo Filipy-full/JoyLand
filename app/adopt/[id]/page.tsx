@@ -5,8 +5,8 @@ import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
-export default async function CheckoutPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+export default async function CheckoutPage({ params }: { params: { id: string } }) {
+  const { id } = params
   
   const tree = await prisma.tree.findUnique({
     where: { id },

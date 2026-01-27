@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { AdoptionIncludes, PriceCTA, HeroSection } from '@/components/AdoptionUI';
 import { prisma } from '@/lib/prisma';
 
