@@ -1,4 +1,5 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import type { LatLngTuple } from 'leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -19,8 +20,7 @@ const grayIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-export default function TreeMapLeaflet({ trees, onTreeSelect }: { trees: any[], onTreeSelect?: (tree: any) => void }) {
-  const center = [42.8005, -2.7005];
+  const center: LatLngTuple = [42.8005, -2.7005];
 
   return (
     <div className="rounded-xl overflow-hidden shadow-lg border border-sage-200">
