@@ -72,7 +72,12 @@ export default async function TreePage({ params }: { params: Promise<{ id: strin
           <h2 className="text-2xl font-serif mb-4 text-gray-800">
             Ubicación en el mapa
           </h2>
-          <TreeMap trees={[tree]} />
+          <TreeMap trees={[{
+            ...tree,
+            lat: tree.latitude ?? 0,
+            lng: tree.longitude ?? 0,
+            name: tree.name ?? undefined,
+          }]} />
         </div>
 
         {/* Description */}
