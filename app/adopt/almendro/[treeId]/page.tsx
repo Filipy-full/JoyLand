@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AdoptionIncludes, PriceCTA, HeroSection } from '@/components/AdoptionUI';
 import { prisma } from '@/lib/prisma';
 
@@ -12,7 +12,7 @@ export default function AlmendroTreePage(props: any) {
   const [tree, setTree] = useState<any>(props.tree || null);
 
   // SSR fallback: fetch tree if not provided
-  React.useEffect(() => {
+  useEffect(() => {
     if (!tree && params?.treeId) {
       fetch(`/api/trees?id=${params.treeId}`)
         .then(res => res.json())

@@ -5,20 +5,26 @@ import { useEffect, useState } from 'react';
 
 const LeafletMap = dynamic(() => import('./TreeMapLeaflet'), { ssr: false });
 
-export default function TreeMap() {
-  const [trees, setTrees] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+type TreeMapProps = {
+  trees?: any[];
+};
+
+export default function TreeMap({ trees }: TreeMapProps) {
+  const [internalTrees, setInternalTrees] = useState<any[]>(trees || []);
+  const [loading, setLoading] = useState(!trees);
 
   useEffect(() => {
-    fetch('/api/trees')
-      .then(res => res.json())
-      .then(data => {
-        setTrees(data.trees || []);
-        setLoading(false);
-      });
-  }, []);
+    if (!trees) {
+      fetch('/api/trees')
+        .then(res => res.json())
+        .then(data => {
+          setInternalTrees(data.trees || []);
+          setLoading(false);
+        });
+    }
+  }, [trees]);
 
   if (loading) return <div className="text-center py-10">Cargando árboles...</div>;
 
-  return <LeafletMap trees={trees} />;
+  return <LeafletMap trees={internalTrees} />;
 }

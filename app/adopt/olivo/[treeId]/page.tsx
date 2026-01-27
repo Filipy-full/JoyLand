@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AdoptionIncludes, PriceCTA, HeroSection } from '@/components/AdoptionUI';
 import { notFound, useParams } from 'next/navigation';
 
@@ -10,7 +10,7 @@ export default function OlivoTreePage(props: any) {
   const [tree, setTree] = useState<any>(props.tree || null);
 
   // SSR fallback: fetch tree if not provided
-  React.useEffect(() => {
+  useEffect(() => {
     if (!tree && params?.treeId) {
       fetch(`/api/trees?id=${params.treeId}`)
         .then(res => res.json())
