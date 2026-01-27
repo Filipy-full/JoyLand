@@ -19,7 +19,7 @@ const grayIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-export default function TreeMapLeaflet({ trees }: { trees: any[] }) {
+export default function TreeMapLeaflet({ trees, onTreeSelect }: { trees: any[], onTreeSelect?: (tree: any) => void }) {
   const center = [42.8005, -2.7005];
 
   return (
@@ -46,7 +46,11 @@ export default function TreeMapLeaflet({ trees }: { trees: any[] }) {
             icon={tree.status === 'available' ? greenIcon : grayIcon}
             eventHandlers={{
               click: () => {
-                window.location.href = `/tree/${tree.id}`;
+                if (onTreeSelect) {
+                  onTreeSelect(tree);
+                } else {
+                  window.location.href = `/tree/${tree.id}`;
+                }
               },
             }}
           >

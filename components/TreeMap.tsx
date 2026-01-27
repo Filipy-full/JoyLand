@@ -7,9 +7,10 @@ const LeafletMap = dynamic(() => import('./TreeMapLeaflet'), { ssr: false });
 
 type TreeMapProps = {
   trees?: any[];
+  onTreeSelect?: (tree: any) => void;
 };
 
-export default function TreeMap({ trees }: TreeMapProps) {
+export default function TreeMap({ trees, onTreeSelect }: TreeMapProps) {
   const [internalTrees, setInternalTrees] = useState<any[]>(trees || []);
   const [loading, setLoading] = useState(!trees);
 
@@ -26,5 +27,5 @@ export default function TreeMap({ trees }: TreeMapProps) {
 
   if (loading) return <div className="text-center py-10">Cargando árboles...</div>;
 
-  return <LeafletMap trees={internalTrees} />;
+  return <LeafletMap trees={internalTrees} onTreeSelect={onTreeSelect} />;
 }
