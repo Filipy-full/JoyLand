@@ -94,19 +94,7 @@ export default function FloatingCTA() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
           </svg>
           
-          {/* Bottom leaf decoration */}
-          <div className="absolute -bottom-1 -right-1 opacity-60 group-hover:opacity-100 transition-opacity duration-300">
-            <span className="text-xs">🍃</span>
-          </div>
         </Link>
-        
-        {/* Floating leaves decoration */}
-        <div className="absolute -top-6 -left-6 text-2xl opacity-70 animate-bounce pointer-events-none" style={{ animationDuration: '2s' }}>
-          🌿
-        </div>
-        <div className="absolute -bottom-4 -right-4 text-xl opacity-70 animate-bounce pointer-events-none" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }}>
-          🌾
-        </div>
       </div>
     </>
   )
