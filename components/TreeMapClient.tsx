@@ -16,6 +16,6 @@ export default function TreeMapClient({
   onTreeSelect?: (tree: Tree) => void;
 }) {
   return (
-    <TreeMapLeafletClient trees={trees} onTreeSelect={onTreeSelect} />
+    <TreeMapLeafletClient trees={trees} />
   );
 }

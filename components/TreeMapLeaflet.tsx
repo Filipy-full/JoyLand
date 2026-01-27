@@ -1,27 +1,23 @@
+import { Icon } from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import type { LatLngTuple } from 'leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-
-const greenIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-const grayIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
-  const center: LatLngTuple = [42.8005, -2.7005];
-
+function TreeMapLeaflet({ trees, onTreeSelect }: { trees: any[]; onTreeSelect?: (tree: any) => void }) {
+  const center: [number, number] = [42.8005, -2.7005];
+  const greenIcon = new Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
+  const grayIcon = new Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
   return (
     <div className="rounded-xl overflow-hidden shadow-lg border border-sage-200">
       <MapContainer
@@ -77,3 +73,5 @@ const grayIcon = new L.Icon({
     </div>
   );
 }
+
+export default TreeMapLeaflet;

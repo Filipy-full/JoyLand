@@ -20,9 +20,11 @@ interface AdoptPageClientProps {
 export default function AdoptPageClient({ trees }: AdoptPageClientProps) {
   const [selectedTree, setSelectedTree] = useState<Tree | null>(null)
 
-  const handleTreeSelect = (tree: Tree) => {
-    if (tree.status === 'available') {
-      setSelectedTree(tree)
+  const handleTreeSelect = (tree: import('./TreeMapLeafletClient').Tree) => {
+    // Se necessário, buscar o objeto original pelo id
+    const original = trees.find(t => t.id === tree.id);
+    if (original && original.status === 'available') {
+      setSelectedTree(original);
     }
   }
 
@@ -43,7 +45,15 @@ export default function AdoptPageClient({ trees }: AdoptPageClientProps) {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Map Section */}
           <div className="lg:col-span-2">
-            <TreeMap trees={trees} onTreeSelect={handleTreeSelect} />
+            <TreeMap
+              trees={trees.map(tree => ({
+                id: tree.id,
+                name: tree.name ?? undefined,
+                lat: tree.latitude,
+                lng: tree.longitude
+              }))}
+              onTreeSelect={handleTreeSelect}
+            />
             
             <div className="mt-6 flex items-center gap-6 bg-white p-4 rounded-lg border border-gray-200">
               <div className="flex items-center gap-2">
@@ -153,7 +163,16 @@ export default function AdoptPageClient({ trees }: AdoptPageClientProps) {
             {trees.map((tree) => (
               <div
                 key={tree.id}
-                onClick={() => tree.status === 'available' && handleTreeSelect(tree)}
+                onClick={() => {
+                  if (tree.status === 'available') {
+                    handleTreeSelect({
+                      id: tree.id,
+                      name: tree.name ?? undefined,
+                      lat: tree.latitude,
+                      lng: tree.longitude
+                    });
+                  }
+                }}
                 className={`border rounded-lg p-4 ${
                   tree.status === 'available'
                     ? 'border-sage-200 hover:border-sage-400 cursor-pointer'
