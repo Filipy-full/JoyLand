@@ -53,57 +53,20 @@ export async function POST(req: NextRequest) {
 
   // Handle the checkout.session.completed event
   if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as Stripe.Checkout.Session
-
+    const session = event.data.object as Stripe.Checkout.Session;
     try {
-      const { treeId, adopterName, adopterEmail, treeName, giftMessage } = session.metadata!
-
-      // Create or get user
-      let user = await prisma.user.findUnique({
-        where: { email: adopterEmail },
-      })
-
-      if (!user) {
-        user = await prisma.user.create({
-          data: {
-            name: adopterName,
-            email: adopterEmail,
-          },
-        })
+      const { treeId } = session.metadata || {};
+      if (treeId) {
+        // Atualiza status da árvore para 'adopted'
+        await prisma.tree.update({
+          where: { id: treeId },
+          data: { status: 'adopted' },
+        });
+        console.log(`Tree ${treeId} marked as adopted.`);
       }
-
-      // Calculate adoption dates (1 year from now)
-      const startDate = new Date()
-      const endDate = new Date()
-      endDate.setFullYear(endDate.getFullYear() + 1)
-
-      // Create adoption
-      await prisma.adoption.create({
-        data: {
-          userId: user.id,
-          treeId,
-          startDate,
-          endDate,
-          stripeSessionId: session.id,
-          giftMessage: giftMessage || null,
-        },
-      })
-
-      // Update tree status and name
-      await prisma.tree.update({
-        where: { id: treeId },
-        data: {
-          status: 'adopted',
-          name: treeName || null,
-        },
-      })
-
-      // TODO: Send confirmation email using Resend
-
-      console.log(`Tree ${treeId} adopted by ${adopterEmail}`)
     } catch (error) {
-      console.error('Error processing adoption:', error)
-      return NextResponse.json({ error: 'Error processing adoption' }, { status: 500 })
+      console.error('Error processing adoption:', error);
+      return NextResponse.json({ error: 'Error processing adoption' }, { status: 500 });
     }
   }
 

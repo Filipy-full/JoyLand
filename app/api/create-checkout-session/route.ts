@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/prisma';
 
 // Disable static generation for this route
 export const dynamic = 'force-dynamic'
@@ -22,56 +22,113 @@ function getStripe() {
   return stripe
 }
 
+/**
+ * POST /api/create-checkout-session
+ * 
+ * Creates a Stripe Checkout session for tree adoption
+ * Supports two modes:
+ * 1. Type-based adoption (no specific tree selected)
+ * 2. Specific tree adoption (with tree ID)
+ */
 export async function POST(req: NextRequest) {
   try {
-    const { treeId, adopterName, adopterEmail, treeName, giftMessage, isGift, price } = await req.json()
+    const body = await req.json()
+    const { treeType, treeId } = body
 
-    // Verify tree is available
-    const tree = await prisma.tree.findUnique({
-      where: { id: treeId },
-    })
-
-    if (!tree || tree.status !== 'available') {
+    // Validate input
+    if (!treeType && !treeId) {
       return NextResponse.json(
-        { error: 'Este árbol no está disponible' },
+        { error: 'Se requiere treeType o treeId' },
         { status: 400 }
       )
     }
 
-    // Create Stripe Checkout Session
-    const stripeClient = getStripe()
+    let type: 'almond' | 'olive' = 'almond';
+    let price = 9600; // 96 EUR in cents
+    let priceId: string | undefined;
+    let treeName = '';
+    let treeDescription = '';
 
-    const session = await stripeClient.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
+    if (treeId) {
+      // Busca árvore específica e verifica disponibilidade
+      const tree = await prisma.tree.findUnique({ where: { id: treeId } });
+      if (!tree) {
+        return NextResponse.json({ error: 'Árvore não encontrada.' }, { status: 404 });
+      }
+      if (tree.status !== 'available') {
+        return NextResponse.json({ error: 'Esta árvore já foi adotada.' }, { status: 409 });
+      }
+      type = tree.type === 'olive' ? 'olive' : 'almond';
+      treeName = tree.name || '';
+      treeDescription = tree.description || '';
+      if (type === 'olive') {
+        price = 12500;
+        priceId = process.env.STRIPE_PRICE_OLIVE_YEARLY;
+      } else {
+        priceId = process.env.STRIPE_PRICE_ALMOND_YEARLY;
+      }
+    } else if (treeType) {
+      type = treeType;
+      if (type === 'olive') {
+        price = 12500;
+        priceId = process.env.STRIPE_PRICE_OLIVE_YEARLY;
+      } else {
+        priceId = process.env.STRIPE_PRICE_ALMOND_YEARLY;
+      }
+    }
+
+    const stripeClient = getStripe();
+
+    // Product details
+    const productName = treeId
+      ? `Adopción de ${type === 'olive' ? 'Olivo' : 'Almendro'}: ${treeName}`
+      : type === 'olive'
+        ? 'Adopción de Olivo - Joyland'
+        : 'Adopción de Almendro - Joyland';
+
+    const description = treeId
+      ? treeDescription || (type === 'olive'
+        ? 'Adopción anual de un olivo en el norte de España. Incluye informe de progreso y giftbox estacional.'
+        : 'Adopción anual de un almendro en el norte de España. Incluye informe de progreso y giftbox estacional.')
+      : type === 'olive'
+        ? 'Adopción anual de un olivo en el norte de España. Incluye informe de progreso y giftbox estacional.'
+        : 'Adopción anual de un almendro en el norte de España. Incluye informe de progreso y giftbox estacional.';
+
+    const imageUrl = type === 'olive'
+      ? 'https://images.unsplash.com/photo-1474440692490-2e83ae13ba29?w=800'
+      : 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800';
+
+    // Create Checkout Session
+    // Use Price ID if available (for recurring payments), otherwise use price_data
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = priceId
+      ? [{
+          price: priceId,
+          quantity: 1,
+        }]
+      : [{
           price_data: {
             currency: 'eur',
             product_data: {
-              name: `Adopción de ${tree.type === 'olive' ? 'Olivo' : 'Almendro'} - Joyland`,
-              description: treeName
-                ? `Adopción de "${treeName}" por 1 año`
-                : `Adopción de árbol ${tree.id.slice(0, 8)} por 1 año`,
-              images: ['https://images.unsplash.com/photo-1583669274349-82cc03a5d640?w=500'],
+              name: productName,
+              description,
+              images: [imageUrl],
             },
-            unit_amount: price, // in cents
+            unit_amount: price,
           },
           quantity: 1,
-        },
-      ],
+        }]
+
+    const session = await stripeClient.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: lineItems,
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_URL}/adopt/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL}/adopt/${treeId}`,
-      customer_email: adopterEmail,
+      success_url: `${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/adopt/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/adopt`,
       metadata: {
-        treeId,
-        adopterName,
-        adopterEmail,
-        treeName: treeName || '',
-        giftMessage: giftMessage || '',
-        isGift: isGift ? 'true' : 'false',
+        treeType: type,
+        treeId: treeId || '',
       },
-    })
+    });
 
     return NextResponse.json({ url: session.url })
   } catch (error: any) {

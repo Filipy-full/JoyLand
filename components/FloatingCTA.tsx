@@ -5,22 +5,22 @@ import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 
 export default function FloatingCTA() {
-  const pathname = usePathname()
-  const [isHovered, setIsHovered] = useState(false)
-  const [showPulse, setShowPulse] = useState(true)
-  
-  // Don't show on adopt pages or success page
-  if (pathname?.includes('/adopt') || pathname?.includes('/tree/')) {
-    return null
-  }
+  const pathname = usePathname();
+  const [isHovered, setIsHovered] = useState(false);
+  const [showPulse, setShowPulse] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setShowPulse(true)
-      setTimeout(() => setShowPulse(false), 2000)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [])
+      setShowPulse(true);
+      setTimeout(() => setShowPulse(false), 2000);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Don't show on adopt pages or success page
+  if (pathname?.includes('/adopt') || pathname?.includes('/tree/')) {
+    return null;
+  }
 
   return (
     <>
