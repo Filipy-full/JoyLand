@@ -50,6 +50,15 @@ export default function AdoptPage() {
         </div>
       </section>
 
+      {/* Botón para ver el mapa de adopción */}
+      <div className="flex justify-center mb-8">
+        <a
+          href="/adopt/map"
+          className="bg-sage-600 text-white px-8 py-4 rounded-full text-lg font-bold shadow hover:bg-sage-700 transition-all"
+        >
+          Ver mapa de adopción
+        </a>
+      </div>
       {/* What Adoption Means */}
       <section className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-3xl mx-auto">
@@ -59,28 +68,18 @@ export default function AdoptPage() {
             </div>
             
             <h2 className="text-2xl sm:text-3xl font-serif text-sage-900 mb-4">
-              ¿Qué incluye la adopción?
+              ¿Qué incluye tu adopción?
             </h2>
-            
-            <p className="text-sage-700 text-base sm:text-lg leading-relaxed mb-6">
-              Cada adopción apoya la tierra durante un año completo. 
-              Recibirás un árbol con nombre, un informe anual de progreso, 
-              y una caja de regalo estacional de Joyland con productos de la finca.
-            </p>
-            
-            <div className="grid sm:grid-cols-3 gap-4 mt-8">
-              <div className="text-center">
-                <div className="text-3xl mb-2">🌳</div>
-                <p className="text-sm font-medium text-sage-800">Árbol nombrado</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl mb-2">📊</div>
-                <p className="text-sm font-medium text-sage-800">Informe anual</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl mb-2">🎁</div>
-                <p className="text-sm font-medium text-sage-800">Giftbox estacional</p>
-              </div>
+            <ul className="text-sage-700 text-base sm:text-lg leading-relaxed mb-6 list-none space-y-2">
+              <li>🌱 Membresía Joyland por 1 año</li>
+              <li>💌 Certificado de adopción personalizado</li>
+              <li>🏷 Etiqueta con el nombre elegido en tu árbol</li>
+              <li>📚 Informe anual de tu árbol y la finca</li>
+              <li>🎁 Giftbox artesanal Joyland, creado con lo que la tierra ofreció ese año</li>
+              <li>👑 Oportunidades exclusivas para miembros durante el año</li>
+            </ul>
+            <div className="bg-sage-50 border border-sage-200 rounded-xl p-4 text-sage-800 text-sm mb-4">
+              <strong>Nota:</strong> El giftbox es el mismo para ambos árboles, pero <b>solo la adopción de olivo</b> incluye una botella de aceite más grande (si hay cosecha de aceite ese año).
             </div>
           </div>
         </div>

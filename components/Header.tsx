@@ -41,6 +41,11 @@ export default function Header() {
               </Link>
             </li>
             <li>
+              <Link href="/galeria" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
+                Galería
+              </Link>
+            </li>
+            <li>
               <Link href="/giftbox" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
                 Regalar
               </Link>
@@ -95,6 +100,15 @@ export default function Header() {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Adoptar
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/galeria" 
+                  className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Galería
                 </Link>
               </li>
               <li>

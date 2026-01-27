@@ -88,14 +88,6 @@ export default function HomePage() {
       <div className="fixed bottom-20 left-10 w-80 h-80 md:w-[500px] md:h-[500px] bg-sage-300 opacity-15 blur-3xl rounded-full animate-morph pointer-events-none" style={{ animationDelay: '3s' }}></div>
 
       {/* Hero Section Premium con Glassmorphism */}
-      <div className="flex justify-center mb-8">
-        <a
-          href="/adopt/map"
-          className="bg-sage-600 text-white px-8 py-4 rounded-full text-lg font-bold shadow hover:bg-sage-700 transition-all"
-        >
-          Ver mapa de adopción
-        </a>
-      </div>
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 px-4">
         <div 
           className="absolute inset-0 z-0"
@@ -105,8 +97,8 @@ export default function HomePage() {
           }}
         >
           <Image
-            src="/olivar-amanecer.jpeg"
-            alt="Olivar al amanecer"
+            src="/galeria/joyland-03.jpeg"
+            alt="Joyland paisaje principal"
             fill
             className="object-cover brightness-[0.85]"
             priority
@@ -122,30 +114,23 @@ export default function HomePage() {
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-4 leading-tight drop-shadow-2xl">
               <span className="text-gradient-gold inline-block animate-fadeInUp">Adopta</span>{' '}
-              <span className="inline-block animate-fadeInUp" style={{ animationDelay: '0.1s' }}>Tu Árbol</span>
+              <span className="inline-block animate-fadeInUp" style={{ animationDelay: '0.1s' }}>tu árbol</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-white mb-4 leading-relaxed drop-shadow-lg animate-fadeInUp font-light" style={{ animationDelay: '0.2s' }}>
-              Una conexión viva con la naturaleza
-            </p>
-            <p className="text-sm sm:text-base md:text-lg text-green-100 mb-8 drop-shadow-md animate-fadeInUp max-w-xl mx-auto" style={{ animationDelay: '0.4s' }}>
-              Cultiva un árbol en el norte de España y sigue su historia. Una experiencia única de regeneración.
+              Conecta con la naturaleza y apoya la regeneración real en el norte de España.
             </p>
             <Link 
               href="/adopt"
               className="inline-block premium-gradient text-white px-6 sm:px-8 md:px-10 py-3 sm:py-4 rounded-full hover:shadow-2xl transition-all transform hover:scale-110 text-base sm:text-lg font-bold drop-shadow-lg animate-bounceIn hover-3d"
               style={{ animationDelay: '0.6s' }}
             >
-              Explorar Árboles
+              Explorar árboles
             </Link>
           </div>
         </div>
 
         {/* Indicador de scroll */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
-          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center pt-2">
-            <div className="w-1 h-3 bg-white rounded-full animate-pulse"></div>
-          </div>
-        </div>
+        {/* Indicador de scroll eliminado por solicitud */}
       </section>
 
       {/* About Section - Glassmorphism Premium */}
@@ -356,210 +341,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Pricing Section - Premium Glassmorphism */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 relative z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-sage-50 to-white"></div>
-        <div className="max-w-5xl mx-auto relative z-10">
-          <div className="text-center mb-8 sm:mb-12 reveal reveal-up">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-sage-700 mb-4">
-              Elige Tu Árbol
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg text-sage-600 max-w-xl mx-auto">
-              Dos opciones únicas para conectar con la naturaleza
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-5 sm:gap-6 md:gap-8 max-w-4xl mx-auto">
-            {/* Olivo */}
-            <Link href="/adopt?type=olive" className="block group">
-              <div className="glass-card p-5 sm:p-6 md:p-8 rounded-3xl hover-3d cursor-pointer reveal reveal-left relative overflow-hidden transition-all duration-500 hover:shadow-2xl border-2 border-transparent hover:border-sage-400">
-                {/* Efecto shimmer de fondo */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-sage-200/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
-                
-                <div className="relative z-10">
-                  {/* Icono Premium */}
-                  <div className="flex justify-center mb-4">
-                    <div className="p-3 sm:p-4 rounded-full bg-gradient-to-br from-sage-200 to-sage-300 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                      <OliveIcon className="w-10 h-10 sm:w-12 sm:h-12" />
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-serif text-sage-700 mb-2 text-center group-hover:text-sage-600 transition-colors">
-                    Olivo Centenario
-                  </h3>
-                  <p className="text-xs sm:text-sm md:text-base text-sage-600 mb-4 sm:mb-6 text-center">
-                    Árboles milenarios en plena producción
-                  </p>
-                  
-                  {/* Precio Premium */}
-                  <div className="text-center mb-4 sm:mb-6">
-                    <div className="inline-block golden-gradient px-5 sm:px-6 py-2 sm:py-3 rounded-full">
-                      <span className="text-3xl sm:text-4xl font-bold text-white">€120</span>
-                      <span className="text-lg sm:text-xl text-white/90">/año</span>
-                    </div>
-                  </div>
-                  
-                  {/* Features */}
-                  <ul className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
-                    {[
-                      'Aceite extra virgen premium',
-                      'Acceso GPS exclusivo',
-                      'Galería privada mensual',
-                      'Certificado personalizado'
-                    ].map((feature, i) => (
-                      <li 
-                        key={i}
-                        className="flex items-center gap-2 sm:gap-3 group-hover:translate-x-2 transition-transform duration-300"
-                        style={{ transitionDelay: `${i * 0.05}s` }}
-                      >
-                        <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-sage-600 flex items-center justify-center">
-                          <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                        </div>
-                        <span className="text-xs sm:text-sm md:text-base text-sage-700 font-medium">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  {/* CTA Button */}
-                  <button className="w-full premium-gradient text-white px-5 sm:px-6 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-base shadow-lg hover:shadow-2xl transform group-hover:scale-105 transition-all duration-500">
-                    Adoptar Olivo
-                  </button>
-                </div>
-              </div>
-            </Link>
 
-            {/* Almendro */}
-            <Link href="/adopt?type=almond" className="block group">
-              <div className="glass-card p-5 sm:p-6 md:p-8 rounded-3xl hover-3d cursor-pointer reveal reveal-right relative overflow-hidden transition-all duration-500 hover:shadow-2xl border-2 border-transparent hover:border-sage-400">
-                {/* Efecto shimmer de fondo */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-sage-200/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
-                
-                <div className="relative z-10">
-                  {/* Icono Premium */}
-                  <div className="flex justify-center mb-4">
-                    <div className="p-3 sm:p-4 rounded-full bg-gradient-to-br from-sage-200 to-sage-300 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                      <TreeIcon className="w-10 h-10 sm:w-12 sm:h-12" />
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-serif text-sage-700 mb-2 text-center group-hover:text-sage-600 transition-colors">
-                    Almendro Primavera
-                  </h3>
-                  <p className="text-xs sm:text-sm md:text-base text-sage-600 mb-4 sm:mb-6 text-center">
-                    Jóvenes árboles en floración
-                  </p>
-                  
-                  {/* Precio Premium */}
-                  <div className="text-center mb-4 sm:mb-6">
-                    <div className="inline-block golden-gradient px-5 sm:px-6 py-2 sm:py-3 rounded-full">
-                      <span className="text-3xl sm:text-4xl font-bold text-white">€100</span>
-                      <span className="text-lg sm:text-xl text-white/90">/año</span>
-                    </div>
-                  </div>
-                  
-                  {/* Features */}
-                  <ul className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
-                    {[
-                      'Almendras gourmet',
-                      'Acceso GPS exclusivo',
-                      'Fotos estacionales',
-                      'Certificado personalizado'
-                    ].map((feature, i) => (
-                      <li 
-                        key={i}
-                        className="flex items-center gap-2 sm:gap-3 group-hover:translate-x-2 transition-transform duration-300"
-                        style={{ transitionDelay: `${i * 0.05}s` }}
-                      >
-                        <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-sage-600 flex items-center justify-center">
-                          <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                        </div>
-                        <span className="text-xs sm:text-sm md:text-base text-sage-700 font-medium">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  {/* CTA Button */}
-                  <button className="w-full premium-gradient text-white px-5 sm:px-6 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-base shadow-lg hover:shadow-2xl transform group-hover:scale-105 transition-all duration-500">
-                    Adoptar Almendro
-                  </button>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA - Ultra Premium */}
-      <section className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 relative z-10 overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/campo-verde.jpeg"
-            alt="Background"
-            fill
-            className="object-cover brightness-[0.3]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-sage-900/80 via-sage-800/70 to-sage-900/80"></div>
-        </div>
-        
-        {/* Partículas flotantes */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute opacity-20"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${i * 0.5}s`,
-              }}
-            >
-              <LeafIcon className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 animate-floatRandom" />
-            </div>
-          ))}
-        </div>
-        
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="glass-card-dark p-8 sm:p-12 md:p-16 rounded-3xl reveal reveal-up">
-            <div className="flex justify-center mb-6 sm:mb-8">
-              <div className="golden-gradient p-4 sm:p-6 rounded-full animate-breathe">
-                <HeartIcon className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" />
-              </div>
-            </div>
-            
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-4 sm:mb-6">
-              Comienza Tu Conexión
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-sage-100 mb-8 sm:mb-10 md:mb-12 leading-relaxed max-w-2xl mx-auto">
-              Cada árbol que adoptas es una promesa de cuidado hacia la naturaleza. 
-              Un legado vivo que crece contigo.
-            </p>
-            
-            <Link 
-              href="/adopt"
-              className="inline-block golden-gradient text-sage-900 px-10 sm:px-14 md:px-16 lg:px-20 py-4 sm:py-5 md:py-6 rounded-full hover:shadow-2xl transition-all text-base sm:text-lg md:text-xl lg:text-2xl font-bold transform hover:scale-110 hover-3d"
-            >
-              Explorar Árboles Disponibles
-            </Link>
-            
-            {/* Trust indicators */}
-            <div className="mt-10 sm:mt-12 md:mt-16 flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
-              <div className="glass-card px-4 sm:px-6 py-2 sm:py-3 rounded-full">
-                <span className="text-xs sm:text-sm md:text-base text-white font-semibold">Regenerativo</span>
-              </div>
-              <div className="glass-card px-4 sm:px-6 py-2 sm:py-3 rounded-full">
-                <span className="text-xs sm:text-sm md:text-base text-white font-semibold">100% Transparente</span>
-              </div>
-              <div className="glass-card px-4 sm:px-6 py-2 sm:py-3 rounded-full">
-                <span className="text-xs sm:text-sm md:text-base text-white font-semibold">Impacto Real</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }
