@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+	<defs>
+		<radialGradient id="bg" cx="50%" cy="40%" r="60%">
+			<stop offset="0%" stop-color="#059669"/>
+			<stop offset="100%" stop-color="#134e4a"/>
+		</radialGradient>
+		<linearGradient id="leaf" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0%" stop-color="#bef264"/>
+			<stop offset="100%" stop-color="#4ade80"/>
+		</linearGradient>
+		<linearGradient id="branch" x1="0" y1="0" x2="1" y2="1">
+			<stop offset="0%" stop-color="#a3a380"/>
+			<stop offset="100%" stop-color="#6b4f1d"/>
+		</linearGradient>
+	</defs>
+	<rect width="64" height="64" rx="16" fill="url(#bg)"/>
+	<text x="32" y="48" text-anchor="middle" font-family="Montserrat, Arial, sans-serif" font-size="48" fill="#fff" font-weight="bold" style="letter-spacing:2px; text-shadow: 0 2px 6px #000;">J</text>
+	<!-- Ramo de oliva -->
+	<path d="M36 44 Q44 48 52 36" stroke="url(#branch)" stroke-width="2.2" fill="none"/>
+	<!-- Folhas -->
+	<ellipse cx="41" cy="41" rx="4" ry="1.5" fill="url(#leaf)" transform="rotate(-10 41 41)"/>
+	<ellipse cx="46" cy="39" rx="3.2" ry="1.2" fill="url(#leaf)" transform="rotate(8 46 39)"/>
+	<ellipse cx="49.5" cy="36.5" rx="2.2" ry="0.9" fill="url(#leaf)" transform="rotate(-12 49.5 36.5)"/>
+	<!-- Azeitonas -->
+	<ellipse cx="44.5" cy="44" rx="1.1" ry="1.7" fill="#a3e635"/>
+	<ellipse cx="48" cy="41" rx="1" ry="1.5" fill="#65a30d"/>
+</svg>

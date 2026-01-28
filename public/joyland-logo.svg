@@ -1,0 +1,6 @@
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="40" rx="12" fill="#4ADE80"/>
+  <text x="60" y="25" text-anchor="middle" font-family="Montserrat, Arial, sans-serif" font-size="20" fill="#fff" font-weight="bold">JoyLand</text>
+  <circle cx="100" cy="12" r="6" fill="#22D3EE"/>
+  <rect x="95" y="18" width="10" height="8" rx="2" fill="#FBBF24"/>
+</svg>

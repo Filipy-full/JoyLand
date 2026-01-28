@@ -31,6 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="theme-color" content="#4ADE80" />
+      </head>
       <body
         className={`${sans.variable} ${serif.variable} antialiased font-sans`}
       >
@@ -40,7 +44,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-          <SpeedInsights />
+        <SpeedInsights />
       </body>
     </html>
   );
