@@ -24,20 +24,14 @@ export const metadata: Metadata = {
   description: "Un pequeño olivar y almendral regenerativo en el norte de España. Adopta un árbol y sigue su historia.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es">
+    <html lang="en">
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="theme-color" content="#4ADE80" />
       </head>
-      <body
-        className={`${sans.variable} ${serif.variable} antialiased font-sans`}
-      >
+      <body className={`${sans.variable} ${serif.variable} antialiased font-sans`}>
         <Header />
         <FloatingCTA />
         <main className="min-h-screen pt-20">

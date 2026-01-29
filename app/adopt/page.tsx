@@ -33,32 +33,50 @@ export default function AdoptPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-sage-50">
       {/* Hero Section */}
-      <section className="container mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12 sm:pb-16">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative container mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12 sm:pb-16">
+        {/* Background decorativo más grande */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none select-none absolute left-0 top-0 w-screen" style={{ height: '120vh', zIndex: 0,
+            backgroundImage: 'url(/galeria/flor-adoptar.jpeg)',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center 0%',
+            backgroundSize: 'cover',
+            opacity: 1,
+            filter: 'none'
+          }}
+        />
+        {/* Overlay para mejorar legibilidad */}
+        <div
+          aria-hidden="true"
+          className="absolute left-0 top-0 w-screen" style={{ height: '120vh', zIndex: 1,
+            background: 'linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.82) 60%, rgba(255,255,255,0.95) 100%)',
+            pointerEvents: 'none'
+          }}
+        />
+        <div className="max-w-4xl mx-auto text-center relative z-20">
           <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-sage-100 rounded-full">
             <span className="text-2xl">🌿</span>
             <span className="text-sage-700 font-medium text-sm">Joyland</span>
           </div>
-          
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-sage-900 mb-6 leading-tight">
-            Adopta un árbol en Joyland
+            Adopt a tree at Joyland
           </h1>
-          
-          <p className="text-lg sm:text-xl text-sage-600 max-w-2xl mx-auto leading-relaxed">
-            Elige un árbol y acompáñalo durante un año completo
+          <p className="text-lg sm:text-xl text-sage-600 max-w-2xl mx-auto leading-relaxed mb-8">
+            Choose a tree and accompany it for a full year
           </p>
+          {/* Button to view adoption map over the background */}
+          <div className="flex justify-center">
+            <a
+              href="/adopt/map"
+              className="bg-sage-600 text-white px-8 py-4 rounded-full text-lg font-bold shadow hover:bg-sage-700 transition-all relative z-20"
+              style={{ boxShadow: '0 6px 32px 0 rgba(60, 80, 60, 0.18)' }}
+            >
+              View adoption map
+            </a>
+          </div>
         </div>
       </section>
-
-      {/* Botón para ver el mapa de adopción */}
-      <div className="flex justify-center mb-8">
-        <a
-          href="/adopt/map"
-          className="bg-sage-600 text-white px-8 py-4 rounded-full text-lg font-bold shadow hover:bg-sage-700 transition-all"
-        >
-          Ver mapa de adopción
-        </a>
-      </div>
       {/* What Adoption Means */}
       <section className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-3xl mx-auto">
@@ -66,20 +84,19 @@ export default function AdoptPage() {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-sage-100 rounded-full mb-6">
               <TreeIcon className="w-8 h-8 text-sage-700" />
             </div>
-            
             <h2 className="text-2xl sm:text-3xl font-serif text-sage-900 mb-4">
-              ¿Qué incluye tu adopción?
+              What does your adoption include?
             </h2>
             <ul className="text-sage-700 text-base sm:text-lg leading-relaxed mb-6 list-none space-y-2">
-              <li>🌱 Membresía Joyland por 1 año</li>
-              <li>💌 Certificado de adopción personalizado</li>
-              <li>🏷 Etiqueta con el nombre elegido en tu árbol</li>
-              <li>📚 Informe anual de tu árbol y la finca</li>
-              <li>🎁 Giftbox artesanal Joyland, creado con lo que la tierra ofreció ese año</li>
-              <li>👑 Oportunidades exclusivas para miembros durante el año</li>
+              <li>🌱 Joyland membership for 1 year</li>
+              <li>💌 Personalized adoption certificate</li>
+              <li>🏷 Tag with your chosen name on your tree</li>
+              <li>📚 Annual report on your tree and the land</li>
+              <li>🎁 Artisanal Joyland giftbox, created with what the land offered that year</li>
+              <li>👑 Exclusive opportunities for members throughout the year</li>
             </ul>
             <div className="bg-sage-50 border border-sage-200 rounded-xl p-4 text-sage-800 text-sm mb-4">
-              <strong>Nota:</strong> El giftbox es el mismo para ambos árboles, pero <b>solo la adopción de olivo</b> incluye una botella de aceite más grande (si hay cosecha de aceite ese año).
+              <strong>Note:</strong> The giftbox is the same for both trees, but <b>only olive adoptions</b> include a larger bottle of oil (if there is an oil harvest that year).
             </div>
           </div>
         </div>
@@ -89,7 +106,7 @@ export default function AdoptPage() {
       <section className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 pb-20 sm:pb-24">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-serif text-sage-900 text-center mb-12">
-            Elige tu tipo de árbol
+            Choose your tree type
           </h2>
           
           <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
@@ -101,18 +118,16 @@ export default function AdoptPage() {
                 <div className="text-6xl sm:text-7xl mb-4">🌸</div>
                 
                 <h3 className="text-2xl sm:text-3xl font-serif text-sage-900 mb-2">
-                  Almendro
+                  Almond Tree
                 </h3>
                 
                 <div className="flex items-baseline gap-2 mb-6">
-                  <span className="text-4xl sm:text-5xl font-bold text-sage-700">96€</span>
-                  <span className="text-sage-600">/año</span>
+                  <span className="text-4xl sm:text-5xl font-bold text-sage-700">€96</span>
+                  <span className="text-sage-600">/year</span>
                 </div>
                 
                 <p className="text-sage-600 mb-6 leading-relaxed text-sm sm:text-base">
-                  Los almendros florecen en primavera con hermosas flores rosadas. 
-                  Perfectos para quienes aman la belleza natural y quieren apoyar 
-                  la agricultura regenerativa mediterránea.
+                  Almond trees bloom in spring with beautiful pink flowers. Perfect for those who love natural beauty and want to support Mediterranean regenerative agriculture.
                 </p>
                 
                 <ul className="space-y-3 mb-8 text-sm sm:text-base">
@@ -120,25 +135,25 @@ export default function AdoptPage() {
                     <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span>Flores espectaculares en primavera</span>
+                    <span>Spectacular spring blossoms</span>
                   </li>
                   <li className="flex items-start gap-2 text-sage-700">
                     <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span>Almendras frescas en otoño</span>
+                    <span>Fresh almonds in autumn</span>
                   </li>
                   <li className="flex items-start gap-2 text-sage-700">
                     <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span>Informe de progreso anual</span>
+                    <span>Annual progress report</span>
                   </li>
                   <li className="flex items-start gap-2 text-sage-700">
                     <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span>Giftbox con productos de la finca</span>
+                    <span>Giftbox with products from the land</span>
                   </li>
                 </ul>
                 
@@ -153,10 +168,10 @@ export default function AdoptPage() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      <span>Procesando...</span>
+                      <span>Processing...</span>
                     </>
                   ) : (
-                    'Adoptar un almendro'
+                    'Adopt an almond tree'
                   )}
                 </button>
               </div>
@@ -170,18 +185,16 @@ export default function AdoptPage() {
                 <div className="text-6xl sm:text-7xl mb-4">🫒</div>
                 
                 <h3 className="text-2xl sm:text-3xl font-serif text-sage-900 mb-2">
-                  Olivo
+                  Olive Tree
                 </h3>
                 
                 <div className="flex items-baseline gap-2 mb-6">
-                  <span className="text-4xl sm:text-5xl font-bold text-sage-700">125€</span>
-                  <span className="text-sage-600">/año</span>
+                  <span className="text-4xl sm:text-5xl font-bold text-sage-700">€125</span>
+                  <span className="text-sage-600">/year</span>
                 </div>
                 
                 <p className="text-sage-600 mb-6 leading-relaxed text-sm sm:text-base">
-                  Los olivos son símbolos milenarios de paz y longevidad. 
-                  Ideales para quienes valoran la tradición mediterránea y 
-                  quieren contribuir a la producción de aceite de oliva de calidad.
+                  Olive trees are ancient symbols of peace and longevity. Ideal for those who value Mediterranean tradition and want to contribute to quality olive oil production.
                 </p>
                 
                 <ul className="space-y-3 mb-8 text-sm sm:text-base">
@@ -189,25 +202,25 @@ export default function AdoptPage() {
                     <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span>Símbolo de paz milenario</span>
+                    <span>Ancient symbol of peace</span>
                   </li>
                   <li className="flex items-start gap-2 text-sage-700">
                     <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span>Aceite de oliva premium</span>
+                    <span>Premium olive oil</span>
                   </li>
                   <li className="flex items-start gap-2 text-sage-700">
                     <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span>Informe de progreso anual</span>
+                    <span>Annual progress report</span>
                   </li>
                   <li className="flex items-start gap-2 text-sage-700">
                     <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span>Giftbox con productos de la finca</span>
+                    <span>Giftbox with products from the land</span>
                   </li>
                 </ul>
                 
@@ -222,10 +235,10 @@ export default function AdoptPage() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      <span>Procesando...</span>
+                      <span>Processing...</span>
                     </>
                   ) : (
-                    'Adoptar un olivo'
+                    'Adopt an olive tree'
                   )}
                 </button>
               </div>
@@ -238,19 +251,19 @@ export default function AdoptPage() {
               <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
               </svg>
-              <span className="font-medium">Pago 100% seguro</span>
+              <span className="font-medium">100% secure payment</span>
             </div>
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              <span className="font-medium">Procesado por Stripe</span>
+              <span className="font-medium">Processed by Stripe</span>
             </div>
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-              <span className="font-medium">500+ adoptantes felices</span>
+              <span className="font-medium">500+ happy adopters</span>
             </div>
           </div>
         </div>

@@ -72,6 +72,16 @@ Open [http://localhost:3000](http://localhost:3000) to see the website.
 2. Construye: `npm run build`.
 3. Arranca: `npm run start` (asegúrate de exponer el puerto 3000 o el que definas en `PORT`).
 
+### Configuración de Mapbox para el mapa 3D
+
+Agrega tu token de Mapbox en el archivo `.env.local`:
+
+```
+NEXT_PUBLIC_MAPBOX_TOKEN=pk_xxx_tu_token_aqui
+```
+
+Obtén un token gratis en https://account.mapbox.com/
+
 ### Opción B: Vercel solo como hosting
 1. Importa el repo en Vercel.
 2. Define las variables de entorno (no se usan servicios gestionados de Vercel; solo hosting).

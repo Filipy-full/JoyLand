@@ -66,7 +66,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-sage-100 to-white overflow-x-hidden relative">
-      {/* Sistema de partículas premium con SVG */}
+      {/* Animated SVG particles */}
       <div className="fixed top-0 left-0 w-full h-screen pointer-events-none overflow-hidden z-0">
         {particles.map((particle) => (
           <div
@@ -83,11 +83,11 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Blobs decorativos animados */}
+      {/* Animated blobs */}
       <div className="fixed top-20 right-10 w-64 h-64 md:w-96 md:h-96 bg-sage-200 opacity-20 blur-3xl rounded-full animate-morph pointer-events-none"></div>
       <div className="fixed bottom-20 left-10 w-80 h-80 md:w-[500px] md:h-[500px] bg-sage-300 opacity-15 blur-3xl rounded-full animate-morph pointer-events-none" style={{ animationDelay: '3s' }}></div>
 
-      {/* Hero Section Premium con Glassmorphism */}
+      {/* Hero Section - Glassmorphism */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 px-4">
         <div 
           className="absolute inset-0 z-0"
@@ -98,39 +98,35 @@ export default function HomePage() {
         >
           <Image
             src="/galeria/joyland-03.jpeg"
-            alt="Joyland paisaje principal"
+            alt="Joyland main landscape"
             fill
             className="object-cover brightness-[0.85]"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/60"></div>
         </div>
-        
-        {/* Contenido Hero con tarjeta glassmorphism */}
+        {/* Hero content with glassmorphism card */}
         <div className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto">
           <div className="glass-card-dark p-6 sm:p-8 md:p-10 rounded-3xl backdrop-blur-2xl">
             <div className="mb-6 flex justify-center">
               <TreeIcon className="w-16 h-16 sm:w-20 sm:h-20 animate-breathe" />
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-4 leading-tight drop-shadow-2xl">
-              <span className="text-gradient-gold inline-block animate-fadeInUp">Adopta</span>{' '}
-              <span className="inline-block animate-fadeInUp" style={{ animationDelay: '0.1s' }}>tu árbol</span>
+              <span className="text-gradient-gold inline-block animate-fadeInUp">Adopt a tree</span>{' '}
+              <span className="inline-block animate-fadeInUp" style={{ animationDelay: '0.1s' }}>and support a living process</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-white mb-4 leading-relaxed drop-shadow-lg animate-fadeInUp font-light" style={{ animationDelay: '0.2s' }}>
-              Conecta con la naturaleza y apoya la regeneración real en el norte de España.
+              Connect with nature and support real regeneration in northern Spain. Your contribution shapes a living system — season by season, tree by tree.
             </p>
             <Link 
               href="/adopt"
               className="inline-block premium-gradient text-white px-6 sm:px-8 md:px-10 py-3 sm:py-4 rounded-full hover:shadow-2xl transition-all transform hover:scale-110 text-base sm:text-lg font-bold drop-shadow-lg animate-bounceIn hover-3d"
               style={{ animationDelay: '0.6s' }}
             >
-              Explorar árboles
+              Adopt a tree
             </Link>
           </div>
         </div>
-
-        {/* Indicador de scroll */}
-        {/* Indicador de scroll eliminado por solicitud */}
       </section>
 
       {/* About Section - Glassmorphism Premium */}
@@ -159,32 +155,32 @@ export default function HomePage() {
                 <div className="flex items-center gap-3 mb-5">
                   <OliveIcon className="w-10 h-10 sm:w-12 sm:h-12 animate-floatRandom" />
                   <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-sage-700">
-                    ¿Qué es Joyland?
+                    What is Joyland?
                   </h2>
                 </div>
                 <div className="space-y-3 sm:space-y-4">
                   <p className="text-sm sm:text-base md:text-lg text-sage-800 leading-relaxed">
-                    Joyland es una iniciativa de <span className="font-semibold text-sage-600">regeneración agrícola</span> en el norte de España. 
-                    No es una inversión financiera, es una <span className="text-gradient-gold font-semibold">conexión auténtica</span>.
+                    Joyland is a <span className="font-semibold text-sage-600">regenerative agriculture</span> initiative in northern Spain. 
+                    It is not a financial investment, it is an <span className="text-gradient-gold font-semibold">authentic connection</span>.
                   </p>
                   <p className="text-base sm:text-lg md:text-xl text-sage-800 leading-relaxed">
-                    Cuando adoptas un árbol, apoyas prácticas regenerativas que cuidan el suelo, 
-                    protegen la biodiversidad y crean <span className="font-semibold text-sage-600">ecosistemas resilientes</span>.
+                    When you adopt a tree, you support regenerative practices that care for the soil, 
+                    protect biodiversity and create <span className="font-semibold text-sage-600">resilient ecosystems</span>.
                   </p>
                   <p className="text-base sm:text-lg md:text-xl text-sage-800 leading-relaxed">
-                    Recibirás actualizaciones del progreso de tu árbol, fotos estacionales y los 
-                    productos que genera. Una forma genuina de reconectar con la tierra.
+                    You will receive updates on your tree's progress, seasonal photos and the 
+                    products it generates. A genuine way to reconnect with the land.
                   </p>
                 </div>
                 <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
                   <div className="glass-card-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full">
-                    <span className="text-sm sm:text-base text-sage-700 font-semibold">🌱 Regenerativo</span>
+                    <span className="text-sm sm:text-base text-sage-700 font-semibold">🌱 Regenerative</span>
                   </div>
                   <div className="glass-card-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full">
-                    <span className="text-sm sm:text-base text-sage-700 font-semibold">🌍 Sostenible</span>
+                    <span className="text-sm sm:text-base text-sage-700 font-semibold">🌍 Sustainable</span>
                   </div>
                   <div className="glass-card-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full">
-                    <span className="text-sm sm:text-base text-sage-700 font-semibold">💚 Transparente</span>
+                    <span className="text-sm sm:text-base text-sage-700 font-semibold">💚 Transparent</span>
                   </div>
                 </div>
               </div>
@@ -204,18 +200,18 @@ export default function HomePage() {
               </div>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-sage-700 mb-3">
-              Nuestro Olivar
+              Our Olive Grove
             </h2>
             <p className="text-sm sm:text-base md:text-lg text-sage-600 max-w-xl mx-auto">
-              Vistas de nuestro pequeño paraíso regenerativo
+              Views of our small regenerative paradise
             </p>
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {[
-              { img: '/olivar-atardecer.jpeg', title: 'Atardecer dorado', delay: '0s' },
-              { img: '/almendros-flor.jpeg', title: 'Floración primaveral', delay: '0.1s' },
-              { img: '/campo-verde.jpeg', title: 'Verde intenso', delay: '0.2s' }
+              { img: '/olivar-atardecer.jpeg', title: 'Golden sunset', delay: '0s' },
+              { img: '/almendros-flor.jpeg', title: 'Spring blossom', delay: '0.1s' },
+              { img: '/campo-verde.jpeg', title: 'Intense green', delay: '0.2s' }
             ].map((item, i) => (
               <div 
                 key={i}
@@ -250,19 +246,19 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-8 sm:mb-12 reveal reveal-up">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-sage-700 mb-3">
-              Lo Que Incluye Tu Adopción
+              What Your Adoption Includes
             </h2>
             <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-sage-400 via-sage-600 to-sage-400 mx-auto rounded-full"></div>
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {[
-              { icon: LocationIcon, title: 'Tu Árbol Personal', desc: 'Acceso GPS a tu árbol con coordenadas exactas. Puedes visitarlo cuando quieras.', delay: '0s' },
-              { icon: GalleryIcon, title: 'Galería Privada', desc: 'Fotos mensuales del crecimiento de tu árbol. Vídeos en las estaciones clave.', delay: '0.1s' },
-              { icon: GiftIcon, title: 'Productos Naturales', desc: 'Aceite de oliva extra virgen o almendras gourmet según tu árbol. Directo a tu casa.', delay: '0.2s' },
-              { icon: DocumentIcon, title: 'Informe Anual', desc: 'Documentación sobre el impacto ecológico de tu árbol y su crecimiento.', delay: '0.3s' },
-              { icon: LeafIcon, title: 'Prácticas Sostenibles', desc: 'Tu adopción apoya agricultura regenerativa y conservación de la biodiversidad.', delay: '0.4s' },
-              { icon: HeartIcon, title: 'Regalo Significativo', desc: 'Puedes regalarlo con un certificado personalizado. Un obsequio que crece.', delay: '0.5s' },
+              { icon: LocationIcon, title: 'Your Personal Tree', desc: 'GPS access to your tree with exact coordinates. You can visit it anytime.', delay: '0s' },
+              { icon: GalleryIcon, title: 'Private Gallery', desc: 'Monthly photos of your tree’s growth. Videos at key seasons.', delay: '0.1s' },
+              { icon: GiftIcon, title: 'Natural Products', desc: 'Extra virgin olive oil or gourmet almonds depending on your tree. Delivered to your home.', delay: '0.2s' },
+              { icon: DocumentIcon, title: 'Annual Report', desc: 'Documentation on the ecological impact and growth of your tree.', delay: '0.3s' },
+              { icon: LeafIcon, title: 'Sustainable Practices', desc: 'Your adoption supports regenerative agriculture and biodiversity conservation.', delay: '0.4s' },
+              { icon: HeartIcon, title: 'Meaningful Gift', desc: 'You can gift it with a personalized certificate. A gift that grows.', delay: '0.5s' },
             ].map((item, i) => (
               <div 
                 key={i}
@@ -288,58 +284,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials - Premium con estrellas SVG */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 relative z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-sage-100 via-sage-50 to-white"></div>
-        
-        {/* Elementos decorativos */}
-        <div className="absolute top-10 left-10 w-32 h-32 sm:w-48 sm:h-48 bg-sage-300 opacity-10 blur-3xl rounded-full animate-breathe"></div>
-        <div className="absolute bottom-10 right-10 w-40 h-40 sm:w-64 sm:h-64 bg-sage-400 opacity-10 blur-3xl rounded-full animate-breathe" style={{ animationDelay: '2s' }}></div>
-        
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-8 sm:mb-12 reveal reveal-up">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-sage-700 mb-4">
-              Historias Reales
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg text-sage-600 max-w-xl mx-auto">
-              Experiencias auténticas de nuestra comunidad
-            </p>
-          </div>
-          
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {[
-              { name: 'Elena M.', time: 'hace 6 meses', text: 'Adopté el olivo de mi abuelo. Visitarlo fue emocionante. Ahora recibo sus fotos cada mes y me siento más conectada que nunca.', delay: '0s' },
-              { name: 'Juan L.', time: 'hace 10 meses', text: 'Regalé un almendro a mi madre. La ilusión que le hace recibir el aceite y las fotos cada temporada... simplemente increíble.', delay: '0.15s' },
-              { name: 'Rosa & Pedro', time: 'hace 1 año', text: 'Joyland nos ayudó a reconectar con la naturaleza. El proyecto es genuino, transparente y lleno de corazón.', delay: '0.3s' },
-            ].map((testimonial, i) => (
-              <div 
-                key={i}
-                className="glass-card p-5 sm:p-6 rounded-2xl hover-3d reveal reveal-up cursor-pointer group transition-all duration-500"
-                style={{ animationDelay: testimonial.delay }}
-              >
-                {/* Estrellas con SVG */}
-                <div className="flex gap-1 mb-3 sm:mb-4 justify-center group-hover:scale-110 transition-transform duration-500">
-                  {[...Array(5)].map((_, j) => (
-                    <div key={j} className="animate-sparkle" style={{ animationDelay: `${j * 0.1}s` }}>
-                      <StarIcon 
-                        className="w-4 h-4 sm:w-5 sm:h-5" 
-                        filled 
-                      />
-                    </div>
-                  ))}
-                </div>
-                <blockquote className="text-xs sm:text-sm md:text-base text-sage-800 mb-3 sm:mb-4 italic leading-relaxed text-center">
-                  "{testimonial.text}"
-                </blockquote>
-                <div className="text-center">
-                  <p className="font-bold text-base sm:text-lg text-sage-700">{testimonial.name}</p>
-                  <p className="text-xs sm:text-sm text-sage-600">Adoptó {testimonial.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ...existing code... */}
 
 
     </div>

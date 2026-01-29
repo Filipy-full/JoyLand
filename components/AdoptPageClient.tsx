@@ -49,8 +49,10 @@ export default function AdoptPageClient({ trees }: AdoptPageClientProps) {
               trees={trees.map(tree => ({
                 id: tree.id,
                 name: tree.name ?? undefined,
-                lat: tree.latitude,
-                lng: tree.longitude
+                latitude: tree.latitude ?? 0,
+                longitude: tree.longitude ?? 0,
+                type: tree.type,
+                status: tree.status,
               }))}
               onTreeSelect={handleTreeSelect}
             />
@@ -168,8 +170,10 @@ export default function AdoptPageClient({ trees }: AdoptPageClientProps) {
                     handleTreeSelect({
                       id: tree.id,
                       name: tree.name ?? undefined,
-                      lat: tree.latitude,
-                      lng: tree.longitude
+                      latitude: tree.latitude ?? 0,
+                      longitude: tree.longitude ?? 0,
+                      type: tree.type,
+                      status: tree.status,
                     });
                   }
                 }}

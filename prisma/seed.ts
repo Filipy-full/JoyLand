@@ -5,10 +5,15 @@ const prisma = new PrismaClient()
 async function main() {
   console.log('🌱 Seeding database...')
 
+  // Limpar tabelas para evitar conflitos de chave única
+  await prisma.adoption.deleteMany({});
+  await prisma.tree.deleteMany({});
+  await prisma.user.deleteMany({});
 
-  // Coordenadas base da propriedade
-  const BASE_LAT = 42.8000;
-  const BASE_LNG = -2.7000;
+
+  // Coordenadas base da propriedade (ajustadas para o local exato do Google Maps)
+  const BASE_LAT = 42.8001;
+  const BASE_LNG = -5.5001;
 
   function randomOffset() {
     return (Math.random() - 0.5) * 0.002; // até ~200m de variação

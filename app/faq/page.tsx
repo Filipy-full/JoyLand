@@ -1,64 +1,52 @@
 export default function FAQPage() {
   const faqs = [
     {
-      question: '¿Qué significa adoptar un árbol?',
-      answer: 'Adoptar un árbol significa apoyar su cuidado durante un año completo. No te conviertes en propietario legal del árbol, pero sí en su "padrino" o "madrina". Recibes acceso exclusivo a información sobre tu árbol, su ubicación exacta en el mapa, actualizaciones con fotos y vídeos, un informe anual, y una giftbox de temporada.'
+      question: 'IMPACT — How your support shapes Joyland',
+      answer: `Tree adoption at Joyland supports the land as a living system — an ecology where each part works together to harmonise the whole.\n\nYour yearly contribution allows time, care, and continuity: the conditions needed for soil to regenerate, biodiversity to return, and trees to be tended according to their natural rhythm. Everything on this page reflects what your support makes possible — from groundcover and insects to hand harvesting, fresh oil, and ongoing observation of the land.\n\nWhat follows is a living process, shaped season by season, tree by tree.`
     },
     {
-      question: '¿Es simbólico o real?',
-      answer: 'Es completamente real. Tu adopción financia directamente el cuidado y mantenimiento de ese árbol específico. Conocerás su ubicación exacta en el mapa, podrás visitarlo cuando quieras, y verás fotos y vídeos reales de tu árbol a lo largo del año. No hay árboles ficticios ni simbólicos en Joyland.'
+      question: 'The land today',
+      answer: `Joyland shows what becomes possible when nature is given space to establish on its own strength, building resilience over time.\n\nWhat was once bare clay now carries living groundcover. Flowers rise and return each year. Insects move through the grove for longer periods across the seasons. Summer hums with crickets throughout the day, while mornings and evenings bring softer light, humidity, and the sound of frogs. Spring fills the land with birdsong; winter arrives quietly, wrapped in mist, with rosemary and calendula still flowering well into January.\n\nEach season leaves a visible trace — in soil texture, plant diversity, moisture retention, and the way the land holds life.`
     },
     {
-      question: '¿Puedo visitar mi árbol?',
-      answer: 'Sí, absolutamente. Cuando adoptas un árbol, recibes sus coordenadas exactas. Puedes visitarlo cuando quieras (respetando la propiedad y avisando con antelación). Nos encanta cuando las personas vienen a conocer a su árbol en persona.'
+      question: 'Natural succession in motion',
+      answer: `Succession accelerated quickly once space and support were present.\n\nOrganic matter remained on the land. Hay was spread in selected areas. Pioneer plants arrived first — amaranth, thistles, rockets, bur clover — followed by fennel, wild carrots, and other self-seeding species. Hay-supported areas produced abundant calendula and chamomile. Cooler, shaded zones welcomed lamiums and perennial clovers, laying foundations for long-term groundcover.\n\nOver the past year, a wide range of seeds were introduced to expand diversity: oregano, borage, wild sages, cornflower, poppies, St John’s wort, valerian, and more. Each spring reveals what the land chooses to carry forward.\n\nA compost heap tailored to olive tree needs now returns nutrients to the soil in a slow, circular system.\n\nSuccession here unfolds through plants, roots, and soil — building structure and fertility over time.`
     },
     {
-      question: '¿Qué pasa después de un año?',
-      answer: 'Después de un año, tu adopción termina y el árbol vuelve a estar disponible para una nueva adopción. Si quieres renovar tu adopción del mismo árbol, tendrás prioridad sobre nuevos adoptantes. También puedes optar por adoptar un árbol diferente cada año.'
+      question: 'Groundcover, soil health & water retention',
+      answer: `Groundcover reshapes the land from the ground up.\n\nLiving cover allows water to penetrate deeper into clay soil, supports organic matter buildup, and encourages microbial and bacterial life, while attracting beneficial biodiversity. Roots move freely through soil that becomes softer and more structured over time.\n\nEstablished olive and almond trees benefit directly from this process. As plants complete their life cycle, they return organic matter to the soil, strengthening fertility year after year.`
     },
     {
-      question: '¿Puedo nombrar mi árbol?',
-      answer: 'Sí, durante el proceso de adopción puedes elegir un nombre para tu árbol. Este nombre aparecerá en el mapa y en la página del árbol durante el año de tu adopción. Cuando la adopción termine, el nombre se mantiene en el historial, pero el nuevo adoptante puede elegir un nuevo nombre.'
+      question: 'Biodiversity returning',
+      answer: `As habitat strengthens, animal life responds.\n\nAnts, beetles, bees, wasps, and butterflies shape daily rhythms in the grove. Ants garden continuously — moving seeds, aerating soil, and improving water infiltration. Pollinators concentrate around flowering periods, creating dense moments of activity.\n\nBirds, mammals, and reptiles move freely through the unfenced land. Deer, hare, foxes, wild boar, and jackals contribute to soil structure and seed dispersal. Lizards and snakes warm themselves on stone terraces.\n\nBiodiversity emerges as a response to shelter, food, and continuity.`
     },
     {
-      question: '¿Puedo regalar una adopción?',
-      answer: 'Sí, la adopción de un árbol es un regalo único y significativo. Durante el proceso de checkout puedes marcar que es un regalo y añadir un mensaje personal. El destinatario recibirá toda la información sobre su árbol.'
+      question: 'Trees, rhythm, and care',
+      answer: `Your support allows trees to be cared for individually.\n\nEach tree is observed and tended according to its rhythm — balancing canopy, shade, airflow, and long-term health. Olive trees thrive with layered protection, while almond trees receive adjusted care as groundcover strengthens across the land.\n\nSome years focus on fruit, others on growth and recovery. Stewardship adapts continuously, guided by what the trees communicate.`
     },
     {
-      question: '¿Qué incluye la giftbox de temporada?',
-      answer: 'La giftbox varía según la temporada y lo que la tierra nos dé. Puede incluir aceite de oliva, almendras, miel local, hierbas aromáticas, y otros productos del terreno o de productores cercanos que compartimos valores. No siempre es lo mismo, porque dependemos de los ritmos naturales.'
+      question: 'Harvesting at human scale',
+      answer: `Harvesting reflects the size and nature of the grove.\n\nSmaller trees are harvested by hand. Larger trees are worked with manual or small electric tools. Harvested olives move immediately into shaded storage, layered carefully, and transported to the mill within a narrow time window.\n\nMultiple passes support the quality and logistics of a small grove. Small-batch production keeps attention present at every step — from tree to pressing.`
     },
     {
-      question: '¿Recibiré aceite o almendras de mi árbol específico?',
-      answer: 'No necesariamente de tu árbol específico, ya que la producción de cada árbol varía mucho año a año. Los productos de la giftbox provienen de la producción general de Joyland. Tu adopción apoya todo el ecosistema, no solo un árbol aislado.'
+      question: 'Fresh oil, unfiltered',
+      answer: `Joyland olive oil is pressed fresh and left unfiltered.\n\nThis preserves the olive’s active compounds — polyphenols, antioxidants, and aromatic elements — resulting in a vibrant, expressive oil shaped by the harvest moment. Time is used carefully, allowing quality to remain intact.\n\nPatience extends beyond oil into infusions, curing, and product making across the land.`
     },
     {
-      question: '¿Qué es agricultura regenerativa?',
-      answer: 'Es un enfoque agrícola que va más allá de la sostenibilidad. No solo se trata de "no hacer daño", sino de mejorar activamente la salud del suelo, aumentar la biodiversidad, capturar carbono, y restaurar el ecosistema. Usamos prácticas como compostaje, cubiertas vegetales, cero químicos, y trabajo manual cuidadoso.'
+      question: 'Where your contribution goes',
+      answer: `Tree adoption directly supports: tree care, pruning, and observation; manual harvesting and soil-friendly tools; seeds, compost, and regenerative experiments; artisanal giftboxes shaped by the land’s offerings; transport connecting grove and city; lab testing for product quality and ecological insight; water support when trees need it; time for field observation and planning.\n\nJoyland also functions as experimental ground, where regeneration is observed, tracked, and refined.`
     },
     {
-      question: '¿Cuántos árboles hay en Joyland?',
-      answer: 'Joyland es un proyecto pequeño. Tenemos aproximadamente 50 olivos y 30 almendros. No queremos crecer demasiado rápido. Preferimos mantener la calidad del cuidado y la conexión personal con cada árbol y cada adoptante.'
+      question: 'Joyland this year',
+      answer: `This year revealed clear patterns.\n\nLayered vegetation supported olive trees. Groundcover strengthened soil structure. Ant activity increased aeration and seed movement. Areas opened by wild boar allowed plant life to establish quickly.\n\nWhen flowers bloomed, the land buzzed continuously. Tall grasses revealed animal resting places during early morning walks.\n\nThe land communicated through growth, sound, and movement.`
     },
     {
-      question: '¿Con qué frecuencia recibiré actualizaciones?',
-      answer: 'Subimos fotos y vídeos cada 2-3 meses aproximadamente, siguiendo las estaciones. En primavera verás la floración, en verano el crecimiento, en otoño la cosecha, en invierno el descanso. No es algo rígido ni programado, fluye con lo que pasa en la tierra.'
+      question: 'A living process',
+      answer: `Your support sustains an unfolding system.\n\nSoil builds over time. Biodiversity responds when space is created. Trees thrive with care that respects timing. Agriculture becomes collaboration rather than extraction.\n\nEach adopted tree actively supports this living process, season after season.`
     },
     {
-      question: '¿Puedo adoptar más de un árbol?',
-      answer: 'Sí, puedes adoptar tantos árboles como quieras. Cada adopción es independiente, con su propia página, actualizaciones, y giftbox.'
-    },
-    {
-      question: '¿Los pagos son seguros?',
-      answer: 'Sí, todos los pagos se procesan a través de Stripe, una plataforma de pago reconocida mundialmente y completamente segura. Joyland nunca tiene acceso a tus datos bancarios.'
-    },
-    {
-      question: '¿Puedo cancelar mi adopción?',
-      answer: 'Las adopciones son por un año completo y no son reembolsables, ya que el dinero se destina inmediatamente al cuidado del árbol y la tierra. Sin embargo, si hay circunstancias excepcionales, contáctanos y veremos qué podemos hacer.'
-    },
-    {
-      question: '¿Dónde está exactamente Joyland?',
-      answer: 'Estamos en el norte de España, en una zona rural tranquila. La ubicación exacta se comparte con los adoptantes. Valoramos la privacidad del terreno mientras mantenemos la transparencia total con quienes forman parte de este proyecto.'
+      question: 'How do I adopt a tree?',
+      answer: `Click the button below to adopt a tree and become part of this living process.`
     },
   ]
 

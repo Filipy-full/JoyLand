@@ -37,30 +37,31 @@ export default function Header() {
             </li>
             <li>
               <Link href="/adopt" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Adoptar
+                Adopt
               </Link>
             </li>
             <li>
               <Link href="/galeria" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Galería
+                Gallery
               </Link>
             </li>
             <li>
               <Link href="/giftbox" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Regalar
+                Gift
               </Link>
             </li>
             <li>
               <Link href="/about" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Nosotros
+                About
               </Link>
             </li>
             <li>
               <Link href="/contact" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Contacto
+                Contact
               </Link>
             </li>
           </ul>
+          {/* Removido estrelas e +500 adopters */}
 
           {/* Mobile menu button */}
           <button
@@ -99,7 +100,7 @@ export default function Header() {
                   className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Adoptar
+                  Adopt
                 </Link>
               </li>
               <li>
@@ -108,7 +109,7 @@ export default function Header() {
                   className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Galería
+                  Gallery
                 </Link>
               </li>
               <li>
@@ -117,7 +118,7 @@ export default function Header() {
                   className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Regalar
+                  Gift
                 </Link>
               </li>
               <li>
@@ -126,7 +127,7 @@ export default function Header() {
                   className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Nosotros
+                  About
                 </Link>
               </li>
               <li>
@@ -135,7 +136,7 @@ export default function Header() {
                   className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Contacto
+                  Contact
                 </Link>
               </li>
             </ul>
