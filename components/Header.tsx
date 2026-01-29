@@ -51,6 +51,11 @@ export default function Header() {
               </Link>
             </li>
             <li>
+              <Link href="/impact" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
+                Impact
+              </Link>
+            </li>
+            <li>
               <Link href="/about" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
                 About
               </Link>
@@ -119,6 +124,15 @@ export default function Header() {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Gift
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/impact" 
+                  className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Impact
                 </Link>
               </li>
               <li>

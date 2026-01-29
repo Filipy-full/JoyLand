@@ -37,27 +37,21 @@ export default function AdoptPage() {
         {/* Background decorativo más grande */}
         <div
           aria-hidden="true"
-          className="pointer-events-none select-none absolute left-0 top-0 w-screen"
-          style={{
-            height: 'min(60vh, 400px)',
-            zIndex: 0,
+          className="pointer-events-none select-none absolute left-0 top-0 w-screen" style={{ height: '120vh', zIndex: 0,
             backgroundImage: 'url(/galeria/flor-adoptar.jpeg)',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center 0%',
             backgroundSize: 'cover',
             opacity: 1,
-            filter: 'none',
+            filter: 'none'
           }}
         />
         {/* Overlay para mejorar legibilidad */}
         <div
           aria-hidden="true"
-          className="absolute left-0 top-0 w-screen"
-          style={{
-            height: 'min(60vh, 400px)',
-            zIndex: 1,
+          className="absolute left-0 top-0 w-screen" style={{ height: '120vh', zIndex: 1,
             background: 'linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.82) 60%, rgba(255,255,255,0.95) 100%)',
-            pointerEvents: 'none',
+            pointerEvents: 'none'
           }}
         />
         <div className="max-w-4xl mx-auto text-center relative z-20">
