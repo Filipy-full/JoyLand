@@ -40,8 +40,8 @@ export default function GiftboxPage() {
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="border-2 border-sage-200 p-6 rounded-lg">
-              <div className="flex items-center mb-3">
-                <img src="/rama-oliva.png" alt="Olive branch" className="w-16 h-16 object-contain mr-4" />
+              <div className="mb-3">
+                <img src="/rama-oliva.png" alt="Olive branch" className="w-16 h-16 object-contain mb-3" />
                 <h3 className="text-xl font-serif mb-3 text-sage-700">
                   Joyland’s Olive Oil
                 </h3>
