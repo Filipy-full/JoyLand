@@ -16,8 +16,9 @@ export default function AdminAuth({ children }: { children: React.ReactNode }) {
         router.replace('/login')
         return
       }
-      // Permitir solo el correo del admin
-      if (user.email === 'filipyhenrique54@gmail.com') {
+      // Permitir acceso a varios correos de admin
+      const allowedAdmins = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com']
+      if (user.email && allowedAdmins.includes(user.email)) {
         setIsAdmin(true)
       } else {
         router.replace('/')

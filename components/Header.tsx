@@ -1,11 +1,46 @@
 'use client'
 
+
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabase'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setIsLoggedIn(true);
+        const allowedAdmins = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com'];
+        setIsAdmin(!!user.email && allowedAdmins.includes(user.email));
+      } else {
+        setIsLoggedIn(false);
+        setIsAdmin(false);
+      }
+    };
+    checkUser();
+    // Listen to auth changes
+    const { data: listener } = supabase.auth.onAuthStateChange(() => {
+      checkUser();
+    });
+    return () => {
+      listener?.subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsLoggedIn(false);
+    setIsAdmin(false);
+    router.push('/');
+  };
 
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-sage-200 z-50 shadow-sm">
@@ -65,11 +100,26 @@ export default function Header() {
                 Contact
               </Link>
             </li>
-            <li>
-              <Link href="/login" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Login
-              </Link>
-            </li>
+            {isAdmin && (
+              <li>
+                <Link href="/admin" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
+                  Dashboard
+                </Link>
+              </li>
+            )}
+            {isLoggedIn ? (
+              <li>
+                <button onClick={handleLogout} className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
+                  Logout
+                </button>
+              </li>
+            ) : (
+              <li>
+                <Link href="/login" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
+                  Login
+                </Link>
+              </li>
+            )}
           </ul>
           {/* Removido estrelas e +500 adopters */}
 
@@ -158,15 +208,37 @@ export default function Header() {
                   Contact
                 </Link>
               </li>
-              <li>
-                <Link 
-                  href="/login" 
-                  className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Login
-                </Link>
-              </li>
+              {isAdmin && (
+                <li>
+                  <Link 
+                    href="/admin" 
+                    className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              )}
+              {isLoggedIn ? (
+                <li>
+                  <button 
+                    onClick={() => { handleLogout(); setIsMenuOpen(false); }}
+                    className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
+                  >
+                    Logout
+                  </button>
+                </li>
+              ) : (
+                <li>
+                  <Link 
+                    href="/login" 
+                    className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Login
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         )}

@@ -1,12 +1,22 @@
+
 "use client"
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
 import AdminAuth from '@/components/AdminAuth'
+
+
+import { supabase } from '@/lib/supabase'
+import { useRouter } from 'next/navigation'
 
 export default function AdminMessagesPage() {
   const [messages, setMessages] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/');
+  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -26,7 +36,10 @@ export default function AdminMessagesPage() {
   return (
     <AdminAuth>
       <div className="max-w-3xl mx-auto py-12">
-        <h1 className="text-3xl font-bold mb-8">Contact Messages</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">Contact Messages</h1>
+          <button onClick={handleLogout} className="bg-sage-600 text-white px-4 py-2 rounded hover:bg-sage-700 transition-colors text-sm">Logout</button>
+        </div>
         {loading && <div>Loading...</div>}
         {error && <div className="text-red-600">{error}</div>}
         <ul className="space-y-6">

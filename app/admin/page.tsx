@@ -1,12 +1,20 @@
 "use client"
+
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
 import AdminAuth from '@/components/AdminAuth'
+import { supabase } from '@/lib/supabase'
+import { useRouter } from 'next/navigation'
 
 export default function AdminDashboard() {
   const [messages, setMessages] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/');
+  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -26,7 +34,10 @@ export default function AdminDashboard() {
   return (
     <AdminAuth>
       <div className="max-w-4xl mx-auto py-12">
-        <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <button onClick={handleLogout} className="bg-sage-600 text-white px-4 py-2 rounded hover:bg-sage-700 transition-colors text-sm">Logout</button>
+        </div>
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">Contact Messages</h2>
           {loading && <div>Loading...</div>}

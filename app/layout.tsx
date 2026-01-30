@@ -7,6 +7,7 @@ import "./animations.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingCTA from "@/components/FloatingCTA";
+import AuthListener from "@/components/AuthListener";
 
 const serif = Libre_Baskerville({
   weight: ["400", "700"],
@@ -46,9 +47,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${sans.variable} ${serif.variable} antialiased font-sans`}>
         <Header />
         <FloatingCTA />
-        <main className="min-h-screen pt-20">
-          {children}
-        </main>
+        <AuthListener>
+          <main className="min-h-screen pt-20">
+            {children}
+          </main>
+        </AuthListener>
         <Footer />
         <SpeedInsights />
       </body>
