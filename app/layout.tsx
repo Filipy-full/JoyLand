@@ -22,7 +22,19 @@ const sans = Inter({
 export const metadata: Metadata = {
   title: "Joyland - Adopta un árbol en el norte de España",
   description: "Un pequeño olivar y almendral regenerativo en el norte de España. Adopta un árbol y sigue su historia.",
-};
+  openGraph: {
+    title: 'Joyland',
+    description: "Un pequeño olivar y almendral regenerativo en el norte de España. Adopta un árbol y sigue su historia.",
+    images: [
+      {
+        url: '/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Joyland Logo',
+      },
+    ],
+  },
+}
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
