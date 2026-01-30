@@ -43,7 +43,7 @@ export default function AdoptAlmendroPage() {
         </p>
       </section>
       <AdoptionIncludes className="my-8" />
-      <PriceCTA price={96} treeType="almendro" loading={loading} onAdopt={handleAdopt} />
+      <PriceCTA price={125} treeType="almendro" loading={loading} onAdopt={handleAdopt} />
       {error && <div className="text-center text-red-600 mt-4">{error}</div>}
     </div>
   );

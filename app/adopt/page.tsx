@@ -144,7 +144,7 @@ export default function AdoptPage() {
                 </h3>
                 
                 <div className="flex items-baseline gap-2 mb-6">
-                  <span className="text-4xl sm:text-5xl font-bold text-sage-700">€96</span>
+                  <span className="text-4xl sm:text-5xl font-bold text-sage-700">€125</span>
                   <span className="text-sage-600">/year</span>
                 </div>
                 
@@ -211,7 +211,7 @@ export default function AdoptPage() {
                 </h3>
                 
                 <div className="flex items-baseline gap-2 mb-6">
-                  <span className="text-4xl sm:text-5xl font-bold text-sage-700">€125</span>
+                  <span className="text-4xl sm:text-5xl font-bold text-sage-700">€175</span>
                   <span className="text-sage-600">/year</span>
                 </div>
                 

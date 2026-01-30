@@ -56,7 +56,7 @@ export default function OlivoTreePage(props: any) {
         <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${tree.status === 'available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{tree.status === 'available' ? 'Disponible' : 'Adoptado'}</span>
       </section>
       <AdoptionIncludes className="my-8" />
-      <PriceCTA price={125} treeType="olivo" loading={loading} onAdopt={handleAdopt} />
+      <PriceCTA price={175} treeType="olivo" loading={loading} onAdopt={handleAdopt} />
       {error && <div className="text-center text-red-600 mt-4">{error}</div>}
     </div>
   );

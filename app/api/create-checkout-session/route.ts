@@ -5,8 +5,12 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: NextRequest) {
-  const { treeId, userId, userName, userEmail } = await req.json();
-  // Ahora solo se guarda la adopción tras el pago exitoso (webhook)
+  const { treeType, treeId, userId, userName, userEmail } = await req.json();
+  // Precios: almendro 125 EUR, olivo 175 EUR
+  let unit_amount = 0;
+  if (treeType === 'almendro') unit_amount = 12500;
+  else if (treeType === 'olivo') unit_amount = 17500;
+  else unit_amount = 10000; // fallback
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -16,9 +20,9 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: 'eur',
             product_data: {
-              name: `Adopción de árbol #${treeId}`,
+              name: `Adopción de árbol #${treeId || treeType}`,
             },
-            unit_amount: 50, // 0.50 EUR
+            unit_amount,
           },
           quantity: 1,
         },
@@ -30,6 +34,7 @@ export async function POST(req: NextRequest) {
         userName: userName || '',
         userEmail: userEmail || '',
         treeId: treeId || '',
+        treeType: treeType || '',
       },
     });
     return NextResponse.json({ url: session.url });
