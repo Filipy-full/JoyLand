@@ -7,7 +7,6 @@ export default function GiftboxPage() {
         <h1 className="text-5xl font-serif text-sage-700 mb-8 text-center">
           The Joyland Giftbox
         </h1>
-        <div className="text-center text-sage-500 mb-4">(pictures to come)</div>
 
         {/* Hero Image */}
         <div className="mb-12 relative h-96 rounded-lg overflow-hidden shadow-xl">
