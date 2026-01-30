@@ -16,20 +16,31 @@ export default function AdminDashboard() {
     router.push('/');
   };
 
+  const fetchMessages = async () => {
+    setLoading(true)
+    setError('')
+    const { data, error } = await supabase
+      .from('contact_messages')
+      .select('*')
+      .order('created_at', { ascending: false })
+    if (error) setError(error.message)
+    else setMessages(data || [])
+    setLoading(false)
+  }
+
   useEffect(() => {
-    const fetchMessages = async () => {
-      setLoading(true)
-      setError('')
-      const { data, error } = await supabase
-        .from('contact_messages')
-        .select('*')
-        .order('created_at', { ascending: false })
-      if (error) setError(error.message)
-      else setMessages(data || [])
-      setLoading(false)
-    }
     fetchMessages()
   }, [])
+
+  const handleDeleteAll = async () => {
+    if (!confirm('Are you sure you want to delete ALL messages? This action cannot be undone.')) return;
+    setLoading(true)
+    setError('')
+    const { error } = await supabase.from('contact_messages').delete().not('id', 'is', null)
+    if (error) setError(error.message)
+    await fetchMessages()
+    setLoading(false)
+  }
 
   return (
     <AdminAuth>
@@ -39,7 +50,16 @@ export default function AdminDashboard() {
           <button onClick={handleLogout} className="bg-sage-600 text-white px-4 py-2 rounded hover:bg-sage-700 transition-colors text-sm">Logout</button>
         </div>
         <section className="mb-12">
-          <h2 className="text-2xl font-semibold mb-4">Contact Messages</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-semibold">Contact Messages</h2>
+            <button
+              onClick={handleDeleteAll}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors text-sm font-semibold shadow"
+              disabled={loading || messages.length === 0}
+            >
+              Delete All
+            </button>
+          </div>
           {loading && <div>Loading...</div>}
           {error && <div className="text-red-600">{error}</div>}
           <ul className="space-y-6">
