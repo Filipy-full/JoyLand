@@ -1,0 +1,46 @@
+"use client"
+import { useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabase'
+import AdminAuth from '@/components/AdminAuth'
+
+export default function AdminMessagesPage() {
+  const [messages, setMessages] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      setLoading(true)
+      setError('')
+      const { data, error } = await supabase
+        .from('contact_messages')
+        .select('*')
+        .order('created_at', { ascending: false })
+      if (error) setError(error.message)
+      else setMessages(data || [])
+      setLoading(false)
+    }
+    fetchMessages()
+  }, [])
+
+  return (
+    <AdminAuth>
+      <div className="max-w-3xl mx-auto py-12">
+        <h1 className="text-3xl font-bold mb-8">Contact Messages</h1>
+        {loading && <div>Loading...</div>}
+        {error && <div className="text-red-600">{error}</div>}
+        <ul className="space-y-6">
+          {messages.map(msg => (
+            <li key={msg.id} className="border rounded p-4 bg-white">
+              <div><b>Name:</b> {msg.name}</div>
+              <div><b>Email:</b> {msg.email}</div>
+              <div><b>Subject:</b> {msg.subject}</div>
+              <div><b>Message:</b> {msg.message}</div>
+              <div className="text-xs text-gray-500 mt-2">{new Date(msg.created_at).toLocaleString()}</div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </AdminAuth>
+  )
+}

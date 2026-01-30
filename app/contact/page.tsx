@@ -1,6 +1,7 @@
 
 'use client'
 import React, { useState } from 'react'
+import { supabase } from '@/lib/supabase'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -18,15 +19,15 @@ export default function ContactPage() {
     setErrorMessage('')
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
+      const { error } = await supabase.from('contact_messages').insert([
+        {
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }
+      ])
+      if (!error) {
         setStatus('success')
         setFormData({ name: '', email: '', subject: '', message: '' })
       } else {
@@ -52,7 +53,9 @@ export default function ContactPage() {
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6" encType="multipart/form-data">
+
+
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                   Name *
@@ -144,8 +147,8 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <div>
                   <h3 className="font-medium text-gray-800 mb-1">Email</h3>
-                  <a href="mailto:info@joyland.es" className="text-sage-600 hover:text-sage-700">
-                    info@joyland.es
+                    <a href="mailto:joylandspain@gmail.com?subject=JoyLand%20Contact%20Request" className="text-sage-600 hover:text-sage-700">
+                      joylandspain@gmail.com
                   </a>
                 </div>
                 <div>

@@ -1,19 +1,34 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 import { TreeIcon } from '@/components/Icons'
+import { MyAdoptionsButton } from '@/components/MyAdoptionsButton'
 
 export default function AdoptPage() {
   const [loadingType, setLoadingType] = useState<'almond' | 'olive' | null>(null)
+  const [user, setUser] = useState<any>(null)
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user)
+    })
+  }, [])
 
   const handleAdopt = async (treeType: 'almond' | 'olive') => {
     setLoadingType(treeType)
 
     try {
+      let userId = null, userName = '', userEmail = ''
+      if (user) {
+        userId = user.id
+        userEmail = user.email
+        userName = user.user_metadata?.name || ''
+      }
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ treeType }),
+        body: JSON.stringify({ treeType, userId, userName, userEmail }),
       })
 
       const data = await response.json()
@@ -31,7 +46,8 @@ export default function AdoptPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-sage-50">
+    <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-sage-50 relative">
+      <MyAdoptionsButton />
       {/* Hero Section */}
       <section className="relative container mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12 sm:pb-16">
         {/* Background decorativo más grande */}

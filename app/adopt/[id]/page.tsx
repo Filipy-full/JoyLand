@@ -5,23 +5,26 @@ import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
-export default async function CheckoutPage({ params }: { params: { id: string } }) {
-  const { id } = params
-  
+export default async function CheckoutPage({ params }: { params: Promise<{ id?: string }> }) {
+  const { id } = await params;
+  if (!id) {
+    notFound();
+  }
+
   const tree = await prisma.tree.findUnique({
     where: { id },
-  })
+  });
 
   if (!tree) {
-    notFound()
+    notFound();
   }
 
   // Redirect if tree is already adopted
   if (tree.status !== 'available') {
-    redirect(`/tree/${tree.id}`)
+    redirect(`/tree/${tree.id}`);
   }
 
-  const price = tree.type === 'olive' ? 120 : 100
+  const price = tree.type === 'olive' ? 120 : 100;
 
   return (
     <div className="container mx-auto px-6 py-12">

@@ -44,19 +44,8 @@ function SuccessContent() {
         </ul>
       </div>
 
-      <div className="mb-8 p-4 sm:p-6 bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-200 rounded-2xl max-w-2xl mx-auto">
-        <p className="text-amber-800 font-semibold text-center text-sm sm:text-base">
-          💝 Want to gift a tree? Share the Joyland experience with your loved ones
-        </p>
-      </div>
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-        <Link
-          href="/giftbox"
-          className="inline-block bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all font-bold text-sm sm:text-base"
-        >
-          Gift a tree 🎁
-        </Link>
         <Link
           href="/"
           className="inline-block border-2 border-sage-600 text-sage-600 px-8 py-4 rounded-full hover:bg-sage-50 transition-all font-medium text-sm sm:text-base"

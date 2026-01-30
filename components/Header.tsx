@@ -65,6 +65,11 @@ export default function Header() {
                 Contact
               </Link>
             </li>
+            <li>
+              <Link href="/login" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
+                Login
+              </Link>
+            </li>
           </ul>
           {/* Removido estrelas e +500 adopters */}
 
@@ -151,6 +156,15 @@ export default function Header() {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Contact
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/login" 
+                  className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Login
                 </Link>
               </li>
             </ul>
