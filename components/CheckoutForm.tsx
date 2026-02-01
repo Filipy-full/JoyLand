@@ -60,7 +60,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
         window.location.href = data.url
       }
     } catch (err) {
-      setError('Algo salió mal. Por favor, inténtalo de nuevo.')
+      setError('Something went wrong. Please try again.')
       setLoading(false)
     }
   }
@@ -76,7 +76,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
       {/* Adopter Info */}
       <div>
         <label htmlFor="adopterName" className="block text-sm font-medium text-gray-700 mb-2">
-          Tu nombre *
+          Your Name *
         </label>
         <input
           type="text"
@@ -85,13 +85,13 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
           value={formData.adopterName}
           onChange={(e) => setFormData({ ...formData, adopterName: e.target.value })}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sage-500 focus:border-transparent"
-          placeholder="Juan García"
+          placeholder="John Doe"
         />
       </div>
 
       <div>
         <label htmlFor="adopterEmail" className="block text-sm font-medium text-gray-700 mb-2">
-          Tu email *
+          Your Email *
         </label>
         <input
           type="email"
@@ -106,7 +106,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
 
       <div>
         <label htmlFor="treeName" className="block text-sm font-medium text-gray-700 mb-2">
-          Nombre para tu árbol (opcional)
+          Tree Name (optional)
         </label>
         <input
           type="text"
@@ -114,7 +114,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
           value={formData.treeName}
           onChange={(e) => setFormData({ ...formData, treeName: e.target.value })}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sage-500 focus:border-transparent"
-          placeholder="Dale un nombre especial a tu árbol"
+          placeholder="Give your tree a special name"
         />
       </div>
 
@@ -128,14 +128,14 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
             className="w-5 h-5 text-sage-600 border-gray-300 rounded focus:ring-sage-500"
           />
           <span className="text-gray-700">
-            Esto es un regalo
+            This is a gift
           </span>
         </label>
 
         {formData.isGift && (
           <div className="mt-4">
             <label htmlFor="giftMessage" className="block text-sm font-medium text-gray-700 mb-2">
-              Mensaje de regalo
+              Gift Message
             </label>
             <textarea
               id="giftMessage"
@@ -143,7 +143,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
               onChange={(e) => setFormData({ ...formData, giftMessage: e.target.value })}
               rows={4}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sage-500 focus:border-transparent"
-              placeholder="Escribe un mensaje personal para el destinatario..."
+              placeholder="Write a personal message for the recipient..."
             />
           </div>
         )}
@@ -155,17 +155,17 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
         disabled={loading}
         className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white px-8 py-5 rounded-full hover:shadow-2xl transition-all font-bold text-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
       >
-        {loading ? 'Procesando...' : `🔒 PAGAR €${price / 100} - ADOPTAR AHORA`}
+        {loading ? 'Processing...' : `🔒 PAY €${price / 100} - ADOPT NOW`}
       </button>
 
       <div className="text-center space-y-2">
         <p className="text-xs text-gray-500">
-          Pago 100% seguro con cifrado SSL
+          100% secure payment with SSL encryption
         </p>
         <div className="flex items-center justify-center gap-4 text-xs text-gray-500">
-          <span>✓ Garantía de satisfacción</span>
-          <span>✓ Envío gratis</span>
-          <span>✓ Soporte 24/7</span>
+          <span>✓ Satisfaction guarantee</span>
+          <span>✓ Free shipping</span>
+          <span>✓ 24/7 support</span>
         </div>
       </div>
     </form>

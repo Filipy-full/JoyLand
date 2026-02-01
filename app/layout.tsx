@@ -21,11 +21,11 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Joyland - Adopta un árbol en el norte de España",
-  description: "Un pequeño olivar y almendral regenerativo en el norte de España. Adopta un árbol y sigue su historia.",
+  title: "Joyland - Adopt a Tree in Northern Spain",
+  description: "A small regenerative olive and almond farm in northern Spain. Adopt a tree and follow its story.",
   openGraph: {
     title: 'Joyland',
-    description: "Un pequeño olivar y almendral regenerativo en el norte de España. Adopta un árbol y sigue su historia.",
+    description: "A small regenerative olive and almond farm in northern Spain. Adopt a tree and follow its story.",
     images: [
       {
         url: '/logo.png',

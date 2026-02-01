@@ -15,11 +15,11 @@ export default function OlivoTreePage(props: any) {
       fetch(`/api/trees?id=${params.treeId}`)
         .then(res => res.json())
         .then(data => setTree(data.tree))
-        .catch(() => setError('No se pudo cargar el árbol.'));
+        .catch(() => setError('Could not load tree.'));
     }
   }, [params, tree]);
 
-  if (!tree) return <div className="text-center py-20">Cargando árbol...</div>;
+  if (!tree) return <div className="text-center py-20">Loading tree...</div>;
 
   const handleAdopt = async () => {
     setLoading(true);
@@ -34,11 +34,11 @@ export default function OlivoTreePage(props: any) {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        setError(data.error || 'Error desconocido');
+        setError(data.error || 'Unknown error');
         setLoading(false);
       }
     } catch (err) {
-      setError('Error de red o servidor');
+      setError('Network or server error');
       setLoading(false);
     }
   };
@@ -46,14 +46,14 @@ export default function OlivoTreePage(props: any) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-sage-50 pb-20">
       <HeroSection
-        title={`Adopta este olivo 🫒`}
-        subtitle={`Adopta el árbol “${tree.name || 'Olivo'}” y acompáñalo durante un año.`}
+        title={`Adopt this Olive Tree 🫒`}
+        subtitle={`Adopt the tree "${tree.name || 'Olive Tree'}" and follow it for one year.`}
         backHref="/adopt/olivo"
       />
       <section className="container mx-auto px-4 sm:px-6 py-8 max-w-2xl">
         <h2 className="text-xl font-serif text-sage-900 mb-4">{tree.name || 'Olivo'}</h2>
         <p className="text-sage-700 mb-6 text-base sm:text-lg">{tree.description || 'Olivo robusto y longevo.'}</p>
-        <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${tree.status === 'available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{tree.status === 'available' ? 'Disponible' : 'Adoptado'}</span>
+        <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${tree.status === 'available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{tree.status === 'available' ? 'Available' : 'Adopted'}</span>
       </section>
       <AdoptionIncludes className="my-8" />
       <PriceCTA price={175} treeType="olivo" loading={loading} onAdopt={handleAdopt} />

@@ -113,10 +113,10 @@ export default function HomePage() {
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-4 leading-tight drop-shadow-2xl">
               <span className="text-gradient-gold inline-block animate-fadeInUp">Adopt a tree</span>{' '}
-              <span className="inline-block animate-fadeInUp" style={{ animationDelay: '0.1s' }}>and support a living process</span>
+              <span className="inline-block animate-fadeInUp" style={{ animationDelay: '0.1s' }}>and support a living grove</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-white mb-4 leading-relaxed drop-shadow-lg animate-fadeInUp font-light" style={{ animationDelay: '0.2s' }}>
-              Connect with nature and support real regeneration in northern Spain. Your contribution shapes a living system — season by season, tree by tree.
+              Connect with nature and support an ecological regeneration project in northern Spain. Your contribution shapes a living system — year by year, tree by tree.
             </p>
             <Link 
               href="/adopt"
@@ -160,16 +160,13 @@ export default function HomePage() {
                 </div>
                 <div className="space-y-3 sm:space-y-4">
                   <p className="text-sm sm:text-base md:text-lg text-sage-800 leading-relaxed">
-                    Joyland is a <span className="font-semibold text-sage-600">regenerative agriculture</span> initiative in northern Spain. 
-                    It is not a financial investment, it is an <span className="text-gradient-gold font-semibold">authentic connection</span>.
+                    Joyland is a <span className="font-semibold text-sage-600">regenerative agriculture</span> project rooted in stewardship, observation, and care for natural rhythms. Here, olives and almonds grow within a diverse ecosystem where soil life, wild plants, insects, trees, and people all play a role.
                   </p>
                   <p className="text-base sm:text-lg md:text-xl text-sage-800 leading-relaxed">
-                    When you adopt a tree, you support regenerative practices that care for the soil, 
-                    protect biodiversity and create <span className="font-semibold text-sage-600">resilient ecosystems</span>.
+                    When you adopt a tree you support <span className="font-semibold text-sage-600">regenerative practices</span> that encourage biodiversity, enriches the land, strengthens the soil, and builds resilience year after year.
                   </p>
                   <p className="text-base sm:text-lg md:text-xl text-sage-800 leading-relaxed">
-                    You will receive updates on your tree's progress, seasonal photos and the 
-                    products it generates. A genuine way to reconnect with the land.
+                    Through an adoption, you follow the growth of your tree within a living ecosystem — learning how soil, biodiversity, and time work together to support resilient trees and landscapes. You will receive updates on your tree's progress, seasonal photos and the products it generates.
                   </p>
                 </div>
                 <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">

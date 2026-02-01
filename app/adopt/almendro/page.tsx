@@ -32,19 +32,19 @@ export default function AdoptAlmendroPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-sage-50 pb-20">
       <HeroSection
-        title="Adopta un almendro 🌳"
-        subtitle="Una adopción anual que cuida la tierra y acompaña un árbol real"
+        title="Adopt an Almond Tree 🌳"
+        subtitle="An annual adoption that cares for the land and accompanies a real tree"
         backHref="/adopt"
       />
       <section className="container mx-auto px-4 sm:px-6 py-8 max-w-2xl">
-        <h2 className="text-xl font-serif text-sage-900 mb-4">El almendro en Joyland</h2>
+        <h2 className="text-xl font-serif text-sage-900 mb-4">The Almond Tree at Joyland</h2>
         <p className="text-sage-700 mb-6 text-base sm:text-lg">
-          El almendro es el primer árbol en despertar tras el invierno, cubriendo la finca de flores blancas y rosadas. Su ciclo anuncia la primavera y la esperanza. Adoptar un almendro es celebrar la renovación y apoyar la biodiversidad mediterránea.
+          The almond tree is the first to awaken after winter, covering the farm with white and pink blossoms. Its cycle announces spring and hope. Adopting an almond tree is celebrating renewal and supporting Mediterranean biodiversity.
         </p>
       </section>
       <AdoptionIncludes className="my-8" />
       <PriceCTA price={125} treeType="almendro" loading={loading} onAdopt={handleAdopt} />
-      {error && <div className="text-center text-red-600 mt-4">{error}</div>}
+      {error && <div className="text-center text-red-600 mt-4">Error: {error}</div>}
     </div>
   );
 }

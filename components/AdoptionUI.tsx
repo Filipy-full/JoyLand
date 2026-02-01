@@ -9,7 +9,7 @@ export function HeroSection({ title, subtitle, backHref }: HeroSectionProps) {
   return (
     <section className="container mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-10 sm:pb-14">
       <div className="max-w-3xl mx-auto text-center">
-        <a href={backHref} className="inline-block mb-6 text-sage-600 hover:text-sage-800 text-sm transition-colors">← Volver a adoptar</a>
+        <a href={backHref} className="inline-block mb-6 text-sage-600 hover:text-sage-800 text-sm transition-colors">← Back to Adoption</a>
         <h1 className="text-4xl sm:text-5xl font-serif text-sage-900 mb-4 leading-tight">{title}</h1>
         <p className="text-lg sm:text-xl text-sage-600 max-w-2xl mx-auto leading-relaxed">{subtitle}</p>
       </div>
@@ -25,23 +25,23 @@ export function AdoptionIncludes({ className = '' }: AdoptionIncludesProps) {
   return (
     <section className={`max-w-2xl mx-auto ${className}`}>
       <div className="glass-card p-6 sm:p-8 rounded-3xl text-center">
-        <h2 className="text-xl sm:text-2xl font-serif text-sage-900 mb-6">¿Qué incluye tu adopción?</h2>
+        <h2 className="text-xl sm:text-2xl font-serif text-sage-900 mb-6">What's Included in Your Adoption?</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="flex flex-col items-center">
             <span className="text-2xl mb-2">🏷️</span>
-            <span className="text-xs text-sage-700 font-medium">Árbol con nombre</span>
+            <span className="text-xs text-sage-700 font-medium">Named Tree</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-2xl mb-2">📊</span>
-            <span className="text-xs text-sage-700 font-medium">Informe anual</span>
+            <span className="text-xs text-sage-700 font-medium">Annual Report</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-2xl mb-2">🎁</span>
-            <span className="text-xs text-sage-700 font-medium">Giftbox Joyland</span>
+            <span className="text-xs text-sage-700 font-medium">Joyland Gift Box</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-2xl mb-2">🗓️</span>
-            <span className="text-xs text-sage-700 font-medium">1 año de adopción</span>
+            <span className="text-xs text-sage-700 font-medium">1 Year Adoption</span>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@ export function PriceCTA({ price, treeType, loading, onAdopt }: PriceCTAProps) {
     <div className="max-w-xl mx-auto mt-10 text-center">
       <div className="mb-6">
         <span className="text-4xl font-bold text-sage-800">{price}€</span>
-        <span className="text-sage-600"> / año</span>
+        <span className="text-sage-600"> / year</span>
       </div>
       <button
         onClick={onAdopt}
@@ -77,7 +77,7 @@ export function PriceCTA({ price, treeType, loading, onAdopt }: PriceCTAProps) {
             <span>Procesando...</span>
           </>
         ) : (
-          'Adoptar este árbol'
+          'Adopt This Tree'
         )}
       </button>
     </div>

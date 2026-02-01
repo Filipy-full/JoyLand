@@ -40,7 +40,7 @@ export default function AdoptPage() {
         setLoadingType(null)
       }
     } catch (error) {
-      console.error('Error al crear sesión:', error)
+      console.error('Error creating session:', error)
       setLoadingType(null)
     }
   }

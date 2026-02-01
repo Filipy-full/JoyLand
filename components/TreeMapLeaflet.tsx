@@ -53,17 +53,17 @@ function TreeMapLeaflet({ trees, onTreeSelect }: { trees: any[]; onTreeSelect?: 
             <Popup>
               <div className="text-center">
                 <div className="font-bold text-sage-700 text-lg mb-1">
-                  {tree.type === 'olive' ? 'Olivo' : 'Almendro'} #{tree.id.replace(/[^0-9]/g, '')}
+                  {tree.type === 'olive' ? 'Olive' : 'Almond'} #{tree.id.replace(/[^0-9]/g, '')}
                 </div>
                 <div className={`inline-block px-2 py-1 rounded text-xs font-semibold ${tree.status === 'available' ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-600'}`}>
-                  {tree.status === 'available' ? 'Disponible' : 'Adoptado'}
+                  {tree.status === 'available' ? 'Available' : 'Adopted'}
                 </div>
                 <a
                   href={`/tree/${tree.id}`}
                   className="mt-3 inline-block bg-sage-600 text-white px-4 py-2 rounded-full hover:bg-sage-700 transition-all text-sm font-medium"
                   style={{ textDecoration: 'none' }}
                 >
-                  Ver árbol
+                  View Tree
                 </a>
               </div>
             </Popup>

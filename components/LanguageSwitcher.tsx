@@ -18,7 +18,7 @@ export default function LanguageSwitcher() {
     <button
       onClick={switchLanguage}
       className="fixed top-4 right-4 z-50 px-4 py-2 rounded-full bg-sage-700 text-white shadow-lg hover:bg-sage-800 transition"
-      aria-label={locale === 'en' ? 'Cambiar a Español' : 'Switch to English'}
+      aria-label={locale === 'en' ? 'Switch to Spanish' : 'Switch to English'}
     >
       {t('changeLanguage')}
     </button>

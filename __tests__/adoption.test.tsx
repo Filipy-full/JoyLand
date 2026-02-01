@@ -2,13 +2,14 @@ import { render, screen } from '@testing-library/react';
 import AdoptPageClient from '../components/AdoptPageClient';
 
 describe('AdoptPageClient', () => {
-  it('renderiza título principal', () => {
+  it('renders main title', () => {
     render(<AdoptPageClient trees={[]} />);
-    expect(screen.getByText(/Elige Tu Árbol Ahora/i)).toBeInTheDocument();
+    expect(screen.getByText(/Choose Your Tree Now/i)).toBeInTheDocument();
   });
 
-  it('mostra mensagem de seleção quando nenhum árvore está selecionada', () => {
+  it('shows selection message when no tree is selected', () => {
     render(<AdoptPageClient trees={[]} />);
-    expect(screen.getByText(/Selecciona un árbol/i)).toBeInTheDocument();
+    expect(screen.getByText(/Select a tree/i)).toBeInTheDocument();
+  });
   });
 });
