@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma'
+import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { notFound, redirect } from 'next/navigation'
 import CheckoutForm from '@/components/CheckoutForm'
 import Link from 'next/link'
@@ -11,9 +11,15 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id?: 
     notFound();
   }
 
-  const tree = await prisma.tree.findUnique({
-    where: { id },
-  });
+  const { data: tree, error } = await supabaseAdmin
+    .from('trees')
+    .select('id, name, type, status')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    notFound();
+  }
 
   if (!tree) {
     notFound();

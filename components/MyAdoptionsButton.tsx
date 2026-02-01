@@ -27,10 +27,10 @@ export function MyAdoptionsButton() {
   if (loading || !hasAdoptions) return null
   return (
     <a
-      href="/adopt/my-adoptions"
+      href="/dashboard"
       className="absolute top-4 right-4 bg-sage-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all z-30"
     >
-      My Adoptions
+      My tree
     </a>
   )
 }

@@ -43,6 +43,11 @@ model Adoption {
   endDate         DateTime
   stripeSessionId String?   @unique
   giftMessage     String?
+  status          String    @default("adopted") // "available", "adopted", "reserved"
+  paymentStatus   String    @default("completed") // "pending", "completed", "failed"
+  certificateUrl  String?   // URL del certificado generado
+  certificateCode String?   @unique // Código único del certificado
+  treeName        String?   // Nombre asignado al árbol por el usuario
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   

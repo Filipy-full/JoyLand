@@ -22,12 +22,28 @@ export default function AdminMessagesPage() {
     const fetchMessages = async () => {
       setLoading(true)
       setError('')
-      const { data, error } = await supabase
-        .from('contact_messages')
-        .select('*')
-        .order('created_at', { ascending: false })
-      if (error) setError(error.message)
-      else setMessages(data || [])
+      const session = await supabase.auth.getSession()
+      const token = session.data.session?.access_token
+
+      if (!token) {
+        setError('No autorizado')
+        setLoading(false)
+        return
+      }
+
+      const res = await fetch('/api/admin/messages', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        setError(body.error || 'Error al cargar mensajes')
+        setLoading(false)
+        return
+      }
+
+      const body = await res.json()
+      setMessages(body.messages || [])
       setLoading(false)
     }
     fetchMessages()

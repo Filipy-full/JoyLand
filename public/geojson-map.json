@@ -1,0 +1,1873 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1.743521440443252,
+              41.79058508339862,
+              0
+            ],
+            [
+              1.743753853840619,
+              41.79053388256636,
+              0
+            ],
+            [
+              1.743636745295079,
+              41.79032528903733,
+              0
+            ],
+            [
+              1.743420635210371,
+              41.79009776946618,
+              0
+            ],
+            [
+              1.743235906714631,
+              41.79002545401359,
+              0
+            ],
+            [
+              1.74341180532281,
+              41.78981316002255,
+              0
+            ],
+            [
+              1.743722520190685,
+              41.78961070019435,
+              0
+            ],
+            [
+              1.743783304859743,
+              41.78947341323133,
+              0
+            ],
+            [
+              1.743977716810741,
+              41.78930758626178,
+              0
+            ],
+            [
+              1.744051131052127,
+              41.78923819810844,
+              0
+            ],
+            [
+              1.744171473856269,
+              41.7891428831409,
+              0
+            ],
+            [
+              1.744279508675519,
+              41.78906658783687,
+              0
+            ],
+            [
+              1.744486533001561,
+              41.78893654993051,
+              0
+            ],
+            [
+              1.744637390463184,
+              41.78886267808841,
+              0
+            ],
+            [
+              1.744703067662663,
+              41.78891097471936,
+              0
+            ],
+            [
+              1.744757804211476,
+              41.78919377214761,
+              0
+            ],
+            [
+              1.744681200099982,
+              41.78952223030566,
+              0
+            ],
+            [
+              1.744590227799669,
+              41.78976006772928,
+              0
+            ],
+            [
+              1.744457968927875,
+              41.78997024147513,
+              0
+            ],
+            [
+              1.744415131000649,
+              41.79012974915753,
+              0
+            ],
+            [
+              1.74447869161706,
+              41.7903200926463,
+              0
+            ],
+            [
+              1.744546686924024,
+              41.79043018163114,
+              0
+            ],
+            [
+              1.744925530079731,
+              41.79071216894788,
+              0
+            ],
+            [
+              1.744536197752433,
+              41.79081959006853,
+              0
+            ],
+            [
+              1.744304659397324,
+              41.79086041243557,
+              0
+            ],
+            [
+              1.744162834951437,
+              41.79086076699348,
+              0
+            ],
+            [
+              1.743715999394562,
+              41.79097902323844,
+              0
+            ],
+            [
+              1.743521440443252,
+              41.79058508339862,
+              0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "name": "20",
+        "type": "zone",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte"
+      },
+      "id": "03DCCAFE463D3FCDB188"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744567368615324,
+          41.78896339990519
+        ]
+      },
+      "properties": {
+        "name": "2",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0538541CEA3D3FD1638F"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744659101048813,
+          41.78898896756327
+        ]
+      },
+      "properties": {
+        "name": "1",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0219F088133D3FD181B1"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744501152084825,
+          41.7890305385349
+        ]
+      },
+      "properties": {
+        "name": "3",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0AF0D47F5F3D3FD20EF4"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744349058670902,
+          41.7891598149096
+        ]
+      },
+      "properties": {
+        "name": "5",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0102DE5AAF3D3FD24796"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744259971646724,
+          41.78921976759051
+        ]
+      },
+      "properties": {
+        "name": "6",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "07B93B69523D3FD608FC"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744018877489886,
+          41.7893348978054
+        ]
+      },
+      "properties": {
+        "name": "11",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "092DE243163D3FD619B8"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.743952835607603,
+          41.78938456049425
+        ]
+      },
+      "properties": {
+        "name": "12",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0715816AAC3D3FD626DE"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744076663354839,
+          41.78936846693379
+        ]
+      },
+      "properties": {
+        "name": "10",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "08BC1B2ECF3D3FD6335E"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744004576326972,
+          41.78944579253157
+        ]
+      },
+      "properties": {
+        "name": "14",
+        "type": "tree",
+        "species": "Almendras",
+        "year": 2018,
+        "area": "Sul",
+        "adopted": false
+      },
+      "id": "03CA374C313D3FD63F0C"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.743873596852086,
+          41.78959552324115
+        ]
+      },
+      "properties": {
+        "name": "17",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "06A34540933D3FD70007"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744159933569662,
+          41.78930421313258
+        ]
+      },
+      "properties": {
+        "name": "8",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "00018CE5B43D3FDDF06C"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744133849393763,
+          41.7893290051824
+        ]
+      },
+      "properties": {
+        "name": "9",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "04838400A03D3FDDF807"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.743986228218599,
+          41.78949784049184
+        ]
+      },
+      "properties": {
+        "name": "15",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0D9C2DC9923D3FDE0E80"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744419878533456,
+          41.78911595564515
+        ]
+      },
+      "properties": {
+        "name": "4",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "00B53749323D3FDE373F"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744041483588799,
+          41.78940633222641
+        ]
+      },
+      "properties": {
+        "name": "13",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "03CA276F983D40C53FE8"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744001787647544,
+          41.78952300460347
+        ]
+      },
+      "properties": {
+        "name": "16",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0220EAB68B3D40C69406"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744623283508939,
+          41.78902495094547
+        ]
+      },
+      "properties": {
+        "name": "18",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "07A337A67A3D40CE0403"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744589939059957,
+          41.7890542458786
+        ]
+      },
+      "properties": {
+        "name": "19",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0B6453A2653D40CE9771"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.74454042890672,
+          41.78909977800236
+        ]
+      },
+      "properties": {
+        "name": "20",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "09F72195EB3D40CED468"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744553194633316,
+          41.78908765113376
+        ]
+      },
+      "properties": {
+        "name": "21",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "05985295FD3D40CFD4FC"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744524345142799,
+          41.78911201407952
+        ]
+      },
+      "properties": {
+        "name": "22",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0FA8533CF23D40D0C1DE"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744510147173799,
+          41.78912811058947
+        ]
+      },
+      "properties": {
+        "name": "23",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0E338295AD3D40D0EBC9"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744490575624837,
+          41.78914923090357
+        ]
+      },
+      "properties": {
+        "name": "24",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0EB45B54533D40D1C9F6"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744451888240901,
+          41.78918561444141
+        ]
+      },
+      "properties": {
+        "name": "25",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0134D59AE13D40D259A0"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.74441578011739,
+          41.78921147098978
+        ]
+      },
+      "properties": {
+        "name": "26",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0EADE45B053D40D284EF"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744381769433621,
+          41.78923627041841
+        ]
+      },
+      "properties": {
+        "name": "27",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "041D18D82D3D40D2E19E"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744348114461991,
+          41.7892605035231
+        ]
+      },
+      "properties": {
+        "name": "28",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0C6D0FCBF23D40D3029E"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744196356430989,
+          41.78926812629171
+        ]
+      },
+      "properties": {
+        "name": "7",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0567096D693D40D40FEB"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744313452932964,
+          41.78928777791057
+        ]
+      },
+      "properties": {
+        "name": "29",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0C889F7BFB3D40D4778C"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744281528822909,
+          41.7893047162931
+        ]
+      },
+      "properties": {
+        "name": "30",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "017073E7B63D40D67403"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744254272291057,
+          41.78932150310742
+        ]
+      },
+      "properties": {
+        "name": "31",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0D1B24852F3D40D71FEF"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744220300887527,
+          41.7893638808283
+        ]
+      },
+      "properties": {
+        "name": "62",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0E90C5AB993D40D964F9"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744022343179201,
+          41.78941934523876
+        ]
+      },
+      "properties": {
+        "name": "32",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "02E3C6EEAA3D40DE5DAF"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744691603030459,
+          41.78907124911286
+        ]
+      },
+      "properties": {
+        "name": "33",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "02542A4A6C3D40E19DC8"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744697397099504,
+          41.78916360955179
+        ]
+      },
+      "properties": {
+        "name": "34",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0A9F0975C93D40E1EE3E"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744705013246037,
+          41.78924553733376
+        ]
+      },
+      "properties": {
+        "name": "35",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "08862B9D8F3D40E20B99"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744670342736494,
+          41.7893574614998
+        ]
+      },
+      "properties": {
+        "name": "36",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "00823C8C393D40E28769"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744637142097176,
+          41.78946154074687
+        ]
+      },
+      "properties": {
+        "name": "37",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "088D7B33853D40E2AE34"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744627721727552,
+          41.78949775630021
+        ]
+      },
+      "properties": {
+        "name": "38",
+        "type": "tree",
+        "species": "Almendras",
+        "year": 2018,
+        "area": "Sul",
+        "adopted": false
+      },
+      "id": "0F8A2550063D40E68EEC"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744173448040844,
+          41.78941193182224
+        ]
+      },
+      "properties": {
+        "name": "39",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "041EA3328C3D40E7211F"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744517838920279,
+          41.78945331538352
+        ]
+      },
+      "properties": {
+        "name": "40",
+        "type": "tree",
+        "species": "Almendras",
+        "year": 2018,
+        "area": "Sul",
+        "adopted": false
+      },
+      "id": "0B8B83DF2F3D40E753E6"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744240642093366,
+          41.789439142432
+        ]
+      },
+      "properties": {
+        "name": "41",
+        "type": "tree",
+        "species": "Almendras",
+        "year": 2018,
+        "area": "Sul",
+        "adopted": false
+      },
+      "id": "087025699F3D40E79F40"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744131904377775,
+          41.78945707357432
+        ]
+      },
+      "properties": {
+        "name": "42",
+        "type": "tree",
+        "species": "Almendras",
+        "year": 2018,
+        "area": "Sul",
+        "adopted": false
+      },
+      "id": "04EC77B01A3D40E8F037"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744641274722378,
+          41.78909903121156
+        ]
+      },
+      "properties": {
+        "name": "43",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "046C03EA573D40EB4D04"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744612796799259,
+          41.78913206321422
+        ]
+      },
+      "properties": {
+        "name": "44",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0D78411AA23D40EB7D01"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744573388146817,
+          41.78915730770913
+        ]
+      },
+      "properties": {
+        "name": "45",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0AFE6A98893D40EB9EC7"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744538868696759,
+          41.78918682065054
+        ]
+      },
+      "properties": {
+        "name": "46",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "02F7310A863D40EBB570"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744512684983222,
+          41.78921464612978
+        ]
+      },
+      "properties": {
+        "name": "47",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0EF1812B2F3D40EC59F6"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744469776264523,
+          41.78924943698395
+        ]
+      },
+      "properties": {
+        "name": "48",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0CFDE7FC7B3D40EC7F3C"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744420181241295,
+          41.789281442059
+        ]
+      },
+      "properties": {
+        "name": "49",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "07F81C0B363D40ECB9F3"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744384520863225,
+          41.7893168820225
+        ]
+      },
+      "properties": {
+        "name": "50",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "00986F24753D40ECE8C0"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744314538530636,
+          41.78937286406066
+        ]
+      },
+      "properties": {
+        "name": "51",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0977CC07EF3D40ED02FC"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744539930812674,
+          41.78927228769837
+        ]
+      },
+      "properties": {
+        "name": "52",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "096957BD263D40ED6DAC"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744506074424341,
+          41.789289964481
+        ]
+      },
+      "properties": {
+        "name": "53",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0E9D7498C93D40ED8590"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744481863755891,
+          41.78931366177511
+        ]
+      },
+      "properties": {
+        "name": "54",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0D960A22013D40EDA9D3"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744462741258086,
+          41.78933111474117
+        ]
+      },
+      "properties": {
+        "name": "55",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0685F0F7213D40EDCF30"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.74445102117734,
+          41.78935034969741
+        ]
+      },
+      "properties": {
+        "name": "56",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0FB1FE94DA3D40EE220F"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744421381152166,
+          41.78938385903963
+        ]
+      },
+      "properties": {
+        "name": "57",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0AB17B10123D40EE64C8"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744381415695342,
+          41.78943657509998
+        ]
+      },
+      "properties": {
+        "name": "58",
+        "type": "tree",
+        "species": "Almendras",
+        "year": 2018,
+        "area": "Sul",
+        "adopted": false
+      },
+      "id": "0565B197AB3D40EE7C26"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744670519468323,
+          41.7892660906104
+        ]
+      },
+      "properties": {
+        "name": "59",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0DBDC788CD3D40F18CAF"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744635334213174,
+          41.78928491084356
+        ]
+      },
+      "properties": {
+        "name": "60",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "01E152F05F3D40F1BE9C"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744604408662513,
+          41.78931064924719
+        ]
+      },
+      "properties": {
+        "name": "61",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "04FD014D223D40F1DB0F"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744588288177207,
+          41.78933116863145
+        ]
+      },
+      "properties": {
+        "name": "63",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "05B2674DB13D40F32549"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744539951508499,
+          41.78938423550454
+        ]
+      },
+      "properties": {
+        "name": "64",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "04FFC438313D40F34090"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744504182203441,
+          41.78942412259067
+        ]
+      },
+      "properties": {
+        "name": "65",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0D366AAE633D40F36396"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744614166894056,
+          41.7895354901516
+        ]
+      },
+      "properties": {
+        "name": "66",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0F043328653D40FDECD4"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744598756729312,
+          41.78958363195516
+        ]
+      },
+      "properties": {
+        "name": "67",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0C988DE0C73D40FE3857"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744592310156157,
+          41.78960786972934
+        ]
+      },
+      "properties": {
+        "name": "68",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "01C77AD6AD3D40FE569C"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744586040527361,
+          41.78963787491357
+        ]
+      },
+      "properties": {
+        "name": "69",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0D9161701E3D40FEC387"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744561902568669,
+          41.78972509539107
+        ]
+      },
+      "properties": {
+        "name": "70",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0A4944C5EC3D40FEED2E"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744544902165743,
+          41.7897574515025
+        ]
+      },
+      "properties": {
+        "name": "71",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0C5EA26A4E3D40FF0834"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744534655835639,
+          41.78978521892932
+        ]
+      },
+      "properties": {
+        "name": "72",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "097A3282833D40FF30AE"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744528128148648,
+          41.78979517549588
+        ]
+      },
+      "properties": {
+        "name": "73",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0557DEB1AF3D40FF70BC"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744510247374707,
+          41.78983277376148
+        ]
+      },
+      "properties": {
+        "name": "74",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0CB61EDE893D40FF9F58"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744494794953844,
+          41.78985758699771
+        ]
+      },
+      "properties": {
+        "name": "75",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0886607CF83D40FFE107"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744482658568687,
+          41.78987345983411
+        ]
+      },
+      "properties": {
+        "name": "76",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "08966479A03D41001108"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744470203635882,
+          41.78989060285009
+        ]
+      },
+      "properties": {
+        "name": "77",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "073927537C3D41003031"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744451560607641,
+          41.78990616770835
+        ]
+      },
+      "properties": {
+        "name": "78",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "02C93C48983D41015AE8"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744434452120414,
+          41.78993294754353
+        ]
+      },
+      "properties": {
+        "name": "79",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0D991236D33D410174E1"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744423981477701,
+          41.78995676009063
+        ]
+      },
+      "properties": {
+        "name": "80",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "06DA4592E93D4101B233"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744412616588991,
+          41.78997606877353
+        ]
+      },
+      "properties": {
+        "name": "81",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0FA3C16E683D4101D068"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744385616796889,
+          41.79011343039171
+        ]
+      },
+      "properties": {
+        "name": "83",
+        "type": "tree",
+        "species": "Almendras",
+        "year": 2018,
+        "area": "Sul",
+        "adopted": false
+      },
+      "id": "08DD0624223D41021813"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744383999411443,
+          41.79008897693618
+        ]
+      },
+      "properties": {
+        "name": "82",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0CABAAB8DD3D410245E6"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.74431978113033,
+          41.79009310907632
+        ]
+      },
+      "properties": {
+        "name": "84",
+        "type": "tree",
+        "species": "Almendras",
+        "year": 2018,
+        "area": "Sul",
+        "adopted": false
+      },
+      "id": "00A5E347B33D41059850"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744321888781304,
+          41.7900715491999
+        ]
+      },
+      "properties": {
+        "name": "85",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0CE6874FFA3D4105C750"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744326584552076,
+          41.79004240583067
+        ]
+      },
+      "properties": {
+        "name": "86",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0E14EFD1EA3D41060774"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744334922414637,
+          41.79000544753163
+        ]
+      },
+      "properties": {
+        "name": "87",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "09DDD84AB73D41062C88"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744351104103026,
+          41.78995768180609
+        ]
+      },
+      "properties": {
+        "name": "88",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0F0FA120633D41066BAE"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744419672512876,
+          41.78987626672323
+        ]
+      },
+      "properties": {
+        "name": "90",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0A05702F433D4106941C"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.744380408750315,
+          41.78990559322469
+        ]
+      },
+      "properties": {
+        "name": "89",
+        "type": "tree",
+        "species": "Oliveira",
+        "year": 2019,
+        "area": "Norte",
+        "adopted": false
+      },
+      "id": "0E38CDEEF13D4106D8FB"
+    }
+  ]
+}

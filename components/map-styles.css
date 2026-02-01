@@ -1,0 +1,67 @@
+/* Estilos customizados para o mapa interativo */
+
+.leaflet-container {
+  background: linear-gradient(135deg, #f8fafb 0%, #f0f4f8 100%);
+}
+
+.leaflet-tile {
+  filter: brightness(1.1) contrast(0.95);
+}
+
+.custom-marker {
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-marker:hover {
+  transform: scale(1.2);
+  z-index: 1000;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.leaflet-popup-content {
+  font-family: inherit;
+}
+
+.leaflet-popup-tip {
+  background-color: #ffffff;
+}
+
+/* Botões do Leaflet */
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background-color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  color: #4a5568 !important;
+  font-size: 18px !important;
+}
+
+.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom-out:hover {
+  background-color: #f0f4f8 !important;
+  color: #2d3748 !important;
+}
+
+/* Atribuição do mapa */
+.leaflet-control-attribution {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 11px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .custom-marker {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .leaflet-popup-content {
+    font-size: 12px;
+  }
+}

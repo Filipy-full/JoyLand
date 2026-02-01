@@ -32,12 +32,14 @@ export default function LoginForm() {
       }
     } else {
       // Login
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) {
         setError(error.message)
         setLoading(false)
       } else {
-        router.push('/admin/messages')
+        const adminEmails = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com']
+        const userEmail = data.user?.email || ''
+        router.push(adminEmails.includes(userEmail) ? '/admin/messages' : '/dashboard')
       }
     }
   }

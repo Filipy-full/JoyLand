@@ -210,7 +210,7 @@ export default function Header() {
               </li>
               {isAdmin && (
                 <li>
-                  <Link 
+                  <Link
                     href="/admin" 
                     className="block text-sage-700 hover:text-sage-600 transition-colors font-medium py-2 hover:bg-sage-50 px-3 rounded-lg"
                     onClick={() => setIsMenuOpen(false)}

@@ -2,6 +2,7 @@
 "use client"
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabase'
 
 interface Tree {
   id: string
@@ -27,7 +28,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
     isGift: false,
   })
 
-  const price = tree.type === 'olive' ? 12000 : 10000 // Stripe uses cents
+  const price = tree.type === 'olive' ? 17500 : 12500 // Stripe uses cents
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -35,6 +36,15 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
     setError(null)
 
     try {
+      const { data: { user } } = await supabase.auth.getUser()
+
+      if (!user) {
+        setError('Debes iniciar sesión para continuar')
+        setLoading(false)
+        router.push('/login')
+        return
+      }
+
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: {
@@ -42,7 +52,12 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
         },
         body: JSON.stringify({
           treeId: tree.id,
-          ...formData,
+          treeType: tree.type,
+          treeName: formData.treeName,
+          giftMessage: formData.giftMessage,
+          userId: user.id,
+          userName: formData.adopterName,
+          userEmail: formData.adopterEmail,
           price,
         }),
       })

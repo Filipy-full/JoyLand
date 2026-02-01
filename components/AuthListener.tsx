@@ -1,28 +1,31 @@
 "use client"
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 export default function AuthListener({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const adminEmails = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com'];
 
   useEffect(() => {
-    // Redireciona imediatamente se já estiver autenticado
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) {
-        router.push("/admin");
-      }
-    });
-    // Continua ouvindo eventos de login
+    // Só redirecionar ao fazer login a partir de /login
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN") {
-        router.push("/admin");
+        const email = session?.user?.email || '';
+        if (pathname === '/login') {
+          if (adminEmails.includes(email)) {
+            router.push('/admin/messages');
+          } else {
+            router.push('/dashboard');
+          }
+        }
       }
     });
     return () => {
       listener?.subscription.unsubscribe();
     };
-  }, [router]);
+  }, [router, pathname]);
 
   return <>{children}</>;
 }

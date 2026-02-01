@@ -2,25 +2,11 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 export default function FloatingCTA() {
   const pathname = usePathname();
   const [isHovered, setIsHovered] = useState(false);
-  const [showPulse, setShowPulse] = useState(true);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowPulse(true);
-      setTimeout(() => setShowPulse(false), 2000);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Don't show on adopt pages or success page
-  if (pathname?.includes('/adopt') || pathname?.includes('/tree/')) {
-    return null;
-  }
 
   return (
     <>
@@ -51,12 +37,10 @@ export default function FloatingCTA() {
       
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 float-animation">
         {/* Animated pulse rings */}
-        {showPulse && (
-          <>
-            <div className="absolute inset-0 rounded-full bg-green-400/30 pulse-ring"></div>
-            <div className="absolute inset-0 rounded-full bg-green-400/20 pulse-ring" style={{ animationDelay: '0.5s' }}></div>
-          </>
-        )}
+        <>
+          <div className="absolute inset-0 rounded-full bg-green-400/30 pulse-ring"></div>
+          <div className="absolute inset-0 rounded-full bg-green-400/20 pulse-ring" style={{ animationDelay: '0.5s' }}></div>
+        </>
         
         {/* Main button */}
         <Link
@@ -81,8 +65,8 @@ export default function FloatingCTA() {
           </span>
           
           {/* Text */}
-          <span className="relative hidden sm:inline whitespace-nowrap">ADOPTAR AHORA</span>
-          <span className="relative sm:hidden whitespace-nowrap">ADOPTAR</span>
+          <span className="relative hidden sm:inline whitespace-nowrap">Adopt a tree</span>
+          <span className="relative sm:hidden whitespace-nowrap">Adopt</span>
           
           {/* Arrow */}
           <svg 

@@ -89,7 +89,7 @@ export default function AdoptPageClient({ trees }: AdoptPageClientProps) {
                     <div>
                       <span className="text-sm text-gray-500">Investment:</span>
                       <p className="text-3xl font-bold text-sage-700">
-                        €{selectedTree.type === 'olive' ? '120' : '100'}
+                        €{selectedTree.type === 'olive' ? '175' : '125'}
                       </p>
                       <p className="text-xs text-gray-500 line-through">Value: €{selectedTree.type === 'olive' ? '290' : '240'}</p>
                     </div>
@@ -150,7 +150,7 @@ export default function AdoptPageClient({ trees }: AdoptPageClientProps) {
                 </li>
               </ul>
               <div className="mt-4 pt-4 border-t border-sage-200">
-                <p className="text-xs text-gray-600"><strong>Total value:</strong> €290 → <span className="text-sage-700 font-bold text-lg">Only €100-120</span></p>
+                <p className="text-xs text-gray-600"><strong>Total value:</strong> €290 → <span className="text-sage-700 font-bold text-lg">Only €125-175</span></p>
               </div>
             </div>
           </div>
