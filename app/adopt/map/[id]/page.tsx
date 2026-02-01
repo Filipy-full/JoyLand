@@ -53,7 +53,7 @@ export default function TreeDetailPage() {
           latitude: coords[1],
           longitude: coords[0],
           adopted,
-          price: feature.properties.species === 'Oliveira' ? 175 : 125,
+          price: feature.properties.species === 'Oliveira' ? 2 : 2,
         }
 
         setTree(treeData)

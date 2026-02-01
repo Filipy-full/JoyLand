@@ -27,7 +27,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
     isGift: false,
   })
 
-  const price = tree.type === 'olive' ? 17500 : 12500 // Stripe uses cents
+  const price = 200 // Stripe uses cents (2€)
 
   const startCheckout = async (payload: {
     adopterName: string

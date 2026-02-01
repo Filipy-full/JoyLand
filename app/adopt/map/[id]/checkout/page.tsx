@@ -40,7 +40,7 @@ export default function CheckoutPage() {
             species: feature.properties.species,
             year: feature.properties.year,
             area: feature.properties.area,
-            price: feature.properties.species === 'Oliveira' ? 175 : 125,
+            price: feature.properties.species === 'Oliveira' ? 2 : 2,
             status,
           }
           setTree(treeData)

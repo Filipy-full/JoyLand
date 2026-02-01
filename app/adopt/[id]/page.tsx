@@ -30,7 +30,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id?: 
     redirect(`/tree/${tree.id}`);
   }
 
-  const price = tree.type === 'olive' ? 175 : 125;
+  const price = 2;
 
   return (
     <div className="container mx-auto px-6 py-12">
