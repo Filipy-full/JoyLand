@@ -25,8 +25,6 @@ export async function POST(req: NextRequest) {
     
     // Recuperar metadata del usuario
     const userId = session.metadata?.userId
-    const userName = session.metadata?.userName
-    const userEmail = session.metadata?.userEmail
     const treeId = session.metadata?.treeId
     const treeName = session.metadata?.treeName
     const giftMessage = session.metadata?.giftMessage
@@ -42,8 +40,6 @@ export async function POST(req: NextRequest) {
           .from('adoptions')
           .insert({
             user_id: userId,
-            user_name: userName,
-            user_email: userEmail,
             tree_id: treeId,
             status: 'adopted',
             payment_status: 'completed',

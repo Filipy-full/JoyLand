@@ -15,7 +15,7 @@ export default function AuthListener({ children }: { children: React.ReactNode }
         const email = session?.user?.email || '';
         if (pathname === '/login') {
           if (adminEmails.includes(email)) {
-            router.push('/admin/messages');
+            router.push('/admin');
           } else {
             router.push('/dashboard');
           }

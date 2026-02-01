@@ -22,13 +22,50 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
   
   const [formData, setFormData] = useState({
     adopterName: '',
-    adopterEmail: '',
     treeName: '',
     giftMessage: '',
     isGift: false,
   })
 
   const price = tree.type === 'olive' ? 17500 : 12500 // Stripe uses cents
+
+  const startCheckout = async (payload: {
+    adopterName: string
+    adopterEmail: string
+    treeName: string
+    giftMessage: string
+    treeId: string
+    treeType: string
+  }, userId: string) => {
+    const response = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        treeId: payload.treeId,
+        treeType: payload.treeType,
+        treeName: payload.treeName,
+        giftMessage: payload.giftMessage,
+        userId,
+        userName: payload.adopterName,
+        userEmail: payload.adopterEmail,
+        price,
+      }),
+    })
+
+    const data = await response.json()
+
+    if (data.error) {
+      setError(data.error)
+      setLoading(false)
+      return
+    }
+
+    if (data.url) {
+      window.location.href = data.url
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -38,42 +75,24 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
     try {
       const { data: { user } } = await supabase.auth.getUser()
 
+      const payload = {
+        adopterName: formData.adopterName || (user?.user_metadata?.name as string) || (user?.email?.split('@')[0] || ''),
+        adopterEmail: user?.email || '',
+        treeName: formData.treeName,
+        giftMessage: formData.giftMessage,
+        treeId: tree.id,
+        treeType: tree.type,
+      }
+
       if (!user) {
         setError('Debes iniciar sesión para continuar')
-        setLoading(false)
-        router.push('/login')
-        return
-      }
-
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          treeId: tree.id,
-          treeType: tree.type,
-          treeName: formData.treeName,
-          giftMessage: formData.giftMessage,
-          userId: user.id,
-          userName: formData.adopterName,
-          userEmail: formData.adopterEmail,
-          price,
-        }),
-      })
-
-      const data = await response.json()
-
-      if (data.error) {
-        setError(data.error)
+        const next = typeof window !== 'undefined' ? window.location.pathname : '/adopt'
+        router.push(`/login?next=${encodeURIComponent(next)}`)
         setLoading(false)
         return
       }
 
-      // Redirect to Stripe Checkout
-      if (data.url) {
-        window.location.href = data.url
-      }
+      await startCheckout(payload, user.id)
     } catch (err) {
       setError('Something went wrong. Please try again.')
       setLoading(false)
@@ -88,10 +107,10 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
         </div>
       )}
 
-      {/* Adopter Info */}
+      {/* Owner Info */}
       <div>
         <label htmlFor="adopterName" className="block text-sm font-medium text-gray-700 mb-2">
-          Your Name *
+          Owner Name *
         </label>
         <input
           type="text"
@@ -100,22 +119,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
           value={formData.adopterName}
           onChange={(e) => setFormData({ ...formData, adopterName: e.target.value })}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sage-500 focus:border-transparent"
-          placeholder="John Doe"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="adopterEmail" className="block text-sm font-medium text-gray-700 mb-2">
-          Your Email *
-        </label>
-        <input
-          type="email"
-          id="adopterEmail"
-          required
-          value={formData.adopterEmail}
-          onChange={(e) => setFormData({ ...formData, adopterEmail: e.target.value })}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sage-500 focus:border-transparent"
-          placeholder="tu@email.com"
+          placeholder="Your name"
         />
       </div>
 

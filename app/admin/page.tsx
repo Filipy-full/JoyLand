@@ -148,12 +148,6 @@ export default function AdminDashboard() {
               <p className="text-sm text-gray-600">Gestión de mensajes, adopciones y reportes</p>
             </div>
             <div className="flex items-center gap-3">
-              <a
-                href="/admin/messages"
-                className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold"
-              >
-                Messages
-              </a>
               <button
                 onClick={handleLogout}
                 className="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors text-sm font-semibold"

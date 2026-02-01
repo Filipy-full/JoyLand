@@ -1,6 +1,6 @@
 "use client"
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
 export default function LoginForm() {
@@ -11,6 +11,21 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false)
   const [isRegister, setIsRegister] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const nextParam = searchParams.get('next')
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        if (nextParam) {
+          router.replace(nextParam)
+        }
+      }
+    }
+
+    checkSession()
+  }, [nextParam, router])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,7 +54,13 @@ export default function LoginForm() {
       } else {
         const adminEmails = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com']
         const userEmail = data.user?.email || ''
-        router.push(adminEmails.includes(userEmail) ? '/admin/messages' : '/dashboard')
+        if (nextParam) {
+          router.push(nextParam)
+        } else if (adminEmails.includes(userEmail)) {
+          router.push('/admin')
+        } else {
+          router.push('/dashboard')
+        }
       }
     }
   }
@@ -47,7 +68,13 @@ export default function LoginForm() {
   const handleGoogleLogin = async () => {
     setLoading(true)
     setError('')
-    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' })
+    const redirectTo = typeof window !== 'undefined'
+      ? `${window.location.origin}${nextParam || '/dashboard'}`
+      : undefined
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo },
+    })
     if (error) setError(error.message)
     setLoading(false)
   }
