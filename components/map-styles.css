@@ -57,11 +57,59 @@
 /* Responsivo */
 @media (max-width: 768px) {
   .custom-marker {
-    width: 20px !important;
-    height: 20px !important;
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  .custom-marker:hover {
+    transform: scale(1.4);
   }
 
   .leaflet-popup-content {
     font-size: 12px;
+  }
+
+  .leaflet-control-zoom {
+    margin: 10px 10px !important;
+  }
+
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out {
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+  }
+}
+
+/* Extra pequeño (teléfono) */
+@media (max-width: 480px) {
+  .custom-marker {
+    width: 10px !important;
+    height: 10px !important;
+  }
+
+  .custom-marker:hover {
+    transform: scale(1.5);
+  }
+
+  .leaflet-popup-content-wrapper {
+    border-radius: 8px;
+  }
+
+  .leaflet-popup-content {
+    font-size: 11px;
+    margin: 6px 8px;
+  }
+
+  .leaflet-control-zoom {
+    margin: 8px 8px !important;
+  }
+
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out {
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+    font-size: 16px !important;
   }
 }

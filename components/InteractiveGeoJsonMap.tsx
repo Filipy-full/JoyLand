@@ -55,6 +55,7 @@ export default function InteractiveGeoJsonMap() {
   const map = useRef<L.Map | null>(null)
   const [selectedTree, setSelectedTree] = useState<TreeData | null>(null)
   const [trees, setTrees] = useState<TreeData[]>([])
+  const [isMobile, setIsMobile] = useState(false)
   const [stats, setStats] = useState({
     total: 0,
     oliva: 0,
@@ -62,27 +63,38 @@ export default function InteractiveGeoJsonMap() {
     adopted: 0,
   })
 
+  // Detectar si es móvil
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(typeof window !== 'undefined' && window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   useEffect(() => {
     if (!mapContainer.current) return
 
     // Inicializar mapa
     if (!map.current) {
       map.current = L.map(mapContainer.current).setView([41.7895, 1.7435], 18)
+      map.current.setMaxBounds(L.latLngBounds([41.78, 1.74], [41.80, 1.75]))
 
       // Diferentes capas base
       const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap',
-        maxZoom: 19,
+        maxZoom: 22,
       })
 
       const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: '© Esri',
-        maxZoom: 18,
+        maxZoom: 21,
       })
 
       const topoLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenTopoMap',
-        maxZoom: 17,
+        maxZoom: 20,
       })
 
       // Agregar capa satélite por defecto
@@ -143,31 +155,52 @@ export default function InteractiveGeoJsonMap() {
               adoptedCount++
             }
 
-            // Determinar cor com base no status
+            // Determinar cor con base no status
             const color = tree.adopted
               ? '#9e9e9e'
               : feature.properties.species === 'Oliveira'
               ? '#1976d2'
               : '#d32f2f'
+            
+            // Tamaño responsivo: 10px en móvil, 14px en tablet, 16px en desktop
+            let markerSize = 16
+            let fontSize = '10px'
+            let borderWidth = 2
+            
+            if (typeof window !== 'undefined') {
+              if (window.innerWidth < 480) {
+                markerSize = 10
+                fontSize = '8px'
+                borderWidth = 1.5
+              } else if (window.innerWidth < 768) {
+                markerSize = 12
+                fontSize = '9px'
+                borderWidth = 1.5
+              }
+            }
+            
             const icon = L.divIcon({
               className: 'custom-marker',
               html: `
                 <div style="
-                  width: 24px;
-                  height: 24px;
+                  width: ${markerSize}px;
+                  height: ${markerSize}px;
                   background-color: ${color};
-                  border: 3px solid white;
+                  border: ${borderWidth}px solid white;
                   border-radius: 50%;
-                  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                   cursor: pointer;
                   display: flex;
                   align-items: center;
                   justify-content: center;
+                  position: relative;
                 ">
-                  <span style="color: white; font-size: 12px; font-weight: bold;">${tree.name}</span>
+                  <span style="color: white; font-size: ${fontSize}; font-weight: bold; position: absolute; white-space: nowrap;">${tree.name}</span>
                 </div>
               `,
-              iconSize: [24, 24],
+              iconSize: [markerSize, markerSize],
+              iconAnchor: [markerSize / 2, markerSize / 2],
+              popupAnchor: [0, -(markerSize / 2)],
             })
 
             const marker = L.marker([coords[1], coords[0]], { icon })
