@@ -12,6 +12,9 @@ type SessionData = {
   metadata?: {
     treeId?: string
     treeName?: string
+    treeIds?: string
+    treeNames?: string
+    treeCount?: string
   }
 }
 
@@ -25,12 +28,29 @@ function SuccessContent() {
   const [error, setError] = useState<string | null>(null)
   const [countdown, setCountdown] = useState(4)
 
-  const treeId = useMemo(() => session?.metadata?.treeId, [session])
-  const treeName = useMemo(() => session?.metadata?.treeName, [session])
+  const assignedTrees = useMemo(() => {
+    const metadata = session?.metadata
+    if (!metadata) return []
+
+    if (metadata.treeIds) {
+      const ids = metadata.treeIds.split(',').map((id) => id.trim()).filter(Boolean)
+      const names = metadata.treeNames?.split(',').map((name) => name.trim()) || []
+      return ids.map((id, index) => ({ id, name: names[index] || `#${id}` }))
+    }
+
+    if (metadata.treeId) {
+      return [{ id: metadata.treeId, name: metadata.treeName || `#${metadata.treeId}` }]
+    }
+
+    return []
+  }, [session])
+
+  const singleTree = assignedTrees.length === 1 ? assignedTrees[0] : null
 
   useEffect(() => {
     const loadSession = async () => {
       if (!sessionId) {
+        setError('Sesión no encontrada. Revisa tu dashboard.')
         setLoading(false)
         return
       }
@@ -53,12 +73,12 @@ function SuccessContent() {
   }, [sessionId])
 
   useEffect(() => {
-    if (!treeId) return
+    if (!singleTree?.id) return
 
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
-          router.push(`/tree/${treeId}`)
+          router.push(`/tree/${singleTree.id}`)
           return 0
         }
         return prev - 1
@@ -66,7 +86,7 @@ function SuccessContent() {
     }, 1000)
 
     return () => clearInterval(timer)
-  }, [router, treeId])
+  }, [router, singleTree?.id])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-sage-50 flex items-center justify-center px-4">
@@ -79,7 +99,7 @@ function SuccessContent() {
           <p className="text-xl text-sage-600 font-semibold mb-2">
             Tu adopción fue procesada correctamente
           </p>
-          {treeId && (
+          {singleTree && (
             <p className="text-sage-600 text-sm">
               Serás redirigido a la página de tu árbol en {countdown} segundos...
             </p>
@@ -102,19 +122,24 @@ function SuccessContent() {
               <p>✅ Adopción registrada en el sistema</p>
               <p>✅ Certificado en preparación</p>
               <p>✅ Acceso a tu dashboard personal</p>
-              {treeId && (
-                <p>
-                  🌳 Árbol asignado: <span className="font-semibold">{treeName || `#${treeId}`}</span>
-                </p>
+              {assignedTrees.length > 0 && (
+                <div>
+                  <p className="font-semibold">🌳 Árbol(es) asignado(s):</p>
+                  <ul className="list-disc list-inside">
+                    {assignedTrees.map((tree) => (
+                      <li key={tree.id}>{tree.name}</li>
+                    ))}
+                  </ul>
+                </div>
               )}
             </div>
           )}
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          {treeId ? (
+          {singleTree ? (
             <Link
-              href={`/tree/${treeId}`}
+              href={`/tree/${singleTree.id}`}
               className="bg-sage-600 hover:bg-sage-700 text-white px-8 py-3 rounded-lg font-semibold transition inline-block"
             >
               Ver Mi Árbol

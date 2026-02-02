@@ -1,7 +1,6 @@
 
 'use client'
 import React, { useState } from 'react'
-import { supabase } from '@/lib/supabase'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -19,15 +18,15 @@ export default function ContactPage() {
     setErrorMessage('')
 
     try {
-      const { error } = await supabase.from('contact_messages').insert([
-        {
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-        }
-      ])
-      if (!error) {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
         setStatus('success')
         setFormData({ name: '', email: '', subject: '', message: '' })
       } else {

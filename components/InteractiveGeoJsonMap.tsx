@@ -1,10 +1,12 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import './map-styles.css'
 import Link from 'next/link'
+import { useAdoptionCart } from '@/contexts/AdoptionCart'
 
 // Importar ícones do Leaflet
 import icon from 'leaflet/dist/images/marker-icon.png'
@@ -30,6 +32,7 @@ interface GeoJSONFeature {
     year: number
     area: string
     adopted?: boolean
+    status?: string
   }
   id: string
 }
@@ -51,17 +54,82 @@ interface TreeData {
 }
 
 export default function InteractiveGeoJsonMap() {
+  const searchParams = useSearchParams()
   const mapContainer = useRef<HTMLDivElement>(null)
   const map = useRef<L.Map | null>(null)
+  const markers = useRef<L.Marker[]>([])
   const [selectedTree, setSelectedTree] = useState<TreeData | null>(null)
-  const [trees, setTrees] = useState<TreeData[]>([])
+  const [mapTrees, setMapTrees] = useState<TreeData[]>([])
   const [isMobile, setIsMobile] = useState(false)
+  const [geoJsonData, setGeoJsonData] = useState<GeoJSONData | null>(null)
+  const [filters, setFilters] = useState({
+    adopted: false,
+    oliva: true,
+    almendra: true,
+  })
+  const [showMobileLegend, setShowMobileLegend] = useState(false)
   const [stats, setStats] = useState({
     total: 0,
     oliva: 0,
     almendras: 0,
     adopted: 0,
   })
+  const [addingToCart, setAddingToCart] = useState(false)
+  const [almondPrice, setAlmondPrice] = useState<number>(20000)
+  const [olivePrice, setOlivePrice] = useState<number>(20000)
+  const { addTree, trees, getTreeCount } = useAdoptionCart()
+
+  // Obtener precios dinámicos
+  useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        const res = await fetch('/api/admin/pricing')
+        if (res.ok) {
+          const data = await res.json()
+          setAlmondPrice(Math.round(data.almondPrice * 100))
+          setOlivePrice(Math.round(data.olivePrice * 100))
+        }
+      } catch (err) {
+        console.error('Error fetching prices:', err)
+      }
+    }
+    fetchPrices()
+    const interval = setInterval(fetchPrices, 5000)
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    const filterParam = searchParams.get('filter')
+    if (filterParam === 'almond') {
+      setFilters((prev) => ({ ...prev, almendra: true, oliva: false }))
+    } else if (filterParam === 'olive') {
+      setFilters((prev) => ({ ...prev, oliva: true, almendra: false }))
+    }
+  }, [searchParams])
+
+  // Verificar si el árbol seleccionado está en el carrito
+  const isTreeInCart = selectedTree ? trees.some(t => t.id === selectedTree.id) : false
+  const handleAddToCart = (tree: TreeData) => {
+    setAddingToCart(true)
+    try {
+      const treeType = tree.species === 'Oliveira' ? 'olivo' : 'almendro'
+      const price = treeType === 'olivo' ? olivePrice : almondPrice
+      addTree({
+        id: tree.id,
+        name: tree.name,
+        species: tree.species,
+        type: treeType,
+        price: price,
+        area: tree.area,
+        year: tree.year,
+      })
+      // NO cerrar el panel, dejar que aparezca el botón del carrito
+    } catch (err) {
+      console.error('Error adding tree:', err)
+    } finally {
+      setAddingToCart(false)
+    }
+  }
 
   // Detectar si es móvil
   useEffect(() => {
@@ -72,6 +140,155 @@ export default function InteractiveGeoJsonMap() {
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
+
+  // Función para actualizar estados de árboles desde API
+  const updateTreeStates = async (geojsonData: GeoJSONData) => {
+    try {
+      const treesResponse = await fetch('/api/trees').then((res) => res.json())
+      const statusMap = new Map<string, { status?: string; name?: string }>()
+      ;(treesResponse.trees || []).forEach((t: any) => {
+        statusMap.set(t.id, { status: t.status, name: t.name })
+      })
+
+      const parsedTrees: TreeData[] = []
+      let olivaCount = 0
+      let almendrasCount = 0
+      let adoptedCount = 0
+
+      geojsonData.features.forEach((feature) => {
+        if (feature.properties.type === 'tree') {
+          const coords = feature.geometry.coordinates as number[]
+          const dbInfo = statusMap.get(feature.id)
+          // Si está en DB, usar su status; si no, chequear GeoJSON
+          const treeStatus = dbInfo?.status || feature.properties.status || 'available'
+          const adopted = treeStatus !== 'available'
+
+          const tree: TreeData = {
+            id: feature.id,
+            name: dbInfo?.name || feature.properties.name,
+            species: feature.properties.species,
+            year: feature.properties.year,
+            area: feature.properties.area,
+            latitude: coords[1],
+            longitude: coords[0],
+            adopted,
+          }
+          parsedTrees.push(tree)
+
+          if (tree.species === 'Oliveira') {
+            olivaCount++
+          } else if (tree.species === 'Almendras') {
+            almendrasCount++
+          }
+
+          if (tree.adopted) {
+            adoptedCount++
+          }
+        }
+      })
+
+      setMapTrees(parsedTrees)
+      setStats({
+        total: parsedTrees.length,
+        oliva: olivaCount,
+        almendras: almendrasCount,
+        adopted: adoptedCount,
+      })
+
+      return parsedTrees
+    } catch (error) {
+      console.error('Error updating tree states:', error)
+      return []
+    }
+  }
+
+  // Función para renderizar marcadores en el mapa
+  const renderMarkers = (parsedTrees: TreeData[], geojsonData: GeoJSONData) => {
+    // Limpiar marcadores anteriores
+    markers.current.forEach((marker) => {
+      if (map.current) {
+        map.current.removeLayer(marker)
+      }
+    })
+    markers.current = []
+
+    parsedTrees.forEach((tree) => {
+      const isOliva = tree.species === 'Oliveira'
+      const isAlmendra = tree.species === 'Almendras'
+      const matchesSpecies = (isOliva && filters.oliva) || (isAlmendra && filters.almendra)
+      const matchesAdopted = tree.adopted ? filters.adopted : true
+
+      if (!matchesSpecies || !matchesAdopted) return
+
+      // Encontrar la feature correspondiente en GeoJSON
+      const feature = geojsonData.features.find((f) => f.id === tree.id && f.properties.type === 'tree') as GeoJSONFeature | undefined
+      if (!feature) return
+
+      const coords = feature.geometry.coordinates as number[]
+      const color = tree.adopted ? '#9e9e9e' : feature.properties.species === 'Oliveira' ? '#1976d2' : '#d32f2f'
+
+      // Tamaño responsivo
+      let markerSize = 16
+      let fontSize = '10px'
+      let borderWidth = 2
+
+      if (typeof window !== 'undefined') {
+        if (window.innerWidth < 480) {
+          markerSize = 10
+          fontSize = '8px'
+          borderWidth = 1.5
+        } else if (window.innerWidth < 768) {
+          markerSize = 12
+          fontSize = '9px'
+          borderWidth = 1.5
+        }
+      }
+
+      const icon = L.divIcon({
+        className: 'custom-marker',
+        html: `
+          <div style="
+            width: ${markerSize}px;
+            height: ${markerSize}px;
+            background-color: ${color};
+            border: ${borderWidth}px solid white;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s ease;
+          ">
+            <span style="color: white; font-size: ${fontSize}; font-weight: bold; position: absolute; white-space: nowrap;">${tree.name}</span>
+          </div>
+        `,
+        iconSize: [markerSize, markerSize],
+        iconAnchor: [markerSize / 2, markerSize / 2],
+        popupAnchor: [0, -(markerSize / 2)],
+      })
+
+      const marker = L.marker([coords[1], coords[0]], { icon })
+        .addTo(map.current!)
+        .on('click', () => {
+          // Solo permitir seleccionar si no está adoptado
+          if (!tree.adopted) {
+            setSelectedTree(tree)
+          }
+        })
+
+      marker.bindPopup(
+        `<strong>Árvore #${tree.name}</strong><br/>
+         Espécie: ${feature.properties.species}<br/>
+         Ano: ${feature.properties.year}<br/>
+         Zona: ${feature.properties.area}<br/>
+         Estado: ${tree.adopted ? 'Adoptada ✓' : 'Disponible'}`
+      )
+
+      markers.current.push(marker)
+    })
+  }
 
   useEffect(() => {
     if (!mapContainer.current) return
@@ -97,10 +314,8 @@ export default function InteractiveGeoJsonMap() {
         maxZoom: 20,
       })
 
-      // Agregar capa satélite por defecto
       satelliteLayer.addTo(map.current)
 
-      // Control de capas
       const baseLayers = {
         'OpenStreetMap': osmLayer,
         'Satélite': satelliteLayer,
@@ -110,130 +325,44 @@ export default function InteractiveGeoJsonMap() {
       L.control.layers(baseLayers).addTo(map.current)
     }
 
-    // Carregar GeoJSON e estados de Supabase
-    Promise.all([
-      fetch('/geojson-map.json').then((res) => res.json()),
-      fetch('/api/trees').then((res) => res.json()),
-    ])
-      .then(([data, treesResponse]: [GeoJSONData, { trees?: Array<{ id: string; status?: string; name?: string }> }]) => {
-        const statusMap = new Map<string, { status?: string; name?: string }>()
-        ;(treesResponse.trees || []).forEach((t) => {
-          statusMap.set(t.id, { status: t.status, name: t.name })
+    // Carregar GeoJSON una sola vez
+    if (!geoJsonData) {
+      // Primero, sincronizar las adopciones con la BD
+      fetch('/api/trees?sync=true')
+        .then((res) => res.json())
+        .catch((error) => console.error('Error syncing adoptions:', error))
+        .then(() => {
+          // Luego cargar el GeoJSON
+          return fetch('/geojson-map.json').then((res) => res.json())
         })
-
-        const parsedTrees: TreeData[] = []
-        let olivaCount = 0
-        let almendrasCount = 0
-        let adoptedCount = 0
-
-        data.features.forEach((feature) => {
-          if (feature.properties.type === 'tree') {
-            const coords = feature.geometry.coordinates as number[]
-            const dbInfo = statusMap.get(feature.id)
-            const adopted = dbInfo?.status ? dbInfo.status !== 'available' : (feature.properties.adopted || false)
-
-            const tree: TreeData = {
-              id: feature.id,
-              name: dbInfo?.name || feature.properties.name,
-              species: feature.properties.species,
-              year: feature.properties.year,
-              area: feature.properties.area,
-              latitude: coords[1],
-              longitude: coords[0],
-              adopted,
-            }
-            parsedTrees.push(tree)
-
-            // Contar estadísticas
-            if (tree.species === 'Oliveira') {
-              olivaCount++
-            } else if (tree.species === 'Almendras') {
-              almendrasCount++
-            }
-
-            if (tree.adopted) {
-              adoptedCount++
-            }
-
-            // Determinar cor con base no status
-            const color = tree.adopted
-              ? '#9e9e9e'
-              : feature.properties.species === 'Oliveira'
-              ? '#1976d2'
-              : '#d32f2f'
-            
-            // Tamaño responsivo: 10px en móvil, 14px en tablet, 16px en desktop
-            let markerSize = 16
-            let fontSize = '10px'
-            let borderWidth = 2
-            
-            if (typeof window !== 'undefined') {
-              if (window.innerWidth < 480) {
-                markerSize = 10
-                fontSize = '8px'
-                borderWidth = 1.5
-              } else if (window.innerWidth < 768) {
-                markerSize = 12
-                fontSize = '9px'
-                borderWidth = 1.5
-              }
-            }
-            
-            const icon = L.divIcon({
-              className: 'custom-marker',
-              html: `
-                <div style="
-                  width: ${markerSize}px;
-                  height: ${markerSize}px;
-                  background-color: ${color};
-                  border: ${borderWidth}px solid white;
-                  border-radius: 50%;
-                  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-                  cursor: pointer;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  position: relative;
-                ">
-                  <span style="color: white; font-size: ${fontSize}; font-weight: bold; position: absolute; white-space: nowrap;">${tree.name}</span>
-                </div>
-              `,
-              iconSize: [markerSize, markerSize],
-              iconAnchor: [markerSize / 2, markerSize / 2],
-              popupAnchor: [0, -(markerSize / 2)],
-            })
-
-            const marker = L.marker([coords[1], coords[0]], { icon })
-              .addTo(map.current!)
-              .on('click', () => {
-                setSelectedTree(tree)
-              })
-
-            // Adicionar popup no hover
-            marker.bindPopup(
-              `<strong>Árvore #${tree.name}</strong><br/>
-               Espécie: ${feature.properties.species}<br/>
-               Ano: ${feature.properties.year}<br/>
-               Zona: ${feature.properties.area}<br/>
-               Estado: ${tree.adopted ? 'Adoptada' : 'Disponible'}`
-            )
-          }
+        .then((data) => {
+          setGeoJsonData(data)
+          // Actualizar estados de árboles e inicializar mapa
+          return updateTreeStates(data).then((parsedTrees) => {
+            renderMarkers(parsedTrees, data)
+          })
         })
-
-        setTrees(parsedTrees)
-        setStats({
-          total: parsedTrees.length,
-          oliva: olivaCount,
-          almendras: almendrasCount,
-          adopted: adoptedCount,
-        })
-      })
-      .catch((error) => console.error('Erro ao carregar dados do mapa:', error))
-
-    return () => {
-      // Limpeza se necessário
+        .catch((error) => console.error('Error loading GeoJSON:', error))
     }
-  }, [])
+  }, [geoJsonData])
+
+  // Actualizar marcadores cada 30 segundos
+  useEffect(() => {
+    if (!geoJsonData) return
+
+    const interval = setInterval(() => {
+      updateTreeStates(geoJsonData).then((parsedTrees) => {
+        renderMarkers(parsedTrees, geoJsonData)
+      })
+    }, 30000) // Cada 30 segundos
+
+    return () => clearInterval(interval)
+  }, [geoJsonData])
+
+  useEffect(() => {
+    if (!geoJsonData) return
+    renderMarkers(mapTrees, geoJsonData)
+  }, [filters, geoJsonData, mapTrees])
 
   return (
     <div className="flex flex-col md:flex-row w-full h-full gap-0 overflow-hidden bg-white relative z-0">
@@ -249,7 +378,72 @@ export default function InteractiveGeoJsonMap() {
           }}
         />
 
-        {/* Legenda - Responsive */}
+        {/* Botón Filtros - Mobile */}
+        <div className="sm:hidden absolute bottom-4 right-4 z-20">
+          <button
+            onClick={() => setShowMobileLegend((prev) => !prev)}
+            className="bg-white/95 backdrop-blur border border-gray-200 shadow-md text-gray-700 text-[12px] font-semibold px-4 py-2 rounded-full"
+          >
+            {showMobileLegend ? 'Cerrar filtros' : 'Filtros'}
+          </button>
+        </div>
+
+        {showMobileLegend && (
+          <div className="sm:hidden absolute bottom-12 left-3 right-3 bg-white/95 backdrop-blur rounded-lg shadow-md border border-gray-200 z-20">
+            <div className="px-3 py-2">
+              <h3 className="font-semibold text-gray-800 text-xs">Leyenda</h3>
+              <div className="mt-2 space-y-1">
+                <div className="flex items-center gap-2 text-[11px] text-gray-700">
+                  <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#9e9e9e' }}></span>
+                  Adoptado
+                </div>
+                <div className="flex items-center gap-2 text-[11px] text-gray-700">
+                  <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#d32f2f' }}></span>
+                  Almendra
+                </div>
+                <div className="flex items-center gap-2 text-[11px] text-gray-700">
+                  <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#1976d2' }}></span>
+                  Oliva
+                </div>
+              </div>
+
+              <div className="mt-3 pt-2 border-t border-gray-200">
+                <h4 className="font-semibold mb-1 text-gray-800 text-xs">Filtros</h4>
+                <div className="space-y-1">
+                  <label className="flex items-center gap-2 text-[11px] text-gray-700 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={filters.adopted}
+                      onChange={(e) => setFilters((prev) => ({ ...prev, adopted: e.target.checked }))}
+                      className="accent-sage-600"
+                    />
+                    Adoptado
+                  </label>
+                  <label className="flex items-center gap-2 text-[11px] text-gray-700 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={filters.almendra}
+                      onChange={(e) => setFilters((prev) => ({ ...prev, almendra: e.target.checked }))}
+                      className="accent-sage-600"
+                    />
+                    Almendras
+                  </label>
+                  <label className="flex items-center gap-2 text-[11px] text-gray-700 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={filters.oliva}
+                      onChange={(e) => setFilters((prev) => ({ ...prev, oliva: e.target.checked }))}
+                      className="accent-sage-600"
+                    />
+                    Olivas
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Legenda + Filtros - Responsive */}
         <div className="hidden sm:block absolute bottom-4 left-4 bg-white rounded-lg shadow-md border border-gray-200 z-20 overflow-hidden">
           <div className="px-4 py-3">
             <h3 className="font-semibold mb-2 text-gray-800 text-xs">Leyenda</h3>
@@ -267,6 +461,46 @@ export default function InteractiveGeoJsonMap() {
                   style={{ backgroundColor: '#d32f2f' }}
                 ></div>
                 <span className="text-xs text-gray-700">Almendras</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-4 h-4 rounded-full border-2 border-white"
+                  style={{ backgroundColor: '#9e9e9e' }}
+                ></div>
+                <span className="text-xs text-gray-700">Adoptado</span>
+              </div>
+            </div>
+
+            <div className="mt-3 pt-3 border-t border-gray-200">
+              <h4 className="font-semibold mb-2 text-gray-800 text-xs">Filtros</h4>
+              <div className="space-y-1.5">
+                <label className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.adopted}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, adopted: e.target.checked }))}
+                    className="accent-sage-600"
+                  />
+                  Adoptado
+                </label>
+                <label className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.almendra}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, almendra: e.target.checked }))}
+                    className="accent-sage-600"
+                  />
+                  Almendras
+                </label>
+                <label className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.oliva}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, oliva: e.target.checked }))}
+                    className="accent-sage-600"
+                  />
+                  Olivas
+                </label>
               </div>
             </div>
           </div>
@@ -328,6 +562,12 @@ export default function InteractiveGeoJsonMap() {
                 <p className="text-gray-500 text-xs">Lon</p>
                 <p className="font-mono text-gray-800 text-xs">{selectedTree.longitude.toFixed(4)}</p>
               </div>
+              <div className="col-span-2 border-b border-gray-200 pb-2">
+                <p className="text-gray-500 text-xs">Precio</p>
+                <p className="font-bold text-lg text-green-600">
+                  €{selectedTree.species === 'Oliveira' ? (olivePrice / 100).toFixed(2) : (almondPrice / 100).toFixed(2)}
+                </p>
+              </div>
             </div>
           </div>
 
@@ -341,11 +581,24 @@ export default function InteractiveGeoJsonMap() {
               </Link>
             ) : (
               <>
-                <Link href={`/adopt/map/${selectedTree.id}`}>
-                  <button className="w-full bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800 text-white text-xs md:text-sm font-bold py-1.5 md:py-2 rounded transition duration-200">
-                    🌱 Adoptar
+                {/* Botones condicionales basados en estado del carrito */}
+                {!isTreeInCart ? (
+                  // Botón para agregar al carrito (solo si no está en el carrito)
+                  <button
+                    onClick={() => handleAddToCart(selectedTree)}
+                    disabled={addingToCart}
+                    className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white text-xs md:text-sm font-bold py-1.5 md:py-2 rounded transition flex items-center justify-center gap-2"
+                  >
+                    {addingToCart ? '⏳ Agregando...' : '✅ Agregar al Carrito'}
                   </button>
-                </Link>
+                ) : (
+                  // Botón para ir al carrito (solo si el árbol está en el carrito)
+                  <Link href="/adopt/checkout">
+                    <button className="w-full bg-amber-600 hover:bg-amber-700 text-white text-xs md:text-sm font-bold py-1.5 md:py-2 rounded transition flex items-center justify-center gap-2">
+                      🛒 Carrito ({getTreeCount()})
+                    </button>
+                  </Link>
+                )}
               </>
             )}
             <button

@@ -172,19 +172,19 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white px-8 py-5 rounded-full hover:shadow-2xl transition-all font-bold text-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
+        className="w-full bg-gradient-to-r from-sage-600 to-sage-700 text-white px-8 py-4 rounded-lg hover:shadow-lg transition-all font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? 'Processing...' : `🔒 PAY €${price / 100} - ADOPT NOW`}
+        {loading ? 'Procesando...' : `Continuar al Pago → €${price / 100}`}
       </button>
 
       <div className="text-center space-y-2">
         <p className="text-xs text-gray-500">
-          100% secure payment with SSL encryption
+          🔒 Pagamento 100% seguro por Stripe
         </p>
-        <div className="flex items-center justify-center gap-4 text-xs text-gray-500">
-          <span>✓ Satisfaction guarantee</span>
-          <span>✓ Free shipping</span>
-          <span>✓ 24/7 support</span>
+        <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+          <span>✓ Datos protegidos</span>
+          <span>•</span>
+          <span>✓ SSL encriptado</span>
         </div>
       </div>
     </form>

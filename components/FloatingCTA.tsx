@@ -8,6 +8,20 @@ export default function FloatingCTA() {
   const pathname = usePathname();
   const [isHovered, setIsHovered] = useState(false);
 
+  // No mostrar en páginas de adopción
+  const hiddenPaths = [
+    '/adopt',
+    '/adopt/map',
+    '/adopt/checkout',
+    '/adopt/success',
+  ]
+  
+  const isHidden = hiddenPaths.some(path => pathname?.startsWith(path))
+  
+  if (isHidden) {
+    return null
+  }
+
   return (
     <>
       <style jsx>{`

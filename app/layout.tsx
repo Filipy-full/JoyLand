@@ -8,6 +8,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingCTA from "@/components/FloatingCTA";
 import AuthListener from "@/components/AuthListener";
+import SitePassword from "@/components/SitePassword";
+import { AdoptionCartProvider } from "@/contexts/AdoptionCart";
 
 const serif = Libre_Baskerville({
   weight: ["400", "700"],
@@ -45,14 +47,18 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <meta name="theme-color" content="#4ADE80" />
       </head>
       <body className={`${sans.variable} ${serif.variable} antialiased font-sans`}>
-        <Header />
-        <FloatingCTA />
-        <AuthListener>
-          <main className="min-h-screen pt-20">
-            {children}
-          </main>
-        </AuthListener>
-        <Footer />
+        <SitePassword>
+          <AdoptionCartProvider>
+            <Header />
+            <FloatingCTA />
+            <AuthListener>
+              <main className="min-h-screen pt-20">
+                {children}
+              </main>
+            </AuthListener>
+            <Footer />
+          </AdoptionCartProvider>
+        </SitePassword>
         <SpeedInsights />
       </body>
     </html>

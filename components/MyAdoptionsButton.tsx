@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 
-export function MyAdoptionsButton() {
+type MyAdoptionsButtonProps = {
+  className?: string
+}
+
+export function MyAdoptionsButton({ className }: MyAdoptionsButtonProps) {
   const [hasAdoptions, setHasAdoptions] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -25,11 +29,12 @@ export function MyAdoptionsButton() {
   }, [])
 
   if (loading || !hasAdoptions) return null
+  const classes = className
+    ? className
+    : 'absolute top-4 right-4 bg-sage-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all z-30'
+
   return (
-    <a
-      href="/dashboard"
-      className="absolute top-4 right-4 bg-sage-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all z-30"
-    >
+    <a href="/dashboard" className={classes}>
       My tree
     </a>
   )

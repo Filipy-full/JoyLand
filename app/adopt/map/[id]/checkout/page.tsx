@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import CheckoutForm from '@/components/CheckoutForm'
+import { useAdoptionCart } from '@/contexts/AdoptionCart'
 
 interface TreeData {
   id: string
@@ -18,9 +18,12 @@ interface TreeData {
 export default function CheckoutPage() {
   const params = useParams()
   const router = useRouter()
+  const { addTree, getTreeCount } = useAdoptionCart()
   const treeId = params.id as string
   const [tree, setTree] = useState<TreeData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [adding, setAdding] = useState(false)
+  const [added, setAdded] = useState(false)
 
   useEffect(() => {
     Promise.all([
@@ -40,7 +43,7 @@ export default function CheckoutPage() {
             species: feature.properties.species,
             year: feature.properties.year,
             area: feature.properties.area,
-            price: feature.properties.species === 'Oliveira' ? 2 : 2,
+            price: 200, // €2 en centavos
             status,
           }
           setTree(treeData)
@@ -48,6 +51,29 @@ export default function CheckoutPage() {
         setLoading(false)
       })
   }, [treeId])
+
+  const handleAddToCart = () => {
+    if (!tree) return
+    
+    setAdding(true)
+    try {
+      addTree({
+        id: tree.id,
+        name: tree.name,
+        species: tree.species,
+        type: tree.species === 'Oliveira' ? 'olivo' : 'almendro',
+        price: tree.price,
+        area: tree.area,
+        year: tree.year,
+      })
+      setAdded(true)
+      setTimeout(() => setAdded(false), 3000)
+    } catch (err) {
+      console.error('Error adding tree:', err)
+    } finally {
+      setAdding(false)
+    }
+  }
 
   if (loading) {
     return (
@@ -77,29 +103,45 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sage-50 to-amber-50 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Breadcrumb */}
-        <nav className="mb-8 text-sm text-gray-600">
-          <Link href="/adopt/map" className="text-sage-600 hover:text-sage-700">
-            Mapa
-          </Link>
-          {' / '}
-          <Link href={`/adopt/map/${tree.id}`} className="text-sage-600 hover:text-sage-700">
-            Árvore #{tree.name}
-          </Link>
-          {' / '}
-          <span>Finalizar Adoção</span>
-        </nav>
+    <div className="min-h-screen bg-gradient-to-br from-sage-50 to-amber-50 py-8 px-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Progress Bar */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center flex-1">
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-sage-600 text-white flex items-center justify-center font-bold text-sm">
+                  ✓
+                </div>
+                <span className="ml-3 text-sm font-medium text-gray-700">Seleção</span>
+              </div>
+              <div className="flex-1 h-1 bg-sage-600 mx-4"></div>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-sage-600 text-white flex items-center justify-center font-bold text-sm">
+                  2
+                </div>
+                <span className="ml-3 text-sm font-medium text-gray-700">Dados</span>
+              </div>
+              <div className="flex-1 h-1 bg-gray-300 mx-4"></div>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">
+                  3
+                </div>
+                <span className="ml-3 text-sm font-medium text-gray-500">Pagamento</span>
+              </div>
+            </div>
+          </div>
+          <p className="text-center text-sm text-gray-600">Passo 2 de 3: Completa tus datos</p>
+        </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Coluna Esquerda - Resumo */}
-          <div className="md:col-span-1">
-            <div className="bg-white rounded-xl shadow-lg p-6 sticky top-24">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Resumo</h2>
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Coluna Esquerda - Resumo da Árvore */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-xl shadow p-6 sticky top-24">
+              <h3 className="text-lg font-bold text-gray-800 mb-4">Árvore Selecionada</h3>
 
               <div
-                className="h-32 rounded-lg mb-6 flex items-end justify-center text-white font-bold text-2xl"
+                className="h-28 rounded-lg mb-4 flex items-end justify-center text-white font-bold text-xl"
                 style={{
                   background: `linear-gradient(135deg, ${tree.species === 'Oliveira' ? '#1976d2' : '#d32f2f'} 0%, ${tree.species === 'Oliveira' ? '#0d47a1' : '#b71c1c'} 100%)`,
                 }}
@@ -107,7 +149,7 @@ export default function CheckoutPage() {
                 Árvore #{tree.name}
               </div>
 
-              <div className="space-y-4 mb-6 pb-6 border-b border-gray-200">
+              <div className="space-y-3 mb-4 pb-4 border-b border-gray-200 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Espécie:</span>
                   <span className="font-semibold text-gray-800">{tree.species}</span>
@@ -122,9 +164,9 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <div className="space-y-2 mb-6">
-                <div className="flex justify-between text-gray-600">
-                  <span>Preço da Adoção:</span>
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>Preço:</span>
                   <span>€{tree.price}</span>
                 </div>
                 <div className="bg-sage-50 p-3 rounded-lg">
@@ -135,62 +177,81 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-800">
-                <p className="font-semibold mb-1">✅ Incluso na Adoção:</p>
-                <ul className="list-disc list-inside space-y-1 text-xs">
-                  <li>Certificado Digital</li>
-                  <li>Relatórios Anuais</li>
-                  <li>Acesso ao Mapa</li>
-                  <li>Impacto Ambiental</li>
+              <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-xs text-green-800">
+                <p className="font-semibold mb-2">✅ Incluido:</p>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>Certificado</li>
+                  <li>Seguimiento</li>
+                  <li>Impacto</li>
                 </ul>
               </div>
             </div>
           </div>
 
-          {/* Coluna Direita - Formulário */}
-          <div className="md:col-span-2">
+          {/* Coluna Direita - Botones */}
+          <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Finalizar Adoção</h2>
-
-              <div className="mb-8 p-6 bg-sage-50 rounded-lg">
-                <p className="text-sage-800 mb-2">
-                  <strong>🎉 Bem-vindo!</strong>
-                </p>
-                <p className="text-sm text-sage-700">
-                  Complete os dados abaixo para finalizar a adoção. Você receberá o certificado digital por email.
-                </p>
+              {/* Cabeçalho */}
+              <div className="mb-8">
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">Agregar al Carrito</h2>
+                <p className="text-gray-600">Añade este árbol a tu carrito y continúa explorando</p>
               </div>
 
               {tree.status !== 'available' ? (
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-amber-900">
-                  <p className="font-semibold">⚠️ Esta árvore já foi adotada.</p>
-                  <p className="text-sm">Escolha outra árvore disponível no mapa.</p>
-                  <div className="mt-4">
-                    <Link href="/adopt/map">
-                      <button className="bg-sage-600 hover:bg-sage-700 text-white font-semibold py-2 px-4 rounded-lg transition">
-                        Ver Árvores Disponíveis
-                      </button>
-                    </Link>
-                  </div>
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 text-amber-900">
+                  <p className="font-semibold mb-2">⚠️ Árbol no disponible</p>
+                  <p className="text-sm mb-4">Esta árvore ya ha sido adoptada. Por favor selecciona otra.</p>
+                  <Link href="/adopt/map">
+                    <button className="bg-sage-600 hover:bg-sage-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                      ← Volver al Mapa
+                    </button>
+                  </Link>
                 </div>
               ) : (
-                <CheckoutForm
-                  tree={{
-                    id: tree.id,
-                    name: tree.name,
-                    type: tree.species === 'Oliveira' ? 'olive' : 'almond',
-                    status: 'available',
-                  }}
-                />
+                <>
+                  {/* Info Box */}
+                  <div className="mb-8 p-5 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
+                    <span className="text-green-600 text-2xl flex-shrink-0">✅</span>
+                    <div className="text-sm text-green-900">
+                      <p className="font-semibold mb-1">Este árbol está disponible</p>
+                      <p>Puedes agregarlo a tu carrito y seguir seleccionando más árboles.</p>
+                    </div>
+                  </div>
+
+                  {/* Botones */}
+                  <div className="space-y-3 mb-8">
+                    <button
+                      onClick={handleAddToCart}
+                      disabled={adding}
+                      className="w-full bg-sage-600 hover:bg-sage-700 disabled:bg-gray-400 text-white font-semibold py-4 px-6 rounded-lg transition text-lg"
+                    >
+                      {adding ? 'Agregando...' : `✅ Agregar al Carrito - €2`}
+                    </button>
+
+                    {getTreeCount() > 0 && (
+                      <Link href="/adopt/checkout" className="block">
+                        <button className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-4 px-6 rounded-lg transition text-lg">
+                          🛒 Ir al Carrito ({getTreeCount()})
+                        </button>
+                      </Link>
+                    )}
+                  </div>
+
+                  {added && (
+                    <div className="mb-8 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">
+                      <p className="font-semibold">✓ Árbol agregado al carrito</p>
+                      <p className="text-sm">Puedes continuar agregando más árboles o ir al carrito.</p>
+                    </div>
+                  )}
+
+                  <Link href="/adopt/map">
+                    <button className="w-full text-sage-600 hover:text-sage-700 font-semibold py-2 border border-sage-200 rounded-lg transition">
+                      ← Volver al Mapa
+                    </button>
+                  </Link>
+                </>
               )}
 
-              <div className="mt-8 p-4 bg-gray-50 rounded-lg text-xs text-gray-600">
-                <p className="font-semibold mb-2">🔒 Pagamento Seguro</p>
-                <p>
-                  Usamos Stripe para processar pagamentos de forma segura. Seus dados não são armazenados em nossos
-                  servidores.
-                </p>
-              </div>
             </div>
           </div>
         </div>

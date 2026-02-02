@@ -13,19 +13,19 @@ export default function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const nextParam = searchParams.get('next')
+  const returnUrl = searchParams.get('returnUrl') // Nuevo parámetro
 
   useEffect(() => {
     const checkSession = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
-        if (nextParam) {
-          router.replace(nextParam)
-        }
+        const redirectPath = returnUrl || nextParam || '/dashboard'
+        router.replace(redirectPath)
       }
     }
 
     checkSession()
-  }, [nextParam, router])
+  }, [nextParam, returnUrl, router])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -54,8 +54,12 @@ export default function LoginForm() {
       } else {
         const adminEmails = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com']
         const userEmail = data.user?.email || ''
-        if (nextParam) {
-          router.push(nextParam)
+        
+        // Priorizar returnUrl sobre nextParam
+        const redirectPath = returnUrl || nextParam
+        
+        if (redirectPath) {
+          router.push(redirectPath)
         } else if (adminEmails.includes(userEmail)) {
           router.push('/admin')
         } else {
@@ -68,8 +72,9 @@ export default function LoginForm() {
   const handleGoogleLogin = async () => {
     setLoading(true)
     setError('')
+    const redirectPath = returnUrl || nextParam || '/dashboard'
     const redirectTo = typeof window !== 'undefined'
-      ? `${window.location.origin}${nextParam || '/dashboard'}`
+      ? `${window.location.origin}${redirectPath}`
       : undefined
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',

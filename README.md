@@ -60,10 +60,14 @@ Open [http://localhost:3000](http://localhost:3000) to see the website.
 
 ## Stripe Setup
 
-1. Create a Stripe account at https://stripe.com
-2. Get your API keys from the Dashboard
-3. Add them to `.env`
-4. Set up webhook endpoint at `/api/webhooks/stripe`
+Para pagos, sigue los pasos en [STRIPE_CONFIG.md](./STRIPE_CONFIG.md)
+
+**Resumen rápido:**
+1. Claves ya configuradas en `.env.local` (modo TEST)
+2. Usa tarjeta de prueba: `4242 4242 4242 4242`
+3. Para webhooks en desarrollo: `./stripe-webhook.sh`
+
+Ver documentación completa en [STRIPE_CONFIG.md](./STRIPE_CONFIG.md)
 
 ## Deployment
 

@@ -2,14 +2,20 @@
 import React, { useState, useEffect } from 'react';
 import { AdoptionIncludes, PriceCTA, HeroSection } from '@/components/AdoptionUI';
 import { prisma } from '@/lib/prisma';
-
-import { notFound, useParams } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
+import { notFound, useParams, useRouter } from 'next/navigation';
+import { useAdoptionCart } from '@/contexts/AdoptionCart';
+import Link from 'next/link';
 
 export default function AlmendroTreePage(props: any) {
   const params = typeof window === 'undefined' ? props.params : useParams();
+  const router = useRouter();
+  const { addTree, getTreeCount } = useAdoptionCart();
   const [loading, setLoading] = useState(false);
+  const [added, setAdded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tree, setTree] = useState<any>(props.tree || null);
+  const [almondPrice, setAlmondPrice] = useState<number>(20000); // 200 EUR en centavos
 
   // SSR fallback: fetch tree if not provided
   useEffect(() => {
@@ -21,26 +27,45 @@ export default function AlmendroTreePage(props: any) {
     }
   }, [params, tree]);
 
+  // Obtener precio dinámico
+  useEffect(() => {
+    fetch('/api/admin/pricing')
+      .then(res => res.json())
+      .then(data => {
+        setAlmondPrice(Math.round(data.almondPrice * 100)); // Convertir a centavos
+      })
+      .catch(() => setAlmondPrice(20000)); // Fallback
+  }, []);
+
   if (!tree) return <div className="text-center py-20">Loading tree...</div>;
 
-  const handleAdopt = async () => {
+  const handleAddToCart = async () => {
+    if (tree.status === 'adopted') {
+      setError('Este árbol ya ha sido adoptado');
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ treeId: tree.id }),
+      addTree({
+        id: tree.id,
+        name: tree.name || 'Almond Tree',
+        species: 'Amêndoa',
+        type: 'almendro',
+        price: almondPrice, // Precio en centavos
+        area: tree.area || 'Unknown',
+        year: tree.year || 0,
       });
-      const data = await response.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        setError(data.error || 'Unknown error');
-        setLoading(false);
-      }
+      
+      setAdded(true);
+      setLoading(false);
+      
+      // Ofrecer opción de continuar agregando o ir a checkout
+      setTimeout(() => {
+        setAdded(false);
+      }, 3000);
     } catch (err) {
-      setError('Network or server error');
+      setError('Error al agregar árbol');
       setLoading(false);
     }
   };
@@ -48,18 +73,52 @@ export default function AlmendroTreePage(props: any) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-sage-50 pb-20">
       <HeroSection
-        title={`Adopt this Almond Tree 🌳`}
-        subtitle={`Adopt the tree "${tree.name || 'Almond Tree'}" and follow it for one year.`}
+        title={`Adoptar este Almendro 🌳`}
+        subtitle={`Almendro "${tree.name || 'Almond Tree'}" - Sigue el árbol durante un año`}
         backHref="/adopt/almendro"
       />
       <section className="container mx-auto px-4 sm:px-6 py-8 max-w-2xl">
         <h2 className="text-xl font-serif text-sage-900 mb-4">{tree.name || 'Almendro'}</h2>
-        <p className="text-sage-700 mb-6 text-base sm:text-lg">{tree.description || 'A healthy young almond tree.'}</p>
-        <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${tree.status === 'available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{tree.status === 'available' ? 'Available' : 'Adopted'}</span>
+        <p className="text-sage-700 mb-6 text-base sm:text-lg">{tree.description || 'Un joven almendro saludable.'}</p>
+        <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${tree.status === 'available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+          {tree.status === 'available' ? 'Disponible' : 'Adoptado'}
+        </span>
       </section>
       <AdoptionIncludes className="my-8" />
-      <PriceCTA price={125} treeType="almendro" loading={loading} onAdopt={handleAdopt} />
-      {error && <div className="text-center text-red-600 mt-4">{error}</div>}
+      
+      {/* Botones */}
+      <section className="container mx-auto px-4 py-8 max-w-2xl">
+        <div className="flex gap-4 flex-col sm:flex-row">
+          <button
+            onClick={handleAddToCart}
+            disabled={loading || tree.status !== 'available'}
+            className="flex-1 bg-sage-600 hover:bg-sage-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition"
+          >
+            {loading ? 'Agregando...' : `✅ Agregar al Carrito - €${(almondPrice / 100).toFixed(2)}`}
+          </button>
+          {getTreeCount() > 0 && (
+            <Link href="/adopt/checkout" className="flex-1">
+              <button className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 px-6 rounded-lg transition">
+                🛒 Ir al Carrito ({getTreeCount()})
+              </button>
+            </Link>
+          )}
+        </div>
+        
+        {added && (
+          <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">
+            <p className="font-semibold">✓ Árbol agregado al carrito</p>
+            <p className="text-sm">Puedes continuar agregando más árboles o ir al carrito.</p>
+          </div>
+        )}
+        
+        {error && (
+          <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
+            <p className="font-semibold">Error: {error}</p>
+          </div>
+        )}
+      </section>
     </div>
   );
 }
+

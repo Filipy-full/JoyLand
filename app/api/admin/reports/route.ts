@@ -21,6 +21,7 @@ export async function GET(req: NextRequest) {
     const { data: reports, error: queryError } = await supabaseAdmin
       .from('reports')
       .select('*')
+      .eq('hidden_from_admin', false)
       .order('created_at', { ascending: false })
 
     if (queryError) {
@@ -119,6 +120,37 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ report })
   } catch (error: any) {
     console.error('Error creating report:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const authHeader = req.headers.get('authorization')
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const token = authHeader.slice(7)
+    const { data: { user }, error } = await supabaseAdmin.auth.getUser(token)
+
+    if (error || !user || !adminEmails.includes(user.email || '')) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+
+    // Marcar como ocultos en lugar de eliminar para que los usuarios sigan viéndolos
+    const { error: updateError } = await supabaseAdmin
+      .from('reports')
+      .update({ hidden_from_admin: true })
+      .eq('hidden_from_admin', false)
+
+    if (updateError) {
+      return NextResponse.json({ error: updateError.message }, { status: 500 })
+    }
+
+    return NextResponse.json({ success: true })
+  } catch (error: any) {
+    console.error('Error hiding reports:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

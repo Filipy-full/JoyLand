@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { HeroSection, AdoptionIncludes, PriceCTA } from '@/components/AdoptionUI';
+import { supabase } from '@/lib/supabase';
 
 export default function AdoptOlivoPage() {
   const [loading, setLoading] = useState(false);
@@ -11,10 +12,25 @@ export default function AdoptOlivoPage() {
     setLoading(true);
     setError(null);
     try {
+      // Obtener datos del usuario autenticado
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      let userId = null, userName = '', userEmail = '';
+      if (user) {
+        userId = user.id;
+        userEmail = user.email || '';
+        userName = user.user_metadata?.name || user.email?.split('@')[0] || '';
+      }
+
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ treeType: 'olivo' }),
+        body: JSON.stringify({ 
+          treeType: 'olivo',
+          userId,
+          userName,
+          userEmail
+        }),
       });
       const data = await response.json();
       if (data.url) {

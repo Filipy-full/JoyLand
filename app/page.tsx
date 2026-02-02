@@ -7,6 +7,7 @@ import {
   OliveIcon, TreeIcon, LocationIcon, GalleryIcon, 
   GiftIcon, DocumentIcon, LeafIcon, HeartIcon, StarIcon 
 } from '@/components/Icons'
+import { MyAdoptionsButton } from '@/components/MyAdoptionsButton'
 
 export default function HomePage() {
   const [particles, setParticles] = useState<Array<{ id: number; left: number; delay: number; duration: number }>>([])
@@ -66,13 +67,8 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-sage-100 to-white overflow-x-hidden relative">
-      {/* Botón bajo el header a la derecha solo en Home */}
-      <Link
-        href="/dashboard"
-        className="fixed top-24 right-4 sm:top-28 sm:right-6 z-40 bg-sage-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all"
-      >
-        My tree
-      </Link>
+      {/* Botón solo si el usuario tiene árboles adoptados */}
+      <MyAdoptionsButton className="fixed top-24 right-4 sm:top-24 sm:right-6 z-40 bg-sage-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all" />
       {/* Animated SVG particles */}
       <div className="fixed top-0 left-0 w-full h-screen pointer-events-none overflow-hidden z-0">
         {particles.map((particle) => (

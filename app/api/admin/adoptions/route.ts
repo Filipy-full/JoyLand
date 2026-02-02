@@ -19,13 +19,22 @@ export async function GET(req: NextRequest) {
 
     const { data: adoptions, error: queryError } = await supabaseAdmin
       .from('adoptions')
-      .select('*')
+      .select(`
+        *,
+        trees:tree_id (
+          id,
+          type,
+          name
+        )
+      `)
       .order('created_at', { ascending: false })
 
     if (queryError) {
+      console.error('Query error:', queryError)
       return NextResponse.json({ error: queryError.message }, { status: 500 })
     }
 
+    console.log('Adoptions with trees:', JSON.stringify(adoptions?.slice(0, 2), null, 2))
     return NextResponse.json({ adoptions: adoptions || [] })
   } catch (error: any) {
     console.error('Error fetching adoptions:', error)
