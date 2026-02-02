@@ -45,6 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="theme-color" content="#4ADE80" />
+        <meta name="google-site-verification" content="YzvN7iUXjU7n3kMM6b4a0uJIz1zmAgNoouCWFbdem1Q" />
       </head>
       <body className={`${sans.variable} ${serif.variable} antialiased font-sans`}>
         <SitePassword>
