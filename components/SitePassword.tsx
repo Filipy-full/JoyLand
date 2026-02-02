@@ -15,13 +15,7 @@ export default function SitePassword({ children }: { children: React.ReactNode }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const correctPassword = process.env.NEXT_PUBLIC_SITE_PASSWORD
-
-    if (!correctPassword) {
-      // Si no hay contraseña configurada, permitir acceso
-      setUnlocked(true)
-      return
-    }
+    const correctPassword = process.env.NEXT_PUBLIC_SITE_PASSWORD || '@Joyland'
 
     if (password === correctPassword) {
       sessionStorage.setItem('site_unlocked', 'true')
