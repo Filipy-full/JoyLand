@@ -7,7 +7,7 @@ import { TreeIcon } from '@/components/Icons'
 const InteractiveGeoJsonMap = dynamic(() => import('@/components/InteractiveGeoJsonMap'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-[500px] sm:h-[600px] lg:h-[700px] flex items-center justify-center bg-gradient-to-br from-sage-50 to-sage-100">
+    <div className="w-full h-[80vh] min-h-[600px] sm:h-[600px] lg:h-[750px] flex items-center justify-center bg-gradient-to-br from-sage-50 to-sage-100">
       <div className="text-center">
         <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-sage-600 mb-4"></div>
         <p className="text-sage-700 font-medium">Loading map...</p>
@@ -38,7 +38,7 @@ export default function MapPage() {
       {/* Map Container */}
       <section className="container mx-auto px-4 sm:px-6 pb-12 sm:pb-16">
         <div className="glass-card rounded-3xl overflow-hidden shadow-xl">
-          <div className="h-[500px] sm:h-[600px] lg:h-[700px] w-full">
+          <div className="h-[80vh] min-h-[600px] sm:h-[600px] lg:h-[750px] w-full">
             <Suspense
               fallback={
                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-sage-50 to-sage-100">

@@ -55,6 +55,7 @@ interface TreeData {
 
 export default function InteractiveGeoJsonMap() {
   const searchParams = useSearchParams()
+  const containerRef = useRef<HTMLDivElement>(null)
   const mapContainer = useRef<HTMLDivElement>(null)
   const map = useRef<L.Map | null>(null)
   const markers = useRef<L.Marker[]>([])
@@ -68,6 +69,7 @@ export default function InteractiveGeoJsonMap() {
     almendra: true,
   })
   const [showMobileLegend, setShowMobileLegend] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const [stats, setStats] = useState({
     total: 0,
     oliva: 0,
@@ -139,6 +141,19 @@ export default function InteractiveGeoJsonMap() {
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const fullscreenElement = document.fullscreenElement
+      setIsFullscreen(Boolean(fullscreenElement))
+      if (map.current) {
+        setTimeout(() => map.current?.invalidateSize(), 150)
+      }
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
   }, [])
 
   // Función para actualizar estados de árboles desde API
@@ -380,10 +395,49 @@ export default function InteractiveGeoJsonMap() {
     renderMarkers(mapTrees, geoJsonData)
   }, [filters, geoJsonData, mapTrees])
 
+  const toggleFullscreen = async () => {
+    if (!containerRef.current) return
+
+    try {
+      if (!document.fullscreenElement) {
+        await containerRef.current.requestFullscreen()
+      } else {
+        await document.exitFullscreen()
+      }
+    } catch (error) {
+      console.error('Fullscreen error:', error)
+    }
+  }
+
   return (
-    <div className="flex flex-col md:flex-row w-full h-full gap-0 overflow-hidden bg-white relative z-0">
+    <div ref={containerRef} className="flex flex-col md:flex-row w-full h-full gap-0 overflow-hidden bg-white relative z-0">
       {/* Mapa - Responsive */}
       <div className="w-full md:flex-1 relative order-2 md:order-1 flex-1 z-0">
+        {/* Botón Fullscreen */}
+        <div className="absolute left-1/2 top-4 -translate-x-1/2 z-20">
+          <button
+            onClick={toggleFullscreen}
+            className="bg-white/95 backdrop-blur border border-gray-200 shadow-md text-gray-700 p-2 rounded-full"
+            aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+          >
+            {isFullscreen ? (
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M9 3H5a2 2 0 0 0-2 2v4" />
+                <path d="M15 3h4a2 2 0 0 1 2 2v4" />
+                <path d="M9 21H5a2 2 0 0 1-2-2v-4" />
+                <path d="M15 21h4a2 2 0 0 0 2-2v-4" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M3 9V5a2 2 0 0 1 2-2h4" />
+                <path d="M21 9V5a2 2 0 0 0-2-2h-4" />
+                <path d="M3 15v4a2 2 0 0 0 2 2h4" />
+                <path d="M21 15v4a2 2 0 0 1-2 2h-4" />
+              </svg>
+            )}
+          </button>
+        </div>
+
         <div
           ref={mapContainer}
           style={{
