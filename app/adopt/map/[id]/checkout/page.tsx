@@ -80,7 +80,7 @@ export default function CheckoutPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sage-50 to-amber-50">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-sage-600 mb-4"></div>
-          <p className="text-gray-600">Carregando...</p>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </div>
     )
@@ -90,11 +90,11 @@ export default function CheckoutPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sage-50 to-amber-50">
         <div className="text-center max-w-md">
-          <h1 className="text-3xl font-serif text-red-600 mb-4">Erro</h1>
-          <p className="text-gray-600 mb-6">Árvore não encontrada</p>
+          <h1 className="text-3xl font-serif text-red-600 mb-4">Error</h1>
+          <p className="text-gray-600 mb-6">Tree not found</p>
           <Link href="/adopt/map">
             <button className="bg-sage-600 hover:bg-sage-700 text-white font-semibold py-2 px-6 rounded-lg transition">
-              Voltar ao Mapa
+              Back to Map
             </button>
           </Link>
         </div>
@@ -113,32 +113,32 @@ export default function CheckoutPage() {
                 <div className="w-10 h-10 rounded-full bg-sage-600 text-white flex items-center justify-center font-bold text-sm">
                   ✓
                 </div>
-                <span className="ml-3 text-sm font-medium text-gray-700">Seleção</span>
+                <span className="ml-3 text-sm font-medium text-gray-700">Selection</span>
               </div>
               <div className="flex-1 h-1 bg-sage-600 mx-4"></div>
               <div className="flex items-center">
                 <div className="w-10 h-10 rounded-full bg-sage-600 text-white flex items-center justify-center font-bold text-sm">
                   2
                 </div>
-                <span className="ml-3 text-sm font-medium text-gray-700">Dados</span>
+                <span className="ml-3 text-sm font-medium text-gray-700">Details</span>
               </div>
               <div className="flex-1 h-1 bg-gray-300 mx-4"></div>
               <div className="flex items-center">
                 <div className="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">
                   3
                 </div>
-                <span className="ml-3 text-sm font-medium text-gray-500">Pagamento</span>
+                <span className="ml-3 text-sm font-medium text-gray-500">Payment</span>
               </div>
             </div>
           </div>
-          <p className="text-center text-sm text-gray-600">Passo 2 de 3: Completa tus datos</p>
+          <p className="text-center text-sm text-gray-600">Step 2 of 3: Complete your details</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Coluna Esquerda - Resumo da Árvore */}
+          {/* Left Column - Tree Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow p-6 sticky top-24">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Árvore Selecionada</h3>
+              <h3 className="text-lg font-bold text-gray-800 mb-4">Selected Tree</h3>
 
               <div
                 className="h-28 rounded-lg mb-4 flex items-end justify-center text-white font-bold text-xl"

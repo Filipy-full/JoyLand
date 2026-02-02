@@ -93,7 +93,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
       const { data: { user } } = await supabase.auth.getUser()
 
       if (!user) {
-        setError('Debes iniciar sesión para continuar')
+        setError('You must log in to continue')
         setLoading(false)
         return
       }
@@ -153,9 +153,9 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
   if (totalTrees === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-600 mb-4">Tu carrito está vacío</p>
+        <p className="text-gray-600 mb-4">Your cart is empty</p>
         <a href="/adopt/map" className="text-sage-600 hover:text-sage-700 font-semibold">
-          ← Volver a seleccionar árboles
+          ← Back to select trees
         </a>
       </div>
     )
@@ -169,18 +169,18 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
         </div>
       )}
 
-      {/* Resumen de Árboles */}
+      {/* Tree Summary */}
       <div>
-        <h3 className="text-lg font-bold text-gray-800 mb-4">Árboles Seleccionados ({totalTrees})</h3>
+        <h3 className="text-lg font-bold text-gray-800 mb-4">Selected Trees ({totalTrees})</h3>
         <div className="space-y-3">
           {trees.map((tree) => (
             <div key={tree.id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
               <div className="flex justify-between items-start mb-3">
                 <div className="flex-1">
-                  <p className="text-sm text-gray-600 mb-1">Árbol #{tree.id}</p>
+                  <p className="text-sm text-gray-600 mb-1">Tree #{tree.id}</p>
                   <input
                     type="text"
-                    placeholder={`Nombre para ${tree.name}...`}
+                    placeholder={`Name for ${tree.name}...`}
                     value={customNames[tree.id] || ''}
                     onChange={(e) => setCustomNames({ ...customNames, [tree.id]: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:ring-sage-500 focus:border-sage-500"
@@ -193,12 +193,12 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
                     onClick={() => removeTree(tree.id)}
                     className="text-red-600 hover:text-red-700 text-sm font-semibold mt-2"
                   >
-                    Eliminar
+                    Remove
                   </button>
                 </div>
               </div>
               <p className="text-xs text-gray-600">
-                {tree.species} • Zona: {tree.area} • Año: {tree.year}
+                {tree.species} • Zone: {tree.area} • Year: {tree.year}
               </p>
             </div>
           ))}
@@ -209,7 +209,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
       <div className="border-t border-gray-200 pt-6">
         <div className="bg-sage-50 p-4 rounded-lg">
           <div className="flex justify-between font-bold text-sage-700 text-lg">
-            <span>Total ({totalTrees} árbol{totalTrees > 1 ? 'es' : ''}):</span>
+            <span>Total ({totalTrees} tree{totalTrees > 1 ? 's' : ''}):</span>
             <span>€{priceInEuros}</span>
           </div>
         </div>
@@ -218,7 +218,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
       {/* Owner Info */}
       <div>
         <label htmlFor="adopterName" className="block text-sm font-medium text-gray-700 mb-2">
-          Tu Nombre *
+          Your Name *
         </label>
         <input
           type="text"
@@ -232,7 +232,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
 
       <div>
         <label htmlFor="adopterEmail" className="block text-sm font-medium text-gray-700 mb-2">
-          Tu Email *
+          Your Email *
         </label>
         <input
           type="email"
@@ -253,14 +253,14 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
           className="w-5 h-5 text-sage-600 border-gray-300 rounded focus:ring-sage-500"
         />
         <span className="text-gray-700">
-          Esto es un regalo
+          This is a gift
         </span>
       </label>
 
       {formData.isGift && (
         <div className="mt-4">
           <label htmlFor="giftMessage" className="block text-sm font-medium text-gray-700 mb-2">
-            Mensaje de Regalo
+            Gift Message
           </label>
           <textarea
             id="giftMessage"
@@ -268,7 +268,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
             onChange={(e) => setFormData({ ...formData, giftMessage: e.target.value })}
             rows={4}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sage-500 focus:border-transparent"
-            placeholder="Escribe un mensaje personal..."
+            placeholder="Write a personal message..."
           />
         </div>
       )}
@@ -279,17 +279,17 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
         disabled={loading}
         className="w-full bg-gradient-to-r from-sage-600 to-sage-700 text-white px-8 py-4 rounded-lg hover:shadow-lg transition-all font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? 'Procesando...' : `Continuar al Pago → €${priceInEuros}`}
+        {loading ? 'Processing...' : `Continue to Payment → €${priceInEuros}`}
       </button>
 
       <div className="text-center space-y-2">
         <p className="text-xs text-gray-500">
-          🔒 Pagamento 100% seguro por Stripe
+          🔒 100% secure payment by Stripe
         </p>
         <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-          <span>✓ Datos protegidos</span>
+          <span>✓ Protected data</span>
           <span>•</span>
-          <span>✓ SSL encriptado</span>
+          <span>✓ SSL encrypted</span>
         </div>
       </div>
     </form>

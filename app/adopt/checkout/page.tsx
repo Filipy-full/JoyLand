@@ -68,14 +68,14 @@ export default function CheckoutPage() {
       <div className="min-h-screen bg-gradient-to-br from-sage-50 to-amber-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sage-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Verificando autenticación...</p>
+          <p className="text-gray-600">Verifying authentication...</p>
         </div>
       </div>
     )
   }
 
   if (!isAuthenticated) {
-    return null // Ya se está redirigiendo
+    return null // Already redirecting
   }
 
   return (
@@ -89,40 +89,40 @@ export default function CheckoutPage() {
                 <div className="w-10 h-10 rounded-full bg-sage-600 text-white flex items-center justify-center font-bold text-sm">
                   ✓
                 </div>
-                <span className="ml-3 text-sm font-medium text-gray-700">Seleción</span>
+                <span className="ml-3 text-sm font-medium text-gray-700">Selection</span>
               </div>
               <div className="flex-1 h-1 bg-sage-600 mx-4"></div>
               <div className="flex items-center">
                 <div className="w-10 h-10 rounded-full bg-sage-600 text-white flex items-center justify-center font-bold text-sm">
                   2
                 </div>
-                <span className="ml-3 text-sm font-medium text-gray-700">Datos</span>
+                <span className="ml-3 text-sm font-medium text-gray-700">Details</span>
               </div>
               <div className="flex-1 h-1 bg-gray-300 mx-4"></div>
               <div className="flex items-center">
                 <div className="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">
                   3
                 </div>
-                <span className="ml-3 text-sm font-medium text-gray-500">Pago</span>
+                <span className="ml-3 text-sm font-medium text-gray-500">Payment</span>
               </div>
             </div>
           </div>
-          <p className="text-center text-sm text-gray-600">Paso 2 de 3: Completa tus datos</p>
+          <p className="text-center text-sm text-gray-600">Step 2 of 3: Complete your details</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Coluna Esquerda - Resumo */}
+          {/* Left Column - Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow p-6 sticky top-24">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Resumen</h3>
+              <h3 className="text-lg font-bold text-gray-800 mb-4">Summary</h3>
 
               <div className="space-y-3 mb-4 pb-4 border-b border-gray-200">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Árboles:</span>
+                  <span className="text-gray-600">Trees:</span>
                   <span className="font-semibold text-gray-800">{totalTrees}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Precio por árbol:</span>
+                  <span className="text-gray-600">Price per tree:</span>
                   <span className="font-semibold text-gray-800">€{(displayPrice / 100).toFixed(2)}</span>
                 </div>
               </div>
@@ -137,37 +137,37 @@ export default function CheckoutPage() {
               </div>
 
               <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-xs text-green-800">
-                <p className="font-semibold mb-2">✅ Incluido por árbol:</p>
+                <p className="font-semibold mb-2">✅ Included per tree:</p>
                 <ul className="list-disc list-inside space-y-1">
-                  <li>Certificado</li>
-                  <li>Seguimiento</li>
-                  <li>Impacto</li>
+                  <li>Certificate</li>
+                  <li>Tracking</li>
+                  <li>Impact</li>
                 </ul>
               </div>
 
               <Link href="/adopt/map">
                 <button className="w-full mt-4 text-sage-600 hover:text-sage-700 font-semibold py-2 border border-sage-200 rounded-lg transition">
-                  ← Agregar más árboles
+                  ← Add more trees
                 </button>
               </Link>
             </div>
           </div>
 
-          {/* Coluna Direita - Formulário */}
+          {/* Right Column - Form */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-lg p-8">
-              {/* Cabeçalho */}
+              {/* Header */}
               <div className="mb-8">
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">Tus Datos</h2>
-                <p className="text-gray-600">Completa la información para {totalTrees} árbol{totalTrees > 1 ? 'es' : ''}</p>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">Your Details</h2>
+                <p className="text-gray-600">Complete the information for {totalTrees} tree{totalTrees > 1 ? 's' : ''}</p>
               </div>
 
               {/* Info Box */}
               <div className="mb-8 p-5 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-3">
                 <span className="text-blue-600 text-2xl flex-shrink-0">ℹ️</span>
                 <div className="text-sm text-blue-900">
-                  <p className="font-semibold mb-1">Próximo: Pago Seguro</p>
-                  <p>Después de completar estos datos, serás redirigido a Stripe para el pago seguro.</p>
+                  <p className="font-semibold mb-1">Next: Secure Payment</p>
+                  <p>After completing these details, you will be redirected to Stripe for secure payment.</p>
                 </div>
               </div>
 
@@ -175,10 +175,10 @@ export default function CheckoutPage() {
                 <CheckoutFormMultiple />
               ) : (
                 <div className="text-center py-12">
-                  <p className="text-gray-600 mb-4">Tu carrito está vacío</p>
+                  <p className="text-gray-600 mb-4">Your cart is empty</p>
                   <Link href="/adopt/map">
                     <button className="bg-sage-600 hover:bg-sage-700 text-white font-semibold py-2 px-4 rounded-lg transition">
-                      ← Seleccionar árboles
+                      ← Select trees
                     </button>
                   </Link>
                 </div>
@@ -190,7 +190,7 @@ export default function CheckoutPage() {
                   <div className="mt-8 p-4 bg-gray-50 rounded-lg text-xs text-gray-600 flex items-start gap-2">
                     <span className="text-lg flex-shrink-0">🔒</span>
                     <p>
-                      <strong>Seguridad garantizada:</strong> Usamos Stripe para procesar tu pago. Tus datos no se almacenan en nuestros servidores.
+                      <strong>Guaranteed security:</strong> We use Stripe to process your payment. Your data is not stored on our servers.
                     </p>
                   </div>
 
@@ -198,10 +198,10 @@ export default function CheckoutPage() {
                   <div className="mt-6 flex justify-between pt-6 border-t border-gray-200">
                     <Link href="/adopt/map">
                       <button className="text-gray-600 hover:text-gray-800 font-medium flex items-center gap-2">
-                        ← Volver
+                        ← Back
                       </button>
                     </Link>
-                    <p className="text-xs text-gray-500">Paso 2 de 3</p>
+                    <p className="text-xs text-gray-500">Step 2 of 3</p>
                   </div>
                 </>
               )}

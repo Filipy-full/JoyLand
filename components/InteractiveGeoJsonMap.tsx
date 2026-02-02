@@ -215,10 +215,26 @@ export default function InteractiveGeoJsonMap() {
     parsedTrees.forEach((tree) => {
       const isOliva = tree.species === 'Oliveira'
       const isAlmendra = tree.species === 'Almendras'
-      const matchesSpecies = (isOliva && filters.oliva) || (isAlmendra && filters.almendra)
-      const matchesAdopted = tree.adopted ? filters.adopted : true
+      
+      // Si ningún filtro está activo, no mostrar nada
+      if (!filters.oliva && !filters.almendra && !filters.adopted) return
+      
+      // Lógica independiente: cada filtro muestra lo que corresponde
+      let shouldShow = false
+      
+      // Si es adoptado y el filtro adoptados está activo
+      if (tree.adopted && filters.adopted) {
+        shouldShow = true
+      }
+      
+      // Si es disponible y coincide con filtro de especie
+      if (!tree.adopted) {
+        if ((isOliva && filters.oliva) || (isAlmendra && filters.almendra)) {
+          shouldShow = true
+        }
+      }
 
-      if (!matchesSpecies || !matchesAdopted) return
+      if (!shouldShow) return
 
       // Encontrar la feature correspondiente en GeoJSON
       const feature = geojsonData.features.find((f) => f.id === tree.id && f.properties.type === 'tree') as GeoJSONFeature | undefined
@@ -279,11 +295,11 @@ export default function InteractiveGeoJsonMap() {
         })
 
       marker.bindPopup(
-        `<strong>Árvore #${tree.name}</strong><br/>
-         Espécie: ${feature.properties.species}<br/>
-         Ano: ${feature.properties.year}<br/>
-         Zona: ${feature.properties.area}<br/>
-         Estado: ${tree.adopted ? 'Adoptada ✓' : 'Disponible'}`
+        `<strong>Tree #${tree.name}</strong><br/>
+         Species: ${feature.properties.species}<br/>
+         Year: ${feature.properties.year}<br/>
+         Zone: ${feature.properties.area}<br/>
+         Status: ${tree.adopted ? 'Adopted ✓' : 'Available'}`
       )
 
       markers.current.push(marker)
@@ -384,31 +400,31 @@ export default function InteractiveGeoJsonMap() {
             onClick={() => setShowMobileLegend((prev) => !prev)}
             className="bg-white/95 backdrop-blur border border-gray-200 shadow-md text-gray-700 text-[12px] font-semibold px-4 py-2 rounded-full"
           >
-            {showMobileLegend ? 'Cerrar filtros' : 'Filtros'}
+            {showMobileLegend ? 'Close filters' : 'Filters'}
           </button>
         </div>
 
         {showMobileLegend && (
           <div className="sm:hidden absolute bottom-12 left-3 right-3 bg-white/95 backdrop-blur rounded-lg shadow-md border border-gray-200 z-20">
             <div className="px-3 py-2">
-              <h3 className="font-semibold text-gray-800 text-xs">Leyenda</h3>
+              <h3 className="font-semibold text-gray-800 text-xs">Legend</h3>
               <div className="mt-2 space-y-1">
                 <div className="flex items-center gap-2 text-[11px] text-gray-700">
                   <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#9e9e9e' }}></span>
-                  Adoptado
+                  Adopted
                 </div>
                 <div className="flex items-center gap-2 text-[11px] text-gray-700">
                   <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#d32f2f' }}></span>
-                  Almendra
+                  Almond
                 </div>
                 <div className="flex items-center gap-2 text-[11px] text-gray-700">
                   <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#1976d2' }}></span>
-                  Oliva
+                  Olive
                 </div>
               </div>
 
               <div className="mt-3 pt-2 border-t border-gray-200">
-                <h4 className="font-semibold mb-1 text-gray-800 text-xs">Filtros</h4>
+                <h4 className="font-semibold mb-1 text-gray-800 text-xs">Filters</h4>
                 <div className="space-y-1">
                   <label className="flex items-center gap-2 text-[11px] text-gray-700 cursor-pointer">
                     <input
@@ -417,7 +433,7 @@ export default function InteractiveGeoJsonMap() {
                       onChange={(e) => setFilters((prev) => ({ ...prev, adopted: e.target.checked }))}
                       className="accent-sage-600"
                     />
-                    Adoptado
+                    Adopted
                   </label>
                   <label className="flex items-center gap-2 text-[11px] text-gray-700 cursor-pointer">
                     <input
@@ -426,7 +442,7 @@ export default function InteractiveGeoJsonMap() {
                       onChange={(e) => setFilters((prev) => ({ ...prev, almendra: e.target.checked }))}
                       className="accent-sage-600"
                     />
-                    Almendras
+                    Almonds
                   </label>
                   <label className="flex items-center gap-2 text-[11px] text-gray-700 cursor-pointer">
                     <input
@@ -435,7 +451,7 @@ export default function InteractiveGeoJsonMap() {
                       onChange={(e) => setFilters((prev) => ({ ...prev, oliva: e.target.checked }))}
                       className="accent-sage-600"
                     />
-                    Olivas
+                    Olives
                   </label>
                 </div>
               </div>
@@ -443,36 +459,36 @@ export default function InteractiveGeoJsonMap() {
           </div>
         )}
 
-        {/* Legenda + Filtros - Responsive */}
+        {/* Legend + Filters - Responsive */}
         <div className="hidden sm:block absolute bottom-4 left-4 bg-white rounded-lg shadow-md border border-gray-200 z-20 overflow-hidden">
           <div className="px-4 py-3">
-            <h3 className="font-semibold mb-2 text-gray-800 text-xs">Leyenda</h3>
+            <h3 className="font-semibold mb-2 text-gray-800 text-xs">Legend</h3>
             <div className="space-y-1.5">
               <div className="flex items-center gap-2">
                 <div
                   className="w-4 h-4 rounded-full border-2 border-white"
                   style={{ backgroundColor: '#1976d2' }}
                 ></div>
-                <span className="text-xs text-gray-700">Oliveira</span>
+                <span className="text-xs text-gray-700">Olive</span>
               </div>
               <div className="flex items-center gap-2">
                 <div
                   className="w-4 h-4 rounded-full border-2 border-white"
                   style={{ backgroundColor: '#d32f2f' }}
                 ></div>
-                <span className="text-xs text-gray-700">Almendras</span>
+                <span className="text-xs text-gray-700">Almond</span>
               </div>
               <div className="flex items-center gap-2">
                 <div
                   className="w-4 h-4 rounded-full border-2 border-white"
                   style={{ backgroundColor: '#9e9e9e' }}
                 ></div>
-                <span className="text-xs text-gray-700">Adoptado</span>
+                <span className="text-xs text-gray-700">Adopted</span>
               </div>
             </div>
 
             <div className="mt-3 pt-3 border-t border-gray-200">
-              <h4 className="font-semibold mb-2 text-gray-800 text-xs">Filtros</h4>
+              <h4 className="font-semibold mb-2 text-gray-800 text-xs">Filters</h4>
               <div className="space-y-1.5">
                 <label className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer">
                   <input
@@ -481,7 +497,7 @@ export default function InteractiveGeoJsonMap() {
                     onChange={(e) => setFilters((prev) => ({ ...prev, adopted: e.target.checked }))}
                     className="accent-sage-600"
                   />
-                  Adoptado
+                  Adopted
                 </label>
                 <label className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer">
                   <input
@@ -490,7 +506,7 @@ export default function InteractiveGeoJsonMap() {
                     onChange={(e) => setFilters((prev) => ({ ...prev, almendra: e.target.checked }))}
                     className="accent-sage-600"
                   />
-                  Almendras
+                  Almonds
                 </label>
                 <label className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer">
                   <input
@@ -499,7 +515,7 @@ export default function InteractiveGeoJsonMap() {
                     onChange={(e) => setFilters((prev) => ({ ...prev, oliva: e.target.checked }))}
                     className="accent-sage-600"
                   />
-                  Olivas
+                  Olives
                 </label>
               </div>
             </div>
@@ -533,25 +549,25 @@ export default function InteractiveGeoJsonMap() {
           <div className="flex-1 overflow-hidden p-3 md:p-4">
             {selectedTree.adopted ? (
               <div className="bg-amber-50 border border-amber-300 rounded p-2 mb-3 text-xs">
-                <p className="font-semibold text-amber-900">⚠️ Adotada</p>
+                <p className="font-semibold text-amber-900">⚠️ Adopted</p>
               </div>
             ) : (
               <div className="bg-green-50 border border-green-300 rounded p-2 mb-3 text-xs">
-                <p className="font-semibold text-green-900">✨ Disponível</p>
+                <p className="font-semibold text-green-900">✨ Available</p>
               </div>
             )}
 
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="border-b border-gray-200 pb-2">
-                <p className="text-gray-500 text-xs">Espécie</p>
+                <p className="text-gray-500 text-xs">Species</p>
                 <p className="font-semibold text-gray-800">{selectedTree.species}</p>
               </div>
               <div className="border-b border-gray-200 pb-2">
-                <p className="text-gray-500 text-xs">Año</p>
+                <p className="text-gray-500 text-xs">Year</p>
                 <p className="font-semibold text-gray-800">{selectedTree.year}</p>
               </div>
               <div className="border-b border-gray-200 pb-2">
-                <p className="text-gray-500 text-xs">Zona</p>
+                <p className="text-gray-500 text-xs">Zone</p>
                 <p className="font-semibold text-gray-800">{selectedTree.area}</p>
               </div>
               <div className="border-b border-gray-200 pb-2">
@@ -563,7 +579,7 @@ export default function InteractiveGeoJsonMap() {
                 <p className="font-mono text-gray-800 text-xs">{selectedTree.longitude.toFixed(4)}</p>
               </div>
               <div className="col-span-2 border-b border-gray-200 pb-2">
-                <p className="text-gray-500 text-xs">Precio</p>
+                <p className="text-gray-500 text-xs">Price</p>
                 <p className="font-bold text-lg text-green-600">
                   €{selectedTree.species === 'Oliveira' ? (olivePrice / 100).toFixed(2) : (almondPrice / 100).toFixed(2)}
                 </p>
@@ -576,26 +592,26 @@ export default function InteractiveGeoJsonMap() {
             {selectedTree.adopted ? (
               <Link href={`/tree/${selectedTree.id}`}>
                 <button className="w-full bg-gray-600 hover:bg-gray-700 text-white text-xs md:text-sm font-semibold py-1.5 md:py-2 rounded transition duration-200">
-                  Ver Detalles
+                  View Details
                 </button>
               </Link>
             ) : (
               <>
                 {/* Botones condicionales basados en estado del carrito */}
                 {!isTreeInCart ? (
-                  // Botón para agregar al carrito (solo si no está en el carrito)
+                  // Button to add to cart (only if not in cart)
                   <button
                     onClick={() => handleAddToCart(selectedTree)}
                     disabled={addingToCart}
                     className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white text-xs md:text-sm font-bold py-1.5 md:py-2 rounded transition flex items-center justify-center gap-2"
                   >
-                    {addingToCart ? '⏳ Agregando...' : '✅ Agregar al Carrito'}
+                    {addingToCart ? '⏳ Adding...' : '✅ Add to Cart'}
                   </button>
                 ) : (
-                  // Botón para ir al carrito (solo si el árbol está en el carrito)
+                  // Button to go to cart (only if tree is in cart)
                   <Link href="/adopt/checkout">
                     <button className="w-full bg-amber-600 hover:bg-amber-700 text-white text-xs md:text-sm font-bold py-1.5 md:py-2 rounded transition flex items-center justify-center gap-2">
-                      🛒 Carrito ({getTreeCount()})
+                      🛒 Cart ({getTreeCount()})
                     </button>
                   </Link>
                 )}
@@ -605,19 +621,19 @@ export default function InteractiveGeoJsonMap() {
               onClick={() => setSelectedTree(null)}
               className="w-full bg-white border border-gray-300 text-gray-700 text-xs md:text-sm font-semibold py-1.5 rounded hover:border-gray-400 hover:bg-gray-50 transition"
             >
-              Cerrar
+              Close
             </button>
           </div>
         </div>
       ) : (
         <div className="w-full md:w-96 bg-white shadow-lg md:shadow-none md:border-l border-gray-200 flex flex-col overflow-hidden order-1 md:order-2 h-auto md:h-full">
-          {/* Header de Estadísticas */}
+          {/* Statistics Header */}
           <div className="bg-gradient-to-r from-sage-600 to-amber-600 text-white p-3 md:p-4">
-            <h2 className="text-base md:text-lg font-bold mb-0">📍 Información</h2>
-            <p className="text-xs opacity-90">Estadísticas</p>
+            <h2 className="text-base md:text-lg font-bold mb-0">📍 Information</h2>
+            <p className="text-xs opacity-90">Statistics</p>
           </div>
 
-          {/* Contenido de Estadísticas - Compact Grid */}
+          {/* Statistics Content - Compact Grid */}
           <div className="flex-1 p-3 md:p-4 overflow-hidden">
             <div className="grid grid-cols-2 gap-2 md:gap-3">
               {/* Total */}
@@ -629,37 +645,37 @@ export default function InteractiveGeoJsonMap() {
                 </div>
               </div>
 
-              {/* Oliva */}
+              {/* Olive */}
               <div className="bg-gradient-to-br from-sky-50 to-sky-100 rounded-md p-2 md:p-3 border border-sky-300">
                 <div className="flex flex-col items-center text-center">
-                  <p className="text-xs text-gray-600 font-medium">Oliva</p>
+                  <p className="text-xs text-gray-600 font-medium">Olive</p>
                   <p className="text-2xl md:text-3xl font-bold text-blue-600">{stats.oliva}</p>
                   <p className="text-xs text-gray-500">({((stats.oliva / stats.total) * 100).toFixed(1)}%)</p>
                 </div>
               </div>
 
-              {/* Almendras */}
+              {/* Almonds */}
               <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-md p-2 md:p-3 border border-red-300">
                 <div className="flex flex-col items-center text-center">
-                  <p className="text-xs text-gray-600 font-medium">Almendras</p>
+                  <p className="text-xs text-gray-600 font-medium">Almonds</p>
                   <p className="text-2xl md:text-3xl font-bold text-red-600">{stats.almendras}</p>
                   <p className="text-xs text-gray-500">({((stats.almendras / stats.total) * 100).toFixed(1)}%)</p>
                 </div>
               </div>
 
-              {/* Adoptadas */}
+              {/* Adopted */}
               <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-md p-2 md:p-3 border border-amber-300">
                 <div className="flex flex-col items-center text-center">
-                  <p className="text-xs text-gray-600 font-medium">Adoptadas</p>
+                  <p className="text-xs text-gray-600 font-medium">Adopted</p>
                   <p className="text-2xl md:text-3xl font-bold text-amber-600">{stats.adopted}</p>
                   <p className="text-xs text-gray-500">✅</p>
                 </div>
               </div>
 
-              {/* Disponibles */}
+              {/* Available */}
               <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-md p-2 md:p-3 border border-green-300 col-span-2">
                 <div className="flex flex-col items-center text-center">
-                  <p className="text-xs text-gray-600 font-medium">Disponibles</p>
+                  <p className="text-xs text-gray-600 font-medium">Available</p>
                   <p className="text-2xl md:text-3xl font-bold text-green-600">{stats.total - stats.adopted}</p>
                   <p className="text-xs text-gray-500">({(((stats.total - stats.adopted) / stats.total) * 100).toFixed(1)}%) 💚</p>
                 </div>
@@ -669,7 +685,7 @@ export default function InteractiveGeoJsonMap() {
 
           {/* Footer */}
           <div className="border-t border-gray-200 p-2 md:p-3 bg-gray-50 text-center text-xs text-gray-500">
-            <p>Toca o clica en un árbol</p>
+            <p>Click on a tree</p>
           </div>
         </div>
       )}
