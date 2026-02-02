@@ -70,6 +70,7 @@ export default function InteractiveGeoJsonMap() {
   })
   const [showMobileLegend, setShowMobileLegend] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [isPseudoFullscreen, setIsPseudoFullscreen] = useState(false)
   const [stats, setStats] = useState({
     total: 0,
     oliva: 0,
@@ -155,6 +156,18 @@ export default function InteractiveGeoJsonMap() {
     document.addEventListener('fullscreenchange', handleFullscreenChange)
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
   }, [])
+
+  useEffect(() => {
+    if (isPseudoFullscreen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+
+    if (map.current) {
+      setTimeout(() => map.current?.invalidateSize(), 150)
+    }
+  }, [isPseudoFullscreen])
 
   // Función para actualizar estados de árboles desde API
   const updateTreeStates = async (geojsonData: GeoJSONData) => {
@@ -399,18 +412,30 @@ export default function InteractiveGeoJsonMap() {
     if (!containerRef.current) return
 
     try {
-      if (!document.fullscreenElement) {
-        await containerRef.current.requestFullscreen()
-      } else {
+      if (document.fullscreenElement) {
         await document.exitFullscreen()
+        return
       }
+
+      if (document.fullscreenEnabled && containerRef.current.requestFullscreen) {
+        await containerRef.current.requestFullscreen()
+        return
+      }
+
+      setIsPseudoFullscreen((prev) => !prev)
     } catch (error) {
       console.error('Fullscreen error:', error)
+      setIsPseudoFullscreen((prev) => !prev)
     }
   }
 
   return (
-    <div ref={containerRef} className="flex flex-col md:flex-row w-full h-full gap-0 overflow-hidden bg-white relative z-0">
+    <div
+      ref={containerRef}
+      className={`flex flex-col md:flex-row w-full h-full gap-0 overflow-hidden bg-white relative z-0 ${
+        isPseudoFullscreen ? 'fixed inset-0 z-50 rounded-none' : ''
+      }`}
+    >
       {/* Mapa - Responsive */}
       <div className="w-full md:flex-1 relative order-2 md:order-1 flex-1 z-0">
         {/* Botón Fullscreen */}
