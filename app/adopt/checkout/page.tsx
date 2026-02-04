@@ -34,10 +34,14 @@ export default function CheckoutPage() {
       const { data: { user } } = await supabase.auth.getUser()
       
       if (!user) {
+        // Guardar el carrito en localStorage antes de redirigir
+        sessionStorage.setItem('pendingCheckout', 'true')
         // Redirigir a login con returnUrl
         router.push('/login?returnUrl=/adopt/checkout')
       } else {
         setIsAuthenticated(true)
+        // Limpiar el flag si el usuario ya está autenticado
+        sessionStorage.removeItem('pendingCheckout')
       }
       setIsLoading(false)
     }

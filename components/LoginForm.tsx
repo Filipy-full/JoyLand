@@ -19,7 +19,10 @@ export default function LoginForm() {
     const checkSession = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
-        const redirectPath = returnUrl || nextParam || '/dashboard'
+        // Si hay un checkout pendiente, ir allá
+        const pendingCheckout = typeof window !== 'undefined' ? sessionStorage.getItem('pendingCheckout') : null
+        const redirectPath = pendingCheckout ? '/adopt/checkout' : (returnUrl || nextParam || '/dashboard')
+        sessionStorage.removeItem('pendingCheckout')
         router.replace(redirectPath)
       }
     }
@@ -55,8 +58,10 @@ export default function LoginForm() {
         const adminEmails = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com']
         const userEmail = data.user?.email || ''
         
-        // Priorizar returnUrl sobre nextParam
-        const redirectPath = returnUrl || nextParam
+        // Priorizar checkout pendiente
+        const pendingCheckout = typeof window !== 'undefined' ? sessionStorage.getItem('pendingCheckout') : null
+        const redirectPath = pendingCheckout ? '/adopt/checkout' : (returnUrl || nextParam)
+        sessionStorage.removeItem('pendingCheckout')
         
         if (redirectPath) {
           router.push(redirectPath)
@@ -72,7 +77,9 @@ export default function LoginForm() {
   const handleGoogleLogin = async () => {
     setLoading(true)
     setError('')
-    const redirectPath = returnUrl || nextParam || '/dashboard'
+    // Priorizar checkout pendiente
+    const pendingCheckout = typeof window !== 'undefined' ? sessionStorage.getItem('pendingCheckout') : null
+    const redirectPath = pendingCheckout ? '/adopt/checkout' : (returnUrl || nextParam || '/dashboard')
     const redirectTo = typeof window !== 'undefined'
       ? `${window.location.origin}${redirectPath}`
       : undefined
