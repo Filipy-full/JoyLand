@@ -24,6 +24,8 @@ model Tree {
   adoptions     Adoption[]
   latitude      Float?
   longitude     Float?
+  
+  @@map("trees")
 }
 
 model User {
@@ -33,6 +35,8 @@ model User {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   adoptions Adoption[]
+  
+  @@map("users")
 }
 
 model Adoption {
@@ -56,4 +60,5 @@ model Adoption {
   
   @@index([userId])
   @@index([treeId])
+  @@map("adoptions")
 }
