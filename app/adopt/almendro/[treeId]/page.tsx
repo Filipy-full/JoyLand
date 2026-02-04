@@ -41,7 +41,7 @@ export default function AlmendroTreePage(props: any) {
 
   const handleAddToCart = async () => {
     if (tree.status === 'adopted') {
-      setError('Este árbol ya ha sido adoptado');
+      setError('This tree has already been adopted');
       return;
     }
     setLoading(true);
@@ -65,7 +65,7 @@ export default function AlmendroTreePage(props: any) {
         setAdded(false);
       }, 3000);
     } catch (err) {
-      setError('Error al agregar árbol');
+      setError('Failed to add tree');
       setLoading(false);
     }
   };

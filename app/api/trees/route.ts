@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
       .single();
 
     if (error || !tree) {
-      return NextResponse.json({ error: 'Árbol no encontrado' }, { status: 404 });
+      return NextResponse.json({ error: 'Tree not found in database' }, { status: 404 });
     }
 
     return NextResponse.json({ tree });
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
 
   if (type) {
     if (type !== 'almendro' && type !== 'olivo') {
-      return NextResponse.json({ error: 'Tipo de árbol inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid tree type' }, { status: 400 });
     }
     const dbType = type === 'almendro' ? 'almond' : 'olive';
     query = query.eq('type', dbType);

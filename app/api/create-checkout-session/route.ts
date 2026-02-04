@@ -49,12 +49,12 @@ export async function POST(req: NextRequest) {
         .single();
 
       if (error || !dbTree) {
-        return NextResponse.json({ error: `Árbol ${tree.id} no encontrado` }, { status: 404 });
+        return NextResponse.json({ error: `Tree ${tree.id} not found in database` }, { status: 404 });
       }
 
       if (dbTree.status === 'adopted') {
         return NextResponse.json(
-          { error: `Árbol ${tree.id} ya ha sido adoptado` },
+          { error: `Tree ${tree.id} has already been adopted` },
           { status: 400 }
         );
       }

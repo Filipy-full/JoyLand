@@ -35,7 +35,7 @@ export default function TreeDetailPage() {
         )
 
         if (!feature) {
-          setError('Árvore não encontrada')
+          setError('Tree not found')
           setLoading(false)
           return
         }
@@ -60,7 +60,7 @@ export default function TreeDetailPage() {
         setLoading(false)
       })
       .catch((err) => {
-        setError('Erro ao carregar dados da árvore')
+        setError('Failed to load tree data')
         console.error(err)
         setLoading(false)
       })
@@ -81,11 +81,11 @@ export default function TreeDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sage-50 to-amber-50">
         <div className="text-center max-w-md">
-          <h1 className="text-3xl font-serif text-red-600 mb-4">Erro</h1>
-          <p className="text-gray-600 mb-6">{error || 'Árvore não encontrada'}</p>
+          <h1 className="text-3xl font-serif text-red-600 mb-4">Error</h1>
+          <p className="text-gray-600 mb-6">{error || 'Tree not found'}</p>
           <Link href="/adopt/map">
             <button className="bg-sage-600 hover:bg-sage-700 text-white font-semibold py-2 px-6 rounded-lg transition">
-              Voltar ao Mapa
+              Back to map
             </button>
           </Link>
         </div>
@@ -99,7 +99,7 @@ export default function TreeDetailPage() {
         {/* Botão Voltar */}
         <Link href="/adopt/map">
           <button className="mb-6 flex items-center gap-2 text-sage-600 hover:text-sage-700 font-semibold transition">
-            ← Voltar ao Mapa
+            ← Back to map
           </button>
         </Link>
 
