@@ -13,16 +13,29 @@ export default function AboutPage() {
           <div className="w-20 h-1 bg-sage-300 rounded-full mx-auto" />
         </div>
 
-        {/* Featured Image */}
-        <div className="relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl group">
-          <Image
-            src="/about/image1.jpeg"
-            alt="Joyland landscape"
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+        {/* Images */}
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="relative h-[260px] md:h-[300px] rounded-3xl overflow-hidden shadow-2xl group">
+            <Image
+              src="/about/image1.jpeg"
+              alt="Joyland landscape"
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+          </div>
+
+          <div className="relative h-[260px] md:h-[300px] rounded-3xl overflow-hidden shadow-2xl group">
+            <Image
+              src="/mapa/mapa.png"
+              alt="Mapa de Joyland"
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+          </div>
         </div>
 
         {/* Physical Characteristics */}
@@ -34,7 +47,6 @@ export default function AboutPage() {
                 <span className="text-2xl text-sage-600 mt-1">📍</span>
                 <div>
                   <p className="font-semibold text-sage-700">Location</p>
-                  <p className="text-sage-600">Sant Mateu de Bages, Catalunya</p>
                   <p className="text-sage-600">Geoparc Catalan</p>
                 </div>
               </div>
@@ -57,9 +69,8 @@ export default function AboutPage() {
               <div className="flex items-start gap-3">
                 <span className="text-2xl text-sage-600 mt-1">🌳</span>
                 <div>
-                  <p className="font-semibold text-sage-700">Vegetation</p>
-                  <p className="text-sage-600">5 ha forested area</p>
-                  <p className="text-sage-600">2 ha olive & almond grove</p>
+                  <p className="font-semibold text-sage-700">Joyland areas</p>
+                  <p className="text-sage-600">1,5 ha olive & almond grove (SE), 4,8 ha terrace grove (W)</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -74,8 +85,7 @@ export default function AboutPage() {
                 <span className="text-2xl text-sage-600 mt-1">🏔️</span>
                 <div>
                   <p className="font-semibold text-sage-700">Terrain</p>
-                  <p className="text-sage-600">Valley, SE + W facing terraced land</p>
-                  <p className="text-sage-600">Rocky clay soil with boulders</p>
+                  <p className="text-sage-600">Valley with rocky clay soil</p>
                 </div>
               </div>
             </div>
@@ -154,6 +164,18 @@ export default function AboutPage() {
             <p className="text-lg font-semibold text-sage-700 mt-8">Nature invites us to play, which we celebrate in every way.</p>
             <p className="text-center text-xl font-serif text-sage-700 mt-8">Welcome to Joyland.</p>
           </div>
+        </div>
+
+        <div className="bg-sage-100 p-8 rounded-2xl text-center">
+          <h2 className="text-2xl font-serif text-sage-800 mb-4">
+            Adopt a tree. Support a vibrant grove rooted in care.
+          </h2>
+          <a
+            href="/adopt"
+            className="inline-block bg-sage-600 text-white px-8 py-3 rounded-full hover:bg-sage-700 transition-colors"
+          >
+            Adopt a tree. Support a vibrant grove rooted in care.
+          </a>
         </div>
 
       </div>

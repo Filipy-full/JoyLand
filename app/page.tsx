@@ -116,17 +116,17 @@ export default function HomePage() {
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-4 leading-tight drop-shadow-2xl">
               <span className="text-gradient-gold inline-block animate-fadeInUp">Adopt a tree</span>{' '}
-              <span className="inline-block animate-fadeInUp" style={{ animationDelay: '0.1s' }}>and support a living grove</span>
+              <span className="inline-block animate-fadeInUp" style={{ animationDelay: '0.1s' }}>and support a regenerative grove.</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-white mb-4 leading-relaxed drop-shadow-lg animate-fadeInUp font-light" style={{ animationDelay: '0.2s' }}>
-              Connect with nature and support an ecological regeneration project in northern Spain. Your contribution shapes a living system — year by year, tree by tree.
+              Connect with nature and participate in an agricultural regeneration project in northern Spain. Your contribution shapes a growing ecology — year by year, tree by tree.
             </p>
             <Link 
               href="/adopt"
               className="inline-block premium-gradient text-white px-6 sm:px-8 md:px-10 py-3 sm:py-4 rounded-full hover:shadow-2xl transition-all transform hover:scale-110 text-base sm:text-lg font-bold drop-shadow-lg animate-bounceIn hover-3d"
               style={{ animationDelay: '0.6s' }}
             >
-              Adopt a tree
+              Adopt a tree and support a regenerative grove.
             </Link>
           </div>
         </div>
@@ -135,19 +135,17 @@ export default function HomePage() {
       {/* About Section - Glassmorphism Premium */}
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start">
             {/* Imagen con efecto parallax */}
             <div 
-              className="relative h-[250px] sm:h-[320px] md:h-[400px] rounded-2xl overflow-hidden shadow-2xl reveal reveal-left group"
-              style={{
-                transform: `translateY(${scrollY * 0.1}px)`,
-              }}
+              className="relative h-[200px] sm:h-[320px] md:h-[400px] lg:h-full rounded-2xl overflow-hidden shadow-2xl reveal reveal-left group"
             >
               <Image
-                src="/paisaje-natural.jpeg"
+                src="/homepage/image1.jpg"
                 alt="Paisaje natural"
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                className="object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                style={{ objectPosition: '50% 40%' }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-sage-700/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
@@ -158,18 +156,18 @@ export default function HomePage() {
                 <div className="flex items-center gap-3 mb-5">
                   <OliveIcon className="w-10 h-10 sm:w-12 sm:h-12 animate-floatRandom" />
                   <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-sage-700">
-                    What is Joyland?
+                    What Is Joyland?
                   </h2>
                 </div>
                 <div className="space-y-3 sm:space-y-4">
                   <p className="text-sm sm:text-base md:text-lg text-sage-800 leading-relaxed">
-                    Joyland is a <span className="font-semibold text-sage-600">regenerative agriculture</span> project rooted in stewardship, observation, and care for natural rhythms. Here, olives and almonds grow within a diverse ecosystem where soil life, wild plants, insects, trees, and people all play a role.
+                    Joyland is a regenerative agricultural project rooted in stewardship, observation, and care for natural rhythms. Here, olives and almonds grow within a diverse ecosystem where soil life, wild plants, insects, trees, and people all play a role. When you adopt a tree you support regenerative practices that encourage biodiversity, enrich the land, strengthen the soil, and build resilience.
                   </p>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-serif text-sage-700">
+                    Joyland Tree Adoption
+                  </h3>
                   <p className="text-base sm:text-lg md:text-xl text-sage-800 leading-relaxed">
-                    When you adopt a tree you support <span className="font-semibold text-sage-600">regenerative practices</span> that encourage biodiversity, enriches the land, strengthens the soil, and builds resilience year after year.
-                  </p>
-                  <p className="text-base sm:text-lg md:text-xl text-sage-800 leading-relaxed">
-                    Through an adoption, you follow the growth of your tree within a living ecosystem — learning how soil, biodiversity, and time work together to support resilient trees and landscapes. You will receive updates on your tree's progress, seasonal photos and the products it generates.
+                    Through an adoption, you follow the growth of your tree within a sprouting food forest — learning how soil, biodiversity, and time work together to support resilient trees and landscapes. You will receive updates on your tree's progress, seasonal photos and the products it generates. A way to support natural living systems while staying closely connected to the land that nourishes them.
                   </p>
                 </div>
                 <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
@@ -209,9 +207,9 @@ export default function HomePage() {
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {[
-              { img: '/olivar-atardecer.jpeg', title: 'Golden sunset', delay: '0s' },
-              { img: '/almendros-flor.jpeg', title: 'Spring blossom', delay: '0.1s' },
-              { img: '/campo-verde.jpeg', title: 'Intense green', delay: '0.2s' }
+              { img: '/homepage/image2.jpg', title: 'Fresh olive', delay: '0s' },
+              { img: '/homepage/image3.jpg', title: 'Olive tree', delay: '0.1s' },
+              { img: '/homepage/image4.jpg', title: 'Green grove', delay: '0.2s' }
             ].map((item, i) => (
               <div 
                 key={i}
@@ -246,19 +244,19 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-8 sm:mb-12 reveal reveal-up">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-sage-700 mb-3">
-              What Your Adoption Includes
+              What your adoption includes
             </h2>
             <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-sage-400 via-sage-600 to-sage-400 mx-auto rounded-full"></div>
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {[
-              { icon: LocationIcon, title: 'Your Personal Tree', desc: 'GPS access to your tree with exact coordinates. You can visit it anytime.', delay: '0s' },
-              { icon: GalleryIcon, title: 'Private Gallery', desc: 'Monthly photos of your tree’s growth. Videos at key seasons.', delay: '0.1s' },
-              { icon: GiftIcon, title: 'Natural Products', desc: 'Extra virgin olive oil or gourmet almonds depending on your tree. Delivered to your home.', delay: '0.2s' },
-              { icon: DocumentIcon, title: 'Annual Report', desc: 'Documentation on the ecological impact and growth of your tree.', delay: '0.3s' },
-              { icon: LeafIcon, title: 'Sustainable Practices', desc: 'Your adoption supports regenerative agriculture and biodiversity conservation.', delay: '0.4s' },
-              { icon: HeartIcon, title: 'Meaningful Gift', desc: 'You can gift it with a personalized certificate. A gift that grows.', delay: '0.5s' },
+              { icon: LocationIcon, title: 'Your Personal Tree', desc: 'Upon invitation you can come to your tree for a visit, a real harvest, or a hug.', delay: '0s' },
+              { icon: GalleryIcon, title: '📸 Seasonal Updates', desc: 'Follow your tree through the year with our interactive map, photos, short videos, and gentle updates from the grove and your adoption.', delay: '0.1s' },
+              { icon: GiftIcon, title: '🫒 Natural Harvest Gifts', desc: 'Receive a giftbox with artisanal products made from the land — Joyland olive oil, almonds, dried herbs and more.', delay: '0.2s' },
+              { icon: DocumentIcon, title: '🌱 Annual Land & Tree Report', desc: 'A printed yearly overview added to your giftbox, sharing how your tree and the wider ecosystem are growing, evolving, and flourishing.', delay: '0.3s' },
+              { icon: LeafIcon, title: '🐝 Regenerative Stewardship', desc: 'Your adoption supports practices that build soil health, stimulate biodiversity, and care for the land as a living whole.', delay: '0.4s' },
+              { icon: HeartIcon, title: '🎁 A Gift That Grows', desc: 'Adopt a tree for yourself or gift it to someone you love, complete with a personalized adoption certificate.', delay: '0.5s' },
             ].map((item, i) => (
               <div 
                 key={i}

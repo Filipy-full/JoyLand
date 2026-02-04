@@ -21,7 +21,7 @@ export default function Footer() {
               </div>
             </div>
             <h3 className="text-2xl sm:text-3xl font-serif mb-3 text-sage-900 drop-shadow-sm">Ready for your tree?</h3>
-            <p className="mb-6 sm:mb-8 text-sage-700 text-sm sm:text-base">Join our regenerative community</p>
+            <p className="mb-6 sm:mb-8 text-sage-700 text-sm sm:text-base">Join our regenerative community &amp; Cultivate abundance.</p>
             <Link
               href="/adopt/map"
               className="inline-block golden-gradient text-sage-900 px-8 sm:px-12 py-3 sm:py-4 rounded-full hover:shadow-2xl transition-all font-bold text-sm sm:text-base transform hover:scale-110"
@@ -141,7 +141,7 @@ export default function Footer() {
                 <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>11.00-21.00 o'clock</span>
+                <span>11.00-21.00 o’clock</span>
               </li>
             </ul>
 

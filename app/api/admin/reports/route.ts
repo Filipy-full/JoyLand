@@ -50,14 +50,14 @@ export async function POST(req: NextRequest) {
     }
 
     const formData = await req.formData()
-    const adoptionId = formData.get('adoption_id')?.toString() || ''
-    const userId = formData.get('user_id')?.toString() || ''
+    const adoptionId = formData.get('adoption_id')?.toString() || null
+    const userId = formData.get('user_id')?.toString() || null
     const treeId = formData.get('tree_id')?.toString() || ''
     const title = formData.get('title')?.toString() || ''
     const body = formData.get('body')?.toString() || ''
 
-    if (!adoptionId || !userId || !treeId || !title) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    if (!treeId || !title) {
+      return NextResponse.json({ error: 'Missing required fields (tree_id and title)' }, { status: 400 })
     }
 
     const pdfFile = formData.get('pdf') as File | null
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
 
     if (pdfFile && pdfFile.size > 0) {
       const pdfBuffer = Buffer.from(await pdfFile.arrayBuffer())
-      const pdfPath = `reports/${adoptionId}/${Date.now()}_${pdfFile.name}`
+      const pdfPath = `reports/${treeId}/${Date.now()}_${pdfFile.name}`
       const { error: pdfError } = await supabaseAdmin
         .storage
         .from(REPORTS_BUCKET)
@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
     for (const photo of photos) {
       if (!photo || photo.size === 0) continue
       const photoBuffer = Buffer.from(await photo.arrayBuffer())
-      const photoPath = `reports/${adoptionId}/${Date.now()}_${photo.name}`
+      const photoPath = `reports/${treeId}/${Date.now()}_${photo.name}`
       const { error: photoError } = await supabaseAdmin
         .storage
         .from(REPORTS_BUCKET)

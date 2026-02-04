@@ -20,6 +20,7 @@ export default function AdminDashboard() {
     title: '',
     body: '',
   })
+  const [trees, setTrees] = useState<any[]>([])
   const [pdfFile, setPdfFile] = useState<File | null>(null)
   const [photoFiles, setPhotoFiles] = useState<File[]>([])
   const [searchQuery, setSearchQuery] = useState('')
@@ -71,6 +72,16 @@ export default function AdminDashboard() {
     if (res.ok) {
       const body = await res.json()
       setReports(body.reports || [])
+    }
+  }
+
+  const fetchTrees = async (token: string) => {
+    const res = await fetch('/api/trees', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    if (res.ok) {
+      const body = await res.json()
+      setTrees(body.trees || [])
     }
   }
 
@@ -128,6 +139,7 @@ export default function AdminDashboard() {
       await fetchAdoptions(token)
       await fetchReports(token)
       await fetchStats(token)
+      await fetchTrees(token)
     }
     loadAll()
   }, [])
@@ -714,40 +726,33 @@ export default function AdminDashboard() {
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Send Report</h2>
                 <form onSubmit={handleCreateReport} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Adoption</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Tree *</label>
                     <select
                       className="w-full border rounded-lg px-3 py-2"
-                      value={reportForm.adoptionId}
+                      value={reportForm.treeId}
                       onChange={(e) => {
-                        const adoptionId = e.target.value
-                        const selected = adoptions.find((a) => a.id === adoptionId)
+                        const treeId = e.target.value
+                        const adoption = adoptions.find((a) => a.tree_id === treeId)
                         setReportForm((prev) => ({
                           ...prev,
-                          adoptionId,
-                          userId: selected?.user_id || '',
-                          treeId: selected?.tree_id || '',
+                          treeId,
+                          adoptionId: adoption?.id || '',
+                          userId: adoption?.user_id || '',
                         }))
                       }}
                       required
                     >
-                      <option value="">Select adoption</option>
-                      {adoptions
-                        .filter(a => {
-                          if (!searchQuery) return true;
-                          const query = searchQuery.toLowerCase();
-                          return (
-                            a.tree_name?.toLowerCase().includes(query) ||
-                            a.tree_id?.toLowerCase().includes(query) ||
-                            a.user_email?.toLowerCase().includes(query) ||
-                            a.user_id?.toLowerCase().includes(query)
-                          );
-                        })
-                        .map((a) => (
-                          <option key={a.id} value={a.id}>
-                            {a.tree_name || `Tree #${a.tree_id}`} | {a.user_email || 'No email'} | ID: {a.tree_id}
+                      <option value="">Select tree</option>
+                      {trees.map((t) => {
+                        const adoption = adoptions.find((a) => a.tree_id === t.id)
+                        return (
+                          <option key={t.id} value={t.id}>
+                            {t.name || `Tree #${t.id}`} - {t.type} {adoption ? `(Adopted by ${adoption.user_email})` : '(Not adopted)'}
                           </option>
-                        ))}
+                        )
+                      })}
                     </select>
+                    <p className="text-xs text-gray-500 mt-1">Reports can be created for any tree, adopted or not</p>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>

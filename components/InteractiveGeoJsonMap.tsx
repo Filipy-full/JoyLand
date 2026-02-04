@@ -269,7 +269,7 @@ export default function InteractiveGeoJsonMap() {
       if (!feature) return
 
       const coords = feature.geometry.coordinates as number[]
-      const color = tree.adopted ? '#9e9e9e' : feature.properties.species === 'Oliveira' ? '#1976d2' : '#d32f2f'
+      const color = tree.adopted ? '#f44336' : feature.properties.species === 'Oliveira' ? '#4caf50' : '#8d6e63'
 
       // Tamaño responsivo
       let markerSize = 16
@@ -305,7 +305,6 @@ export default function InteractiveGeoJsonMap() {
             position: relative;
             transition: all 0.3s ease;
           ">
-            <span style="color: white; font-size: ${fontSize}; font-weight: bold; position: absolute; white-space: nowrap;">${tree.name}</span>
           </div>
         `,
         iconSize: [markerSize, markerSize],
@@ -339,8 +338,9 @@ export default function InteractiveGeoJsonMap() {
 
     // Inicializar mapa
     if (!map.current) {
-      map.current = L.map(mapContainer.current).setView([41.7895, 1.7435], 18)
-      map.current.setMaxBounds(L.latLngBounds([41.78, 1.74], [41.80, 1.75]))
+      map.current = L.map(mapContainer.current, {
+        minZoom: 16,
+      }).setView([41.79003211212408, 1.744052942308192], 18)
 
       // Diferentes capas base
       const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -489,15 +489,15 @@ export default function InteractiveGeoJsonMap() {
               <h3 className="font-semibold text-gray-800 text-xs">Legend</h3>
               <div className="mt-2 space-y-1">
                 <div className="flex items-center gap-2 text-[11px] text-gray-700">
-                  <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#9e9e9e' }}></span>
+                  <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#f44336' }}></span>
                   Adopted
                 </div>
                 <div className="flex items-center gap-2 text-[11px] text-gray-700">
-                  <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#d32f2f' }}></span>
+                  <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#8d6e63' }}></span>
                   Almond
                 </div>
                 <div className="flex items-center gap-2 text-[11px] text-gray-700">
-                  <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#1976d2' }}></span>
+                  <span className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: '#4caf50' }}></span>
                   Olive
                 </div>
               </div>
@@ -546,21 +546,21 @@ export default function InteractiveGeoJsonMap() {
               <div className="flex items-center gap-2">
                 <div
                   className="w-4 h-4 rounded-full border-2 border-white"
-                  style={{ backgroundColor: '#1976d2' }}
+                  style={{ backgroundColor: '#4caf50' }}
                 ></div>
                 <span className="text-xs text-gray-700">Olive</span>
               </div>
               <div className="flex items-center gap-2">
                 <div
                   className="w-4 h-4 rounded-full border-2 border-white"
-                  style={{ backgroundColor: '#d32f2f' }}
+                  style={{ backgroundColor: '#8d6e63' }}
                 ></div>
                 <span className="text-xs text-gray-700">Almond</span>
               </div>
               <div className="flex items-center gap-2">
                 <div
                   className="w-4 h-4 rounded-full border-2 border-white"
-                  style={{ backgroundColor: '#9e9e9e' }}
+                  style={{ backgroundColor: '#f44336' }}
                 ></div>
                 <span className="text-xs text-gray-700">Adopted</span>
               </div>
@@ -609,7 +609,7 @@ export default function InteractiveGeoJsonMap() {
           <div
             className="px-3 md:px-4 py-3 md:py-4 text-white flex items-end h-16 md:h-20"
             style={{
-              background: `linear-gradient(135deg, ${selectedTree.species === 'Oliveira' ? '#1976d2' : '#d32f2f'} 0%, ${selectedTree.species === 'Oliveira' ? '#0d47a1' : '#b71c1c'} 100%)`,
+              background: `linear-gradient(135deg, ${selectedTree.species === 'Oliveira' ? '#4caf50' : '#8d6e63'} 0%, ${selectedTree.species === 'Oliveira' ? '#2e7d32' : '#5d4037'} 100%)`,
             }}
           >
             <div className="flex-1">
