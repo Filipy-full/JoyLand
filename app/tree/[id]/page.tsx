@@ -1,4 +1,3 @@
-import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import TreeMap from '@/components/TreeMap'
@@ -8,23 +7,26 @@ export const dynamic = 'force-dynamic'
 export default async function TreePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   
-  const tree = await prisma.tree.findUnique({
-    where: { id },
-    include: {
-      adoptions: {
-        include: {
-          user: true,
-        },
-        orderBy: {
-          startDate: 'desc',
-        },
-      },
-    },
-  })
+  // TODO: Re-enable Prisma after fixing schema
+  notFound()
+  
+  // const tree = await prisma.tree.findUnique({
+  //   where: { id },
+  //   include: {
+  //     adoptions: {
+  //       include: {
+  //         user: true,
+  //       },
+  //       orderBy: {
+  //         startDate: 'desc',
+  //       },
+  //     },
+  //   },
+  // })
 
-  if (!tree) {
-    notFound()
-  }
+  // if (!tree) {
+  //   notFound()
+  // }
 
   // Parse images and videos from JSON strings
   const images = tree.images ? JSON.parse(tree.images) : []

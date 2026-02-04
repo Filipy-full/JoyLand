@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { AdoptionIncludes, PriceCTA, HeroSection } from '@/components/AdoptionUI';
-import { prisma } from '@/lib/prisma';
 import { supabase } from '@/lib/supabase';
 import { notFound, useParams, useRouter } from 'next/navigation';
 import { useAdoptionCart } from '@/contexts/AdoptionCart';
