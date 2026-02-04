@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
       customer_email: userEmail || undefined, // Pre-rellenar email en Stripe
       billing_address_collection: 'required',
       shipping_address_collection: {
-        allowed_countries: ['ES', 'PT', 'FR', 'IT', 'DE', 'NL', 'BE', 'AT', 'CH', 'GB', 'US', 'CA'],
+        allowed_countries: ['DE', 'AT', 'BE', 'BG', 'HR', 'DK', 'SK', 'SI', 'ES', 'FI', 'FR', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'NO', 'NL'],
       },
       line_items,
       success_url: `${origin}/adopt/success?session_id={CHECKOUT_SESSION_ID}`,
