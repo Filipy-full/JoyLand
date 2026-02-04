@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { randomUUID } from 'crypto'
 
 const prisma = new PrismaClient()
 
@@ -125,6 +126,7 @@ async function main() {
   // Optionally create a test user and adoption
   const testUser = await prisma.user.create({
     data: {
+      id: randomUUID(),
       name: 'Test User',
       email: 'test@joyland.es',
     },
