@@ -198,7 +198,7 @@ export default function CheckoutForm({ tree }: CheckoutFormProps) {
                 </div>
               </div>
               <p className="text-xs text-gray-600">
-                {tree.species} • Zone: {tree.area} • Year: {tree.year}
+                {tree.species} • Zone: {tree.area} • Year: {String(tree.year || 0).padStart(4, '0')}
               </p>
             </div>
           ))}

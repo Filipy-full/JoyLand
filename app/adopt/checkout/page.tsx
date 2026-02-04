@@ -24,10 +24,8 @@ export default function CheckoutPage() {
   }, 0)
   const priceInEuros = dynamicTotal / 100
   
-  // Obtener precio por árbol
-  const almondTreesCount = trees.filter(t => t.type === 'almendro').length
-  const oliveTreesCount = trees.filter(t => t.type === 'olivo').length
-  const displayPrice = almondTreesCount > 0 && oliveTreesCount === 0 ? almondPrice : oliveTreesCount > 0 && almondTreesCount === 0 ? olivePrice : almondPrice
+  // Precio medio por árbol
+  const displayPrice = totalTrees > 0 ? Math.round(dynamicTotal / totalTrees) : 0
 
   useEffect(() => {
     const checkAuth = async () => {

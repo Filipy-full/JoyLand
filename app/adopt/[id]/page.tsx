@@ -27,7 +27,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id?: 
 
   // Redirect if tree is already adopted
   if (tree.status !== 'available') {
-    redirect(`/adopt/map/${tree.id}`);
+    redirect(`/tree/${tree.id}`);
   }
 
   const price = 2;
@@ -36,7 +36,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id?: 
     <div className="container mx-auto px-6 py-12">
       <div className="max-w-4xl mx-auto">
         <Link
-          href={`/adopt/map/${tree.id}`}
+          href="/adopt/map"
           className="text-sage-600 hover:text-sage-700 mb-4 inline-block"
         >
           ← Back

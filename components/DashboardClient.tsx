@@ -174,124 +174,122 @@ export default function DashboardClient() {
             </div>
           ) : (
             <div className="divide-y divide-gray-200">
-              {adoptions.map((adoption) => (
-                <div key={adoption.id} className="p-6 hover:bg-gray-50 transition">
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                    {/* Árbol Info */}
-                    <div>
-                      <p className="text-xs text-gray-500 mb-1">ÁRBOL</p>
-                      <p className="font-semibold text-gray-900">{adoption.tree_name || `#${adoption.tree_id}`}</p>
-                      <p className="text-sm text-gray-600 mt-1">ID: {adoption.tree_id}</p>
-                    </div>
-
-                    {/* Estado */}
-                    <div>
-                      <p className="text-xs text-gray-500 mb-1">ESTADO</p>
-                      <div className="flex gap-2 flex-wrap">
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
-                          adoption.status === 'adopted' ? 'bg-green-600' : 
-                          adoption.status === 'reserved' ? 'bg-yellow-600' : 
-                          'bg-gray-600'
-                        }`}>
-                          {adoption.status === 'adopted' ? '✅ Adoptado' :
-                           adoption.status === 'reserved' ? '⏳ Reservado' :
-                           '📝 Disponible'}
-                        </span>
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
-                          adoption.payment_status === 'completed' ? 'bg-blue-600' :
-                          adoption.payment_status === 'pending' ? 'bg-orange-600' :
-                          'bg-red-600'
-                        }`}>
-                          {adoption.payment_status === 'completed' ? '💳 Pagado' :
-                           adoption.payment_status === 'pending' ? '⏳ Pendiente' :
-                           '❌ Error'}
-                        </span>
+              {adoptions.map((adoption) => {
+                const treeReports = reports.filter(r => r.tree_id === adoption.tree_id)
+                return (
+                  <div key={adoption.id} className="p-6 hover:bg-gray-50 transition">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                      {/* Árbol Info */}
+                      <div>
+                        <p className="text-xs text-gray-500 mb-1">ÁRBOL</p>
+                        <p className="font-semibold text-gray-900">{adoption.tree_name || `#${adoption.tree_id}`}</p>
+                        <p className="text-sm text-gray-600 mt-1">ID: {adoption.tree_id}</p>
                       </div>
-                    </div>
 
-                    {/* Fechas */}
-                    <div>
-                      <p className="text-xs text-gray-500 mb-1">PERÍODO</p>
-                      <p className="text-sm font-semibold text-gray-900">
-                        {adoption.start_date ? new Date(adoption.start_date).toLocaleDateString('es-ES') : 'N/A'}
-                      </p>
-                      <p className="text-xs text-gray-600 mt-1">
-                        hasta {adoption.end_date ? new Date(adoption.end_date).toLocaleDateString('es-ES') : 'N/A'}
-                      </p>
-                    </div>
+                      {/* Estado */}
+                      <div>
+                        <p className="text-xs text-gray-500 mb-1">ESTADO</p>
+                        <div className="flex gap-2 flex-wrap">
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
+                            adoption.status === 'adopted' ? 'bg-green-600' : 
+                            adoption.status === 'reserved' ? 'bg-yellow-600' : 
+                            'bg-gray-600'
+                          }`}>
+                            {adoption.status === 'adopted' ? '✅ Adoptado' :
+                             adoption.status === 'reserved' ? '⏳ Reservado' :
+                             '📝 Disponible'}
+                          </span>
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
+                            adoption.payment_status === 'completed' ? 'bg-blue-600' :
+                            adoption.payment_status === 'pending' ? 'bg-orange-600' :
+                            'bg-red-600'
+                          }`}>
+                            {adoption.payment_status === 'completed' ? '💳 Pagado' :
+                             adoption.payment_status === 'pending' ? '⏳ Pendiente' :
+                             '❌ Error'}
+                          </span>
+                        </div>
+                      </div>
 
-                    {/* Acciones */}
-                    <div>
-                      <p className="text-xs text-gray-500 mb-2">ACCIONES</p>
-                      <div className="space-y-2">
-                        {adoption.certificate_url && (
-                          <a href={adoption.certificate_url} target="_blank" rel="noopener noreferrer">
-                            <button className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold py-1.5 rounded transition">
-                              📥 Descargar PDF
+                      {/* Fechas */}
+                      <div>
+                        <p className="text-xs text-gray-500 mb-1">PERÍODO</p>
+                        <p className="text-sm font-semibold text-gray-900">
+                          {adoption.start_date ? new Date(adoption.start_date).toLocaleDateString('es-ES') : 'N/A'}
+                        </p>
+                        <p className="text-xs text-gray-600 mt-1">
+                          hasta {adoption.end_date ? new Date(adoption.end_date).toLocaleDateString('es-ES') : 'N/A'}
+                        </p>
+                      </div>
+
+                      {/* Acciones */}
+                      <div>
+                        <p className="text-xs text-gray-500 mb-2">ACCIONES</p>
+                        <div className="space-y-2">
+                          {adoption.certificate_url && (
+                            <a href={adoption.certificate_url} target="_blank" rel="noopener noreferrer">
+                              <button className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold py-1.5 rounded transition">
+                                📥 Descargar PDF
+                              </button>
+                            </a>
+                          )}
+                          <Link href={`/tree/${adoption.tree_id}`}>
+                            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 rounded transition">
+                              🌳 Ver Árbol
                             </button>
-                          </a>
-                        )}
-                        <Link href={`/adopt/map/${adoption.tree_id}`}>
-                          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 rounded transition">
-                            🗺️ Ver en Mapa
-                          </button>
-                        </Link>
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Mensaje de regalo */}
-                  {adoption.gift_message && (
-                    <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded">
-                      <p className="text-xs text-amber-700 font-semibold mb-1">💝 Mensaje Personal:</p>
-                      <p className="text-sm text-amber-900 italic">"{adoption.gift_message}"</p>
-                    </div>
-                  )}
-
-                  {/* Certificado Info */}
-                  {adoption.certificate_code && (
-                    <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded">
-                      <p className="text-xs text-blue-700 font-semibold mb-1">📜 Certificado:</p>
-                      <p className="text-sm text-blue-900 font-mono">{adoption.certificate_code}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Reportes del Árbol */}
-        <div className="mt-8 bg-white rounded-lg shadow overflow-hidden">
-          <div className="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700">
-            <h2 className="text-xl font-bold text-white">📄 Reportes de tu Árbol</h2>
-          </div>
-          {reports.length === 0 ? (
-            <div className="p-6 text-center text-gray-600">
-              Aún no hay reportes disponibles.
-            </div>
-          ) : (
-            <div className="divide-y divide-gray-200">
-              {reports.map((r) => (
-                <div key={r.id} className="p-6">
-                  <div className="flex flex-wrap justify-between gap-2">
-                    <div>
-                      <div className="font-semibold text-gray-900">{r.title}</div>
-                      <div className="text-sm text-gray-600">Árbol: {r.tree_id}</div>
-                    </div>
-                    <div className="text-xs text-gray-500">{new Date(r.created_at).toLocaleDateString('es-ES')}</div>
-                  </div>
-                  {r.body && <p className="text-sm text-gray-700 mt-2">{r.body}</p>}
-                  <div className="mt-2 flex flex-wrap gap-3">
-                    {r.pdf_url && (
-                      <a href={r.pdf_url} target="_blank" rel="noreferrer" className="text-sage-700 text-sm underline">PDF</a>
+                    {/* Mensaje de regalo */}
+                    {adoption.gift_message && (
+                      <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded">
+                        <p className="text-xs text-amber-700 font-semibold mb-1">💝 Mensaje Personal:</p>
+                        <p className="text-sm text-amber-900 italic">"{adoption.gift_message}"</p>
+                      </div>
                     )}
-                    {Array.isArray(r.photo_urls) && r.photo_urls.map((url) => (
-                      <a key={url} href={url} target="_blank" rel="noreferrer" className="text-sage-700 text-sm underline">Foto</a>
-                    ))}
+
+                    {/* Certificado Info */}
+                    {adoption.certificate_code && (
+                      <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded">
+                        <p className="text-xs text-blue-700 font-semibold mb-1">📜 Certificado:</p>
+                        <p className="text-sm text-blue-900 font-mono">{adoption.certificate_code}</p>
+                      </div>
+                    )}
+
+                    {/* Reportes del árbol */}
+                    {treeReports.length > 0 && (
+                      <div className="mt-4 border-t pt-4">
+                        <h4 className="text-sm font-semibold text-gray-900 mb-3">📄 Reportes de este árbol ({treeReports.length})</h4>
+                        <div className="space-y-3">
+                          {treeReports.map((r) => (
+                            <div key={r.id} className="p-3 bg-blue-50 border border-blue-200 rounded">
+                              <div className="flex flex-wrap justify-between gap-2 mb-2">
+                                <div className="font-semibold text-blue-900 text-sm">{r.title}</div>
+                                <div className="text-xs text-blue-600">{new Date(r.created_at).toLocaleDateString('es-ES')}</div>
+                              </div>
+                              {r.body && <p className="text-xs text-blue-800 mt-1">{r.body}</p>}
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                {r.pdf_url && (
+                                  <a href={r.pdf_url} target="_blank" rel="noreferrer" className="text-blue-700 text-xs underline font-medium">
+                                    📥 PDF
+                                  </a>
+                                )}
+                                {Array.isArray(r.photo_urls) && r.photo_urls.map((url, idx) => (
+                                  <a key={url} href={url} target="_blank" rel="noreferrer" className="text-blue-700 text-xs underline font-medium">
+                                    🖼️ Foto {idx + 1}
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           )}
         </div>

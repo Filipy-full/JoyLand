@@ -173,9 +173,9 @@ export default function InteractiveGeoJsonMap() {
   const updateTreeStates = async (geojsonData: GeoJSONData) => {
     try {
       const treesResponse = await fetch('/api/trees').then((res) => res.json())
-      const statusMap = new Map<string, { status?: string; name?: string }>()
+      const statusMap = new Map<string, { status?: string; name?: string; year?: number }>()
       ;(treesResponse.trees || []).forEach((t: any) => {
-        statusMap.set(t.id, { status: t.status, name: t.name })
+        statusMap.set(t.id, { status: t.status, name: t.name, year: t.year })
       })
 
       const parsedTrees: TreeData[] = []
@@ -195,7 +195,7 @@ export default function InteractiveGeoJsonMap() {
             id: feature.id,
             name: dbInfo?.name || feature.properties.name,
             species: feature.properties.species,
-            year: feature.properties.year,
+            year: typeof dbInfo?.year === 'number' ? dbInfo?.year : 0,
             area: feature.properties.area,
             latitude: coords[1],
             longitude: coords[0],
@@ -324,7 +324,7 @@ export default function InteractiveGeoJsonMap() {
       marker.bindPopup(
         `<strong>Tree #${tree.name}</strong><br/>
          Species: ${feature.properties.species}<br/>
-         Year: ${feature.properties.year}<br/>
+         Year: ${String(tree.year || 0).padStart(4, '0')}<br/>
          Zone: ${feature.properties.area}<br/>
          Status: ${tree.adopted ? 'Adopted ✓' : 'Available'}`
       )
@@ -643,7 +643,7 @@ export default function InteractiveGeoJsonMap() {
               </div>
               <div className="border-b border-gray-200 pb-2">
                 <p className="text-gray-500 text-xs">Year</p>
-                <p className="font-semibold text-gray-800">{selectedTree.year}</p>
+                <p className="font-semibold text-gray-800">{String(selectedTree.year || 0).padStart(4, '0')}</p>
               </div>
               <div className="border-b border-gray-200 pb-2">
                 <p className="text-gray-500 text-xs">Zone</p>

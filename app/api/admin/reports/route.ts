@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData()
     const adoptionId = formData.get('adoption_id')?.toString() || null
-    const userId = formData.get('user_id')?.toString() || null
+    let userId = formData.get('user_id')?.toString() || null
     const treeId = formData.get('tree_id')?.toString() || ''
     const title = formData.get('title')?.toString() || ''
     const body = formData.get('body')?.toString() || ''
@@ -99,6 +99,10 @@ export async function POST(req: NextRequest) {
       photoUrls.push(photoPublic.publicUrl)
     }
 
+    if (!userId) {
+      userId = user.id
+    }
+
     const { data: report, error: insertError } = await supabaseAdmin
       .from('reports')
       .insert({
@@ -114,6 +118,12 @@ export async function POST(req: NextRequest) {
       .single()
 
     if (insertError) {
+      const message = insertError.message || ''
+      if (message.toLowerCase().includes('adoption_id') && message.toLowerCase().includes('not-null')) {
+        return NextResponse.json({
+          error: 'A coluna adoption_id está como NOT NULL. Permita nulo para criar reportes sem adoção.',
+        }, { status: 400 })
+      }
       return NextResponse.json({ error: insertError.message }, { status: 500 })
     }
 

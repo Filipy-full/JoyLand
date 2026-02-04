@@ -12,7 +12,7 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [tab, setTab] = useState<'messages' | 'adoptions' | 'reports' | 'stats'>('messages')
+  const [tab, setTab] = useState<'messages' | 'adoptions' | 'reports' | 'stats' | 'trees'>('messages')
   const [reportForm, setReportForm] = useState({
     adoptionId: '',
     userId: '',
@@ -21,6 +21,12 @@ export default function AdminDashboard() {
     body: '',
   })
   const [trees, setTrees] = useState<any[]>([])
+  const [treesWarning, setTreesWarning] = useState('')
+  const [treesSuccess, setTreesSuccess] = useState('')
+  const [treeEdit, setTreeEdit] = useState({
+    treeId: '',
+    year: '',
+  })
   const [pdfFile, setPdfFile] = useState<File | null>(null)
   const [photoFiles, setPhotoFiles] = useState<File[]>([])
   const [searchQuery, setSearchQuery] = useState('')
@@ -30,6 +36,7 @@ export default function AdminDashboard() {
   const [replyingTo, setReplyingTo] = useState<any>(null)
   const [replyMessage, setReplyMessage] = useState('')
   const [replySending, setReplySending] = useState(false)
+  const [deletingUserId, setDeletingUserId] = useState<string | null>(null)
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -76,13 +83,81 @@ export default function AdminDashboard() {
   }
 
   const fetchTrees = async (token: string) => {
-    const res = await fetch('/api/trees', {
+    setTreesWarning('')
+    const res = await fetch('/api/admin/trees', {
       headers: { Authorization: `Bearer ${token}` },
     })
-    if (res.ok) {
-      const body = await res.json()
-      setTrees(body.trees || [])
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      setError(body.error || 'Error al cargar árboles')
+      return
     }
+    const body = await res.json()
+    const sortedTrees = [...(body.trees || [])].sort((a, b) => {
+      const nameA = (a.name || '').toString()
+      const nameB = (b.name || '').toString()
+      const nameCompare = nameA.localeCompare(nameB, undefined, { numeric: true })
+      if (nameCompare !== 0) return nameCompare
+      return String(a.id).localeCompare(String(b.id), undefined, { numeric: true })
+    })
+    setTrees(sortedTrees)
+    if (treeEdit.treeId) {
+      const current = sortedTrees.find((t) => t.id === treeEdit.treeId)
+      if (current) {
+        setTreeEdit((prev) => ({
+          ...prev,
+          year: current.year !== undefined && current.year !== null ? String(current.year).padStart(4, '0') : '0000',
+        }))
+      }
+    }
+    if (body.warning || body.yearAvailable === false) {
+      setTreesWarning('A coluna year não existe na tabela trees. Adicione no Supabase para editar o ano.')
+    }
+  }
+
+  const handleUpdateTree = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setTreesSuccess('')
+
+    const session = await supabase.auth.getSession()
+    const token = session.data.session?.access_token
+    if (!token) {
+      setError('No autorizado')
+      return
+    }
+
+    if (!treeEdit.treeId) {
+      setError('Select a tree')
+      return
+    }
+
+    const yearValue = treeEdit.year.trim() === '' ? null : Number(treeEdit.year)
+    if (treeEdit.year.trim() !== '' && (Number.isNaN(yearValue) || yearValue < 0)) {
+      setError('Invalid year')
+      return
+    }
+
+    const res = await fetch('/api/admin/trees', {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: treeEdit.treeId,
+        year: yearValue,
+      }),
+    })
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      setError(body.error || 'Error updating tree')
+      return
+    }
+
+    await fetchTrees(token)
+    setTreesSuccess('Ano atualizado com sucesso.')
   }
 
   const fetchStats = async (token: string) => {
@@ -242,6 +317,35 @@ export default function AdminDashboard() {
     await fetchReports(token)
   }
 
+  const handleDeleteUserReports = async (userId: string, userEmail: string) => {
+    if (!confirm(`¿Eliminar TODOS los reportes de ${userEmail}? Esta acción no se puede deshacer.`)) return
+    
+    setDeletingUserId(userId)
+    setError('')
+
+    const session = await supabase.auth.getSession()
+    const token = session.data.session?.access_token
+    if (!token) {
+      setError('No autorizado')
+      setDeletingUserId(null)
+      return
+    }
+
+    const res = await fetch(`/api/admin/reports/user?userId=${userId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    })
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      setError(body.error || 'Error al eliminar reportes del usuario')
+    } else {
+      await fetchReports(token)
+    }
+
+    setDeletingUserId(null)
+  }
+
   const handleCreateReport = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
@@ -336,6 +440,12 @@ export default function AdminDashboard() {
               Reports
             </button>
             <button
+              onClick={() => setTab('trees')}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold ${tab === 'trees' ? 'bg-sage-600 text-white' : 'bg-gray-100 text-gray-700'}`}
+            >
+              Trees
+            </button>
+            <button
               onClick={() => setTab('stats')}
               className={`px-4 py-2 rounded-lg text-sm font-semibold ${tab === 'stats' ? 'bg-sage-600 text-white' : 'bg-gray-100 text-gray-700'}`}
             >
@@ -370,6 +480,12 @@ export default function AdminDashboard() {
           </div>
 
           {error && <div className="text-red-600 mb-4">{error}</div>}
+          {treesWarning && <div className="text-amber-700 mb-4">{treesWarning}</div>}
+          {treesSuccess && (
+            <div className="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+              {treesSuccess}
+            </div>
+          )}
 
           {tab === 'stats' && (
             <div className="bg-white rounded-xl border border-gray-200 p-6">
@@ -720,8 +836,88 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {tab === 'reports' && (
+          {tab === 'trees' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Edit Tree Data</h2>
+                <form onSubmit={handleUpdateTree} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Tree *</label>
+                    <select
+                      className="w-full border rounded-lg px-3 py-2"
+                      value={treeEdit.treeId}
+                      onChange={(e) => {
+                        const treeId = e.target.value
+                        const tree = trees.find((t) => t.id === treeId)
+                        setTreeEdit({
+                          treeId,
+                          year: tree?.year !== undefined && tree?.year !== null ? String(tree.year).padStart(4, '0') : '0000',
+                        })
+                      }}
+                      required
+                    >
+                      <option value="">Select tree</option>
+                      {trees.map((t) => (
+                        <option key={t.id} value={t.id}>
+                          {t.name || `Tree #${t.id}`} ({t.type})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Year (0000 if unknown)</label>
+                    <input
+                      className="w-full border rounded-lg px-3 py-2"
+                      value={treeEdit.year}
+                      onChange={(e) => setTreeEdit((p) => ({ ...p, year: e.target.value }))}
+                      placeholder="0000"
+                      inputMode="numeric"
+                    />
+                  </div>
+                  <button className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold w-full">
+                    Save
+                  </button>
+                </form>
+              </div>
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Notes</h2>
+                <p className="text-sm text-gray-600">
+                  Use 0000 when the year is unknown. This value will be shown on the map and checkout.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {tab === 'reports' && (
+            <div className="space-y-6">
+              {/* Delete reports by user */}
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Eliminar Reportes por Usuario</h2>
+                <div className="space-y-3">
+                  {Array.from(new Set(adoptions.map(a => a.user_id).filter(Boolean))).map((userId) => {
+                    const userAdoption = adoptions.find(a => a.user_id === userId)
+                    if (!userAdoption) return null
+                    const userReportsCount = reports.filter(r => r.user_id === userId).length
+                    return (
+                      <div key={userId} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                        <div>
+                          <p className="font-semibold text-gray-900">{userAdoption.user_email || userId}</p>
+                          <p className="text-xs text-gray-500">{userReportsCount} reporte(s)</p>
+                        </div>
+                        <button
+                          onClick={() => handleDeleteUserReports(userId, userAdoption.user_email || userId)}
+                          disabled={deletingUserId === userId || userReportsCount === 0}
+                          className="bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition-colors text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {deletingUserId === userId ? 'Eliminando...' : 'Eliminar Reportes'}
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Send Report</h2>
                 <form onSubmit={handleCreateReport} className="space-y-4">
@@ -752,7 +948,7 @@ export default function AdminDashboard() {
                         )
                       })}
                     </select>
-                    <p className="text-xs text-gray-500 mt-1">Reports can be created for any tree, adopted or not</p>
+                    <p className="text-xs text-gray-500 mt-1">Reports can be created even if the tree is not adopted</p>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
@@ -840,6 +1036,7 @@ export default function AdminDashboard() {
                     </div>
                   ))}
                 </div>
+              </div>
               </div>
             </div>
           )}
