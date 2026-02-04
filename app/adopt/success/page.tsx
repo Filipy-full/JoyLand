@@ -78,7 +78,7 @@ function SuccessContent() {
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
-          router.push(`/tree/${singleTree.id}`)
+          router.push(`/adopt/map/${singleTree.id}`)
           return 0
         }
         return prev - 1
@@ -139,7 +139,7 @@ function SuccessContent() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           {singleTree ? (
             <Link
-              href={`/tree/${singleTree.id}`}
+              href={`/adopt/map/${singleTree.id}`}
               className="bg-sage-600 hover:bg-sage-700 text-white px-8 py-3 rounded-lg font-semibold transition inline-block"
             >
               Ver Mi Árbol
