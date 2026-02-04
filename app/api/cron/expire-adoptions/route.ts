@@ -82,8 +82,12 @@ export async function POST(req: NextRequest) {
 
     const now = new Date()
     const nowIso = now.toISOString()
-    const reminderStart = new Date(now.getTime() + 7 * DAY_IN_MS)
-    const reminderEnd = new Date(now.getTime() + 8 * DAY_IN_MS)
+    // Para test: enviar lembrete para adoções que expiram nos próximos 10 dias
+    const reminderStart = new Date(now.getTime())
+    const reminderEnd = new Date(now.getTime() + 10 * DAY_IN_MS)
+    console.log('[CRON] now:', now.toISOString())
+    console.log('[CRON] reminderStart:', reminderStart.toISOString())
+    console.log('[CRON] reminderEnd:', reminderEnd.toISOString())
 
     // Buscar adopciones expiradas
     const { data: expiredAdoptions, error: fetchError } = await supabaseAdmin
@@ -112,6 +116,8 @@ export async function POST(req: NextRequest) {
       .lt('end_date', reminderEnd.toISOString())
       .eq('status', 'adopted')
       .is('reminder_sent_at', null)
+    console.log('[CRON] reminderAdoptions:', reminderAdoptions)
+    if (reminderError) console.error('[CRON] reminderError:', reminderError)
 
     if (reminderError) {
       console.error('Error fetching reminder adoptions:', reminderError)
@@ -127,8 +133,9 @@ export async function POST(req: NextRequest) {
           }
 
           const baseUrl = getBaseUrl()
-          const treeName = adoption.trees?.name ? `“${adoption.trees.name}”` : `#${adoption.tree_id}`
-          const treeType = adoption.trees?.type ? adoption.trees.type : 'árbol'
+          const treeObj = Array.isArray(adoption.trees) ? adoption.trees[0] : adoption.trees
+          const treeName = treeObj?.name ? `“${treeObj.name}”` : `#${adoption.tree_id}`
+          const treeType = treeObj?.type ? treeObj.type : 'árbol'
           const endDate = formatDate(adoption.end_date)
 
           const subject = 'Tu adopción termina en 1 semana 🌿'
@@ -206,24 +213,25 @@ export async function POST(req: NextRequest) {
 
         if (adoption.user_email) {
           const baseUrl = getBaseUrl()
-          const treeName = adoption.trees?.name ? `“${adoption.trees.name}”` : `#${adoption.tree_id}`
-          const treeType = adoption.trees?.type ? adoption.trees.type : 'árbol'
+          const treeObj = Array.isArray(adoption.trees) ? adoption.trees[0] : adoption.trees
+          const treeName = treeObj?.name ? `“${treeObj.name}”` : `#${adoption.tree_id}`
+          const treeType = treeObj?.type ? treeObj.type : 'árbol'
           const endDate = formatDate(adoption.end_date)
 
           const subject = 'Tu adopción ha expirado 🌿'
           const html = `
-            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937;">
+            <div style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937;\">
               <h2>Gracias por tu adopción</h2>
               <p>Hola ${adoption.user_name || ''},</p>
               <p>Tu adopción del ${treeType} ${treeName} finalizó el <strong>${endDate}</strong>.</p>
               <p>Gracias por apoyar a JoyLand. Si deseas renovar o adoptar otro árbol:</p>
               <p>
-                <a href="${baseUrl}/adopt" style="display:inline-block;padding:10px 16px;background:#16a34a;color:#fff;text-decoration:none;border-radius:6px;">
+                <a href=\"${baseUrl}/adopt\" style=\"display:inline-block;padding:10px 16px;background:#16a34a;color:#fff;text-decoration:none;border-radius:6px;\">
                   Renovar / adoptar otro árbol
                 </a>
               </p>
               <p>También puedes revisar tu panel:</p>
-              <p><a href="${baseUrl}/dashboard">Ir al dashboard</a></p>
+              <p><a href=\"${baseUrl}/dashboard\">Ir al dashboard</a></p>
               <p>¡Gracias por tu apoyo!</p>
             </div>
           `
