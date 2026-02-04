@@ -46,13 +46,14 @@ async function seedTrees() {
       .map((f, idx) => {
         const props = f.properties
         const coords = f.geometry.coordinates
+        const treeId = f.id || f.properties?.id || `tree_${idx}`
         
         return {
-          id: f.id || `tree_${idx}`,
-          name: props.name || `Árbol ${idx + 1}`,
+          id: String(treeId),
+          name: props.name || `Tree ${idx + 1}`,
           type: props.species?.toLowerCase().includes('oliv') ? 'olive' : 'almond',
           status: 'available',
-          description: `${props.species || 'Árbol'} en ${props.area || 'Can Aguillera'}`,
+          description: `${props.species || 'Tree'} in ${props.area || 'Can Aguillera'}`,
           latitude: coords[1],
           longitude: coords[0],
         }
@@ -72,21 +73,19 @@ async function seedTrees() {
 
     if (existingCount && existingCount > 0) {
       console.warn(`⚠️  Ya existen ${existingCount} árboles en la base de datos`)
-      console.log('💡 Para reimportar, ejecuta:')
-      console.log('   DELETE FROM trees;')
-      console.log('')
+      console.log('�️  Eliminando árboles antiguos...')
       
-      const response = await new Promise((resolve) => {
-        process.stdout.write('¿Deseas continuar y duplicar? (s/n): ')
-        process.stdin.once('data', (data) => {
-          resolve(data.toString().trim().toLowerCase() === 's')
-        })
-      })
-
-      if (!response) {
-        console.log('❌ Operación cancelada')
-        process.exit(0)
+      const { error: deleteError } = await supabase
+        .from('trees')
+        .delete()
+        .neq('id', 'null') // Eliminar todos
+      
+      if (deleteError) {
+        console.error('❌ Error al eliminar árboles:', deleteError)
+        process.exit(1)
       }
+      
+      console.log('✅ Árboles antiguos eliminados')
     }
 
     // Insertar en batches de 100 para evitar timeouts
