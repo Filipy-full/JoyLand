@@ -133,7 +133,7 @@ export default function AdminDashboard() {
     }
 
     const yearValue = treeEdit.year.trim() === '' ? null : Number(treeEdit.year)
-    if (treeEdit.year.trim() !== '' && (Number.isNaN(yearValue) || yearValue < 0)) {
+    if (treeEdit.year.trim() !== '' && (Number.isNaN(yearValue) || (yearValue !== null && yearValue < 0))) {
       setError('Invalid year')
       return
     }
