@@ -64,6 +64,7 @@ http://localhost:3000/api/cron/expire-adoptions
 2. ✅ Cambia el estado del árbol a `available`
 3. ✅ Cambia el estado de la adopción a `expired`
 4. ✅ Envía email al usuario notificando la expiración
+5. ✅ Envía recordatorio 7 días antes de expirar (una sola vez)
 
 ## Respuesta del endpoint
 
@@ -97,5 +98,6 @@ Si prefieres usar un servicio externo como cron-job.org:
 Asegúrate de tener en Vercel:
 - ✅ `CRON_SECRET`
 - ✅ `RESEND_API_KEY`
+- ✅ `RESEND_FROM` (ej: `JoyLand <no-reply@tudominio.com>`)
 - ✅ `NEXT_PUBLIC_SUPABASE_URL`
 - ✅ `SUPABASE_SERVICE_KEY`

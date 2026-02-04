@@ -21,6 +21,7 @@ ALTER TABLE adoptions ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'adopted' CHE
 ALTER TABLE adoptions ADD COLUMN IF NOT EXISTS payment_status TEXT DEFAULT 'completed' CHECK (payment_status IN ('pending', 'completed', 'failed'));
 ALTER TABLE adoptions ADD COLUMN IF NOT EXISTS start_date TIMESTAMP WITH TIME ZONE;
 ALTER TABLE adoptions ADD COLUMN IF NOT EXISTS end_date TIMESTAMP WITH TIME ZONE;
+ALTER TABLE adoptions ADD COLUMN IF NOT EXISTS reminder_sent_at TIMESTAMP WITH TIME ZONE;
 ALTER TABLE adoptions ADD COLUMN IF NOT EXISTS stripe_session_id TEXT UNIQUE;
 ALTER TABLE adoptions ADD COLUMN IF NOT EXISTS certificate_url TEXT;
 ALTER TABLE adoptions ADD COLUMN IF NOT EXISTS certificate_code TEXT UNIQUE;
