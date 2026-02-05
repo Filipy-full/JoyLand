@@ -138,7 +138,7 @@ export async function POST(req: NextRequest) {
           const treeType = treeObj?.type ? treeObj.type : 'árbol'
           const endDate = formatDate(adoption.end_date)
 
-          const subject = 'Your adoption is about to end 🌿'
+          const subject = 'Renew your Joyland Tree Adoption'
           const html = `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937;">
               <h2>Your adoption is about to end</h2>
