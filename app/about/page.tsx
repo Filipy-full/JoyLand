@@ -70,7 +70,7 @@ export default function AboutPage() {
                 <span className="text-2xl text-sage-600 mt-1">🌳</span>
                 <div>
                   <p className="font-semibold text-sage-700">Joyland areas</p>
-                  <p className="text-sage-600">1,5 ha olive & almond grove (SE), 4,8 ha terrace grove (W)</p>
+                  <p className="text-sage-600">1,5 ha olive & almond grove (SE)<br></br> 4,8 ha terrace grove (W)</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">

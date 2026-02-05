@@ -8,13 +8,22 @@ export default function GiftboxPage() {
           The Joyland Giftbox
         </h1>
 
-        {/* Hero Image */}
-        <div className="mb-12 relative h-96 rounded-lg overflow-hidden shadow-xl">
+        {/* Imagens abaixo do título */}
+        <div className="flex flex-col md:flex-row justify-center items-center gap-6 mb-12">
           <Image
-            src="/gift/giftbox-dos.jpeg"
-            alt="Joyland Giftbox"
-            fill
-            className="object-cover"
+            src="/gift/gift-1.jpeg"
+            alt="Gift 1"
+            width={350}
+            height={220}
+            className="rounded-lg shadow-md object-cover"
+            priority
+          />
+          <Image
+            src="/gift/gift-2.jpeg"
+            alt="Gift 2"
+            width={350}
+            height={220}
+            className="rounded-lg shadow-md object-cover"
             priority
           />
         </div>
