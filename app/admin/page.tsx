@@ -51,7 +51,7 @@ export default function AdminDashboard() {
   })
   const [searchQuery, setSearchQuery] = useState('')
   const [treesWarning, setTreesWarning] = useState('')
-  const [trees, setTrees] = useState([]);
+  const [trees, setTrees] = useState<any[]>([]);
   const fetchAdoptions = async (token: string) => {
     const res = await fetch('/api/admin/adoptions', {
       headers: { Authorization: `Bearer ${token}` },
@@ -123,10 +123,11 @@ export default function AdminDashboard() {
       return
     }
 
-    const yearValue = treeEdit.year.trim() === '' ? null : Number(treeEdit.year)
-    if (treeEdit.year.trim() !== '' && (Number.isNaN(yearValue) || (yearValue !== null && yearValue < 0))) {
-      setError('Invalid year')
-      return
+    const yearStr = treeEdit.year ?? '';
+    const yearValue = yearStr.trim() === '' ? null : Number(yearStr);
+    if (yearStr.trim() !== '' && (Number.isNaN(yearValue) || (yearValue !== null && yearValue < 0))) {
+      setError('Invalid year');
+      return;
     }
 
     const res = await fetch('/api/admin/trees', {
