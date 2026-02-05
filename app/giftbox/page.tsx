@@ -1,6 +1,17 @@
+"use client"
 import Image from 'next/image'
+import { useState } from 'react'
 
 export default function GiftboxPage() {
+  const [modalImg, setModalImg] = useState<string|null>(null)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+
+  const handleImgClick = (src: string) => {
+    if (isMobile) setModalImg(src)
+  }
+
+  const handleCloseModal = () => setModalImg(null)
+
   return (
     <div className="container mx-auto px-6 py-12">
       <div className="max-w-4xl mx-auto">
@@ -8,25 +19,37 @@ export default function GiftboxPage() {
           The Joyland Giftbox
         </h1>
 
-        {/* Imagens abaixo do título */}
+
         <div className="flex flex-row justify-center items-center gap-4 mb-12">
-          <Image
-            src="/gift/gift-1.jpeg"
-            alt="Gift 1"
-            width={180}
-            height={120}
-            className="rounded-lg shadow-md object-cover"
-            priority
-          />
-          <Image
-            src="/gift/gift-2.jpeg"
-            alt="Gift 2"
-            width={180}
-            height={120}
-            className="rounded-lg shadow-md object-cover"
-            priority
-          />
+          <div className="w-[230px] h-[250px] md:w-[420px] md:h-[500px] cursor-pointer" onClick={() => handleImgClick('/gift/gift-1.jpeg')}>
+            <Image
+              src="/gift/gift-1.jpeg"
+              alt="Gift 1"
+              width={350}
+              height={220}
+              className="rounded-lg shadow-md object-cover w-full h-full"
+              priority
+            />
+          </div>
+          <div className="w-[230px] h-[250px] md:w-[420px] md:h-[500px] cursor-pointer" onClick={() => handleImgClick('/gift/gift-2.jpeg')}>
+            <Image
+              src="/gift/gift-2.jpeg"
+              alt="Gift 2"
+              width={350}
+              height={220}
+              className="rounded-lg shadow-md object-cover w-full h-full"
+              priority
+            />
+          </div>
         </div>
+
+        {/* Modal para imagem em tela cheia no mobile */}
+        {modalImg && (
+          <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50" onClick={handleCloseModal}>
+            <img src={modalImg} alt="Gift Fullscreen" className="max-w-full max-h-full rounded-lg shadow-2xl" />
+            <button className="absolute top-4 right-4 text-white text-3xl font-bold" onClick={handleCloseModal}>&times;</button>
+          </div>
+        )}
 
         <div className="mb-12 text-center">
           <p className="text-xl text-sage-700 leading-relaxed max-w-3xl mx-auto">
