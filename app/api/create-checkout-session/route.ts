@@ -89,6 +89,7 @@ export async function POST(req: NextRequest) {
       line_items,
       success_url: `${origin}/adopt/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/adopt`,
+      allow_promotion_codes: true, // Permite que o usuário insira código de desconto
       metadata: {
         userId: userId || '',
         userName: userName || '',
