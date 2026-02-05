@@ -48,11 +48,7 @@ export async function sendReminders({ nowIso, reminderAdoptions, sendResendEmail
           <p>Thank you for supporting JoyLand 💚</p>
         </div>
       `
-      const emailSent = await sendResendEmail({
-        to: adoption.user_email,
-        subject,
-        html,
-      })
+      const emailSent = await sendResendEmail(adoption)
       // Atualiza reminder_sent_at mesmo se o e-mail falhar
       const { error: reminderUpdateError } = await supabaseAdmin
         .from('adoptions')
