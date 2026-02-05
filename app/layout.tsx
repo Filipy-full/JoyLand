@@ -23,7 +23,7 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Joyland - Adopt a Tree in Northern Spain",
+  title: "Joyland - Adopt a Tree in Spain",
   description: "A small regenerative olive and almond farm in northern Spain. Adopt a tree and follow its story.",
   openGraph: {
     title: 'Joyland',
