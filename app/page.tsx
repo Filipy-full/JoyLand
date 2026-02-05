@@ -155,7 +155,7 @@ export default function HomePage() {
                 <div className="flex items-center gap-3 mb-5">
                   <OliveIcon className="w-10 h-10 sm:w-12 sm:h-12 animate-floatRandom" />
                   <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-sage-700">
-                    What Is Joyland?
+                    What is Joyland?
                   </h2>
                 </div>
                 <div className="space-y-3 sm:space-y-4">
@@ -169,7 +169,7 @@ export default function HomePage() {
                     Through an adoption, you follow the growth of your tree within a sprouting food forest — learning how soil, biodiversity, and time work together to support resilient trees and landscapes. You will receive updates on your tree's progress, seasonal photos and the products it generates. A way to support natural living systems while staying closely connected to the land that nourishes them.
                   </p>
                 </div>
-                <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
+                <div className="mt-8 flex gap-3 sm:gap-4 justify-start flex-nowrap">
                   <div className="glass-card-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full">
                     <span className="text-sm sm:text-base text-sage-700 font-semibold">🌱 Regenerative</span>
                   </div>
