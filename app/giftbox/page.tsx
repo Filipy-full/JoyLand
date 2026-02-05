@@ -124,7 +124,7 @@ export default function GiftboxPage() {
 
         <section className="bg-sage-100 p-8 rounded-lg text-center">
           <h2 className="text-3xl font-serif text-sage-700 mb-4">
-            Be part of this rhythm
+            Excited for your Giftbox?
           </h2>
           <p className="text-lg text-sage-800 mb-6">
             Adopt a tree and receive your giftbox when the season is ready.

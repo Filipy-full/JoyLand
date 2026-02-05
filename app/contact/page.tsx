@@ -195,7 +195,7 @@ export default function ContactPage() {
             href="/adopt"
             className="inline-block bg-sage-600 text-white px-8 py-3 rounded-full hover:bg-sage-700 transition-colors"
           >
-            Adopt a tree & Nurture growth.
+            Adopt a tree
           </a>
         </div>
       </div>

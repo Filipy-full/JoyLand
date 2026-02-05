@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 		if (!toEmail || !subject || !message) {
 			return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
 		}
-		const html = `<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937;"><h2>${subject}</h2><p>Hola ${toName},</p><p>${message}</p><p>Joyland Admin</p></div>`;
+		const html = `<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937;"><h2>${subject}</h2><p>Hola ${toName},</p><p>${message}</p></div>`;
 		const emailSent = await sendResendEmail({ to: toEmail, subject, html, text: message });
 		if (emailSent) {
 			return NextResponse.json({ success: true });

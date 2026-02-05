@@ -716,7 +716,7 @@ export default function InteractiveGeoJsonMap() {
           <div className="flex-1 p-3 md:p-4 overflow-hidden">
             <div className="grid grid-cols-2 gap-2 md:gap-3">
               {/* Total */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-md p-2 md:p-3 border border-blue-200">
+              <div className="bg-gray-100 rounded-md p-2 md:p-3 border border-gray-300">
                 <div className="flex flex-col items-center text-center">
                   <p className="text-[11px] md:text-xs text-gray-600 font-medium">Total</p>
                   <p className="text-xl md:text-3xl font-bold text-blue-600">{stats.total}</p>
@@ -725,7 +725,7 @@ export default function InteractiveGeoJsonMap() {
               </div>
 
               {/* Olive */}
-              <div className="bg-gradient-to-br from-sky-50 to-sky-100 rounded-md p-2 md:p-3 border border-sky-300">
+              <div className="bg-green-100 rounded-md p-2 md:p-3 border-2 border-[#5a8c4a]">
                 <div className="flex flex-col items-center text-center">
                   <p className="text-[11px] md:text-xs text-gray-600 font-medium">Olive</p>
                   <p className="text-xl md:text-3xl font-bold text-blue-600">{stats.oliva}</p>
@@ -734,16 +734,16 @@ export default function InteractiveGeoJsonMap() {
               </div>
 
               {/* Almonds */}
-              <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-md p-2 md:p-3 border border-red-300">
+              <div className="bg-amber-200 rounded-md p-2 md:p-3 border-2 border-[#8B5C2A] relative" style={{backgroundColor:'#e2c6a7'}}>
                 <div className="flex flex-col items-center text-center">
                   <p className="text-[11px] md:text-xs text-gray-600 font-medium">Almonds</p>
-                  <p className="text-xl md:text-3xl font-bold text-red-600">{stats.almendras}</p>
+                  <p className="text-xl md:text-3xl font-bold text-[#8B5C2A]">{stats.almendras}</p>
                   <p className="text-[10px] md:text-xs text-gray-500">({((stats.almendras / stats.total) * 100).toFixed(1)}%)</p>
                 </div>
               </div>
 
               {/* Adopted */}
-              <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-md p-2 md:p-3 border border-amber-300">
+              <div className="bg-red-100 rounded-md p-2 md:p-3 border border-red-300">
                 <div className="flex flex-col items-center text-center">
                   <p className="text-[11px] md:text-xs text-gray-600 font-medium">Adopted</p>
                   <p className="text-xl md:text-3xl font-bold text-amber-600">{stats.adopted}</p>
@@ -752,7 +752,7 @@ export default function InteractiveGeoJsonMap() {
               </div>
 
               {/* Available */}
-              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-md p-2 md:p-3 border border-green-300 col-span-2">
+              <div className="bg-green-50 rounded-md p-2 md:p-3 border border-green-300 col-span-2">
                 <div className="flex flex-col items-center text-center">
                   <p className="text-[11px] md:text-xs text-gray-600 font-medium">Available</p>
                   <p className="text-xl md:text-3xl font-bold text-green-600">{stats.total - stats.adopted}</p>

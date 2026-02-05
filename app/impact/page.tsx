@@ -176,8 +176,11 @@ export default function ImpactPage() {
 							href="/adopt"
 							className="inline-block bg-white text-sage-700 px-12 py-5 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 text-xl font-bold shadow-lg border border-sage-200"
 						>
-							Adopt a tree and grow with the land.
+							Adopt a tree
 						</a>
+						<div className="flex justify-center mt-8">
+							<img src="/impact/impact-1.jpeg" alt="Joyland Impact" className="rounded-2xl shadow-lg max-h-80 object-contain" />
+						</div>
 					</section>
 				</div>
 			</div>
