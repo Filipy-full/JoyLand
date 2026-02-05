@@ -11,7 +11,7 @@ export default function GiftboxPage() {
         {/* Hero Image */}
         <div className="mb-12 relative h-96 rounded-lg overflow-hidden shadow-xl">
           <Image
-            src="/giftbox.jpeg"
+            src="/gift/giftbox-dos.jpeg"
             alt="Joyland Giftbox"
             fill
             className="object-cover"
