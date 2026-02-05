@@ -169,15 +169,18 @@ export default function HomePage() {
                     Through an adoption, you follow the growth of your tree within a sprouting food forest — learning how soil, biodiversity, and time work together to support resilient trees and landscapes. You will receive updates on your tree's progress, seasonal photos and the products it generates. A way to support natural living systems while staying closely connected to the land that nourishes them.
                   </p>
                 </div>
-                <div className="mt-8 flex gap-3 sm:gap-4 justify-start flex-nowrap">
-                  <div className="glass-card-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full">
-                    <span className="text-sm sm:text-base text-sage-700 font-semibold">🌱 Regenerative</span>
+                <div className="mt-8 flex gap-3 sm:gap-4 justify-center flex-nowrap">
+                  <div className="glass-card-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full flex flex-col items-center">
+                    <span className="text-2xl sm:text-3xl mb-1">🌱</span>
+                    <span className="text-sm sm:text-base text-sage-700 font-semibold">Regenerative</span>
                   </div>
-                  <div className="glass-card-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full">
-                    <span className="text-sm sm:text-base text-sage-700 font-semibold">🌍 Sustainable</span>
+                  <div className="glass-card-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full flex flex-col items-center">
+                    <span className="text-2xl sm:text-3xl mb-1">🌍</span>
+                    <span className="text-sm sm:text-base text-sage-700 font-semibold">Sustainable</span>
                   </div>
-                  <div className="glass-card-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full">
-                    <span className="text-sm sm:text-base text-sage-700 font-semibold">💚 Transparent</span>
+                  <div className="glass-card-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full flex flex-col items-center">
+                    <span className="text-2xl sm:text-3xl mb-1">💚</span>
+                    <span className="text-sm sm:text-base text-sage-700 font-semibold">Transparent</span>
                   </div>
                 </div>
               </div>

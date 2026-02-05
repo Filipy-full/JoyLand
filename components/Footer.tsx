@@ -21,7 +21,7 @@ export default function Footer() {
               </div>
             </div>
             <h3 className="text-2xl sm:text-3xl font-serif mb-3 text-sage-900 drop-shadow-sm">Ready for your tree?</h3>
-            <p className="mb-6 sm:mb-8 text-sage-700 text-sm sm:text-base">Join our regenerative community &amp; Cultivate abundance.</p>
+            <p className="mb-6 sm:mb-8 text-sage-700 text-sm sm:text-base">Join our regenerative community &amp; cultivate abundance.</p>
             <Link
               href="/adopt/map"
               className="inline-block golden-gradient text-sage-900 px-8 sm:px-12 py-3 sm:py-4 rounded-full hover:shadow-2xl transition-all font-bold text-sm sm:text-base transform hover:scale-110"
@@ -93,13 +93,13 @@ export default function Footer() {
                 <svg className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span>Ecological awareness</span>
+                <span>Regenerative agriculture</span>
               </li>
               <li className="flex items-start gap-2">
                 <svg className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span>Transparency</span>
+                <span>100% transparent</span>
               </li>
               <li className="flex items-start gap-2">
                 <svg className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -111,7 +111,7 @@ export default function Footer() {
                 <svg className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span>Genuine impact</span>
+                <span>Real positive impact</span>
               </li>
             </ul>
           </div>
