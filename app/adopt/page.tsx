@@ -48,7 +48,7 @@ export default function AdoptPage() {
           className="pointer-events-none select-none absolute left-0 top-0 w-screen h-[60vh] sm:h-[90vh] md:h-[120vh] lg:h-[180vh] flex justify-center items-center"
           style={{
             zIndex: 0,
-            backgroundImage: 'url(/galeria/flor-adoptar.jpeg)',
+            backgroundImage: 'url(/adopt/flor-adoptar.jpeg)',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
             backgroundSize: 'cover',
