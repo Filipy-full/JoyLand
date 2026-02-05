@@ -79,12 +79,12 @@ export async function POST(req: NextRequest) {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+      payment_method_types: ['card', 'paypal', 'revolut_pay', 'ideal'],
       mode: 'payment',
       customer_email: userEmail || undefined, // Pre-rellenar email en Stripe
       billing_address_collection: 'required',
       shipping_address_collection: {
-        allowed_countries: ['DE', 'AT', 'BE', 'BG', 'HR', 'DK', 'SK', 'SI', 'ES', 'FI', 'FR', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'NO', 'NL'],
+        allowed_countries: ['DE', 'AT', 'BE', 'BG', 'HR', 'DK', 'SK', 'SI', 'ES', 'FI', 'FR', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'NO', 'NL', 'Holland'],
       },
       line_items,
       success_url: `${origin}/adopt/success?session_id={CHECKOUT_SESSION_ID}`,

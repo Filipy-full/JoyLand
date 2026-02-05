@@ -67,8 +67,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-sage-100 to-white overflow-x-hidden relative">
-      {/* Botón solo si el usuario tiene árboles adoptados */}
-      <MyAdoptionsButton className="fixed top-24 right-4 sm:top-24 sm:right-6 z-40 bg-sage-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all" />
+      {/* Apenas botão principal de adoção */}
       {/* Animated SVG particles */}
       <div className="fixed top-0 left-0 w-full h-screen pointer-events-none overflow-hidden z-0">
         {particles.map((particle) => (
@@ -126,7 +125,7 @@ export default function HomePage() {
               className="inline-block premium-gradient text-white px-6 sm:px-8 md:px-10 py-3 sm:py-4 rounded-full hover:shadow-2xl transition-all transform hover:scale-110 text-base sm:text-lg font-bold drop-shadow-lg animate-bounceIn hover-3d"
               style={{ animationDelay: '0.6s' }}
             >
-              Adopt a tree and support a regenerative grove.
+              Adopt a tree
             </Link>
           </div>
         </div>
