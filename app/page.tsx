@@ -206,7 +206,7 @@ export default function HomePage() {
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {[
-              { img: '/homepage/image2.jpg', title: 'Fresh olive', delay: '0s' },
+              { img: '/homepage/image2.jpg', title: 'Ripening olive', delay: '0s' },
               { img: '/homepage/image3.jpg', title: 'Olive tree', delay: '0.1s' },
               { img: '/homepage/image4.jpg', title: 'Green grove', delay: '0.2s' }
             ].map((item, i) => (
