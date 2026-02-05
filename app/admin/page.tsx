@@ -6,6 +6,35 @@ import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 
 export default function AdminDashboard() {
+    // Estados e variáveis ausentes adicionados para evitar erros de compilação
+    const [treeEdit, setTreeEdit] = useState<{ treeId?: string; year?: string }>({ treeId: '', year: '' });
+    const [almondPrice, setAlmondPrice] = useState<string>('200');
+    const [olivePrice, setOlivePrice] = useState<string>('200');
+    const [editingPrice, setEditingPrice] = useState<boolean>(false);
+    const [treesSuccess, setTreesSuccess] = useState<string>('');
+    const [replyingTo, setReplyingTo] = useState<any>(null);
+    const [replyMessage, setReplyMessage] = useState<string>('');
+    const [replySending, setReplySending] = useState<boolean>(false);
+    const [pdfFile, setPdfFile] = useState<File | null>(null);
+    const [photoFiles, setPhotoFiles] = useState<File[]>([]);
+    const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
+
+    // Função real para buscar mensagens da API
+    const fetchMessages = async (token: string) => {
+      try {
+        const res = await fetch('/api/admin/messages', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.ok) {
+          const body = await res.json();
+          setMessages(body.messages || []);
+        } else {
+          setError('Error fetching messages');
+        }
+      } catch (err) {
+        setError('Error fetching messages');
+      }
+    };
   const [messages, setMessages] = useState<any[]>([])
   const [adoptions, setAdoptions] = useState<any[]>([])
   const [reports, setReports] = useState<any[]>([])
@@ -18,49 +47,11 @@ export default function AdminDashboard() {
     userId: '',
     treeId: '',
     title: '',
-    body: '',
+    body: ''
   })
-  const [trees, setTrees] = useState<any[]>([])
-  const [treesWarning, setTreesWarning] = useState('')
-  const [treesSuccess, setTreesSuccess] = useState('')
-  const [treeEdit, setTreeEdit] = useState({
-    treeId: '',
-    year: '',
-  })
-  const [pdfFile, setPdfFile] = useState<File | null>(null)
-  const [photoFiles, setPhotoFiles] = useState<File[]>([])
   const [searchQuery, setSearchQuery] = useState('')
-  const [editingPrice, setEditingPrice] = useState(false)
-  const [almondPrice, setAlmondPrice] = useState('')
-  const [olivePrice, setOlivePrice] = useState('')
-  const [replyingTo, setReplyingTo] = useState<any>(null)
-  const [replyMessage, setReplyMessage] = useState('')
-  const [replySending, setReplySending] = useState(false)
-  const [deletingUserId, setDeletingUserId] = useState<string | null>(null)
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
-  };
-
-  const fetchMessages = async (token: string) => {
-    setLoading(true)
-    setError('')
-    const res = await fetch('/api/admin/messages', {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    if (!res.ok) {
-      const body = await res.json().catch(() => ({}))
-      setError(body.error || 'Error al cargar mensajes')
-      setLoading(false)
-      return
-    }
-    const body = await res.json()
-    setMessages(body.messages || [])
-    setLoading(false)
-  }
-
+  const [treesWarning, setTreesWarning] = useState('')
+  const [trees, setTrees] = useState([]);
   const fetchAdoptions = async (token: string) => {
     const res = await fetch('/api/admin/adoptions', {
       headers: { Authorization: `Bearer ${token}` },
@@ -243,57 +234,53 @@ export default function AdminDashboard() {
   }
 
   const handleSendReply = async () => {
-    if (!replyingTo || !replyMessage.trim()) return
-    setReplySending(true)
+    if (!replyingTo || !replyMessage.trim()) return;
+    setReplySending(true);
     try {
-      console.log('🔵 [CLIENT] Preparing to send reply to:', replyingTo.email)
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      if (!token) {
+        alert('No autorizado');
+        setReplySending(false);
+        return;
+      }
       const payload = {
         messageId: replyingTo.id,
         toEmail: replyingTo.email,
         toName: replyingTo.name,
         subject: `Re: ${replyingTo.subject}`,
         message: replyMessage,
-      }
-      console.log('🔵 [CLIENT] Payload:', payload)
-      
+      };
       const res = await fetch('/api/admin/reply', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(payload),
-      })
-      
-      console.log('🔵 [CLIENT] Response status:', res.status)
-      const text = await res.text()
-      console.log('🔵 [CLIENT] Response text:', text)
-      
-      let data: any = {}
+      });
+      const text = await res.text();
+      let data: any = {};
       if (text) {
         try {
-          data = JSON.parse(text)
-          console.log('🔵 [CLIENT] Parsed JSON:', data)
+          data = JSON.parse(text);
         } catch (e) {
-          console.error('🔴 [CLIENT] Failed to parse JSON:', e)
-          data = { error: 'Invalid JSON response from server', raw: text }
+          data = { error: 'Invalid JSON response from server', raw: text };
         }
       } else {
-        console.error('🔴 [CLIENT] Empty response body')
-        data = { error: 'Empty response from server' }
+        data = { error: 'Empty response from server' };
       }
-      
       if (res.ok && data.success) {
-        console.log('🟢 [CLIENT] Reply saved successfully!')
-        setReplyingTo(null)
-        setReplyMessage('')
-        alert('✅ Respuesta guardada correctamente')
+        setReplyingTo(null);
+        setReplyMessage('');
+        alert('✅ Respuesta guardada correctamente');
       } else {
-        console.error('🔴 [CLIENT] Request failed, data:', data)
-        alert(`❌ Error al guardar: ${data.error || 'Error desconocido'}`)
+        alert(`❌ Error al guardar: ${data.error || 'Error desconocido'}`);
       }
     } catch (err) {
-      console.error('🔴 [CLIENT] Exception:', err)
-      alert(`❌ Error de conexión: ${String(err)}`)
+      alert(`❌ Error de conexión: ${String(err)}`);
     } finally {
-      setReplySending(false)
+      setReplySending(false);
     }
   }
 
@@ -382,6 +369,13 @@ export default function AdminDashboard() {
     setPdfFile(null)
     setPhotoFiles([])
     await fetchReports(token)
+  }
+
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/');
   }
 
   return (
@@ -479,17 +473,105 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {error && <div className="text-red-600 mb-4">{error}</div>}
-          {treesWarning && <div className="text-amber-700 mb-4">{treesWarning}</div>}
-          {treesSuccess && (
-            <div className="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
-              {treesSuccess}
-            </div>
-          )}
+            {error && <div className="text-red-600 mb-4">{error}</div>}
+            {treesWarning && <div className="text-amber-700 mb-4">{treesWarning}</div>}
+            {treesSuccess && (
+              <div className="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+                {treesSuccess}
+              </div>
+            )}
 
-          {tab === 'stats' && (
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              {stats ? (
+            {/* MESSAGES TAB */}
+            {tab === 'messages' && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                <h2 className="text-2xl font-serif mb-6 text-sage-700">Inbox</h2>
+                {messages.length === 0 && (
+                  <div className="text-gray-500 text-center py-8">No messages found.</div>
+                )}
+                <div className="divide-y divide-sage-100">
+                  {Array.from(
+                    messages
+                      .filter((msg) => {
+                        const q = searchQuery.toLowerCase();
+                        return (
+                          msg.name?.toLowerCase().includes(q) ||
+                          msg.email?.toLowerCase().includes(q) ||
+                          msg.subject?.toLowerCase().includes(q) ||
+                          msg.message?.toLowerCase().includes(q)
+                        );
+                      })
+                      .reduce((map, msg) => {
+                        // Chave única: email+subject
+                        const key = `${msg.email}||${msg.subject}`;
+                        if (!map.has(key)) map.set(key, msg);
+                        return map;
+                      }, new Map())
+                      .values()
+                  ).map((msg: any) => (
+                    <div key={msg.id} className="py-4 flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
+                      <div className="flex-1">
+                        <div className="flex flex-wrap gap-2 items-center mb-1">
+                          <span className="font-semibold text-sage-800">{msg.name}</span>
+                          <span className="text-xs text-sage-600">{msg.email}</span>
+                          <span className="text-xs text-sage-500">{msg.subject}</span>
+                        </div>
+                        <div className="text-sage-700 text-sm mb-1">{msg.message}</div>
+                        <div className="text-xs text-sage-400">{msg.created_at ? new Date(msg.created_at).toLocaleString() : ''}</div>
+                      </div>
+                      <div className="flex flex-col gap-2 min-w-[120px]">
+                        <button
+                          className="bg-sage-600 text-white px-4 py-2 rounded hover:bg-sage-700 text-sm"
+                          onClick={() => setReplyingTo(msg)}
+                        >
+                          Reply
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Modal/inline para responder */}
+                {replyingTo && (
+                  <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-xl shadow-lg p-8 max-w-lg w-full relative">
+                      <button
+                        className="absolute top-3 right-3 text-gray-400 hover:text-gray-700"
+                        onClick={() => setReplyingTo(null)}
+                      >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                      </button>
+                      <h3 className="text-xl font-serif mb-2 text-sage-700">Reply to {replyingTo.name}</h3>
+                      <div className="mb-2 text-xs text-sage-600">{replyingTo.email} | {replyingTo.subject}</div>
+                      <div className="mb-4 text-sage-700 text-sm border-l-4 border-sage-200 pl-3">{replyingTo.message}</div>
+                      <textarea
+                        className="w-full border rounded-lg px-3 py-2 mb-3"
+                        rows={5}
+                        placeholder="Write your reply..."
+                        value={replyMessage}
+                        onChange={e => setReplyMessage(e.target.value)}
+                        disabled={replySending}
+                      />
+                      <div className="flex gap-2 justify-end">
+                        <button
+                          className="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
+                          onClick={() => setReplyingTo(null)}
+                          disabled={replySending}
+                        >Cancel</button>
+                        <button
+                          className="px-4 py-2 rounded bg-sage-600 text-white hover:bg-sage-700 disabled:opacity-60"
+                          onClick={async () => { await handleSendReply(); setReplyingTo(null); }}
+                          disabled={replySending || !replyMessage.trim()}
+                        >{replySending ? 'Sending...' : 'Send reply'}</button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {tab === 'stats' && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                {stats ? (
                 <div>
                   <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
                     <h2 className="text-2xl font-bold text-gray-900">Financial Overview</h2>
@@ -648,54 +730,7 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {tab === 'messages' && (
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-                <h2 className="text-xl font-semibold text-gray-900">Contact Messages</h2>
-                <button
-                  onClick={handleDeleteAll}
-                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm font-semibold"
-                  disabled={loading || messages.length === 0}
-                >
-                  Delete All
-                </button>
-              </div>
-              {loading && <div>Loading...</div>}
-              <ul className="space-y-4">
-                {messages
-                  .filter(msg => {
-                    if (!searchQuery) return true;
-                    const query = searchQuery.toLowerCase();
-                    return (
-                      msg.subject?.toLowerCase().includes(query) ||
-                      msg.name?.toLowerCase().includes(query) ||
-                      msg.email?.toLowerCase().includes(query) ||
-                      msg.message?.toLowerCase().includes(query)
-                    );
-                  })
-                  .map(msg => (
-                  <li key={msg.id} className="border rounded-lg p-4 bg-gray-50">
-                    <div className="flex flex-wrap justify-between gap-2">
-                      <div>
-                        <div className="font-semibold text-gray-900">{msg.subject}</div>
-                        <div className="text-sm text-gray-600">{msg.name} — {msg.email}</div>
-                      </div>
-                      <div className="text-xs text-gray-500">{new Date(msg.created_at).toLocaleString()}</div>
-                    </div>
-                    <p className="text-sm text-gray-700 mt-2">{msg.message}</p>
-                    <div className="mt-3 pt-3 border-t border-gray-200">
-                      <button
-                        onClick={() => setReplyingTo(msg)}
-                        className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition-colors"
-                      >
-                        Reply
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+
 
           {/* Reply Modal */}
           {replyingTo && (

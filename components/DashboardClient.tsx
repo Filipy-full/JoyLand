@@ -33,6 +33,8 @@ interface ReportItem {
   created_at: string
 }
 
+
+
 export default function DashboardClient() {
   const router = useRouter()
   const [user, setUser] = useState<any>(null)
@@ -43,43 +45,29 @@ export default function DashboardClient() {
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser()
-      
       if (!user) {
         router.push('/login')
         return
       }
-      
       setUser(user)
-      
-      // Obtener adopciones del usuario
       try {
         const session = await supabase.auth.getSession()
         const token = session.data.session?.access_token
-        
-        if (!token) {
-          throw new Error('No token')
-        }
-
-        const response = await fetch('/api/user/adoptions', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        const data = await response.json()
+        if (!token) throw new Error('No token')
+        const [adoptRes, reportsRes] = await Promise.all([
+          fetch('/api/user/adoptions', { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch('/api/user/reports', { headers: { 'Authorization': `Bearer ${token}` } })
+        ])
+        const data = await adoptRes.json()
         setAdoptions(data.adoptions || [])
-
-        const reportsRes = await fetch('/api/user/reports', {
-          headers: { 'Authorization': `Bearer ${token}` },
-        })
         const reportsData = await reportsRes.json()
         setReports(reportsData.reports || [])
       } catch (error) {
-        console.error('Error fetching adoptions:', error)
+        console.error('Error fetching dashboard data:', error)
       } finally {
         setLoading(false)
       }
     }
-    
     checkAuth()
   }, [router])
 
@@ -118,6 +106,8 @@ export default function DashboardClient() {
           </div>
         </div>
       </div>
+
+
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {/* Estadísticas */}
