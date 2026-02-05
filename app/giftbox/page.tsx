@@ -9,20 +9,20 @@ export default function GiftboxPage() {
         </h1>
 
         {/* Imagens abaixo do título */}
-        <div className="flex flex-col md:flex-row justify-center items-center gap-6 mb-12">
+        <div className="flex flex-row justify-center items-center gap-4 mb-12">
           <Image
             src="/gift/gift-1.jpeg"
             alt="Gift 1"
-            width={350}
-            height={220}
+            width={180}
+            height={120}
             className="rounded-lg shadow-md object-cover"
             priority
           />
           <Image
             src="/gift/gift-2.jpeg"
             alt="Gift 2"
-            width={350}
-            height={220}
+            width={180}
+            height={120}
             className="rounded-lg shadow-md object-cover"
             priority
           />
