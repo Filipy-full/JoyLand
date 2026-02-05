@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { TreeIcon } from '@/components/Icons'
-import { MyAdoptionsButton } from '@/components/MyAdoptionsButton'
+
 
 export default function AdoptPage() {
   const router = useRouter()
@@ -39,18 +39,18 @@ export default function AdoptPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-sage-50 relative">
-      <MyAdoptionsButton />
+
       {/* Hero Section */}
       <section className="relative container mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12 sm:pb-16">
         {/* Background decorativo más grande */}
         <div
           aria-hidden="true"
-          className="pointer-events-none select-none absolute left-0 top-0 w-screen h-[60vh] sm:h-[90vh] md:h-[120vh] lg:h-[180vh]"
+          className="pointer-events-none select-none absolute left-0 top-0 w-screen h-[60vh] sm:h-[90vh] md:h-[120vh] lg:h-[180vh] flex justify-center items-center"
           style={{
             zIndex: 0,
             backgroundImage: 'url(/galeria/flor-adoptar.jpeg)',
             backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center 0%',
+            backgroundPosition: 'center center',
             backgroundSize: 'cover',
             opacity: 1,
             filter: 'none',

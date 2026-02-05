@@ -7,7 +7,7 @@ import {
   OliveIcon, TreeIcon, LocationIcon, GalleryIcon, 
   GiftIcon, DocumentIcon, LeafIcon, HeartIcon, StarIcon 
 } from '@/components/Icons'
-import { MyAdoptionsButton } from '@/components/MyAdoptionsButton'
+
 
 export default function HomePage() {
   const [particles, setParticles] = useState<Array<{ id: number; left: number; delay: number; duration: number }>>([])
@@ -67,7 +67,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-sage-100 to-white overflow-x-hidden relative">
-      {/* Apenas botão principal de adoção */}
+      {/* Removido botão flutuante de adoção */}
       {/* Animated SVG particles */}
       <div className="fixed top-0 left-0 w-full h-screen pointer-events-none overflow-hidden z-0">
         {particles.map((particle) => (

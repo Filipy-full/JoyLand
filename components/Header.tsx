@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
+import { MyAdoptionsButton } from '@/components/MyAdoptionsButton'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -44,7 +45,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-sage-200 z-50 shadow-sm">
-      <nav className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
+      <nav className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 relative">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">
@@ -121,8 +122,15 @@ export default function Header() {
               </li>
             )}
           </ul>
-          {/* Removido estrelas e +500 adopters */}
+          {/* Botão MyAdoptions no Header Desktop */}
+          <div className="hidden lg:block ml-6">
+            <MyAdoptionsButton className="bg-sage-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all" />
+          </div>
 
+          {/* Botão MyAdoptions no Header Mobile */}
+          <div className="block lg:hidden ml-2">
+            <MyAdoptionsButton className="bg-sage-600 text-white px-4 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all" />
+          </div>
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}

@@ -171,7 +171,6 @@ export default function ImpactPage() {
 
 					<section className="bg-gradient-to-r from-sage-600 to-sage-700 text-white p-10 rounded-2xl text-center shadow-lg">
 						<h2 className="text-4xl font-serif mb-4 drop-shadow">Adopt a tree and grow with the land.</h2>
-						<p className="text-xl mb-8 opacity-90">and become part of this living process</p>
 						<a
 							href="/adopt"
 							className="inline-block bg-white text-sage-700 px-12 py-5 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 text-xl font-bold shadow-lg border border-sage-200"

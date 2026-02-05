@@ -13,19 +13,9 @@ export default function AboutPage() {
           <div className="w-20 h-1 bg-sage-300 rounded-full mx-auto" />
         </div>
 
-        {/* Images */}
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="relative h-[260px] md:h-[300px] rounded-3xl overflow-hidden shadow-2xl group">
-            <Image
-              src="/about/image1.jpeg"
-              alt="Joyland landscape"
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-          </div>
 
+        {/* Imagem do mapa */}
+        <div className="grid gap-6 md:grid-cols-1">
           <div className="relative h-[260px] md:h-[300px] rounded-3xl overflow-hidden shadow-2xl group">
             <Image
               src="/mapa/mapa.png"
@@ -90,6 +80,18 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Primeira imagem após os dados físicos */}
+        <div className="relative h-[260px] md:h-[300px] rounded-3xl overflow-hidden shadow-2xl group mt-8">
+          <Image
+            src="/about/image1.jpeg"
+            alt="Joyland landscape"
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
         </div>
 
         {/* How Joyland Came to Be */}

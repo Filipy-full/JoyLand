@@ -60,21 +60,14 @@ export default function GiftboxPage() {
               </p>
             </div>
             <div className="border-2 border-sage-200 p-6 rounded-lg">
-              <div className="text-4xl mb-3">🌰</div>
+              <div className="mb-3 flex justify-start">
+                <img src="/emoji/emoji_almendra.webp" alt="Almond emoji" className="w-12 h-12 object-contain" style={{fontSize: '2.25rem'}} />
+              </div>
               <h3 className="text-xl font-serif mb-3 text-sage-700">
                 Almonds
               </h3>
               <p className="text-sage-700 leading-relaxed">
                 Bag of raw almonds in shell. From almond trees that bloom every spring, filling the valley with white and pink.
-              </p>
-            </div>
-            <div className="border-2 border-sage-200 p-6 rounded-lg">
-              <div className="text-4xl mb-3">🍶</div>
-              <h3 className="text-xl font-serif mb-3 text-sage-700">
-                DIY Joyland Vinegar Blend
-              </h3>
-              <p className="text-sage-700 leading-relaxed">
-                Bottled herbal blends from the land, to be infused at home with your favourite vinegar.
               </p>
             </div>
             <div className="border-2 border-sage-200 p-6 rounded-lg">
@@ -87,16 +80,7 @@ export default function GiftboxPage() {
               </p>
             </div>
             <div className="border-2 border-sage-200 p-6 rounded-lg">
-              <div className="text-4xl mb-3">🫙</div>
-              <h3 className="text-xl font-serif mb-3 text-sage-700">
-                Herbal Oil Infusion
-              </h3>
-              <p className="text-sage-700 leading-relaxed">
-                Herbs slowly infused in our own olive oil and offered in a miniature bottle, perfect for culinary or wellness use. 
-              </p>
-            </div>
-            <div className="border-2 border-sage-200 p-6 rounded-lg">
-              <div className="text-4xl mb-3">🧵</div>
+              <div className="text-4xl mb-3">🎨​</div>
               <h3 className="text-xl font-serif mb-3 text-sage-700">
                 Creative Surprises from Nature
               </h3>
