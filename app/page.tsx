@@ -200,7 +200,7 @@ export default function HomePage() {
               Our Olive Grove
             </h2>
             <p className="text-sm sm:text-base md:text-lg text-sage-600 max-w-xl mx-auto">
-              Views of our regenerative orchard. 
+              Views of our regenerative orchard
             </p>
           </div>
           
