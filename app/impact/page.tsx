@@ -17,7 +17,7 @@ export default function ImpactPage() {
 									 <img src="/impact/image25.jpg" alt="Video" className="rounded-xl shadow w-full h-56 object-cover" />
 									 <img src="/impact/image37.jpg" alt="Support 1" className="rounded-xl shadow w-full h-56 object-cover" />
 									 <img src="/impact/image22.jpg" alt="Support 2" className="rounded-xl shadow w-full h-56 object-cover" />
-									 <video src="/galeria/joyland-landscape-video.mp4" autoPlay loop muted playsInline className="rounded-xl shadow w-full h-56 object-cover bg-black" />
+									 <video src="/impact/joyland-landscape-video.mp4" autoPlay loop muted playsInline className="rounded-xl shadow w-full h-56 object-cover bg-black" />
 								 </div>
 								 <p className="mb-2">Tree adoption at Joyland supports the land as a living system — an ecology where each part works together to harmonize the whole. Your yearly contribution allows time, care, and continuity: the conditions needed for soil to regenerate, biodiversity to return, and trees to be tended according to their natural rhythm. Everything described here is made possible by your support — from groundcover and insects to hand harvesting, fresh oil, and ongoing observation of the land. What follows is a living process, shaped season by season, tree by tree. We have always envisioned community participation and this year we open 200+ member spots to support the land together 🌳</p>
 							 </section>

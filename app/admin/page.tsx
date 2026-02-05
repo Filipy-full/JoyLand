@@ -41,7 +41,7 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [tab, setTab] = useState<'messages' | 'adoptions' | 'reports' | 'stats' | 'trees'>('messages')
+  const [tab, setTab] = useState<'messages' | 'adoptions' | 'reports' | 'stats' | 'trees' | 'gallery'>('messages')
   const [reportForm, setReportForm] = useState({
     adoptionId: '',
     userId: '',
@@ -445,6 +445,12 @@ export default function AdminDashboard() {
               className={`px-4 py-2 rounded-lg text-sm font-semibold ${tab === 'stats' ? 'bg-sage-600 text-white' : 'bg-gray-100 text-gray-700'}`}
             >
               Stats
+            </button>
+            <button
+              onClick={() => router.push('/admin/gallery')}
+              className="px-4 py-2 rounded-lg text-sm font-semibold bg-sage-600 text-white"
+            >
+              Galeria
             </button>
           </div>
 

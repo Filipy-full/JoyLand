@@ -1,47 +1,30 @@
-
 'use client'
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const galleryItems = [
-  // Olive trees
-  '/galeria/olive-trees-01.jpg', '/galeria/olive-trees-02.jpg',
-  // Almond blossom
-  '/galeria/almond-blossom-01.jpg', '/galeria/almond-blossom-02.jpg',
-  // Landscape
-  '/galeria/landscape-01.jpg', '/galeria/landscape-02.jpg', '/galeria/landscape-03.jpg', '/galeria/landscape-04.jpg',
-  '/galeria/landscape-05.jpg', '/galeria/landscape-06.jpg', '/galeria/landscape-07.jpg', '/galeria/landscape-08.jpg',
-  '/galeria/landscape-09.jpg', '/galeria/landscape-10.jpg', '/galeria/landscape-11.jpg', '/galeria/landscape-12.jpg',
-  '/galeria/landscape-13.jpg', '/galeria/landscape-14.jpg', '/galeria/landscape-15.jpg', '/galeria/landscape-16.jpg',
-  // Harvest
-  '/galeria/harvest-01.jpg', '/galeria/harvest-02.jpg', '/galeria/harvest-03.jpg', '/galeria/harvest-04.jpg',
-  '/galeria/harvest-05.jpg', '/galeria/harvest-06.jpg', '/galeria/harvest-07.jpg', '/galeria/harvest-08.jpg',
-  '/galeria/harvest-09.jpg', '/galeria/harvest-10.jpg', '/galeria/harvest-11.jpg', '/galeria/harvest-12.jpg',
-  '/galeria/harvest-13.jpg', '/galeria/harvest-14.jpg', '/galeria/harvest-15.jpg', '/galeria/harvest-16.jpg',
-  '/galeria/harvest-17.jpg', '/galeria/harvest-18.jpg',
-  // Animals
-  '/galeria/animals-01.jpg', '/galeria/animals-02.jpg', '/galeria/animals-03.jpg', '/galeria/animals-04.jpg', '/galeria/animals-05.jpg',
-  // Sunset
-  '/galeria/sunset-01.jpg', '/galeria/sunset-02.jpg', '/galeria/sunset-03.jpg', '/galeria/sunset-04.jpg',
-  '/galeria/sunset-05.jpg', '/galeria/sunset-06.jpg', '/galeria/sunset-07.jpg', '/galeria/sunset-08.jpg',
-  // Joyland originals
-  '/galeria/joyland-01.jpeg', '/galeria/joyland-02.jpeg', '/galeria/joyland-03.jpeg', '/galeria/joyland-04.jpeg',
-  '/galeria/joyland-05.jpeg', '/galeria/joyland-06.jpeg', '/galeria/joyland-07.jpeg', '/galeria/joyland-08.jpeg',
-  '/galeria/joyland-09.jpeg', '/galeria/joyland-10.jpeg', '/galeria/joyland-11.jpeg', '/galeria/joyland-12.jpeg',
-  '/galeria/joyland-13.jpeg', '/galeria/joyland-14.jpeg', '/galeria/joyland-15.jpeg', '/galeria/joyland-16.jpeg',
-  '/galeria/joyland-17.jpeg', '/galeria/joyland-18.jpeg',
-  // Flor
-  '/galeria/flor-adoptar.jpeg',
-  // Video
-  '/galeria/joyland-landscape-video.mp4',
-];
+// ...existing code...
 
 export default function GaleriaPage() {
+  const [galleryItems, setGalleryItems] = useState<string[]>([]);
   const [selected, setSelected] = useState<number|null>(null);
   const [visibleCount, setVisibleCount] = useState(28);
   // Touch state for swipe
   const [touchStartX, setTouchStartX] = useState<number|null>(null);
   const [touchEndX, setTouchEndX] = useState<number|null>(null);
+
+  useEffect(() => {
+    async function fetchGallery() {
+      const res = await fetch("/galeria/gallery-order.json");
+      if (res.ok) {
+        const items = await res.json();
+        // Verifica arquivos existentes
+        const existingFiles = ["img.jpeg","img2.jpeg","img3.jpeg","img4.jpeg","gift-1.jpeg"];
+        const filtered = items.filter((img:string) => existingFiles.includes(img));
+        setGalleryItems(filtered.map((img:string) => `/galeria/${img}`));
+      }
+    }
+    fetchGallery();
+  }, []);
 
   const showMore = () => setVisibleCount((prev) => Math.min(prev + 28, galleryItems.length));
 

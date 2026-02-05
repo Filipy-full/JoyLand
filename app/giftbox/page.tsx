@@ -21,7 +21,7 @@ export default function GiftboxPage() {
 
 
         <div className="flex flex-row justify-center items-center gap-4 mb-12">
-          <div className="w-[230px] h-[250px] md:w-[420px] md:h-[500px] cursor-pointer" onClick={() => handleImgClick('/gift/gift-1.jpeg')}>
+          <div className="w-[230px] h-[250px] md:w-[420px] md:h-[520px] cursor-pointer" onClick={() => handleImgClick('/gift/gift-1.jpeg')}>
             <Image
               src="/gift/gift-1.jpeg"
               alt="Gift 1"
@@ -31,7 +31,7 @@ export default function GiftboxPage() {
               priority
             />
           </div>
-          <div className="w-[230px] h-[250px] md:w-[420px] md:h-[500px] cursor-pointer" onClick={() => handleImgClick('/gift/gift-2.jpeg')}>
+          <div className="w-[230px] h-[250px] md:w-[420px] md:h-[520px] cursor-pointer" onClick={() => handleImgClick('/gift/gift-2.jpeg')}>
             <Image
               src="/gift/gift-2.jpeg"
               alt="Gift 2"

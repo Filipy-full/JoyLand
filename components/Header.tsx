@@ -77,13 +77,8 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/galeria" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Gallery
-              </Link>
-            </li>
-            <li>
               <Link href="/giftbox" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Gift
+                Giftbox
               </Link>
             </li>
             <li>
@@ -94,6 +89,11 @@ export default function Header() {
             <li>
               <Link href="/about" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
                 About
+              </Link>
+            </li>
+            <li>
+              <Link href="/galeria" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
+                Gallery
               </Link>
             </li>
             <li>

@@ -99,7 +99,7 @@ export default function HomePage() {
           }}
         >
           <Image
-            src="/galeria/joyland-03.jpeg"
+            src="/homepage/joyland-03.jpeg"
             alt="Joyland main landscape"
             fill
             className="object-cover brightness-[0.85]"
