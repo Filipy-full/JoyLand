@@ -138,21 +138,21 @@ export async function POST(req: NextRequest) {
           const treeType = treeObj?.type ? treeObj.type : 'árbol'
           const endDate = formatDate(adoption.end_date)
 
-          const subject = 'Tu adopción termina en 1 semana 🌿'
+          const subject = 'Your adoption is about to end 🌿'
           const html = `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937;">
-              <h2>Tu adopción está por terminar</h2>
-              <p>Hola ${adoption.user_name || ''},</p>
-              <p>Tu adopción del ${treeType} ${treeName} termina el <strong>${endDate}</strong>.</p>
-              <p>Si quieres renovarla o adoptar otro árbol, puedes hacerlo aquí:</p>
+              <h2>Your adoption is about to end</h2>
+              <p>Hello ${adoption.user_name || ''},</p>
+              <p>Your adoption of the ${treeType} ${treeName} ends on <strong>${endDate}</strong>.</p>
+              <p>If you want to renew it or adopt another tree, you can do it here:</p>
               <p>
                 <a href="${baseUrl}/adopt" style="display:inline-block;padding:10px 16px;background:#16a34a;color:#fff;text-decoration:none;border-radius:6px;">
-                  Renovar / adoptar otro árbol
+                  Renew / adopt another tree
                 </a>
               </p>
-              <p>También puedes revisar tu panel:</p>
-              <p><a href="${baseUrl}/dashboard">Ir al dashboard</a></p>
-              <p>Gracias por apoyar a JoyLand 💚</p>
+              <p>You can also check your dashboard:</p>
+              <p><a href="${baseUrl}/dashboard">Go to dashboard</a></p>
+              <p>Thank you for supporting JoyLand 💚</p>
             </div>
           `
 
@@ -162,20 +162,19 @@ export async function POST(req: NextRequest) {
             html,
           })
 
-          if (emailSent) {
-            const { error: reminderUpdateError } = await supabaseAdmin
-              .from('adoptions')
-              .update({ reminder_sent_at: nowIso })
-              .eq('id', adoption.id)
+          // Atualiza reminder_sent_at mesmo se o e-mail falhar
+          const { error: reminderUpdateError } = await supabaseAdmin
+            .from('adoptions')
+            .update({ reminder_sent_at: nowIso })
+            .eq('id', adoption.id)
 
-            if (reminderUpdateError) {
-              console.error(`Error updating reminder_sent_at for ${adoption.id}:`, reminderUpdateError)
-              results.errors.push(`Reminder update ${adoption.id}: ${reminderUpdateError.message}`)
-            }
-
-            results.remindersSent++
-            results.emailsSent++
+          if (reminderUpdateError) {
+            console.error(`Error updating reminder_sent_at for ${adoption.id}:`, reminderUpdateError)
+            results.errors.push(`Reminder update ${adoption.id}: ${reminderUpdateError.message}`)
           }
+
+          results.remindersSent++
+          if (emailSent) results.emailsSent++
         } catch (error: any) {
           console.error(`Error sending reminder for adoption ${adoption.id}:`, error)
           results.errors.push(`Reminder ${adoption.id}: ${error.message}`)
