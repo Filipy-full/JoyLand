@@ -447,10 +447,13 @@ export default function AdminDashboard() {
               Stats
             </button>
             <button
-              onClick={() => router.push('/admin/gallery')}
-              className="px-4 py-2 rounded-lg text-sm font-semibold bg-sage-600 text-white"
+              onClick={() => {
+                setTab('gallery');
+                router.push('/admin/gallery');
+              }}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold ${tab === 'gallery' ? 'bg-sage-600 text-white' : 'bg-gray-100 text-gray-700'}`}
             >
-              Galeria
+              Gallery
             </button>
           </div>
 
