@@ -48,14 +48,7 @@ export default function ContactPage() {
         <p className="text-xl text-gray-600 mb-6 text-center">
           Do you have questions? Want to know more about Joyland? Write to us.
         </p>
-        <div className="flex justify-center mb-12">
-          <img
-            src="/contact/contact1.jpeg"
-            alt="Contact Joyland"
-            className="rounded-2xl shadow-lg border-4 border-sage-100 max-w-lg md:max-w-2xl w-full object-cover"
-            style={{ aspectRatio: '16/9' }}
-          />
-        </div>
+
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Form */}
@@ -212,6 +205,14 @@ export default function ContactPage() {
           >
             Adopt a tree
           </a>
+          <div className="flex justify-center mb-12">
+          <img
+            src="/contact/contact1.jpeg"
+            alt="Contact Joyland"
+            className="rounded-2xl shadow-lg border-4 border-sage-100 max-w-2xl md:max-w-4xl w-full object-cover"
+            style={{ aspectRatio: '21/9' }}
+          />
+        </div>
         </div>
       </div>
     </div>
