@@ -75,10 +75,10 @@ export default function AdoptPage() {
             <span className="text-sage-700 font-medium text-sm">Joyland</span>
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-sage-900 mb-6 leading-tight">
-            Adopt a tree at Joyland
+            Adopt a Tree at Joyland
           </h1>
           <p className="text-lg sm:text-xl text-sage-600 max-w-2xl mx-auto leading-relaxed mb-8">
-            Choose a tree and accompany it for a full year
+            And accompany its growth for a full year
           </p>
           {/* Button to view adoption map over the background */}
           <div className="flex justify-center">
@@ -103,15 +103,15 @@ export default function AdoptPage() {
               What does your adoption include?
             </h2>
             <ul className="text-sage-700 text-base sm:text-lg leading-relaxed mb-6 list-none space-y-2">
+              <li>🏷 Name your tree</li>
               <li>🌱 Joyland membership for 1 year</li>
               <li>💌 Personalized adoption certificate</li>
-              <li>🏷 Tag with your chosen name on your tree</li>
-              <li>📚 Annual report on your tree and the land</li>
-              <li>🎁 Artisanal Joyland giftbox, created with what the land offered that year</li>
+              <li>📚 Annual report of your tree &amp; the land</li>
               <li>👑 Exclusive opportunities for members throughout the year</li>
+              <li>🎁 handmade Joyland giftbox, filled with artisanal creations of the land’s bounty</li>
             </ul>
             <div className="bg-sage-50 border border-sage-200 rounded-xl p-4 text-sage-800 text-sm mb-4">
-              <strong>Note:</strong> The giftbox is the same for both trees, but <b>only olive adoptions</b> include a larger bottle of oil (if there is an oil harvest that year).
+              <strong>Note:</strong> The giftbox is similar for both tree adoptions, only <b>olive adoptions</b> include a larger bottle of oil when available.
             </div>
           </div>
         </div>

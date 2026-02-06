@@ -199,10 +199,10 @@ export default function HomePage() {
                 <OliveIcon className="w-10 h-10 sm:w-12 sm:h-12" />
               </div>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-sage-700 mb-3">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-sage-700 mb-3 bg-transparent" style={{background:'transparent'}}>
               Our Olive Grove
             </h2>
-            <p className="text-sm sm:text-base md:text-lg text-sage-600 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base md:text-lg text-sage-600 max-w-xl mx-auto bg-transparent" style={{background:'transparent'}}>
               Views of our regenerative orchard
             </p>
           </div>
@@ -255,7 +255,7 @@ export default function HomePage() {
             {[
               { icon: LocationIcon, title: 'Your Personal Tree', desc: 'Upon invitation you can come to your tree for a visit, a real harvest, or a hug.', delay: '0s' },
               { icon: GalleryIcon, title: '📸 Seasonal Updates', desc: 'Follow your tree through the year with our interactive map, photos, short videos, and gentle updates from the grove and your adoption.', delay: '0.1s' },
-              { icon: GiftIcon, title: '🫒 Natural Harvest Gifts', desc: 'Receive a giftbox with artisanal products made from the land — Joyland olive oil, almonds, dried herbs and more.', delay: '0.2s' },
+              { icon: GiftIcon, title: ' Natural Harvest Gifts', desc: 'Receive a giftbox with artisanal products made from the land — Joyland olive oil, almonds, dried herbs and more.', delay: '0.2s' },
               { icon: DocumentIcon, title: '🌱 Annual Land & Tree Report', desc: 'A printed yearly overview added to your giftbox, sharing how your tree and the wider ecosystem are growing, evolving, and flourishing.', delay: '0.3s' },
               { icon: LeafIcon, title: '🐝 Regenerative Stewardship', desc: 'Your adoption supports practices that build soil health, stimulate biodiversity, and care for the land as a living whole.', delay: '0.4s' },
               { icon: HeartIcon, title: '🎁 A Gift That Grows', desc: 'Adopt a tree for yourself or gift it to someone you love, complete with a personalized adoption certificate.', delay: '0.5s' },
