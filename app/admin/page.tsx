@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 export default function AdminDashboard() {
     // Estados e variáveis ausentes adicionados para evitar erros de compilação
-    const [treeEdit, setTreeEdit] = useState<{ treeId?: string; year?: string }>({ treeId: '', year: '' });
+    const [treeEdit, setTreeEdit] = useState<{ treeId?: string; year?: string; width?: string; height?: string }>({ treeId: '', year: '', width: '', height: '' });
     const [almondPrice, setAlmondPrice] = useState<string>('200');
     const [olivePrice, setOlivePrice] = useState<string>('200');
     const [editingPrice, setEditingPrice] = useState<boolean>(false);
@@ -100,6 +100,8 @@ export default function AdminDashboard() {
         setTreeEdit((prev) => ({
           ...prev,
           year: current.year !== undefined && current.year !== null ? String(current.year).padStart(4, '0') : '0000',
+          width: current.width !== undefined && current.width !== null ? String(current.width) : '',
+          height: current.height !== undefined && current.height !== null ? String(current.height) : '',
         }))
       }
     }
@@ -126,9 +128,21 @@ export default function AdminDashboard() {
     }
 
     const yearStr = treeEdit.year ?? '';
+    const widthStr = treeEdit.width ?? '';
+    const heightStr = treeEdit.height ?? '';
     const yearValue = yearStr.trim() === '' ? null : Number(yearStr);
+    const widthValue = widthStr.trim() === '' ? null : Number(widthStr);
+    const heightValue = heightStr.trim() === '' ? null : Number(heightStr);
     if (yearStr.trim() !== '' && (Number.isNaN(yearValue) || (yearValue !== null && yearValue < 0))) {
       setError('Invalid year');
+      return;
+    }
+    if (widthStr.trim() !== '' && (Number.isNaN(widthValue) || (widthValue !== null && widthValue < 0))) {
+      setError('Invalid width');
+      return;
+    }
+    if (heightStr.trim() !== '' && (Number.isNaN(heightValue) || (heightValue !== null && heightValue < 0))) {
+      setError('Invalid height');
       return;
     }
 
@@ -141,6 +155,8 @@ export default function AdminDashboard() {
       body: JSON.stringify({
         id: treeEdit.treeId,
         year: yearValue,
+        width: widthValue,
+        height: heightValue,
       }),
     })
 
@@ -898,6 +914,8 @@ export default function AdminDashboard() {
                         setTreeEdit({
                           treeId,
                           year: tree?.year !== undefined && tree?.year !== null ? String(tree.year).padStart(4, '0') : '0000',
+                          width: tree?.width !== undefined && tree?.width !== null ? String(tree.width) : '',
+                          height: tree?.height !== undefined && tree?.height !== null ? String(tree.height) : '',
                         })
                       }}
                       required
@@ -918,6 +936,26 @@ export default function AdminDashboard() {
                       onChange={(e) => setTreeEdit((p) => ({ ...p, year: e.target.value }))}
                       placeholder="0000"
                       inputMode="numeric"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Width (m)</label>
+                    <input
+                      className="w-full border rounded-lg px-3 py-2"
+                      value={treeEdit.width}
+                      onChange={(e) => setTreeEdit((p) => ({ ...p, width: e.target.value }))}
+                      placeholder="Width in meters"
+                      inputMode="decimal"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Height (m)</label>
+                    <input
+                      className="w-full border rounded-lg px-3 py-2"
+                      value={treeEdit.height}
+                      onChange={(e) => setTreeEdit((p) => ({ ...p, height: e.target.value }))}
+                      placeholder="Height in meters"
+                      inputMode="decimal"
                     />
                   </div>
                   <button className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold w-full">

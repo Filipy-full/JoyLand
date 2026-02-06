@@ -20,6 +20,8 @@ model Tree {
   videos        String?
   latitude      Float?
   longitude     Float?
+  width         Float?      @map("width") // ancho
+  height        Float?      @map("height") // altura
   createdAt     DateTime    @default(now()) @map("created_at")
   updatedAt     DateTime    @updatedAt @map("updated_at")
   adoptions     Adoption[]

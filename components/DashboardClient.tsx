@@ -20,6 +20,8 @@ interface Adoption {
   tree_name?: string
   gift_message?: string
   created_at: string
+  width?: number;
+  height?: number;
 }
 
 interface ReportItem {
@@ -174,6 +176,12 @@ export default function DashboardClient() {
                         <p className="text-xs text-gray-500 mb-1">ÁRBOL</p>
                         <p className="font-semibold text-gray-900">{adoption.tree_name || `#${adoption.tree_id}`}</p>
                         <p className="text-sm text-gray-600 mt-1">ID: {adoption.tree_id}</p>
+                        {typeof adoption.width === 'number' && (
+                          <p className="text-xs text-gray-700">Ancho: {adoption.width} m</p>
+                        )}
+                        {typeof adoption.height === 'number' && (
+                          <p className="text-xs text-gray-700">Altura: {adoption.height} m</p>
+                        )}
                       </div>
 
                       {/* Estado */}

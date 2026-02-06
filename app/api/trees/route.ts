@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
   if (id) {
     const { data: tree, error } = await supabaseAdmin
       .from('trees')
-      .select('id, name, type, status, description, latitude, longitude, year')
+      .select('id, name, type, status, description, latitude, longitude, year, width, height, area')
       .eq('id', id)
       .single();
 
@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
 
   let query = supabaseAdmin
     .from('trees')
-    .select('id, name, type, status, description, latitude, longitude, year')
+    .select('id, name, type, status, description, latitude, longitude, year, width, height, area')
     .order('created_at', { ascending: true });
 
   if (type) {

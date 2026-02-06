@@ -40,37 +40,7 @@ export default function AdoptPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-sage-50 relative">
-      {/* Dropdown de filtro e ordenação */}
-      <div className="container mx-auto px-4 sm:px-6 pt-8 flex flex-col md:flex-row gap-4 items-center justify-end">
-        <div className="flex gap-2 items-center">
-          <label htmlFor="treeFilter" className="text-sage-700 font-medium">Tipo:</label>
-          <select
-            id="treeFilter"
-            value={treeFilter}
-            onChange={e => setTreeFilter(e.target.value as 'all' | 'almond' | 'olive')}
-            className="border rounded px-2 py-1"
-          >
-            <option value="all">Todos</option>
-            <option value="almond">Amendoeira</option>
-            <option value="olive">Oliveira</option>
-          </select>
-        </div>
-        <div className="flex gap-2 items-center">
-          <label htmlFor="sortBy" className="text-sage-700 font-medium">Ordenar por:</label>
-          <select
-            id="sortBy"
-            value={sortBy}
-            onChange={e => setSortBy(e.target.value as 'default' | 'name' | 'number' | 'gift')}
-            className="border rounded px-2 py-1"
-          >
-            <option value="default">Padrão</option>
-            <option value="name">Nome</option>
-            <option value="number">Número</option>
-            <option value="gift">Presente</option>
-          </select>
-        </div>
-      </div>
-
+    
       {/* Hero Section */}
       <section className="relative container mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12 sm:pb-16">
         {/* Background decorativo más grande */}

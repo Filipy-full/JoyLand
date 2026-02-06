@@ -11,7 +11,7 @@ export default async function TreePage({ params }: { params: Promise<{ id?: stri
 
   const { data: tree, error: treeError } = await supabaseAdmin
     .from('trees')
-    .select('id, name, type, status, description, yearly_report, videos, latitude, longitude, year')
+    .select('id, name, type, status, description, yearly_report, videos, latitude, longitude, year, width, height')
     .eq('id', id)
     .single()
 
@@ -42,7 +42,11 @@ export default async function TreePage({ params }: { params: Promise<{ id?: stri
               <h1 className="text-3xl font-bold text-gray-900">
                 {tree.name || `Tree #${tree.id}`}
               </h1>
-              <p className="text-sm text-gray-500">Tipo: {tree.type || 'n/a'} · Año: {yearValue}</p>
+              <p className="text-sm text-gray-500">
+                Tipo: {tree.type || 'n/a'} · Año: {yearValue}
+                {typeof tree.width === 'number' && ` · Ancho: ${tree.width} m`}
+                {typeof tree.height === 'number' && ` · Altura: ${tree.height} m`}
+              </p>
             </div>
             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${tree.status === 'available' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
               {tree.status === 'available' ? 'Disponible' : 'Adoptado'}

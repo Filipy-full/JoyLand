@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
 
     const { data: trees, error: queryError } = await supabaseAdmin
       .from('trees')
-      .select('id, name, type, status, description, yearly_report, videos, latitude, longitude, year')
+      .select('id, name, type, status, description, yearly_report, videos, latitude, longitude, year, width, height')
       .order('created_at', { ascending: true })
 
     if (queryError) {
@@ -66,7 +66,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { id, name, status, description, yearly_report, videos, latitude, longitude, year } = body || {}
+    const { id, name, status, description, yearly_report, videos, latitude, longitude, year, width, height } = body || {}
 
     if (!id) {
       return NextResponse.json({ error: 'Missing tree id' }, { status: 400 })
@@ -81,6 +81,8 @@ export async function PATCH(req: NextRequest) {
     if (latitude !== undefined) updates.latitude = latitude
     if (longitude !== undefined) updates.longitude = longitude
     if (year !== undefined) updates.year = year
+    if (width !== undefined) updates.width = width
+    if (height !== undefined) updates.height = height
 
     const { data: tree, error: updateError } = await supabaseAdmin
       .from('trees')

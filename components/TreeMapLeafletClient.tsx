@@ -11,6 +11,8 @@ export type Tree = {
   status?: string;
   latitude: number;
   longitude: number;
+  width?: number;
+  height?: number;
 };
 
 type Props = {
@@ -66,6 +68,12 @@ export default function TreeMapLeafletClient({ trees, center }: Props) {
               <div className="text-center">
                 <div className="font-bold text-sage-700">{treeCode}</div>
                 <div className="text-xs mb-1">{statusLabel}</div>
+                {typeof tree.width === 'number' && (
+                  <div className="text-xs text-gray-700">Ancho: {tree.width} m</div>
+                )}
+                {typeof tree.height === 'number' && (
+                  <div className="text-xs text-gray-700">Altura: {tree.height} m</div>
+                )}
                 <button
                   className={`mt-2 px-4 py-2 rounded-full text-white ${isAvailable ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 cursor-not-allowed'}`}
                   onClick={() => router.push(link)}
