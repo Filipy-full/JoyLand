@@ -45,9 +45,17 @@ export default function ContactPage() {
         <h1 className="text-5xl font-serif text-gray-800 mb-4 text-center">
           Contact
         </h1>
-        <p className="text-xl text-gray-600 mb-12 text-center">
+        <p className="text-xl text-gray-600 mb-6 text-center">
           Do you have questions? Want to know more about Joyland? Write to us.
         </p>
+        <div className="flex justify-center mb-12">
+          <img
+            src="/contact/contact1.jpeg"
+            alt="Contact Joyland"
+            className="rounded-2xl shadow-lg border-4 border-sage-100 max-w-lg md:max-w-2xl w-full object-cover"
+            style={{ aspectRatio: '16/9' }}
+          />
+        </div>
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Form */}
@@ -153,8 +161,15 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-medium text-gray-800 mb-1">Location</h3>
                   <p className="text-gray-600">
-                    Northern Spain<br />
-                    (Exact location is shared with adopters)
+                    <a
+                      href="https://maps.app.goo.gl/iA6974tTveWLXrhL9"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sage-600 hover:text-sage-700 no-underline"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      Bages
+                    </a><br />
                   </p>
                 </div>
                 <div>
