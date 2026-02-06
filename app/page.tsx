@@ -71,6 +71,8 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-sage-100 to-white overflow-x-hidden relative">
       {/* Removido botão flutuante de adoção */}
       {/* Animated SVG particles */}
+      {/* Disabled particles for mobile performance */}
+      {/*
       <div className="fixed top-0 left-0 w-full h-screen pointer-events-none overflow-hidden z-0">
         {particles.map((particle) => (
           <div
@@ -86,10 +88,14 @@ export default function HomePage() {
           </div>
         ))}
       </div>
+      */}
 
       {/* Animated blobs */}
+      {/* Disabled animated blobs for mobile performance */}
+      {/*
       <div className="fixed top-20 right-10 w-64 h-64 md:w-96 md:h-96 bg-sage-200 opacity-20 blur-3xl rounded-full animate-morph pointer-events-none"></div>
       <div className="fixed bottom-20 left-10 w-80 h-80 md:w-[500px] md:h-[500px] bg-sage-300 opacity-15 blur-3xl rounded-full animate-morph pointer-events-none" style={{ animationDelay: '3s' }}></div>
+      */}
 
       {/* Hero Section - Glassmorphism */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 px-4">
