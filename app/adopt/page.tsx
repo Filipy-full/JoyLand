@@ -114,6 +114,19 @@ export default function AdoptPage() {
             </div>
           </div>
         </div>
+        {/* Imagens do Impact - Trees, Rhythm, and Care (fora da caixa) */}
+        <div className="mt-10">
+          <div className="flex justify-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10 max-w-3xl w-full">
+              <img src="/impact/image1.jpg" alt="Tree Care 1" className="rounded-xl shadow w-full h-32 object-cover" />
+              <img src="/impact/image35.jpg" alt="Tree Care 2" className="rounded-xl shadow w-full h-32 object-cover" />
+              <img src="/impact/image36.jpg" alt="Tree Care 3" className="rounded-xl shadow w-full h-32 object-cover" />
+              <img src="/impact/image10.jpg" alt="Tree Care 4" className="rounded-xl shadow w-full h-32 object-cover" />
+              <img src="/impact/image9.jpg" alt="Tree Care 5" className="rounded-xl shadow w-full h-32 object-cover" />
+              <img src="/impact/image8.jpg" alt="Tree Care 6" className="rounded-xl shadow w-full h-32 object-cover" />
+            </div>
+          </div>
+          </div>
       </section>
 
       {/* Tree Selection */}
@@ -123,23 +136,18 @@ export default function AdoptPage() {
             {/* Almond Tree Card */}
             <div className="group glass-card p-6 sm:p-8 rounded-3xl hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-pink-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
               <div className="relative z-10">
                 <div className="text-7xl sm:text-8xl mb-16">🌸</div>
-                
                 <h3 className="text-2xl sm:text-3xl font-serif text-sage-900 mb-2">
                   Almond Tree
                 </h3>
-                
                 <div className="flex items-baseline gap-2 mb-6">
                   <span className="text-4xl sm:text-5xl font-bold text-sage-700">€{(almondPrice / 100).toFixed(2)}</span>
                   <span className="text-sage-600">/year</span>
                 </div>
-                
                 <p className="text-sage-600 mb-6 leading-relaxed text-sm sm:text-base">
                   Almond trees bloom in spring with beautiful pink flowers. Perfect for those who love natural beauty and want to support Mediterranean regenerative agriculture.
                 </p>
-                
                 <ul className="space-y-3 mb-8 text-sm sm:text-base">
                   <li className="flex items-start gap-2 text-sage-700">
                     <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -166,7 +174,6 @@ export default function AdoptPage() {
                     <span>Support regenerative agriculture</span>
                   </li>
                 </ul>
-                
                 <button
                   onClick={() => handleAdopt('almond')}
                   disabled={loadingType !== null}
@@ -190,23 +197,18 @@ export default function AdoptPage() {
             {/* Olive Tree Card */}
             <div className="group glass-card p-6 sm:p-8 rounded-3xl hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
               <div className="relative z-10">
                 <img src="/rama-oliva.png" alt="Olive Tree" className="w-24 h-24 sm:w-32 sm:h-32 object-contain mb-6" />
-                
                 <h3 className="text-2xl sm:text-3xl font-serif text-sage-900 mb-2">
                   Olive Tree
                 </h3>
-                
                 <div className="flex items-baseline gap-2 mb-6">
                   <span className="text-4xl sm:text-5xl font-bold text-sage-700">€{(olivePrice / 100).toFixed(2)}</span>
                   <span className="text-sage-600">/year</span>
                 </div>
-                
                 <p className="text-sage-600 mb-6 leading-relaxed text-sm sm:text-base">
                   Olive trees are ancient symbols of peace and longevity. Ideal for those who value Mediterranean tradition and want to contribute to quality olive oil production.
                 </p>
-                
                 <ul className="space-y-3 mb-8 text-sm sm:text-base">
                   <li className="flex items-start gap-2 text-sage-700">
                     <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -233,7 +235,6 @@ export default function AdoptPage() {
                     <span>Support regenerative agriculture</span>
                   </li>
                 </ul>
-                
                 <button
                   onClick={() => handleAdopt('olive')}
                   disabled={loadingType !== null}
@@ -270,6 +271,20 @@ export default function AdoptPage() {
               <span className="font-medium">Processed by Stripe</span>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Adopt Gallery Images */}
+      <section className="container mx-auto px-4 sm:px-6 py-8">
+        <div className="flex flex-wrap justify-center gap-4">
+          {['image1.jpg', 'image2.jpg', 'image4.jpg', 'image5.jpg'].map((img, idx) => (
+            <img
+              key={img}
+              src={`/adopt/${img}`}
+              alt={`Adopt gallery ${idx + 1}`}
+              className="rounded-2xl shadow-lg w-48 h-48 object-cover"
+            />
+          ))}
         </div>
       </section>
     </div>

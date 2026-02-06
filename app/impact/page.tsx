@@ -7,30 +7,30 @@ export default function ImpactPage() {
 				 </h1>
 				 <div className="w-24 h-1 bg-sage-300 rounded-full mx-auto mb-10" />
 				 {/* Imagem principal abaixo do título */}
-				 <div className="flex justify-center mb-10">
-					 <img src="/impact/image19.jpg" alt="Impact Main" className="rounded-2xl shadow-lg max-h-72 object-contain" />
-				 </div>
+				<div className="flex justify-center mb-10">
+					<img src="/impact/image19.jpg" alt="Impact Main" className="rounded-2xl shadow-lg max-h-72 object-contain" />
+				</div>
 				<div className="prose prose-lg max-w-none text-sage-800">
 							 <section className="mb-14">
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">How Your Support Shapes Joyland</h2>
-								 <div className="grid grid-cols-2 grid-rows-2 gap-6 mb-8 max-w-3xl mx-auto">
-									 <img src="/impact/image25.jpg" alt="Video" className="rounded-xl shadow w-full h-56 object-cover" />
-									 <img src="/impact/image37.jpg" alt="Support 1" className="rounded-xl shadow w-full h-56 object-cover" />
-									 <img src="/impact/image22.jpg" alt="Support 2" className="rounded-xl shadow w-full h-56 object-cover" />
-									 <video src="/impact/joyland-landscape-video.mp4" autoPlay loop muted playsInline className="rounded-xl shadow w-full h-56 object-cover bg-black" />
-								 </div>
+											<div className="grid grid-cols-2 grid-rows-2 gap-6 mb-8 max-w-3xl mx-auto">
+												<img src="/impact/image25.jpg" alt="Video" className="rounded-xl shadow w-full h-56 object-cover" />
+												<img src="/impact/image37.jpg" alt="Support 1" className="rounded-xl shadow w-full h-56 object-cover" />
+												<img src="/impact/image22.jpg" alt="Support 2" className="rounded-xl shadow w-full h-56 object-cover" />
+												<video src="/impact/joyland-landscape-video.mp4" autoPlay loop muted playsInline className="rounded-xl shadow w-full h-56 object-cover bg-black" />
+											</div>
 								 <p className="mb-2">Tree adoption at Joyland supports the land as a living system — an ecology where each part works together to harmonize the whole. Your yearly contribution allows time, care, and continuity: the conditions needed for soil to regenerate, biodiversity to return, and trees to be tended according to their natural rhythm. Everything described here is made possible by your support — from groundcover and insects to hand harvesting, fresh oil, and ongoing observation of the land. What follows is a living process, shaped season by season, tree by tree. We have always envisioned community participation and this year we open 200+ member spots to support the land together 🌳</p>
 							 </section>
 					<div className="w-full h-[2px] bg-sage-100 rounded-full mb-10" />
 
 							 <section className="mb-14">
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">The Land Today</h2>
-								 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-									 <img src="/impact/image12.jpg" alt="Land 1" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image31.jpg" alt="Land 2" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image13.jpg" alt="Land 3" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image29.jpg" alt="Land 4" className="rounded-xl shadow w-full h-40 object-cover" />
-								 </div>
+											<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+												<img src="/impact/image12.jpg" alt="Land 1" className="rounded-xl shadow w-full h-40 object-cover" />
+												<img src="/impact/image31.jpg" alt="Land 2" className="rounded-xl shadow w-full h-40 object-cover" />
+												<img src="/impact/image13.jpg" alt="Land 3" className="rounded-xl shadow w-full h-40 object-cover" />
+												<img src="/impact/image29.jpg" alt="Land 4" className="rounded-xl shadow w-full h-40 object-cover" />
+											</div>
 								 <p>Joyland demonstrates what becomes possible when nature is given space to establish on its own strength, building resilience over time. What was bare clay recently is now building a living groundcover, growing denser by the season. Flowers rise and return each year. Insects move through the grove and grow bigger communities. Summer hums with crickets throughout the day, while mornings and evenings bring softer light, humidity, and the orchestra of frogs. Every morning you wake up at the land with birdsongs; winter arrives quietly, wrapped in mist, with rosemary and calendula still flowering well into January.</p>
 								 <p>Each season leaves a visible trace — in soil texture, plant diversity, moisture retention, and the way the land holds life, sprouting towards abundance.</p>
 							 </section>
@@ -109,7 +109,7 @@ export default function ImpactPage() {
 					<div className="w-full h-[2px] bg-sage-100 rounded-full mb-10" />
 
 							 <section className="mb-14">
-								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">Fresh Oil, Unfiltered</h2>
+								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3"> Fresh Unfiltered Oil</h2>
 								 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
 									 <img src="/impact/image27.jpg" alt="Oil 1" className="rounded-xl shadow w-full h-80 object-cover" />
 									 <img src="/impact/image34.jpg" alt="Oil 2" className="rounded-xl shadow w-full h-80 object-cover" />
@@ -123,10 +123,8 @@ export default function ImpactPage() {
 
 							 <section className="mb-14">
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">Where Your Contribution Goes</h2>
-								 <div className="flex flex-row justify-center items-end gap-6 mb-6">
-									 <img src="/impact/image15.jpg" alt="Contribution 1" className="rounded-xl shadow object-contain" style={{width: '180px', height: 'auto'}} />
-									 <img src="/impact/image20.jpg" alt="Contribution 2" className="rounded-xl shadow object-contain" style={{width: '180px', height: 'auto'}} />
-									 <img src="/impact/image14.jpg" alt="Contribution 3" className="rounded-xl shadow object-contain" style={{width: '180px', height: 'auto'}} />
+								  <div className="flex flex-row justify-center items-end gap-6 my-0">
+									<img src="/impact/image15.jpg" alt="Contribution 1" className="rounded-xl shadow object-cover mx-auto" style={{width: '480px', height: '220px'}} />
 								 </div>
 								 <p>Tree adoption directly supports:</p>
 								 <ul className="list-disc pl-6 mb-4">

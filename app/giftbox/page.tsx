@@ -108,7 +108,7 @@ export default function GiftboxPage() {
                 Creative Surprises from Nature
               </h3>
               <p className="text-sage-700 leading-relaxed">
-                Handicrafts shaped by nature’s bounty — dried flower products, soaps, luffas, steam blends, smudgesticks, seed bags, you name it. We ignite when inspiration strikes. Each piece reflects the creativity and warmth of our community, made with intention and heart.
+                Handicrafts shaped by nature’s bounty — <span className="italic">herbal oil infusions, vinegar blends, dried flower products, soaps, luffas, steam blends, smudgesticks, seed bags</span>, you name it. We ignite when inspiration strikes. Each piece reflects the creativity and warmth of our community, made with intention and heart.
               </p>
             </div>
           </div>
