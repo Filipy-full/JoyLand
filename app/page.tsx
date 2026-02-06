@@ -125,7 +125,7 @@ export default function HomePage() {
               className="inline-block premium-gradient text-white px-6 sm:px-8 md:px-10 py-3 sm:py-4 rounded-full hover:shadow-2xl transition-all transform hover:scale-110 text-base sm:text-lg font-bold drop-shadow-lg animate-bounceIn hover-3d"
               style={{ animationDelay: '0.6s' }}
             >
-              Adopt a tree
+              Adopt a Tree
             </Link>
           </div>
         </div>
@@ -152,8 +152,8 @@ export default function HomePage() {
             {/* Contenido con glassmorphism */}
             <div className="reveal reveal-right">
               <div className="glass-card p-5 sm:p-6 md:p-8 rounded-2xl">
-                <div className="flex items-center gap-3 mb-5">
-                  <OliveIcon className="w-10 h-10 sm:w-12 sm:h-12 animate-floatRandom" />
+                <div className="flex flex-col sm:flex-row items-center gap-3 mb-5 text-center sm:text-left">
+                  <OliveIcon className="w-10 h-10 sm:w-12 sm:h-12 animate-floatRandom flex-shrink-0" />
                   <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-sage-700">
                     What is Joyland?
                   </h2>
@@ -169,7 +169,7 @@ export default function HomePage() {
                     Through an adoption, you follow the growth of your tree within a sprouting food forest — learning how soil, biodiversity, and time work together to support resilient trees and landscapes. You will receive updates on your tree's progress, seasonal photos and the products it generates. A way to support natural living systems while staying closely connected to the land that nourishes them.
                   </p>
                 </div>
-                <div className="mt-8 flex gap-3 sm:gap-4 justify-center flex-nowrap">
+                <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center flex-nowrap">
                   <div className="glass-card-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full flex flex-col items-center">
                     <span className="text-2xl sm:text-3xl mb-1">🌱</span>
                     <span className="text-sm sm:text-base text-sage-700 font-semibold">Regenerative</span>

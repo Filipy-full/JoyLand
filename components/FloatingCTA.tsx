@@ -79,7 +79,7 @@ export default function FloatingCTA() {
           </span>
           
           {/* Text */}
-          <span className="relative hidden sm:inline whitespace-nowrap">Adopt a tree</span>
+          <span className="relative hidden sm:inline whitespace-nowrap">Adopt a Tree</span>
           <span className="relative sm:hidden whitespace-nowrap">Adopt</span>
           
           {/* Arrow */}

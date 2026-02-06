@@ -82,7 +82,7 @@ export default function AdminDashboard() {
     })
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))
-      setError(body.error || 'Error al cargar árboles')
+      setError(body.error || 'Error loading trees')
       return
     }
     const body = await res.json()
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
       }
     }
     if (body.warning || body.yearAvailable === false) {
-      setTreesWarning('A coluna year não existe na tabela trees. Adicione no Supabase para editar o ano.')
+      setTreesWarning('The column year does not exist in the trees table. Add it in Supabase to edit the year.')
     }
   }
 
@@ -118,7 +118,7 @@ export default function AdminDashboard() {
     const session = await supabase.auth.getSession()
     const token = session.data.session?.access_token
     if (!token) {
-      setError('No autorizado')
+      setError('Not authorized')
       return
     }
 
@@ -186,7 +186,7 @@ export default function AdminDashboard() {
     const session = await supabase.auth.getSession()
     const token = session.data.session?.access_token
     if (!token) {
-      setError('No autorizado')
+      setError('Not authorized')
       return
     }
 
@@ -236,7 +236,7 @@ export default function AdminDashboard() {
     const session = await supabase.auth.getSession()
     const token = session.data.session?.access_token
     if (!token) {
-      setError('No autorizado')
+      setError('Not authorized')
       setLoading(false)
       return
     }
@@ -246,7 +246,7 @@ export default function AdminDashboard() {
     })
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))
-      setError(body.error || 'Error al borrar mensajes')
+      setError(body.error || 'Error deleting messages')
     }
     await fetchMessages(token)
     setLoading(false)
@@ -259,7 +259,7 @@ export default function AdminDashboard() {
       const session = await supabase.auth.getSession();
       const token = session.data.session?.access_token;
       if (!token) {
-        alert('No autorizado');
+        alert('Not authorized');
         setReplySending(false);
         return;
       }
@@ -292,12 +292,12 @@ export default function AdminDashboard() {
       if (res.ok && data.success) {
         setReplyingTo(null);
         setReplyMessage('');
-        alert('✅ Respuesta guardada correctamente');
+        alert('✅ Reply saved successfully');
       } else {
-        alert(`❌ Error al guardar: ${data.error || 'Error desconocido'}`);
+        alert(`❌ Error saving: ${data.error || 'Unknown error'}`);
       }
     } catch (err) {
-      alert(`❌ Error de conexión: ${String(err)}`);
+      alert(`❌ Connection error: ${String(err)}`);
     } finally {
       setReplySending(false);
     }
@@ -309,7 +309,7 @@ export default function AdminDashboard() {
     const session = await supabase.auth.getSession()
     const token = session.data.session?.access_token
     if (!token) {
-      setError('No autorizado')
+      setError('Not authorized')
       return
     }
     const res = await fetch('/api/admin/reports', {
@@ -318,13 +318,13 @@ export default function AdminDashboard() {
     })
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))
-      setError(body.error || 'Error al borrar reports')
+      setError(body.error || 'Error deleting reports')
     }
     await fetchReports(token)
   }
 
   const handleDeleteUserReports = async (userId: string, userEmail: string) => {
-    if (!confirm(`¿Eliminar TODOS los reportes de ${userEmail}? Esta acción no se puede deshacer.`)) return
+    if (!confirm(`Delete ALL reports for ${userEmail}? This action cannot be undone.`)) return
     
     setDeletingUserId(userId)
     setError('')
@@ -332,7 +332,7 @@ export default function AdminDashboard() {
     const session = await supabase.auth.getSession()
     const token = session.data.session?.access_token
     if (!token) {
-      setError('No autorizado')
+      setError('Not authorized')
       setDeletingUserId(null)
       return
     }
@@ -344,7 +344,7 @@ export default function AdminDashboard() {
 
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))
-      setError(body.error || 'Error al eliminar reportes del usuario')
+      setError(body.error || 'Error deleting user reports')
     } else {
       await fetchReports(token)
     }
@@ -359,7 +359,7 @@ export default function AdminDashboard() {
     const session = await supabase.auth.getSession()
     const token = session.data.session?.access_token
     if (!token) {
-      setError('No autorizado')
+      setError('Not authorized')
       return
     }
 
@@ -380,7 +380,7 @@ export default function AdminDashboard() {
 
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))
-      setError(body.error || 'Error al crear reporte')
+      setError(body.error || 'Error creating report')
       return
     }
 
@@ -404,7 +404,7 @@ export default function AdminDashboard() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-wrap gap-4 items-center justify-between">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-              <p className="text-sm text-gray-600">Gestión de mensajes, adopciones y reportes</p>
+              <p className="text-sm text-gray-600">Manage messages, adoptions and reports</p>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -803,31 +803,31 @@ export default function AdminDashboard() {
               {/* Dropdowns de filtro e ordenação */}
               <div className="flex flex-wrap gap-4 mb-6 items-center">
                 <div className="flex gap-2 items-center">
-                  <label htmlFor="adoptionTypeFilter" className="text-sage-700 font-medium">Tipo:</label>
+                  <label htmlFor="adoptionTypeFilter" className="text-sage-700 font-medium">Type:</label>
                   <select
                     id="adoptionTypeFilter"
                     value={adoptionTypeFilter}
                     onChange={e => setAdoptionTypeFilter(e.target.value)}
                     className="border rounded px-2 py-1"
                   >
-                    <option value="all">Todos</option>
-                    <option value="almond">Amendoeira</option>
-                    <option value="olive">Oliveira</option>
+                    <option value="all">All</option>
+                    <option value="almond">Almond</option>
+                    <option value="olive">Olive</option>
                   </select>
                 </div>
                 <div className="flex gap-2 items-center">
-                  <label htmlFor="adoptionSortBy" className="text-sage-700 font-medium">Ordenar por:</label>
+                  <label htmlFor="adoptionSortBy" className="text-sage-700 font-medium">Sort by:</label>
                   <select
                     id="adoptionSortBy"
                     value={adoptionSortBy}
                     onChange={e => setAdoptionSortBy(e.target.value)}
                     className="border rounded px-2 py-1"
                   >
-                    <option value="created_at">Mais recente</option>
-                    <option value="tree_id">Número da árvore</option>
-                    <option value="tree_name">Nome da árvore</option>
-                    <option value="user_name">Nome do adotante</option>
-                    <option value="giftMessage">Presente</option>
+                    <option value="created_at">Most recent</option>
+                    <option value="tree_id">Tree number</option>
+                    <option value="tree_name">Tree name</option>
+                    <option value="user_name">Adopter name</option>
+                    <option value="giftMessage">Gift</option>
                   </select>
                 </div>
               </div>
@@ -870,10 +870,10 @@ export default function AdminDashboard() {
                             try {
                               addr = adopt.shipping_address ? JSON.parse(adopt.shipping_address) : null;
                             } catch {}
-                            if (!addr) return <div className="text-xs text-gray-600 font-semibold">Endereço: -</div>;
+                            if (!addr) return <div className="text-xs text-gray-600 font-semibold">Address: -</div>;
                             return (
                               <div className="text-xs text-gray-600 font-semibold">
-                                Endereço:<br />
+                                Address:<br />
                                 {addr.line1 && <span>{addr.line1}<br /></span>}
                                 {addr.line2 && <span>{addr.line2}<br /></span>}
                                 {addr.city && <span>{addr.city}, </span>}
@@ -886,9 +886,9 @@ export default function AdminDashboard() {
                         </div>
                         <div className="text-xs text-gray-500">{new Date(adopt.created_at).toLocaleString()}</div>
                       </div>
-                      <div className="mt-2 text-xs text-gray-600">Árbol ID: <span className="font-mono">{adopt.tree_id}</span></div>
+                      <div className="mt-2 text-xs text-gray-600">Tree ID: <span className="font-mono">{adopt.tree_id}</span></div>
                       <div className="mt-2 text-xs text-gray-600">Status: {adopt.status || 'n/a'} | Payment: {adopt.payment_status || 'n/a'}</div>
-                      {adopt.giftMessage && <div className="mt-2 text-xs text-amber-700">🎁 Presente: {adopt.giftMessage}</div>}
+                      {adopt.giftMessage && <div className="mt-2 text-xs text-amber-700">🎁 Gift: {adopt.giftMessage}</div>}
                     </div>
                   ))}
                 {adoptions.length === 0 && (
@@ -976,21 +976,21 @@ export default function AdminDashboard() {
             <div className="space-y-6">
               {/* Filtro por tipo de árvore */}
               <div className="flex items-center gap-3 mb-4">
-                <label htmlFor="reportTreeType" className="text-sm font-medium text-gray-700">Tipo de árvore:</label>
+                <label htmlFor="reportTreeType" className="text-sm font-medium text-gray-700">Tree type:</label>
                 <select
                   id="reportTreeType"
                   className="border rounded px-2 py-1"
                   value={reportTreeType || 'all'}
                   onChange={e => setReportTreeType(e.target.value)}
                 >
-                  <option value="all">Todas</option>
-                  <option value="almond">Amendoeira</option>
-                  <option value="olive">Oliveira</option>
+                  <option value="all">All</option>
+                  <option value="almond">Almond</option>
+                  <option value="olive">Olive</option>
                 </select>
               </div>
               {/* Delete reports by user */}
               <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Eliminar Reportes por Usuario</h2>
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Delete Reports by User</h2>
                 <div className="space-y-3">
                   {Array.from(new Set(adoptions.map(a => a.user_id).filter(Boolean))).map((userId) => {
                     const userAdoption = adoptions.find(a => a.user_id === userId)
@@ -1000,14 +1000,14 @@ export default function AdminDashboard() {
                       <div key={userId} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                         <div>
                           <p className="font-semibold text-gray-900">{userAdoption.user_email || userId}</p>
-                          <p className="text-xs text-gray-500">{userReportsCount} reporte(s)</p>
+                          <p className="text-xs text-gray-500">{userReportsCount} report(s)</p>
                         </div>
                         <button
                           onClick={() => handleDeleteUserReports(userId, userAdoption.user_email || userId)}
                           disabled={deletingUserId === userId || userReportsCount === 0}
                           className="bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition-colors text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          {deletingUserId === userId ? 'Eliminando...' : 'Eliminar Reportes'}
+                          {deletingUserId === userId ? 'Deleting...' : 'Delete Reports'}
                         </button>
                       </div>
                     )

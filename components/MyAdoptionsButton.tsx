@@ -35,7 +35,7 @@ export function MyAdoptionsButton({ className }: MyAdoptionsButtonProps) {
 
   return (
     <a href="/dashboard" className={classes}>
-      My tree
+      My Tree
     </a>
   )
 }

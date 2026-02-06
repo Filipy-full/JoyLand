@@ -12,7 +12,7 @@ export default function AdminGalleryPage() {
   const [removing, setRemoving] = useState<string | null>(null);
   const [removeError, setRemoveError] = useState("");
 
-  // Buscar imagens do Supabase
+  // Fetch images from Supabase
   const fetchImages = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -27,7 +27,7 @@ export default function AdminGalleryPage() {
     setLoading(false);
   };
 
-  // Upload handler para Supabase
+  // Upload handler for Supabase
   const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setUploadError("");
@@ -38,7 +38,7 @@ export default function AdminGalleryPage() {
       setUploading(false);
       return;
     }
-    // Upload para Supabase Storage
+    // Upload to Supabase Storage
     const fileExt = file.name.split('.').pop();
     const fileName = `${Date.now()}.${fileExt}`;
     const { data: uploadData, error: uploadErrorObj } = await supabase.storage.from('galeria').upload(fileName, file);
@@ -47,12 +47,12 @@ export default function AdminGalleryPage() {
       setUploading(false);
       return;
     }
-    // Pega a URL pública usando o path retornado pelo upload
+    // Get the public URL using the returned path
     const path = uploadData?.path || fileName;
     const { data: publicUrlData } = supabase.storage.from('galeria').getPublicUrl(path);
-    // Descobre o maior order atual
+    // Find the current max order
     const maxOrder = images.length > 0 ? Math.max(...images.map(img => img.order || 0)) : 0;
-    // Insere na tabela
+    // Insert into table
     const { error: insertError } = await supabase.from('gallery').insert({ url: publicUrlData.publicUrl, order: maxOrder + 1 });
     if (insertError) {
       setUploadError(insertError.message);
@@ -63,14 +63,14 @@ export default function AdminGalleryPage() {
     setUploading(false);
   };
 
-  // Remover imagem do Supabase
+  // Remove image from Supabase
   const handleRemove = async (id: string, url: string) => {
     setRemoving(id);
     setRemoveError("");
-    // Remove do Storage
+    // Remove from Storage
     const path = url.split('/').slice(-1)[0];
     await supabase.storage.from('galeria').remove([path]);
-    // Remove do banco
+    // Remove from database
     const { error } = await supabase.from('gallery').delete().eq('id', id);
     if (error) {
       setRemoveError(error.message);
@@ -80,7 +80,7 @@ export default function AdminGalleryPage() {
     setRemoving(null);
   };
 
-  // Reordenar imagens no Supabase
+  // Reorder images in Supabase
   const handleDragEnd = async () => {
     const dragIdx = dragItem.current;
     const overIdx = dragOverItem.current;
@@ -88,7 +88,7 @@ export default function AdminGalleryPage() {
       const reordered = [...images];
       const [removed] = reordered.splice(dragIdx, 1);
       reordered.splice(overIdx, 0, removed);
-      // Atualiza o campo order de cada imagem
+      // Update the order field of each image
       for (let i = 0; i < reordered.length; i++) {
         await supabase.from('gallery').update({ order: i + 1 }).eq('id', reordered[i].id);
       }
@@ -116,33 +116,33 @@ export default function AdminGalleryPage() {
 
 
   return (
-    <main className="p-6 max-w-4xl mx-auto">
-      <div className="flex items-center mb-4">
+    <main className="p-4 sm:p-6 max-w-4xl mx-auto">
+      <div className="flex flex-col sm:flex-row items-center mb-4 gap-2 sm:gap-4">
         <button
           onClick={() => window.history.back()}
-          className="mr-3 p-2 rounded-full bg-sage-100 hover:bg-sage-200 border border-sage-200 transition-colors"
-          aria-label="Voltar"
+          className="mb-2 sm:mb-0 mr-0 sm:mr-3 p-2 rounded-full bg-sage-100 hover:bg-sage-200 border border-sage-200 transition-colors"
+          aria-label="Back"
         >
           <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </button>
-        <h1 className="text-2xl font-bold">Gerenciar Galeria de Fotos</h1>
+        <h1 className="text-2xl font-bold">Manage Photo Gallery</h1>
       </div>
-      <form className="mb-6 flex gap-2 items-center" onSubmit={handleUpload}>
-        <input type="file" accept="image/*" ref={fileInputRef} className="border rounded px-2 py-1" />
-        <button type="submit" disabled={uploading} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          {uploading ? "Enviando..." : "Enviar imagem"}
+      <form className="mb-6 flex flex-col sm:flex-row gap-2 items-center" onSubmit={handleUpload}>
+        <input type="file" accept="image/*" ref={fileInputRef} className="border rounded px-2 py-1 w-full sm:w-auto" aria-label="Select image file" />
+        <button type="submit" disabled={uploading} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full sm:w-auto">
+          {uploading ? "Uploading..." : "Upload image"}
         </button>
         {uploadError && <span className="text-red-600 ml-2 text-sm">{uploadError}</span>}
       </form>
       {removeError && <div className="text-red-600 mb-2">{removeError}</div>}
       {loading ? (
-        <p>Carregando imagens...</p>
+        <p>Loading images...</p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {images.length === 0 ? (
-            <p>Nenhuma imagem encontrada.</p>
+            <p>No images found.</p>
           ) : (
             images.map((img, idx) => (
               <div
@@ -166,16 +166,16 @@ export default function AdminGalleryPage() {
                   className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded shadow hover:bg-red-700"
                   onClick={() => handleRemove(img.id, img.url)}
                   disabled={removing === img.id}
-                  title="Remover imagem"
+                  title="Remove image"
                 >
-                  {removing === img.id ? "..." : "Remover"}
+                  {removing === img.id ? "..." : "Remove"}
                 </button>
               </div>
             ))
           )}
         </div>
       )}
-      <p className="mt-4 text-sm text-gray-500">Arraste as imagens para reordenar.</p>
+      <p className="mt-4 text-sm text-gray-500">Drag images to reorder.</p>
     </main>
   );
 }
