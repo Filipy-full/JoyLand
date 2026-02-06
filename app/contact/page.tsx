@@ -201,7 +201,7 @@ export default function ContactPage() {
 
         <div className="mt-16 bg-sage-100 p-8 rounded-lg text-center">
           <h2 className="text-2xl font-serif text-gray-800 mb-4">
-            Adopt a tree & Nurture growth.
+            Adopt a tree & nurture growth
           </h2>
           <p className="text-gray-700 mb-6">
             You don’t need to contact us to adopt a tree. You can do it directly from the map.
