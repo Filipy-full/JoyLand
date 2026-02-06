@@ -4,7 +4,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { MyAdoptionsButton } from '@/components/MyAdoptionsButton'
 
@@ -13,6 +13,7 @@ export default function Header() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const checkUser = async () => {
@@ -68,49 +69,38 @@ export default function Header() {
           
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-            <li>
-              <Link href="/" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/adopt" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Adopt
-              </Link>
-            </li>
-            <li>
-              <Link href="/giftbox" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Giftbox
-              </Link>
-            </li>
-            <li>
-              <Link href="/impact" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Impact
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link href="/galeria" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Gallery
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                Contact
-              </Link>
-            </li>
-            {isAdmin && (
-              <>
-                <li>
-                  <Link href="/admin" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
-                    Dashboard
+            <div className="flex items-center space-x-6 xl:space-x-8 group">
+              {[
+                { href: '/', label: 'Home' },
+                { href: '/adopt', label: 'Adopt' },
+                { href: '/giftbox', label: 'Giftbox' },
+                { href: '/impact', label: 'Impact' },
+                { href: '/about', label: 'About' },
+                { href: '/galeria', label: 'Gallery' },
+                { href: '/contact', label: 'Contact' },
+              ].map(({ href, label }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className={
+                      `relative text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base px-1
+                      after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-0.5 after:rounded-full after:content-['']
+                      after:bg-green-500 after:scale-x-0 after:transition-transform after:duration-300 after:origin-left
+                      hover:after:scale-x-100` +
+                      (pathname === href ? ' after:scale-x-100 group-hover:after:scale-x-0' : '')
+                    }
+                  >
+                    {label}
                   </Link>
                 </li>
-              </>
+              ))}
+            </div>
+            {isAdmin && (
+              <li>
+                <Link href="/admin" className={`relative text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base px-1${pathname === '/admin' ? ' after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-1 after:bg-green-500 after:rounded-full after:content-[""]' : ''}`}>
+                  Dashboard
+                </Link>
+              </li>
             )}
             {isLoggedIn ? (
               <li>
@@ -120,21 +110,23 @@ export default function Header() {
               </li>
             ) : (
               <li>
-                <Link href="/login" className="text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base">
+                <Link href="/login" className={`relative text-sage-700 hover:text-sage-600 transition-colors font-medium text-sm xl:text-base px-1${pathname === '/login' ? ' after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-1 after:bg-green-500 after:rounded-full after:content-[""]' : ''}`}>
                   Login
                 </Link>
               </li>
             )}
           </ul>
-          {/* Botão MyAdoptions no Header Desktop */}
-          <div className="hidden lg:block ml-6">
-            <MyAdoptionsButton className="bg-sage-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all" />
-          </div>
-
-          {/* Botão MyAdoptions no Header Mobile */}
-          <div className="block lg:hidden ml-2">
-            <MyAdoptionsButton className="bg-sage-600 text-white px-4 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all" />
-          </div>
+          {/* Botão MyAdoptions só aparece se logado e tiver adoção */}
+          {isLoggedIn && (
+            <>
+              <div className="hidden lg:block ml-6">
+                <MyAdoptionsButton className="bg-sage-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all" />
+              </div>
+              <div className="block lg:hidden ml-2">
+                <MyAdoptionsButton className="bg-sage-600 text-white px-4 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all" />
+              </div>
+            </>
+          )}
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}

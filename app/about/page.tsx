@@ -17,7 +17,15 @@ export default function AboutPage() {
 
         {/* Physical Characteristics */}
         <div className="bg-white/90 rounded-3xl shadow-2xl p-8 md:p-12 border border-sage-100">
-                 
+                 <div className="relative w-full h-64 md:h-80 rounded-3xl overflow-hidden shadow-2xl mx-auto my-8">
+                    <Image
+                      src="/about/mapa2.jpeg"
+                      alt="Mapa 2 Joyland"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+              </div>
           <h2 className="text-3xl font-serif text-sage-700 mb-6 border-l-4 border-sage-400 pl-4">Physical Characteristics of Joyland</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-4">
@@ -68,15 +76,7 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-           <div className="relative w-full h-64 md:h-80 rounded-3xl overflow-hidden shadow-2xl mx-auto my-8">
-                    <Image
-                      src="/about/mapa2.jpeg"
-                      alt="Mapa 2 Joyland"
-                      fill
-                      className="object-cover"
-                      priority
-                    />
-                  </div>
+           
         </div>
 
 
