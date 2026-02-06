@@ -117,7 +117,18 @@ export default function AdminGalleryPage() {
 
   return (
     <main className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Gerenciar Galeria de Fotos</h1>
+      <div className="flex items-center mb-4">
+        <button
+          onClick={() => window.history.back()}
+          className="mr-3 p-2 rounded-full bg-sage-100 hover:bg-sage-200 border border-sage-200 transition-colors"
+          aria-label="Voltar"
+        >
+          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <h1 className="text-2xl font-bold">Gerenciar Galeria de Fotos</h1>
+      </div>
       <form className="mb-6 flex gap-2 items-center" onSubmit={handleUpload}>
         <input type="file" accept="image/*" ref={fileInputRef} className="border rounded px-2 py-1" />
         <button type="submit" disabled={uploading} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
