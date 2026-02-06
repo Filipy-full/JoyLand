@@ -1,6 +1,7 @@
 'use client'
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 // ...existing code...
 
@@ -14,14 +15,16 @@ export default function GaleriaPage() {
 
   useEffect(() => {
     async function fetchGallery() {
-      const res = await fetch("/galeria/gallery-order.json");
-      if (res.ok) {
-        const items = await res.json();
-        // Verifica arquivos existentes
-        const existingFiles = ["img.jpeg","img2.jpeg","img3.jpeg","img4.jpeg","gift-1.jpeg"];
-        const filtered = items.filter((img:string) => existingFiles.includes(img));
-        setGalleryItems(filtered.map((img:string) => `/galeria/${img}`));
+      // Busca imagens do Supabase (tabela gallery), ordenadas
+      const { data, error } = await supabase
+        .from('gallery')
+        .select('url')
+        .order('order', { ascending: true });
+      if (error) {
+        console.error('Erro ao buscar galeria:', error.message);
+        return;
       }
+      setGalleryItems(data.map((item: { url: string }) => item.url));
     }
     fetchGallery();
   }, []);

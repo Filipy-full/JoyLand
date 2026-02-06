@@ -49,18 +49,20 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">
-            <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden ring-2 ring-sage-300 group-hover:ring-sage-500 transition-all flex-shrink-0">
+                <div className="relative w-28 h-12 sm:w-36 sm:h-16 flex-shrink-0">
+                  {/* Logo mais comprido, altura menor */}
               <Image 
-                src="/logo.jpeg" 
+                src="/logotest1.png" 
                 alt="Joyland Logo" 
                 fill
-                sizes="48px"
-                className="object-cover"
+                sizes="98px"
+                className="object-contain"
                 priority
               />
             </div>
             <span className="text-xl sm:text-2xl font-serif text-sage-700 group-hover:text-sage-600 transition-colors">
-              Joyland
+              
+              {/* Titulo al lado del logo */}
             </span>
           </Link>
           

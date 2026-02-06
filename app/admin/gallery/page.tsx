@@ -1,18 +1,100 @@
 "use client";
 import React, { useState, useRef } from "react";
 import Image from "next/image";
+import { supabase } from "@/lib/supabase";
 
 export default function AdminGalleryPage() {
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [removing, setRemoving] = useState<string | null>(null);
+  const [removeError, setRemoveError] = useState("");
 
-  // Carregar imagens dinamicamente da API
+  // Buscar imagens do Supabase
   const fetchImages = async () => {
     setLoading(true);
-    const res = await fetch("/api/admin/gallery-order");
-    const data = await res.json();
-    setImages(data.images || []);
+    const { data, error } = await supabase
+      .from("gallery")
+      .select("id, url, order, created_at")
+      .order("order", { ascending: true });
+    if (error) {
+      setImages([]);
+    } else {
+      setImages(data || []);
+    }
     setLoading(false);
+  };
+
+  // Upload handler para Supabase
+  const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setUploadError("");
+    setUploading(true);
+    const file = fileInputRef.current?.files?.[0];
+    if (!file) {
+      setUploadError("Select a file");
+      setUploading(false);
+      return;
+    }
+    // Upload para Supabase Storage
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const { data: uploadData, error: uploadErrorObj } = await supabase.storage.from('galeria').upload(fileName, file);
+    if (uploadErrorObj) {
+      setUploadError(uploadErrorObj.message);
+      setUploading(false);
+      return;
+    }
+    // Pega a URL pública
+    const { data: publicUrlData } = supabase.storage.from('galeria').getPublicUrl(fileName);
+    // Descobre o maior order atual
+    const maxOrder = images.length > 0 ? Math.max(...images.map(img => img.order || 0)) : 0;
+    // Insere na tabela
+    const { error: insertError } = await supabase.from('gallery').insert({ url: publicUrlData.publicUrl, order: maxOrder + 1 });
+    if (insertError) {
+      setUploadError(insertError.message);
+    } else {
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      await fetchImages();
+    }
+    setUploading(false);
+  };
+
+  // Remover imagem do Supabase
+  const handleRemove = async (id: string, url: string) => {
+    setRemoving(id);
+    setRemoveError("");
+    // Remove do Storage
+    const path = url.split('/').slice(-1)[0];
+    await supabase.storage.from('galeria').remove([path]);
+    // Remove do banco
+    const { error } = await supabase.from('gallery').delete().eq('id', id);
+    if (error) {
+      setRemoveError(error.message);
+    } else {
+      await fetchImages();
+    }
+    setRemoving(null);
+  };
+
+  // Reordenar imagens no Supabase
+  const handleDragEnd = async () => {
+    const dragIdx = dragItem.current;
+    const overIdx = dragOverItem.current;
+    if (dragIdx !== null && overIdx !== null && dragIdx !== overIdx) {
+      const reordered = [...images];
+      const [removed] = reordered.splice(dragIdx, 1);
+      reordered.splice(overIdx, 0, removed);
+      // Atualiza o campo order de cada imagem
+      for (let i = 0; i < reordered.length; i++) {
+        await supabase.from('gallery').update({ order: i + 1 }).eq('id', reordered[i].id);
+      }
+      await fetchImages();
+    }
+    dragItem.current = null;
+    dragOverItem.current = null;
   };
 
   React.useEffect(() => {
@@ -29,88 +111,12 @@ export default function AdminGalleryPage() {
     dragOverItem.current = index;
   };
 
-  const handleDragEnd = async () => {
-    const listCopy = [...images];
-    const dragIdx = dragItem.current;
-    const overIdx = dragOverItem.current;
-    if (dragIdx !== null && overIdx !== null && dragIdx !== overIdx) {
-      const draggedImg = listCopy[dragIdx];
-      listCopy.splice(dragIdx, 1);
-      listCopy.splice(overIdx, 0, draggedImg);
-      await fetch("/api/admin/gallery-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ images: listCopy }),
-      });
-      await fetchImages();
-    }
-    dragItem.current = null;
-    dragOverItem.current = null;
-  };
 
-  // Upload handler
-  const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setUploadError("");
-    setUploading(true);
-    const file = fileInputRef.current?.files?.[0];
-    if (!file) {
-      setUploadError("Selecione um arquivo");
-      setUploading(false);
-      return;
-    }
-    const formData = new FormData();
-    formData.append("file", file);
-    const res = await fetch("/api/admin/gallery-upload", {
-      method: "POST",
-      body: formData,
-    });
-    let result = null;
-    try {
-      result = await res.json();
-    } catch (err) {
-      setUploadError("Erro ao processar resposta do servidor. Tente novamente ou verifique o arquivo enviado.");
-      setUploading(false);
-      return;
-    }
-    if (result && result.success) {
-      await fetchImages();
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    } else {
-      setUploadError(result?.error || "Erro ao enviar");
-    }
-    setUploading(false);
-  };
-
-  // Remoção de imagem
-  const [removing, setRemoving] = useState<string | null>(null);
-  const [removeError, setRemoveError] = useState("");
-
-  const handleRemove = async (filename: string) => {
-    setRemoving(filename);
-    setRemoveError("");
-    const res = await fetch("/api/admin/gallery-delete", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ filename }),
-    });
-    const result = await res.json();
-    if (result.success) {
-      await fetchImages();
-    } else {
-      setRemoveError(result.error || "Erro ao remover");
-    }
-    setRemoving(null);
-  };
 
   return (
     <main className="p-6 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Gerenciar Galeria de Fotos</h1>
-
       <form className="mb-6 flex gap-2 items-center" onSubmit={handleUpload}>
         <input type="file" accept="image/*" ref={fileInputRef} className="border rounded px-2 py-1" />
         <button type="submit" disabled={uploading} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
@@ -118,9 +124,7 @@ export default function AdminGalleryPage() {
         </button>
         {uploadError && <span className="text-red-600 ml-2 text-sm">{uploadError}</span>}
       </form>
-
       {removeError && <div className="text-red-600 mb-2">{removeError}</div>}
-
       {loading ? (
         <p>Carregando imagens...</p>
       ) : (
@@ -128,43 +132,34 @@ export default function AdminGalleryPage() {
           {images.length === 0 ? (
             <p>Nenhuma imagem encontrada.</p>
           ) : (
-            images.map((img, idx) => {
-              const ext = img.split('.').pop()?.toLowerCase();
-              return (
-                <div
-                  key={img}
-                  className="relative group border rounded overflow-hidden cursor-move"
-                  draggable
-                  onDragStart={() => handleDragStart(idx)}
-                  onDragEnter={() => handleDragEnter(idx)}
-                  onDragEnd={handleDragEnd}
-                  onDragOver={(e) => e.preventDefault()}
+            images.map((img, idx) => (
+              <div
+                key={img.id}
+                className="relative group border rounded overflow-hidden cursor-move"
+                draggable
+                onDragStart={() => dragItem.current = idx}
+                onDragEnter={() => dragOverItem.current = idx}
+                onDragEnd={handleDragEnd}
+                onDragOver={e => e.preventDefault()}
+              >
+                <Image
+                  src={img.url}
+                  alt={`Gallery image ${idx + 1}`}
+                  width={300}
+                  height={200}
+                  className="object-cover w-full h-40"
+                />
+                <span className="absolute top-2 left-2 bg-white/80 px-2 py-1 text-xs rounded shadow">{idx + 1}</span>
+                <button
+                  className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded shadow hover:bg-red-700"
+                  onClick={() => handleRemove(img.id, img.url)}
+                  disabled={removing === img.id}
+                  title="Remover imagem"
                 >
-                  {ext === "mp4" ? (
-                    <video src={`/galeria/${img}`} controls className="object-cover w-full h-40" />
-                  ) : ext === "svg" ? (
-                    <img src={`/galeria/${img}`} alt={img} className="object-cover w-full h-40" />
-                  ) : (
-                    <Image
-                      src={`/galeria/${img}`}
-                      alt={img}
-                      width={300}
-                      height={200}
-                      className="object-cover w-full h-40"
-                    />
-                  )}
-                  <span className="absolute top-2 left-2 bg-white/80 px-2 py-1 text-xs rounded shadow">{idx + 1}</span>
-                  <button
-                    className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded shadow hover:bg-red-700"
-                    onClick={() => handleRemove(img)}
-                    disabled={removing === img}
-                    title="Remover imagem"
-                  >
-                    {removing === img ? "..." : "Remover"}
-                  </button>
-                </div>
-              );
-            })
+                  {removing === img.id ? "..." : "Remover"}
+                </button>
+              </div>
+            ))
           )}
         </div>
       )}

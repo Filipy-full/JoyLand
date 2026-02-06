@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+    images: {
+      domains: [
+        'hzajwfifjqdmryycufsp.supabase.co',
+      ],
+    },
   async headers() {
     return [
       {
@@ -20,7 +25,16 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://vercel.live https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https: wss:; frame-ancestors 'self'",
+            value:
+              "default-src 'self'; " +
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://vercel.live https://va.vercel-scripts.com; " +
+              "style-src 'self' 'unsafe-inline'; " +
+              "img-src 'self' data: https:; " +
+              "font-src 'self'; " +
+              "connect-src 'self' https: wss:; " +
+              "frame-ancestors 'self'; " +
+              "frame-src https://www.google.com https://www.google.com/maps/embed?; " +
+              "child-src https://www.google.com https://www.google.com/maps/embed?;",
           },
           {
             key: "X-XSS-Protection",

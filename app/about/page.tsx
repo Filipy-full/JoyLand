@@ -14,17 +14,20 @@ export default function AboutPage() {
         </div>
 
 
-        {/* Imagem do mapa */}
+        {/* Mapa Google embed */}
         <div className="grid gap-6 md:grid-cols-1">
-          <div className="relative h-[260px] md:h-[300px] rounded-3xl overflow-hidden shadow-2xl group">
-            <Image
-              src="/mapa/mapa.png"
-              alt="Mapa de Joyland"
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+          <div className="relative aspect-[16/7] rounded-3xl overflow-hidden shadow-2xl group w-full max-w-4xl mx-auto">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1322.964282982964!2d1.721169!3d41.770572!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f18.1!3m3!1m2!1s0x12a4510034cbea0d%3A0x5461bc68b9a0c65c!2sCan%20Aguilera!5e1!3m2!1ses!2ses!4v1770341762282!5m2!1ses!2ses"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="absolute inset-0 w-full h-full"
+            ></iframe>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
           </div>
         </div>
 
