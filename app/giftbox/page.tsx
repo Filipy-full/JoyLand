@@ -21,16 +21,6 @@ export default function GiftboxPage() {
 
 
         <div className="flex flex-row justify-center items-center gap-4 mb-12">
-          <div className="w-[230px] h-[250px] md:w-[420px] md:h-[520px] cursor-pointer" onClick={() => handleImgClick('/gift/gift-1.jpeg')}>
-            <Image
-              src="/gift/gift-1.jpeg"
-              alt="Gift 1"
-              width={350}
-              height={220}
-              className="rounded-lg shadow-md object-cover w-full h-full"
-              priority
-            />
-          </div>
           <div className="w-[230px] h-[250px] md:w-[420px] md:h-[520px] cursor-pointer" onClick={() => handleImgClick('/gift/gift-2.jpeg')}>
             <Image
               src="/gift/gift-2.jpeg"
@@ -143,6 +133,18 @@ export default function GiftboxPage() {
             Adopt a tree
           </a>
         </section>
+        <div className="flex flex-row justify-center items-center gap-4 mb-12 mt-12">
+          <div className="w-[230px] h-[250px] md:w-[420px] md:h-[520px] cursor-pointer" onClick={() => handleImgClick('/gift/gift-1.jpeg')}>
+            <Image
+              src="/gift/gift-1.jpeg"
+              alt="Gift 1"
+              width={350}
+              height={220}
+              className="rounded-lg shadow-md object-cover w-full h-full"
+              priority
+            />
+          </div>
+        </div>
       </div>
     </div>
   )

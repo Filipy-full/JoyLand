@@ -81,18 +81,18 @@ export default function ImpactPage() {
 					<div className="w-full h-[2px] bg-sage-100 rounded-full mb-10" />
 
 							   {/* Adopt Gallery Images */}
-      <section className="container mx-auto px-4 sm:px-6 py-8">
-        <div className="flex flex-wrap justify-center gap-4">
-          {['image1.jpg', 'image2.jpg', 'image4.jpg',].map((img, idx) => (
-            <img
-              key={img}
-              src={`/adopt/${img}`}
-              alt={`Adopt gallery ${idx + 1}`}
-              className="rounded-2xl shadow-lg w-48 h-48 object-cover"
-            />
-          ))}
-        </div>
-      </section>
+			<section className="container mx-auto px-4 sm:px-6 py-8">
+				<div className="flex flex-wrap justify-center gap-4">
+					{['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg', 'image5.jpg', 'image6.jpg', 'image7.jpg', 'image8.jpg'].map((img, idx) => (
+						<img
+							key={img}
+							src={`/adopt/${img}`}
+							alt={`Adopt gallery ${idx + 1}`}
+							className="rounded-2xl shadow-lg w-48 h-48 object-cover"
+						/>
+					))}
+				</div>
+			</section>
 					<div className="w-full h-[2px] bg-sage-100 rounded-full mb-10" />
 
 							 <section className="mb-14">
