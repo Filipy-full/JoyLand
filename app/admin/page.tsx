@@ -794,12 +794,17 @@ export default function AdminDashboard() {
                     .filter(a => {
                       if (!searchQuery) return true;
                       const query = searchQuery.toLowerCase();
-                      return (
-                        a.tree_name?.toLowerCase().includes(query) ||
-                        a.tree_id?.toLowerCase().includes(query) ||
-                        a.user_email?.toLowerCase().includes(query) ||
-                        a.user_id?.toLowerCase().includes(query)
-                      );
+                      return [
+                        a.tree_name,
+                        a.tree_id,
+                        a.user_name,
+                        a.shipping_name,
+                        a.user_email,
+                        a.shipping_address,
+                        a.user_id,
+                        a.status,
+                        a.payment_status
+                      ].filter(Boolean).some(val => val.toString().toLowerCase().includes(query));
                     }).length > 0 ? (
                     adoptions
                       .filter(a => a.trees?.type === 'almond')
@@ -817,11 +822,14 @@ export default function AdminDashboard() {
                       <div key={adopt.id} className="border border-amber-200 rounded-lg p-4 bg-amber-50">
                         <div className="flex flex-wrap justify-between gap-3">
                           <div>
-                            <div className="font-semibold text-gray-900">{adopt.tree_name || `#${adopt.tree_id}`}</div>
-                            <div className="text-sm text-gray-600">{adopt.user_email || adopt.user_id}</div>
+                            <div className="font-semibold text-gray-900">{adopt.tree_name || `#{adopt.tree_id}`}</div>
+                            <div className="text-sm text-gray-600">{adopt.user_name || adopt.shipping_name || adopt.user_id}</div>
+                            <div className="text-xs text-gray-600">{adopt.user_email}</div>
+                            <div className="text-xs text-gray-600">{adopt.shipping_address}</div>
                           </div>
                           <div className="text-xs text-gray-500">{new Date(adopt.created_at).toLocaleString()}</div>
                         </div>
+                        <div className="mt-2 text-xs text-gray-600">Árbol ID: <span className="font-mono">{adopt.tree_id}</span></div>
                         <div className="mt-2 text-xs text-gray-600">Status: {adopt.status || 'n/a'} | Payment: {adopt.payment_status || 'n/a'}</div>
                       </div>
                     ))
@@ -842,12 +850,17 @@ export default function AdminDashboard() {
                     .filter(a => {
                       if (!searchQuery) return true;
                       const query = searchQuery.toLowerCase();
-                      return (
-                        a.tree_name?.toLowerCase().includes(query) ||
-                        a.tree_id?.toLowerCase().includes(query) ||
-                        a.user_email?.toLowerCase().includes(query) ||
-                        a.user_id?.toLowerCase().includes(query)
-                      );
+                      return [
+                        a.tree_name,
+                        a.tree_id,
+                        a.user_name,
+                        a.shipping_name,
+                        a.user_email,
+                        a.shipping_address,
+                        a.user_id,
+                        a.status,
+                        a.payment_status
+                      ].some(val => val?.toString().toLowerCase().includes(query));
                     }).length > 0 ? (
                     adoptions
                       .filter(a => a.trees?.type === 'olive')
@@ -865,11 +878,14 @@ export default function AdminDashboard() {
                       <div key={adopt.id} className="border border-sage-200 rounded-lg p-4 bg-sage-50">
                         <div className="flex flex-wrap justify-between gap-3">
                           <div>
-                            <div className="font-semibold text-gray-900">{adopt.tree_name || `#${adopt.tree_id}`}</div>
-                            <div className="text-sm text-gray-600">{adopt.user_email || adopt.user_id}</div>
+                            <div className="font-semibold text-gray-900">{adopt.tree_name || `#{adopt.tree_id}`}</div>
+                            <div className="text-sm text-gray-600">{adopt.user_name || adopt.shipping_name || adopt.user_id}</div>
+                            <div className="text-xs text-gray-600">{adopt.user_email}</div>
+                            <div className="text-xs text-gray-600">{adopt.shipping_address}</div>
                           </div>
                           <div className="text-xs text-gray-500">{new Date(adopt.created_at).toLocaleString()}</div>
                         </div>
+                        <div className="mt-2 text-xs text-gray-600">Árbol ID: <span className="font-mono">{adopt.tree_id}</span></div>
                         <div className="mt-2 text-xs text-gray-600">Status: {adopt.status || 'n/a'} | Payment: {adopt.payment_status || 'n/a'}</div>
                       </div>
                     ))

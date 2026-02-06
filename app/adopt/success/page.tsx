@@ -73,19 +73,24 @@ function SuccessContent() {
   }, [sessionId])
 
   useEffect(() => {
-    if (!singleTree?.id) return
-
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          router.push(`/tree/${singleTree.id}`)
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
-
-    return () => clearInterval(timer)
+    if (singleTree?.id) {
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            router.push(`/tree/${singleTree.id}`)
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+      return () => clearInterval(timer)
+    } else {
+      // Redireciona para dashboard após 3 segundos
+      const timer = setTimeout(() => {
+        router.push('/dashboard')
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
   }, [router, singleTree?.id])
 
   return (
