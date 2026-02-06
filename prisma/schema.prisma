@@ -65,3 +65,29 @@ model Adoption {
   @@index([treeId])
   @@map("adoptions")
 }
+
+model MessageReply {
+  id           String   @id @default(uuid())
+  messageId    String   @map("message_id")
+  sender       String   // 'admin' ou 'user'
+  content      String
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relacionamento com a mensagem original (contact_messages)
+  message      ContactMessage @relation(fields: [messageId], references: [id])
+
+  @@index([messageId])
+  @@map("message_replies")
+}
+
+// Adicionar modelo ContactMessage se não existir
+model ContactMessage {
+  id         String         @id @default(uuid())
+  name       String?
+  email      String
+  message    String
+  created_at DateTime       @default(now())
+  replies    MessageReply[]
+
+  @@map("contact_messages")
+}

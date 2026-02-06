@@ -1,7 +1,6 @@
-"use client"
-
-import { useEffect, useState } from 'react'
-import AdminAuth from '@/components/AdminAuth'
+"use client";
+import { useState, useEffect } from 'react';
+import AdminAuth from '@/components/AdminAuth';
 import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 
@@ -52,6 +51,9 @@ export default function AdminDashboard() {
   const [searchQuery, setSearchQuery] = useState('')
   const [treesWarning, setTreesWarning] = useState('')
   const [trees, setTrees] = useState<any[]>([]);
+  const [adoptionTypeFilter, setAdoptionTypeFilter] = useState('all');
+  const [adoptionSortBy, setAdoptionSortBy] = useState('created_at');
+  const [reportTreeType, setReportTreeType] = useState('all');
   const fetchAdoptions = async (token: string) => {
     const res = await fetch('/api/admin/adoptions', {
       headers: { Authorization: `Bearer ${token}` },
@@ -782,117 +784,100 @@ export default function AdminDashboard() {
           {tab === 'adoptions' && (
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-6">Adoptions</h2>
-              
-              {/* Almendros */}
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-amber-700 mb-3 flex items-center gap-2">
-                  🌰 Almond Trees ({adoptions.filter(a => a.trees?.type === 'almond').length})
-                </h3>
-                <div className="grid gap-3">
-                  {adoptions
-                    .filter(a => a.trees?.type === 'almond')
-                    .filter(a => {
-                      if (!searchQuery) return true;
-                      const query = searchQuery.toLowerCase();
-                      return [
-                        a.tree_name,
-                        a.tree_id,
-                        a.user_name,
-                        a.shipping_name,
-                        a.user_email,
-                        a.shipping_address,
-                        a.user_id,
-                        a.status,
-                        a.payment_status
-                      ].filter(Boolean).some(val => val.toString().toLowerCase().includes(query));
-                    }).length > 0 ? (
-                    adoptions
-                      .filter(a => a.trees?.type === 'almond')
-                      .filter(a => {
-                        if (!searchQuery) return true;
-                        const query = searchQuery.toLowerCase();
-                        return (
-                          a.tree_name?.toLowerCase().includes(query) ||
-                          a.tree_id?.toLowerCase().includes(query) ||
-                          a.user_email?.toLowerCase().includes(query) ||
-                          a.user_id?.toLowerCase().includes(query)
-                        );
-                      })
-                      .map((adopt) => (
-                      <div key={adopt.id} className="border border-amber-200 rounded-lg p-4 bg-amber-50">
-                        <div className="flex flex-wrap justify-between gap-3">
-                          <div>
-                            <div className="font-semibold text-gray-900">{adopt.tree_name || `#{adopt.tree_id}`}</div>
-                            <div className="text-sm text-gray-600">{adopt.user_name || adopt.shipping_name || adopt.user_id}</div>
-                            <div className="text-xs text-gray-600">{adopt.user_email}</div>
-                            <div className="text-xs text-gray-600">{adopt.shipping_address}</div>
-                          </div>
-                          <div className="text-xs text-gray-500">{new Date(adopt.created_at).toLocaleString()}</div>
-                        </div>
-                        <div className="mt-2 text-xs text-gray-600">Árbol ID: <span className="font-mono">{adopt.tree_id}</span></div>
-                        <div className="mt-2 text-xs text-gray-600">Status: {adopt.status || 'n/a'} | Payment: {adopt.payment_status || 'n/a'}</div>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-sm text-gray-500 italic">No almond tree adoptions yet</p>
-                  )}
+              {/* Dropdowns de filtro e ordenação */}
+              <div className="flex flex-wrap gap-4 mb-6 items-center">
+                <div className="flex gap-2 items-center">
+                  <label htmlFor="adoptionTypeFilter" className="text-sage-700 font-medium">Tipo:</label>
+                  <select
+                    id="adoptionTypeFilter"
+                    value={adoptionTypeFilter}
+                    onChange={e => setAdoptionTypeFilter(e.target.value)}
+                    className="border rounded px-2 py-1"
+                  >
+                    <option value="all">Todos</option>
+                    <option value="almond">Amendoeira</option>
+                    <option value="olive">Oliveira</option>
+                  </select>
+                </div>
+                <div className="flex gap-2 items-center">
+                  <label htmlFor="adoptionSortBy" className="text-sage-700 font-medium">Ordenar por:</label>
+                  <select
+                    id="adoptionSortBy"
+                    value={adoptionSortBy}
+                    onChange={e => setAdoptionSortBy(e.target.value)}
+                    className="border rounded px-2 py-1"
+                  >
+                    <option value="created_at">Mais recente</option>
+                    <option value="tree_id">Número da árvore</option>
+                    <option value="tree_name">Nome da árvore</option>
+                    <option value="user_name">Nome do adotante</option>
+                    <option value="giftMessage">Presente</option>
+                  </select>
                 </div>
               </div>
-
-              {/* Olivos */}
-              <div>
-                <h3 className="text-lg font-semibold text-sage-700 mb-3 flex items-center gap-2">
-                  🫒 Olive Trees ({adoptions.filter(a => a.trees?.type === 'olive').length})
-                </h3>
-                <div className="grid gap-3">
-                  {adoptions
-                    .filter(a => a.trees?.type === 'olive')
-                    .filter(a => {
-                      if (!searchQuery) return true;
-                      const query = searchQuery.toLowerCase();
-                      return [
-                        a.tree_name,
-                        a.tree_id,
-                        a.user_name,
-                        a.shipping_name,
-                        a.user_email,
-                        a.shipping_address,
-                        a.user_id,
-                        a.status,
-                        a.payment_status
-                      ].some(val => val?.toString().toLowerCase().includes(query));
-                    }).length > 0 ? (
-                    adoptions
-                      .filter(a => a.trees?.type === 'olive')
-                      .filter(a => {
-                        if (!searchQuery) return true;
-                        const query = searchQuery.toLowerCase();
-                        return (
-                          a.tree_name?.toLowerCase().includes(query) ||
-                          a.tree_id?.toLowerCase().includes(query) ||
-                          a.user_email?.toLowerCase().includes(query) ||
-                          a.user_id?.toLowerCase().includes(query)
-                        );
-                      })
-                      .map((adopt) => (
-                      <div key={adopt.id} className="border border-sage-200 rounded-lg p-4 bg-sage-50">
-                        <div className="flex flex-wrap justify-between gap-3">
-                          <div>
-                            <div className="font-semibold text-gray-900">{adopt.tree_name || `#{adopt.tree_id}`}</div>
-                            <div className="text-sm text-gray-600">{adopt.user_name || adopt.shipping_name || adopt.user_id}</div>
-                            <div className="text-xs text-gray-600">{adopt.user_email}</div>
-                            <div className="text-xs text-gray-600">{adopt.shipping_address}</div>
-                          </div>
-                          <div className="text-xs text-gray-500">{new Date(adopt.created_at).toLocaleString()}</div>
+              <div className="grid gap-3">
+                {adoptions
+                  .filter((a: any) => adoptionTypeFilter === 'all' ? true : a.trees?.type === adoptionTypeFilter)
+                  .filter((a: any) => {
+                    if (!searchQuery) return true;
+                    const query = searchQuery.toLowerCase();
+                    return [
+                      a.tree_name,
+                      a.tree_id,
+                      a.user_name,
+                      a.shipping_name,
+                      a.user_email,
+                      a.shipping_address,
+                      a.user_id,
+                      a.status,
+                      a.payment_status,
+                      a.giftMessage
+                    ].filter(Boolean).some(val => val.toString().toLowerCase().includes(query));
+                  })
+                  .sort((a: any, b: any) => {
+                    if (adoptionSortBy === 'created_at') return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+                    if (adoptionSortBy === 'tree_id') return String(a.tree_id).localeCompare(String(b.tree_id), undefined, { numeric: true })
+                    if (adoptionSortBy === 'tree_name') return (a.tree_name || '').localeCompare(b.tree_name || '', undefined, { numeric: true })
+                    if (adoptionSortBy === 'user_name') return (a.user_name || '').localeCompare(b.user_name || '', undefined, { numeric: true })
+                    if (adoptionSortBy === 'giftMessage') return (a.giftMessage || '').localeCompare(b.giftMessage || '', undefined, { numeric: true })
+                    return 0
+                  })
+                  .map((adopt: any) => (
+                    <div key={adopt.id} className={`border rounded-lg p-4 ${adopt.trees?.type === 'almond' ? 'border-amber-200 bg-amber-50' : 'border-sage-200 bg-sage-50'}`}>
+                      <div className="flex flex-wrap justify-between gap-3">
+                        <div>
+                          <div className="font-semibold text-gray-900">{adopt.tree_name || `#{adopt.tree_id}`}</div>
+                          <div className="text-sm text-gray-600">{adopt.user_name || adopt.shipping_name || adopt.user_id}</div>
+                          <div className="text-xs text-gray-600">{adopt.user_email}</div>
+                          {(() => {
+                            let addr = null;
+                            try {
+                              addr = adopt.shipping_address ? JSON.parse(adopt.shipping_address) : null;
+                            } catch {}
+                            if (!addr) return <div className="text-xs text-gray-600 font-semibold">Endereço: -</div>;
+                            return (
+                              <div className="text-xs text-gray-600 font-semibold">
+                                Endereço:<br />
+                                {addr.line1 && <span>{addr.line1}<br /></span>}
+                                {addr.line2 && <span>{addr.line2}<br /></span>}
+                                {addr.city && <span>{addr.city}, </span>}
+                                {addr.state && <span>{addr.state}, </span>}
+                                {addr.postal_code && <span>{addr.postal_code}, </span>}
+                                {addr.country && <span>{addr.country}</span>}
+                              </div>
+                            );
+                          })()}
                         </div>
-                        <div className="mt-2 text-xs text-gray-600">Árbol ID: <span className="font-mono">{adopt.tree_id}</span></div>
-                        <div className="mt-2 text-xs text-gray-600">Status: {adopt.status || 'n/a'} | Payment: {adopt.payment_status || 'n/a'}</div>
+                        <div className="text-xs text-gray-500">{new Date(adopt.created_at).toLocaleString()}</div>
                       </div>
-                    ))
-                  ) : (
-                    <p className="text-sm text-gray-500 italic">No olive tree adoptions yet</p>
-                  )}
-                </div>
+                      <div className="mt-2 text-xs text-gray-600">Árbol ID: <span className="font-mono">{adopt.tree_id}</span></div>
+                      <div className="mt-2 text-xs text-gray-600">Status: {adopt.status || 'n/a'} | Payment: {adopt.payment_status || 'n/a'}</div>
+                      {adopt.giftMessage && <div className="mt-2 text-xs text-amber-700">🎁 Presente: {adopt.giftMessage}</div>}
+                    </div>
+                  ))}
+                {adoptions.length === 0 && (
+                  <p className="text-sm text-gray-500 italic">No adoptions yet</p>
+                )}
               </div>
             </div>
           )}
@@ -951,6 +936,20 @@ export default function AdminDashboard() {
 
           {tab === 'reports' && (
             <div className="space-y-6">
+              {/* Filtro por tipo de árvore */}
+              <div className="flex items-center gap-3 mb-4">
+                <label htmlFor="reportTreeType" className="text-sm font-medium text-gray-700">Tipo de árvore:</label>
+                <select
+                  id="reportTreeType"
+                  className="border rounded px-2 py-1"
+                  value={reportTreeType || 'all'}
+                  onChange={e => setReportTreeType(e.target.value)}
+                >
+                  <option value="all">Todas</option>
+                  <option value="almond">Amendoeira</option>
+                  <option value="olive">Oliveira</option>
+                </select>
+              </div>
               {/* Delete reports by user */}
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Eliminar Reportes por Usuario</h2>
@@ -1068,6 +1067,11 @@ export default function AdminDashboard() {
                 <div className="space-y-4">
                   {reports
                     .filter(r => {
+                      // Filtro por tipo de árvore
+                      if (reportTreeType && reportTreeType !== 'all') {
+                        const tree = trees.find(t => t.id === r.tree_id)
+                        if (!tree || tree.type !== reportTreeType) return false
+                      }
                       if (!searchQuery) return true;
                       const query = searchQuery.toLowerCase();
                       return (
@@ -1104,5 +1108,5 @@ export default function AdminDashboard() {
         </div>
       </div>
     </AdminAuth>
-  )
+  );
 }
