@@ -94,7 +94,10 @@ export default function AboutPage() {
             
             <p>Transitioning from city life to working with the land brought a period of learning and adaptation. Over time, Joyland became a place of shared exploration, welcoming visits from friends and loved ones who contributed ideas, skills, and presence.</p>
             
-            <p>Since then, the land has experienced its first olive harvest, a wedding and other shared celebrations, and the installation of essential systems such as solar energy and water filtration. Each step has contributed to shaping Joyland to what it is today.</p>
+            <p>Since then, the land has experienced its first olive harvest, a wedding and other shared celebrations, and the installation of essential systems such as solar energy and water filtration. Each step has contributed to shaping Joyland to what it is today.
+            
+            </p>
+            <p></p>
           </div>
           {/* Foto 1 após Header */}
           <div className="relative w-full aspect-[16/13] rounded-3xl overflow-hidden shadow-2xl mx-auto mb-8">

@@ -51,6 +51,8 @@ interface TreeData {
   latitude: number
   longitude: number
   adopted: boolean
+  width?: number
+  height?: number
 }
 
 export default function InteractiveGeoJsonMap() {
@@ -173,9 +175,9 @@ export default function InteractiveGeoJsonMap() {
   const updateTreeStates = async (geojsonData: GeoJSONData) => {
     try {
       const treesResponse = await fetch('/api/trees').then((res) => res.json())
-      const statusMap = new Map<string, { status?: string; name?: string; year?: number }>()
+      const statusMap = new Map<string, { status?: string; name?: string; year?: number; width?: number; height?: number }>()
       ;(treesResponse.trees || []).forEach((t: any) => {
-        statusMap.set(t.id, { status: t.status, name: t.name, year: t.year })
+        statusMap.set(t.id, { status: t.status, name: t.name, year: t.year, width: t.width, height: t.height })
       })
 
       const parsedTrees: TreeData[] = []
@@ -200,6 +202,8 @@ export default function InteractiveGeoJsonMap() {
             latitude: coords[1],
             longitude: coords[0],
             adopted,
+            width: typeof dbInfo?.width === 'number' ? dbInfo.width : undefined,
+            height: typeof dbInfo?.height === 'number' ? dbInfo.height : undefined,
           }
           parsedTrees.push(tree)
 
@@ -315,10 +319,8 @@ export default function InteractiveGeoJsonMap() {
       const marker = L.marker([coords[1], coords[0]], { icon })
         .addTo(map.current!)
         .on('click', () => {
-          // Solo permitir seleccionar si no está adoptado
-          if (!tree.adopted) {
-            setSelectedTree(tree)
-          }
+          // Permitir abrir painel para qualquer árvore
+          setSelectedTree(tree)
         })
 
       marker.bindPopup(
@@ -326,7 +328,9 @@ export default function InteractiveGeoJsonMap() {
          Species: ${feature.properties.species}<br/>
          Year: ${String(tree.year || 0).padStart(4, '0')}<br/>
          Zone: ${feature.properties.area}<br/>
-         Status: ${tree.adopted ? 'Adopted ✓' : 'Available'}`
+         Status: ${tree.adopted ? 'Adopted ✓' : 'Available'}<br/>
+         ${typeof tree.width === 'number' ? `Width: ${tree.width} m<br/>` : ''}
+         ${typeof tree.height === 'number' ? `Height: ${tree.height} m` : ''}`
       )
 
       markers.current.push(marker)
@@ -657,6 +661,16 @@ export default function InteractiveGeoJsonMap() {
                 <p className="text-gray-500 text-xs">Lon</p>
                 <p className="font-mono text-gray-800 text-xs">{selectedTree.longitude.toFixed(4)}</p>
               </div>
+              {(typeof selectedTree.width === 'number' || typeof selectedTree.height === 'number') && (
+                <div className="col-span-2 border-b border-gray-200 pb-2">
+                  <p className="text-gray-500 text-xs">Size</p>
+                  <p className="font-mono text-gray-800 text-xs">
+                    {typeof selectedTree.width === 'number' ? `Width: ${selectedTree.width} m` : ''}
+                    {typeof selectedTree.width === 'number' && typeof selectedTree.height === 'number' ? ' · ' : ''}
+                    {typeof selectedTree.height === 'number' ? `Height: ${selectedTree.height} m` : ''}
+                  </p>
+                </div>
+              )}
               <div className="col-span-2 border-b border-gray-200 pb-2">
                 <p className="text-gray-500 text-xs">Price</p>
                 <p className="font-bold text-lg text-green-600">
