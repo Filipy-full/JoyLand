@@ -13,26 +13,11 @@ export default function AboutPage() {
           <div className="w-20 h-1 bg-sage-300 rounded-full mx-auto" />
         </div>
 
-
-        {/* Mapa Google embed */}
-        <div className="grid gap-6 md:grid-cols-1">
-          <div className="relative aspect-[16/7] rounded-3xl overflow-hidden shadow-2xl group w-full max-w-4xl mx-auto">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1322.964282982964!2d1.721169!3d41.770572!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f18.1!3m3!1m2!1s0x12a4510034cbea0d%3A0x5461bc68b9a0c65c!2sCan%20Aguilera!5e1!3m2!1ses!2ses!4v1770341762282!5m2!1ses!2ses"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen={true}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="absolute inset-0 w-full h-full"
-            ></iframe>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
-          </div>
-        </div>
+  
 
         {/* Physical Characteristics */}
         <div className="bg-white/90 rounded-3xl shadow-2xl p-8 md:p-12 border border-sage-100">
+                 
           <h2 className="text-3xl font-serif text-sage-700 mb-6 border-l-4 border-sage-400 pl-4">Physical Characteristics of Joyland</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-4">
@@ -83,19 +68,17 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
+           <div className="relative w-full h-64 md:h-80 rounded-3xl overflow-hidden shadow-2xl mx-auto my-8">
+                    <Image
+                      src="/about/mapa2.jpeg"
+                      alt="Mapa 2 Joyland"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
         </div>
 
-        {/* Primeira imagem após os dados físicos */}
-        <div className="relative h-[260px] md:h-[300px] rounded-3xl overflow-hidden shadow-2xl group mt-8">
-          <Image
-            src="/about/image1.jpeg"
-            alt="Joyland landscape"
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-        </div>
 
         {/* How Joyland Came to Be */}
         <div className="bg-white/90 rounded-3xl shadow-2xl p-8 md:p-12 border border-sage-100">
@@ -113,7 +96,18 @@ export default function AboutPage() {
             
             <p>Since then, the land has experienced its first olive harvest, a wedding and other shared celebrations, and the installation of essential systems such as solar energy and water filtration. Each step has contributed to shaping Joyland to what it is today.</p>
           </div>
+          {/* Foto 1 após Header */}
+          <div className="relative w-full aspect-[16/13] rounded-3xl overflow-hidden shadow-2xl mx-auto mb-8">
+            <Image
+              src="/about/mapa1.jpeg"
+              alt="Mapa 1 Joyland"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
         </div>
+         
 
         {/* What Joyland Stands For */}
         <div className="bg-white/90 rounded-3xl shadow-2xl p-8 md:p-12 border border-sage-100">
@@ -181,7 +175,19 @@ export default function AboutPage() {
           >
             Adopt a tree
           </a>
+          {/* Foto 3 após Adopt a tree */}
+        <div className="relative w-full h-64 md:h-80 rounded-3xl overflow-hidden shadow-2xl mx-auto my-8">
+          <Image
+            src="/about/image1.jpeg"
+            alt="Joyland landscape"
+            fill
+            className="object-cover"
+            priority
+          />
         </div>
+        </div>
+
+        
 
       </div>
     </div>

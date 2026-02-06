@@ -47,8 +47,9 @@ export default function AdminGalleryPage() {
       setUploading(false);
       return;
     }
-    // Pega a URL pública
-    const { data: publicUrlData } = supabase.storage.from('galeria').getPublicUrl(fileName);
+    // Pega a URL pública usando o path retornado pelo upload
+    const path = uploadData?.path || fileName;
+    const { data: publicUrlData } = supabase.storage.from('galeria').getPublicUrl(path);
     // Descobre o maior order atual
     const maxOrder = images.length > 0 ? Math.max(...images.map(img => img.order || 0)) : 0;
     // Insere na tabela
