@@ -80,20 +80,19 @@ export default function ImpactPage() {
 							 </section>
 					<div className="w-full h-[2px] bg-sage-100 rounded-full mb-10" />
 
-							 <section className="mb-14">
-								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">Trees, Rhythm, and Care</h2>
-								 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-									 <img src="/impact/image1.jpg" alt="Tree Care 1" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image35.jpg" alt="Tree Care 2" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image36.jpg" alt="Tree Care 3" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image10.jpg" alt="Tree Care 4" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image9.jpg" alt="Tree Care 5" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image8.jpg" alt="Tree Care 6" className="rounded-xl shadow w-full h-40 object-cover" />
-								 </div>
-								 <p>Your support allows trees to be cared for individually.</p>
-								 <p>Each tree is observed and tended according to its rhythm — balancing canopy, shade, airflow, and long-term health. Olive trees thrive with layered protection, while almond trees receive adjusted care as groundcover strengthens across the land.</p>
-								 <p>Some years focus on fruit, others on growth and recovery. Stewardship adapts continuously, guided by what the trees communicate.</p>
-							 </section>
+							   {/* Adopt Gallery Images */}
+      <section className="container mx-auto px-4 sm:px-6 py-8">
+        <div className="flex flex-wrap justify-center gap-4">
+          {['image1.jpg', 'image2.jpg', 'image4.jpg',].map((img, idx) => (
+            <img
+              key={img}
+              src={`/adopt/${img}`}
+              alt={`Adopt gallery ${idx + 1}`}
+              className="rounded-2xl shadow-lg w-48 h-48 object-cover"
+            />
+          ))}
+        </div>
+      </section>
 					<div className="w-full h-[2px] bg-sage-100 rounded-full mb-10" />
 
 							 <section className="mb-14">

@@ -115,19 +115,6 @@ export default function AdoptPage() {
             </div>
           </div>
         </div>
-        {/* Imagens do Impact - Trees, Rhythm, and Care (fora da caixa) */}
-        <div className="mt-10">
-          <div className="flex justify-center">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10 max-w-3xl w-full">
-              <img src="/impact/image1.jpg" alt="Tree Care 1" className="rounded-xl shadow w-full h-32 object-cover" />
-              <img src="/impact/image35.jpg" alt="Tree Care 2" className="rounded-xl shadow w-full h-32 object-cover" />
-              <img src="/impact/image36.jpg" alt="Tree Care 3" className="rounded-xl shadow w-full h-32 object-cover" />
-              <img src="/impact/image10.jpg" alt="Tree Care 4" className="rounded-xl shadow w-full h-32 object-cover" />
-              <img src="/impact/image9.jpg" alt="Tree Care 5" className="rounded-xl shadow w-full h-32 object-cover" />
-              <img src="/impact/image8.jpg" alt="Tree Care 6" className="rounded-xl shadow w-full h-32 object-cover" />
-            </div>
-          </div>
-          </div>
       </section>
 
       {/* Tree Selection */}
@@ -274,20 +261,19 @@ export default function AdoptPage() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Adopt Gallery Images */}
-      <section className="container mx-auto px-4 sm:px-6 py-8">
-        <div className="flex flex-wrap justify-center gap-4">
-          {['image1.jpg', 'image2.jpg', 'image4.jpg', 'image5.jpg'].map((img, idx) => (
-            <img
-              key={img}
-              src={`/adopt/${img}`}
-              alt={`Adopt gallery ${idx + 1}`}
-              className="rounded-2xl shadow-lg w-48 h-48 object-cover"
-            />
-          ))}
-        </div>
+          {/* Imagens do Impact - Trees, Rhythm, and Care (fora da caixa) */}
+        <div className="mt-10">
+          <div className="flex justify-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10 max-w-3xl w-full">
+              <img src="/impact/image1.jpg" alt="Tree Care 1" className="rounded-xl shadow w-full h-32 object-cover" />
+              <img src="/impact/image35.jpg" alt="Tree Care 2" className="rounded-xl shadow w-full h-32 object-cover" />
+              <img src="/impact/image36.jpg" alt="Tree Care 3" className="rounded-xl shadow w-full h-32 object-cover" />
+              <img src="/impact/image10.jpg" alt="Tree Care 4" className="rounded-xl shadow w-full h-32 object-cover" />
+              <img src="/impact/image9.jpg" alt="Tree Care 5" className="rounded-xl shadow w-full h-32 object-cover" />
+              <img src="/impact/image8.jpg" alt="Tree Care 6" className="rounded-xl shadow w-full h-32 object-cover" />
+            </div>
+          </div>
+          </div>
       </section>
     </div>
   )
