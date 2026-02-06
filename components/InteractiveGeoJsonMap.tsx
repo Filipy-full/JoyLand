@@ -53,6 +53,8 @@ interface TreeData {
   adopted: boolean
   width?: number
   height?: number
+  root_zone?: string
+  orientation?: string
 }
 
 export default function InteractiveGeoJsonMap() {
@@ -175,9 +177,17 @@ export default function InteractiveGeoJsonMap() {
   const updateTreeStates = async (geojsonData: GeoJSONData) => {
     try {
       const treesResponse = await fetch('/api/trees').then((res) => res.json())
-      const statusMap = new Map<string, { status?: string; name?: string; year?: number; width?: number; height?: number }>()
+      const statusMap = new Map<string, { status?: string; name?: string; year?: number; width?: number; height?: number; root_zone?: string; orientation?: string }>()
       ;(treesResponse.trees || []).forEach((t: any) => {
-        statusMap.set(t.id, { status: t.status, name: t.name, year: t.year, width: t.width, height: t.height })
+        statusMap.set(t.id, {
+          status: t.status,
+          name: t.name,
+          year: t.year,
+          width: t.width,
+          height: t.height,
+          root_zone: t.root_zone,
+          orientation: t.orientation,
+        })
       })
 
       const parsedTrees: TreeData[] = []
@@ -204,6 +214,8 @@ export default function InteractiveGeoJsonMap() {
             adopted,
             width: typeof dbInfo?.width === 'number' ? dbInfo.width : undefined,
             height: typeof dbInfo?.height === 'number' ? dbInfo.height : undefined,
+            root_zone: dbInfo?.root_zone || '',
+            orientation: dbInfo?.orientation || '',
           }
           parsedTrees.push(tree)
 
@@ -653,6 +665,18 @@ export default function InteractiveGeoJsonMap() {
                 <p className="text-gray-500 text-xs">Zone</p>
                 <p className="font-semibold text-gray-800">{selectedTree.area}</p>
               </div>
+              {selectedTree.root_zone && (
+                <div className="border-b border-gray-200 pb-2 col-span-2">
+                  <p className="text-gray-500 text-xs">Root Zone</p>
+                  <p className="font-semibold text-gray-800">{selectedTree.root_zone}</p>
+                </div>
+              )}
+              {selectedTree.orientation && (
+                <div className="border-b border-gray-200 pb-2 col-span-2">
+                  <p className="text-gray-500 text-xs">Orientation</p>
+                  <p className="font-semibold text-gray-800">{selectedTree.orientation}</p>
+                </div>
+              )}
               <div className="border-b border-gray-200 pb-2">
                 <p className="text-gray-500 text-xs">Lat</p>
                 <p className="font-mono text-gray-800 text-xs">{selectedTree.latitude.toFixed(4)}</p>

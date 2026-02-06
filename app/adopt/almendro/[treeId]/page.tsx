@@ -78,6 +78,24 @@ export default function AlmendroTreePage(props: any) {
       />
       <section className="container mx-auto px-4 sm:px-6 py-8 max-w-2xl">
         <h2 className="text-xl font-serif text-sage-900 mb-4">{tree.name || 'Almendro'}</h2>
+        <div className="bg-white border border-sage-200 rounded-xl p-4 mb-4 text-sage-800 text-sm flex flex-col gap-1">
+          <div><strong>Tree #{tree.id}</strong></div>
+          <div>Species: {tree.type === 'almond' || tree.type === 'almendro' ? 'Almendro' : tree.type}</div>
+          <div>Year: {tree.year?.toString().padStart(4, '0') || '0000'}</div>
+          <div>Zone: {tree.area || 'Unknown'}</div>
+          {tree.root_zone && <div>Root Zone: {tree.root_zone}</div>}
+          {tree.orientation && <div>Orientation: {tree.orientation}</div>}
+          <div>Status: <span className={tree.status === 'available' ? 'text-green-700' : 'text-red-700'}>{tree.status === 'available' ? 'Disponible' : 'Adoptado'}</span></div>
+          {typeof tree.latitude === 'number' && typeof tree.longitude === 'number' && (
+            <div>Location: {tree.latitude}, {tree.longitude}</div>
+          )}
+          {typeof tree.width === 'number' && (
+            <div>Ancho: {tree.width} m</div>
+          )}
+          {typeof tree.height === 'number' && (
+            <div>Altura: {tree.height} m</div>
+          )}
+        </div>
         <p className="text-sage-700 mb-6 text-base sm:text-lg">{tree.description || 'Un joven almendro saludable.'}</p>
         <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${tree.status === 'available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
           {tree.status === 'available' ? 'Disponible' : 'Adoptado'}

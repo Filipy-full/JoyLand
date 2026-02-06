@@ -108,7 +108,7 @@ export default function AdoptPage() {
               <li>💌 Personalized adoption certificate</li>
               <li>📚 Annual report of your tree &amp; the land</li>
               <li>👑 Exclusive opportunities for members throughout the year</li>
-              <li>🎁 handmade Joyland giftbox, filled with artisanal creations of the land’s bounty</li>
+              <li>🎁 Handmade Joyland giftbox, filled with artisanal creations of the land’s bounty</li>
             </ul>
             <div className="bg-sage-50 border border-sage-200 rounded-xl p-4 text-sage-800 text-sm mb-4">
               <strong>Note:</strong> The giftbox is similar for both tree adoptions, only <b>olive adoptions</b> include a larger bottle of oil when available.

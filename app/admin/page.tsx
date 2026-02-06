@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 export default function AdminDashboard() {
     // Estados e variáveis ausentes adicionados para evitar erros de compilação
-    const [treeEdit, setTreeEdit] = useState<{ treeId?: string; year?: string; width?: string; height?: string }>({ treeId: '', year: '', width: '', height: '' });
+    const [treeEdit, setTreeEdit] = useState<{ treeId?: string; year?: string; width?: string; height?: string; root_zone?: string; orientation?: string }>({ treeId: '', year: '', width: '', height: '', root_zone: '', orientation: '' });
     const [almondPrice, setAlmondPrice] = useState<string>('200');
     const [olivePrice, setOlivePrice] = useState<string>('200');
     const [editingPrice, setEditingPrice] = useState<boolean>(false);
@@ -102,6 +102,8 @@ export default function AdminDashboard() {
           year: current.year !== undefined && current.year !== null ? String(current.year).padStart(4, '0') : '0000',
           width: current.width !== undefined && current.width !== null ? String(current.width) : '',
           height: current.height !== undefined && current.height !== null ? String(current.height) : '',
+          root_zone: current.root_zone || '',
+          orientation: current.orientation || '',
         }))
       }
     }
@@ -130,9 +132,13 @@ export default function AdminDashboard() {
     const yearStr = treeEdit.year ?? '';
     const widthStr = treeEdit.width ?? '';
     const heightStr = treeEdit.height ?? '';
+    const rootZoneStr = treeEdit.root_zone ?? '';
+    const orientationStr = treeEdit.orientation ?? '';
     const yearValue = yearStr.trim() === '' ? null : Number(yearStr);
     const widthValue = widthStr.trim() === '' ? null : Number(widthStr);
     const heightValue = heightStr.trim() === '' ? null : Number(heightStr);
+    const rootZoneValue = rootZoneStr.trim() === '' ? null : rootZoneStr.trim();
+    const orientationValue = orientationStr.trim() === '' ? null : orientationStr.trim();
     if (yearStr.trim() !== '' && (Number.isNaN(yearValue) || (yearValue !== null && yearValue < 0))) {
       setError('Invalid year');
       return;
@@ -157,6 +163,8 @@ export default function AdminDashboard() {
         year: yearValue,
         width: widthValue,
         height: heightValue,
+        root_zone: rootZoneValue,
+        orientation: orientationValue,
       }),
     })
 
@@ -956,6 +964,24 @@ export default function AdminDashboard() {
                       onChange={(e) => setTreeEdit((p) => ({ ...p, height: e.target.value }))}
                       placeholder="Height in meters"
                       inputMode="decimal"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Root Zone</label>
+                    <input
+                      className="w-full border rounded-lg px-3 py-2"
+                      value={treeEdit.root_zone}
+                      onChange={(e) => setTreeEdit((p) => ({ ...p, root_zone: e.target.value }))}
+                      placeholder="e.g. Terrace edge / Field"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Orientation</label>
+                    <input
+                      className="w-full border rounded-lg px-3 py-2"
+                      value={treeEdit.orientation}
+                      onChange={(e) => setTreeEdit((p) => ({ ...p, orientation: e.target.value }))}
+                      placeholder="e.g. East facing. Morning sun"
                     />
                   </div>
                   <button className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold w-full">

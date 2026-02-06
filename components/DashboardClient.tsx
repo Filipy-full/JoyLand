@@ -22,6 +22,8 @@ interface Adoption {
   created_at: string
   width?: number;
   height?: number;
+  root_zone?: string;
+  orientation?: string;
 }
 
 interface ReportItem {
@@ -61,7 +63,25 @@ export default function DashboardClient() {
           fetch('/api/user/reports', { headers: { 'Authorization': `Bearer ${token}` } })
         ])
         const data = await adoptRes.json()
-        setAdoptions(data.adoptions || [])
+        // Buscar root_zone e orientation para cada adoção
+        const adoptionsWithTreeData = await Promise.all(
+          (data.adoptions || []).map(async (adoption: Adoption) => {
+            if (!adoption.tree_id) return adoption;
+            try {
+              const res = await fetch(`/api/trees?id=${adoption.tree_id}`);
+              if (!res.ok) return adoption;
+              const treeData = await res.json();
+              return {
+                ...adoption,
+                root_zone: treeData.tree?.root_zone || '',
+                orientation: treeData.tree?.orientation || '',
+              };
+            } catch {
+              return adoption;
+            }
+          })
+        );
+        setAdoptions(adoptionsWithTreeData)
         const reportsData = await reportsRes.json()
         setReports(reportsData.reports || [])
       } catch (error) {
@@ -181,6 +201,12 @@ export default function DashboardClient() {
                         )}
                         {typeof adoption.height === 'number' && (
                           <p className="text-xs text-gray-700">Altura: {adoption.height} m</p>
+                        )}
+                        {adoption.root_zone && (
+                          <p className="text-xs text-gray-700">Root Zone: {adoption.root_zone}</p>
+                        )}
+                        {adoption.orientation && (
+                          <p className="text-xs text-gray-700">Orientation: {adoption.orientation}</p>
                         )}
                       </div>
 
