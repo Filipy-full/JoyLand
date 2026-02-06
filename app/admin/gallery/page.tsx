@@ -130,7 +130,27 @@ export default function AdminGalleryPage() {
         <h1 className="text-2xl font-bold">Manage Photo Gallery</h1>
       </div>
       <form className="mb-6 flex flex-col sm:flex-row gap-2 items-center" onSubmit={handleUpload}>
-        <input type="file" accept="image/*" ref={fileInputRef} className="border rounded px-2 py-1 w-full sm:w-auto" aria-label="Select image file" />
+        <label htmlFor="gallery-upload" className="text-sm font-medium text-sage-700 mr-2">Select a photo:</label>
+        <div className="relative w-full sm:w-auto">
+          <input
+            id="gallery-upload"
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            className="opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10"
+            aria-label="Select image file"
+            onChange={e => {
+              const label = document.getElementById('gallery-upload-label');
+              if (label) {
+                label.textContent = e.target.files?.[0]?.name || 'No file selected';
+              }
+            }}
+          />
+          <div className="flex items-center border rounded px-2 py-1 bg-white shadow-sm cursor-pointer min-w-[180px]">
+            <span id="gallery-upload-label" className="text-gray-600 text-sm truncate">No file selected</span>
+            <span className="ml-auto bg-sage-600 text-white px-2 py-1 rounded text-xs font-semibold ml-2">Browse</span>
+          </div>
+        </div>
         <button type="submit" disabled={uploading} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full sm:w-auto">
           {uploading ? "Uploading..." : "Upload image"}
         </button>

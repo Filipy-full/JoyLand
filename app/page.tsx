@@ -17,8 +17,10 @@ export default function HomePage() {
 
   useEffect(() => {
     // Generar partículas de hojas con física avanzada
+    // Reduce particle count for better mobile performance
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
     setParticles(
-      Array.from({ length: 20 }, (_, i) => ({
+      Array.from({ length: isMobile ? 6 : 20 }, (_, i) => ({
         id: i,
         left: Math.random() * 100,
         delay: Math.random() * 10,
