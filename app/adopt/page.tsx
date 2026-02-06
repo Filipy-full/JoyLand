@@ -103,12 +103,12 @@ export default function AdoptPage() {
               What does your adoption include?
             </h2>
             <ul className="text-sage-700 text-base sm:text-lg leading-relaxed mb-6 list-none space-y-2">
-              <li>🏷 Name your tree</li>
               <li>🌱 Joyland membership for 1 year</li>
+              <li>🏷 Name your tree</li>
               <li>💌 Personalized adoption certificate</li>
               <li>📚 Annual report of your tree &amp; the land</li>
-              <li>👑 Exclusive opportunities for members throughout the year</li>
               <li>🎁 Handmade Joyland giftbox, filled with artisanal creations of the land’s bounty</li>
+              <li>👑 Exclusive opportunities for members throughout the year</li>
             </ul>
             <div className="bg-sage-50 border border-sage-200 rounded-xl p-4 text-sage-800 text-sm mb-4">
               <strong>Note:</strong> The giftbox is similar for both tree adoptions, only <b>olive adoptions</b> include a larger bottle of oil when available.
@@ -263,17 +263,31 @@ export default function AdoptPage() {
         </div>
           {/* Imagens do Impact - Trees, Rhythm, and Care (fora da caixa) */}
         <div className="mt-10">
-          <div className="flex justify-center">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10 max-w-3xl w-full">
-              <img src="/impact/image1.jpg" alt="Tree Care 1" className="rounded-xl shadow w-full h-32 object-cover" />
-              <img src="/impact/image35.jpg" alt="Tree Care 2" className="rounded-xl shadow w-full h-32 object-cover" />
-              <img src="/impact/image36.jpg" alt="Tree Care 3" className="rounded-xl shadow w-full h-32 object-cover" />
-              <img src="/impact/image10.jpg" alt="Tree Care 4" className="rounded-xl shadow w-full h-32 object-cover" />
-              <img src="/impact/image9.jpg" alt="Tree Care 5" className="rounded-xl shadow w-full h-32 object-cover" />
-              <img src="/impact/image8.jpg" alt="Tree Care 6" className="rounded-xl shadow w-full h-32 object-cover" />
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl font-serif text-sage-700 mb-6 text-center">Almond Cycle</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-10">
+              {["image1.jpg", "image35.jpg", "image36.jpg"].map((img, idx) => (
+                <img
+                  key={img}
+                  src={`/impact/${img}`}
+                  alt={`Almond Cycle ${idx + 1}`}
+                  className="rounded-3xl shadow-2xl w-full h-[220px] object-cover border-4 border-sage-200"
+                />
+              ))}
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-serif text-sage-700 mb-6 text-center">Olive Cycle</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+              {["image10.jpg", "image9.jpg", "image8.jpg"].map((img, idx) => (
+                <img
+                  key={img}
+                  src={`/impact/${img}`}
+                  alt={`Olive Cycle ${idx + 1}`}
+                  className="rounded-3xl shadow-2xl w-full h-[220px] object-cover border-4 border-sage-200"
+                />
+              ))}
             </div>
           </div>
-          </div>
+        </div>
       </section>
     </div>
   )
