@@ -791,13 +791,7 @@ export default function InteractiveGeoJsonMap() {
 
           {/* Footer com Ações */}
           <div className="border-t border-gray-200 p-2 md:p-3 space-y-1.5 md:space-y-2 bg-gray-50">
-            {selectedTree.adopted ? (
-              <Link href={`/tree/${selectedTree.id}`}>
-                <button className="w-full bg-gray-600 hover:bg-gray-700 text-white text-xs md:text-sm font-semibold py-1.5 md:py-2 rounded transition duration-200">
-                  View Details
-                </button>
-              </Link>
-            ) : (
+            {!selectedTree.adopted ? (
               <>
                 {/* Botones condicionales basados en estado del carrito */}
                 {!isTreeInCart ? (
@@ -818,7 +812,7 @@ export default function InteractiveGeoJsonMap() {
                   </Link>
                 )}
               </>
-            )}
+            ) : null}
             <button
               onClick={() => setSelectedTree(null)}
               className="w-full bg-white border border-gray-300 text-gray-700 text-xs md:text-sm font-semibold py-1.5 rounded hover:border-gray-400 hover:bg-gray-50 transition"

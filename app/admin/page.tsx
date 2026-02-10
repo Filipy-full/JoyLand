@@ -816,6 +816,102 @@ export default function AdminDashboard() {
           {tab === 'adoptions' && (
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-6">Adoptions</h2>
+              {/* Formulário para adoção manual */}
+              <div className="mb-8 p-4 border border-sage-200 rounded-lg bg-sage-50">
+                <h3 className="font-semibold mb-2 text-sage-800">Adoptar árvore manualmente</h3>
+                <form
+                  className="flex flex-col md:flex-row md:items-end gap-3"
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    const form = e.target as HTMLFormElement;
+                    const treeId = form.treeId.value;
+                    const userEmail = form.userEmail.value;
+                    const giftMessage = form.giftMessage.value;
+                    const durationYears = parseInt(form.durationYears.value, 10) || 1;
+                    if (!treeId || !userEmail || !durationYears) {
+                      alert('Selecione uma árvore, informe o e-mail do usuário e a duração.');
+                      return;
+                    }
+                    // Buscar usuário pelo e-mail
+                    let userId = null;
+                    try {
+                      const { data, error } = await supabase
+                        .from('users')
+                        .select('id')
+                        .eq('email', userEmail)
+                        .single();
+                      if (data && data.id) userId = data.id;
+                    } catch {}
+                    if (!userId) {
+                      alert('Usuário não encontrado para o e-mail informado. Cadastre o usuário primeiro.');
+                      return;
+                    }
+                    // Criar adoção manualmente
+                    const session = await supabase.auth.getSession();
+                    const token = session.data.session?.access_token;
+                    if (!token) {
+                      alert('Not authorized');
+                      return;
+                    }
+                    const res = await fetch('/api/admin/adoptions', {
+                      method: 'POST',
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        tree_id: treeId,
+                        user_id: userId,
+                        giftMessage: giftMessage || undefined,
+                        status: 'adopted',
+                        durationYears,
+                      }),
+                    });
+                                      <div className="flex-1">
+                                        <label className="block text-xs font-medium text-gray-700 mb-1">Duração (anos)</label>
+                                        <select name="durationYears" className="w-full border rounded px-2 py-1" required defaultValue="1">
+                                          {[...Array(10)].map((_, i) => (
+                                            <option key={i+1} value={i+1}>{i+1} ano(s)</option>
+                                          ))}
+                                        </select>
+                                      </div>
+                    if (res.ok) {
+                      alert('Adoção criada com sucesso!');
+                      await fetchAdoptions(token);
+                    } else {
+                      const body = await res.json().catch(() => ({}));
+                      alert(body.error || 'Erro ao criar adoção');
+                    }
+                  }}
+                >
+                  <div className="flex-1">
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Árvore</label>
+                    <select name="treeId" className="w-full border rounded px-2 py-1" required>
+                      <option value="">Selecione</option>
+                      {trees.filter(t => !adoptions.some(a => a.tree_id === t.id)).map(t => (
+                        <option key={t.id} value={t.id}>{t.name || `Tree #${t.id}`} ({t.type})</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs font-medium text-gray-700 mb-1">E-mail ou ID do usuário</label>
+                    <input name="userEmail" className="w-full border rounded px-2 py-1" required placeholder="email@dominio.com ou ID" />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Mensagem presente (opcional)</label>
+                    <input name="giftMessage" className="w-full border rounded px-2 py-1" placeholder="Mensagem de presente" />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Duração (anos)</label>
+                    <select name="durationYears" className="w-full border rounded px-2 py-1" required defaultValue="1">
+                      {[...Array(10)].map((_, i) => (
+                        <option key={i+1} value={i+1}>{i+1} ano(s)</option>
+                      ))}
+                    </select>
+                  </div>
+                  <button type="submit" className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold">Adoptar</button>
+                </form>
+              </div>
               {/* Dropdowns de filtro e ordenação */}
               <div className="flex flex-wrap gap-4 mb-6 items-center">
                 <div className="flex gap-2 items-center">
@@ -936,12 +1032,20 @@ export default function AdminDashboard() {
                       }}
                       required
                     >
-                      <option value="">Select tree</option>
-                      {trees.map((t) => (
-                        <option key={t.id} value={t.id}>
-                          {t.name || `Tree #${t.id}`} ({t.type})
+                      {trees.length === 0 ? (
+                        <option value="" disabled>
+                          {error ? `Error loading trees: ${error}` : 'No trees found'}
                         </option>
-                      ))}
+                      ) : (
+                        <>
+                          <option value="">Select tree</option>
+                          {trees.map((t) => (
+                            <option key={t.id} value={t.id}>
+                              {t.name || `Tree #${t.id}`} ({t.type})
+                            </option>
+                          ))}
+                        </>
+                      )}
                     </select>
                   </div>
                   <div>
@@ -998,60 +1102,117 @@ export default function AdminDashboard() {
                         placeholder={treeEdit.description || (treeEdit.treeId ? (trees.find(t => t.id === treeEdit.treeId)?.description ?? "Tree description") : "Tree description")}
                         rows={3}
                       />
-                      <label className="block text-sm font-medium text-gray-700 mb-1 mt-2">Image (URL or upload)</label>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          className="w-full border rounded-lg px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400"
-                          value={treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')}
-                          onChange={e => setTreeEdit((p) => ({ ...p, image: e.target.value }))}
-                          placeholder={treeEdit.image || (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : "Image URL (optional)") : "Image URL (optional)")}
-                          autoComplete="off"
-                          spellCheck={false}
-                        />
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={async (e) => {
-                            const file = e.target.files?.[0];
-                            if (!file) return;
-                            if (!treeEdit.treeId) {
-                              alert('Select a tree before uploading an image.');
-                              return;
-                            }
-                            setLoading(true);
-                            const { uploadTreeImage } = await import('@/lib/uploadTreeImage');
-                            const url = await uploadTreeImage(file, treeEdit.treeId);
-                            setLoading(false);
-                            if (url) {
-                              setTreeEdit((p) => ({ ...p, image: url }));
-                            } else {
-                              alert('Error uploading the image.');
-                            }
-                          }}
-                          style={{ maxWidth: 180 }}
-                        />
+                      <label className="block text-sm font-medium text-gray-700 mb-1 mt-2">Current image</label>
+                      <div className="flex flex-col items-center min-w-[120px] max-w-[180px] md:ml-0 mb-2">
+                        {(treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')) ? (
+                          <>
+                            <img
+                              src={treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')}
+                              alt="Image preview"
+                              className="rounded border object-cover max-h-40 max-w-[180px] mb-2"
+                            />
+                            <button
+                              type="button"
+                              className="px-2 py-1 rounded bg-red-100 text-red-700 border border-red-300 hover:bg-red-200 text-xs mt-1"
+                              onClick={() => setTreeEdit((p) => ({ ...p, image: '' }))}
+                              aria-label="Remove image"
+                            >
+                              Remove
+                            </button>
+                          </>
+                        ) : (
+                          <div className="text-xs text-gray-400 text-center">No image</div>
+                        )}
                       </div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                      <input
+                        className="w-full border rounded-lg px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400 mb-2"
+                        value={treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')}
+                        onChange={e => setTreeEdit((p) => ({ ...p, image: e.target.value }))}
+                        placeholder={treeEdit.image || (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : "Image URL (optional)") : "Image URL (optional)")}
+                        autoComplete="off"
+                        spellCheck={false}
+                      />
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Or upload</label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          if (!treeEdit.treeId) {
+                            alert('Select a tree before uploading an image.');
+                            return;
+                          }
+                          setLoading(true);
+                          // Subir imagen a Supabase Storage
+                          const { uploadTreeImage } = await import('@/lib/uploadTreeImage');
+                          const url = await uploadTreeImage(file, treeEdit.treeId);
+                          setLoading(false);
+                          if (url) {
+                            // Personalizar el dominio del link para usar la CDN
+                            // Ejemplo: https://media.floresfrescasonline.com/product/olivo-enano-800x800.jpg?width=1200
+                            // Suponiendo que el path después del bucket es igual
+                            try {
+                              const urlObj = new URL(url);
+                              // Extraer el path del archivo
+                              const path = urlObj.pathname.split('/').slice(2).join('/'); // quita /storage/v1/object/public/
+                              // Usar el dominio CDN y el path
+                              const customUrl = `https://media.floresfrescasonline.com/${path}`;
+                              setTreeEdit((p) => ({ ...p, image: customUrl }));
+                            } catch {
+                              setTreeEdit((p) => ({ ...p, image: url }));
+                            }
+                          } else {
+                            alert('Error uploading the image.');
+                          }
+                        }}
+                        style={{ maxWidth: 180 }}
+                      />
                     </div>
-                    {/* Image preview to the right with remove option */}
+                    {/* Image saved in the database (view only) */}
                     <div className="flex flex-col items-center min-w-[120px] max-w-[180px] md:ml-4 mt-4 md:mt-0">
-                      {(treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')) ? (
-                        <>
-                          <img
-                            src={treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')}
-                            alt="Image preview"
-                            className="rounded border object-cover max-h-40 max-w-[180px] mb-2"
-                          />
-                          <button
-                            type="button"
-                            className="px-2 py-1 rounded bg-red-100 text-red-700 border border-red-300 hover:bg-red-200 text-xs mt-1"
-                            onClick={() => setTreeEdit((p) => ({ ...p, image: '' }))}
-                            aria-label="Remove image"
-                          >
-                            Remove
-                          </button>
-                        </>
+                      {treeEdit.treeId ? (
+                        (() => {
+                          const tree = trees.find(t => t.id === treeEdit.treeId);
+                          let imagesArr = [];
+                          if (Array.isArray(tree?.images)) {
+                            imagesArr = tree.images;
+                          } else if (typeof tree?.images === 'string') {
+                            try {
+                              imagesArr = JSON.parse(tree.images);
+                            } catch {}
+                          }
+                          const dbImage = imagesArr.length > 0 ? imagesArr[0] : (tree?.image ?? '');
+                          return (
+                            <>
+                              {dbImage ? (
+                                <>
+                                  <img
+                                    src={dbImage}
+                                    alt="Image from the database"
+                                    className="rounded border object-cover max-h-40 max-w-[180px] mb-2"
+                                  />
+                                  <div className="text-xs text-gray-500 break-all max-w-[180px] mb-1">{dbImage}</div>
+                                  <button
+                                    type="button"
+                                    className="px-2 py-1 rounded bg-red-100 text-red-700 border border-red-300 hover:bg-red-200 text-xs mt-1"
+                                    onClick={() => {
+                                      setTreeEdit((p) => ({ ...p, image: '' }));
+                                    }}
+                                    aria-label="Remove image from database"
+                                  >
+                                    Remove
+                                  </button>
+                                </>
+                              ) : (
+                                <div className="text-xs text-gray-400 text-center">No image in the database</div>
+                              )}
+                            </>
+                          );
+                        })()
                       ) : (
-                        <div className="text-xs text-gray-400 text-center">No image</div>
+                        <div className="text-xs text-gray-400 text-center">Select a tree</div>
                       )}
                     </div>
                   </div>
@@ -1072,7 +1233,7 @@ export default function AdminDashboard() {
 
           {tab === 'reports' && (
             <div className="space-y-6">
-              {/* Filtro por tipo de árvore */}
+              {/* Filter by tree type */}
               <div className="flex items-center gap-3 mb-4">
                 <label htmlFor="reportTreeType" className="text-sm font-medium text-gray-700">Tree type:</label>
                 <select

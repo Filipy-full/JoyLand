@@ -4,13 +4,16 @@ import { supabase } from '@/lib/supabase';
 export async function uploadTreeImage(file: File, treeId: string): Promise<string | null> {
   if (!file || !treeId) return null;
   const fileExt = file.name.split('.').pop();
-  const filePath = `trees/${treeId}.${fileExt}`;
-  const { data, error } = await supabase.storage.from('tree-images').upload(filePath, file, {
+  const filePath = `${treeId}.${fileExt}`;
+  const { data, error } = await supabase.storage.from('galeria').upload(filePath, file, {
     upsert: true,
     contentType: file.type,
   });
-  if (error) return null;
+  if (error) {
+    console.error('Supabase upload error:', error.message);
+    return null;
+  }
   // URL pública
-  const { data: publicUrl } = supabase.storage.from('tree-images').getPublicUrl(filePath);
+  const { data: publicUrl } = supabase.storage.from('galeria').getPublicUrl(filePath);
   return publicUrl?.publicUrl || null;
 }

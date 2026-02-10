@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
 
     const { data: trees, error: queryError } = await supabaseAdmin
       .from('trees')
-      .select('id, name, type, status, description, yearly_report, videos, latitude, longitude, year, width, height')
+      .select('id, name, type, status, description, yearly_report, videos, latitude, longitude, year, width, height, images')
       .order('created_at', { ascending: true })
 
     if (queryError) {
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
       if (message.includes('column') && message.includes('year')) {
         const { data: fallbackTrees, error: fallbackError } = await supabaseAdmin
           .from('trees')
-          .select('id, name, type, status, description, yearly_report, videos, latitude, longitude')
+          .select('id, name, type, status, description, yearly_report, videos, latitude, longitude, images')
           .order('created_at', { ascending: true })
 
         if (fallbackError) {
