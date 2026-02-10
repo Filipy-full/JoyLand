@@ -119,7 +119,7 @@ export default function InteractiveGeoJsonMap() {
   const handleAddToCart = (tree: TreeData) => {
     setAddingToCart(true)
     try {
-      const treeType = tree.species === 'Oliveira' ? 'olivo' : 'almendro'
+      const treeType = tree.species === 'Olive' ? 'olivo' : 'almendro'
       const price = treeType === 'olivo' ? olivePrice : almondPrice
       addTree({
         id: tree.id,
@@ -219,9 +219,9 @@ export default function InteractiveGeoJsonMap() {
           }
           parsedTrees.push(tree)
 
-          if (tree.species === 'Oliveira') {
+          if (tree.species === 'Olive') {
             olivaCount++
-          } else if (tree.species === 'Almendras') {
+          } else if (tree.species === 'Almond') {
             almendrasCount++
           }
 
@@ -257,8 +257,8 @@ export default function InteractiveGeoJsonMap() {
     markers.current = []
 
     parsedTrees.forEach((tree) => {
-      const isOliva = tree.species === 'Oliveira'
-      const isAlmendra = tree.species === 'Almendras'
+      const isOliva = tree.species === 'Olive'
+      const isAlmendra = tree.species === 'Almond'
       
       // Si ningún filtro está activo, no mostrar nada
       if (!filters.oliva && !filters.almendra && !filters.adopted) return
@@ -285,7 +285,11 @@ export default function InteractiveGeoJsonMap() {
       if (!feature) return
 
       const coords = feature.geometry.coordinates as number[]
-      const color = tree.adopted ? '#f44336' : feature.properties.species === 'Oliveira' ? '#4caf50' : '#8d6e63'
+      if (!Array.isArray(coords) || coords.length < 2 || typeof coords[0] !== 'number' || typeof coords[1] !== 'number' || isNaN(coords[0]) || isNaN(coords[1])) {
+        console.warn('Coordenadas inválidas para marker:', coords, feature)
+        return
+      }
+      const color = tree.adopted ? '#f44336' : feature.properties.species === 'Olive' ? '#4caf50' : '#8d6e63'
 
       // Tamaño responsivo
       let markerSize = 16
@@ -328,24 +332,22 @@ export default function InteractiveGeoJsonMap() {
         popupAnchor: [0, -(markerSize / 2)],
       })
 
-      const marker = L.marker([coords[1], coords[0]], { icon })
-        .addTo(map.current!)
-        .on('click', () => {
-          // Permitir abrir painel para qualquer árvore
-          setSelectedTree(tree)
-        })
-
-      marker.bindPopup(
-        `<strong>Tree #${tree.name}</strong><br/>
-         Species: ${feature.properties.species}<br/>
-         Year: ${String(tree.year || 0).padStart(4, '0')}<br/>
-         Zone: ${feature.properties.area}<br/>
-         Status: ${tree.adopted ? 'Adopted ✓' : 'Available'}<br/>
-         ${typeof tree.width === 'number' ? `Width: ${tree.width} m<br/>` : ''}
-         ${typeof tree.height === 'number' ? `Height: ${tree.height} m` : ''}`
-      )
-
-      markers.current.push(marker)
+      try {
+        const marker = L.marker([coords[1], coords[0]], { icon })
+          .addTo(map.current!)
+          .on('click', () => {
+            // Permitir abrir painel para qualquer árvore
+            setSelectedTree(tree)
+          })
+        marker.bindPopup(
+          `<strong>Tree #${tree.name}</strong><br/>
+           Species: ${feature.properties.species}<br/>
+           Area: ${feature.properties.area}`
+        )
+        markers.current.push(marker)
+      } catch (e) {
+        console.error('Error creando marker:', coords, e)
+      }
     })
   }
 
@@ -393,7 +395,7 @@ export default function InteractiveGeoJsonMap() {
         .catch((error) => console.error('Error syncing adoptions:', error))
         .then(() => {
           // Luego cargar el GeoJSON
-          return fetch('/geojson-map.json').then((res) => res.json())
+          return fetch('/mapa/mapa-main.json').then((res) => res.json())
         })
         .then((data) => {
           setGeoJsonData(data)
@@ -625,7 +627,7 @@ export default function InteractiveGeoJsonMap() {
           <div
             className="px-3 md:px-4 py-3 md:py-4 text-white flex items-end h-16 md:h-20"
             style={{
-              background: `linear-gradient(135deg, ${selectedTree.species === 'Oliveira' ? '#4caf50' : '#8d6e63'} 0%, ${selectedTree.species === 'Oliveira' ? '#2e7d32' : '#5d4037'} 100%)`,
+              background: `linear-gradient(135deg, ${selectedTree.species === 'Olive' ? '#4caf50' : '#8d6e63'} 0%, ${selectedTree.species === 'Olive' ? '#2e7d32' : '#5d4037'} 100%)`,
             }}
           >
             <div className="flex-1">
@@ -698,7 +700,7 @@ export default function InteractiveGeoJsonMap() {
               <div className="col-span-2 border-b border-gray-200 pb-2">
                 <p className="text-gray-500 text-xs">Price</p>
                 <p className="font-bold text-lg text-green-600">
-                  €{selectedTree.species === 'Oliveira' ? (olivePrice / 100).toFixed(2) : (almondPrice / 100).toFixed(2)}
+                  €{selectedTree.species === 'Olive' ? (olivePrice / 100).toFixed(2) : (almondPrice / 100).toFixed(2)}
                 </p>
               </div>
             </div>

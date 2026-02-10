@@ -59,7 +59,7 @@ export default function OlivoTreePage(props: any) {
       addTree({
         id: tree.id,
         name: tree.name || 'Olive Tree',
-        species: 'Oliveira',
+        species: 'Olive tree',
         type: 'olivo',
         price: olivePrice, // Precio en centavos
         area: tree.area || 'Unknown',
@@ -90,7 +90,7 @@ export default function OlivoTreePage(props: any) {
         <h2 className="text-xl font-serif text-sage-900 mb-4">{tree.name || `Tree #${tree.id}`}</h2>
         <div className="bg-white border border-sage-200 rounded-xl p-4 mb-4 text-sage-800 text-sm flex flex-col gap-1">
           <div><strong>Tree #{tree.id}</strong></div>
-          <div>Species: {tree.type === 'olive' || tree.type === 'olivo' ? 'Oliveira' : tree.type}</div>
+          <div>Species: {tree.type === 'olive' || tree.type === 'olivo' ? 'Olive tree' : tree.type}</div>
           <div>Year: {tree.year?.toString().padStart(4, '0') || '0000'}</div>
           <div>Zone: {tree.area || 'Unknown'}</div>
           {tree.root_zone && <div>Root Zone: {tree.root_zone}</div>}

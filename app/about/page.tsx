@@ -53,27 +53,21 @@ export default function AboutPage() {
             </div>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <span className="text-2xl text-sage-600 mt-1">🌳</span>
+                <span className="text-2xl text-sage-600 mt-1">🌿</span>
                 <div>
                   <p className="font-semibold text-sage-700">Joyland areas</p>
                   <p className="text-sage-600">1,5 ha olive & almond grove (SE)<br></br> 4,8 ha terrace grove (W)</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl text-sage-600 mt-1">🫒</span>
+                <span className="text-2xl text-sage-600 mt-1">🌳</span>
                 <div>
                   <p className="font-semibold text-sage-700">Trees</p>
                   <p className="text-sage-600">~250 Arbequina olive trees</p>
                   <p className="text-sage-600">~200 almond trees</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <span className="text-2xl text-sage-600 mt-1">🏔️</span>
-                <div>
-                  <p className="font-semibold text-sage-700">Terrain</p>
-                  <p className="text-sage-600">Valley with rocky clay soil</p>
-                </div>
-              </div>
+          
             </div>
           </div>
            
