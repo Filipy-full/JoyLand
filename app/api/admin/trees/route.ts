@@ -66,7 +66,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { id, name, status, description, yearly_report, videos, latitude, longitude, year, width, height, root_zone, orientation } = body || {}
+    const { id, name, status, description, yearly_report, videos, latitude, longitude, year, width, height, root_zone, orientation, images } = body || {}
 
     if (!id) {
       return NextResponse.json({ error: 'Missing tree id' }, { status: 400 })
@@ -85,6 +85,7 @@ export async function PATCH(req: NextRequest) {
     if (height !== undefined) updates.height = height
     if (root_zone !== undefined) updates.root_zone = root_zone
     if (orientation !== undefined) updates.orientation = orientation
+    if (images !== undefined) updates.images = images
 
     const { data: tree, error: updateError } = await supabaseAdmin
       .from('trees')

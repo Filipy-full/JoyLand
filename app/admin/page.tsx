@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 export default function AdminDashboard() {
     // Estados e variáveis ausentes adicionados para evitar erros de compilação
-    const [treeEdit, setTreeEdit] = useState<{ treeId?: string; year?: string; width?: string; height?: string; root_zone?: string; orientation?: string }>({ treeId: '', year: '', width: '', height: '', root_zone: '', orientation: '' });
+    const [treeEdit, setTreeEdit] = useState<{ treeId?: string; year?: string; width?: string; height?: string; root_zone?: string; orientation?: string; description?: string; image?: string }>({ treeId: '', year: '', width: '', height: '', root_zone: '', orientation: '', description: '', image: '' });
     const [almondPrice, setAlmondPrice] = useState<string>('200');
     const [olivePrice, setOlivePrice] = useState<string>('200');
     const [editingPrice, setEditingPrice] = useState<boolean>(false);
@@ -104,6 +104,8 @@ export default function AdminDashboard() {
           height: current.height !== undefined && current.height !== null ? String(current.height) : '',
           root_zone: current.root_zone || '',
           orientation: current.orientation || '',
+          description: current.description || '',
+          image: (Array.isArray(current.images) && current.images.length > 0) ? current.images[0] : (current.image || ''),
         }))
       }
     }
@@ -134,11 +136,15 @@ export default function AdminDashboard() {
     const heightStr = treeEdit.height ?? '';
     const rootZoneStr = treeEdit.root_zone ?? '';
     const orientationStr = treeEdit.orientation ?? '';
+    const descriptionStr = treeEdit.description ?? '';
+    const imageStr = treeEdit.image ?? '';
     const yearValue = yearStr.trim() === '' ? null : Number(yearStr);
     const widthValue = widthStr.trim() === '' ? null : Number(widthStr);
     const heightValue = heightStr.trim() === '' ? null : Number(heightStr);
     const rootZoneValue = rootZoneStr.trim() === '' ? null : rootZoneStr.trim();
     const orientationValue = orientationStr.trim() === '' ? null : orientationStr.trim();
+    const descriptionValue = descriptionStr.trim() === '' ? null : descriptionStr.trim();
+    const imagesValue = imageStr.trim() === '' ? null : [imageStr.trim()];
     if (yearStr.trim() !== '' && (Number.isNaN(yearValue) || (yearValue !== null && yearValue < 0))) {
       setError('Invalid year');
       return;
@@ -165,6 +171,8 @@ export default function AdminDashboard() {
         height: heightValue,
         root_zone: rootZoneValue,
         orientation: orientationValue,
+        description: descriptionValue,
+        images: imagesValue,
       }),
     })
 
@@ -940,9 +948,9 @@ export default function AdminDashboard() {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Year (0000 if unknown)</label>
                     <input
                       className="w-full border rounded-lg px-3 py-2"
-                      value={treeEdit.year}
+                      value={treeEdit.year ?? ''}
                       onChange={(e) => setTreeEdit((p) => ({ ...p, year: e.target.value }))}
-                      placeholder="0000"
+                      placeholder={treeEdit.year ? String(treeEdit.year) : "0000"}
                       inputMode="numeric"
                     />
                   </div>
@@ -950,9 +958,9 @@ export default function AdminDashboard() {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Width (m)</label>
                     <input
                       className="w-full border rounded-lg px-3 py-2"
-                      value={treeEdit.width}
+                      value={treeEdit.width ?? ''}
                       onChange={(e) => setTreeEdit((p) => ({ ...p, width: e.target.value }))}
-                      placeholder="Width in meters"
+                      placeholder={treeEdit.width ? String(treeEdit.width) : "Width in meters"}
                       inputMode="decimal"
                     />
                   </div>
@@ -960,9 +968,9 @@ export default function AdminDashboard() {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Height (m)</label>
                     <input
                       className="w-full border rounded-lg px-3 py-2"
-                      value={treeEdit.height}
+                      value={treeEdit.height ?? ''}
                       onChange={(e) => setTreeEdit((p) => ({ ...p, height: e.target.value }))}
-                      placeholder="Height in meters"
+                      placeholder={treeEdit.height ? String(treeEdit.height) : "Height in meters"}
                       inputMode="decimal"
                     />
                   </div>
@@ -970,20 +978,87 @@ export default function AdminDashboard() {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Root Zone</label>
                     <input
                       className="w-full border rounded-lg px-3 py-2"
-                      value={treeEdit.root_zone}
+                      value={treeEdit.root_zone ?? ''}
                       onChange={(e) => setTreeEdit((p) => ({ ...p, root_zone: e.target.value }))}
-                      placeholder="e.g. Terrace edge / Field"
+                      placeholder={treeEdit.root_zone ? treeEdit.root_zone : "e.g. Terrace edge / Field"}
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Orientation</label>
                     <input
                       className="w-full border rounded-lg px-3 py-2"
-                      value={treeEdit.orientation}
+                      value={treeEdit.orientation ?? ''}
                       onChange={(e) => setTreeEdit((p) => ({ ...p, orientation: e.target.value }))}
-                      placeholder="e.g. East facing. Morning sun"
+                      placeholder={treeEdit.orientation ? treeEdit.orientation : "e.g. East facing. Morning sun"}
                     />
                   </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea
+                      className="w-full border rounded-lg px-3 py-2"
+                      value={treeEdit.description ?? ''}
+                      onChange={e => setTreeEdit((p) => ({ ...p, description: e.target.value }))}
+                      placeholder={treeEdit.description ? treeEdit.description : "Tree description"}
+                      rows={3}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Image (URL or upload)
+                    </label>
+                    <div className="flex gap-2 items-center">
+                      <input
+                        className="w-full border rounded-lg px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400"
+                        value={treeEdit.image ?? ''}
+                        onChange={e =>
+                          setTreeEdit((p) => ({ ...p, image: e.target.value }))
+                        }
+                        placeholder="Image URL (optional)"
+                        autoComplete="off"
+                        spellCheck={false}
+                      />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          if (!treeEdit.treeId) {
+                            alert('Select a tree before uploading an image.');
+                            return;
+                          }
+                          setLoading(true);
+                          const { uploadTreeImage } = await import('@/lib/uploadTreeImage');
+                          const url = await uploadTreeImage(file, treeEdit.treeId);
+                          setLoading(false);
+                          if (url) {
+                            setTreeEdit((p) => ({ ...p, image: url }));
+                          } else {
+                            alert('Error uploading the image.');
+                          }
+                        }}
+                        style={{ maxWidth: 180 }}
+                      />
+                      {treeEdit.image && (
+                        <button
+                          type="button"
+                          className="ml-2 px-2 py-1 rounded bg-red-100 text-red-700 border border-red-300 hover:bg-red-200 text-xs"
+                          onClick={() => setTreeEdit((p) => ({ ...p, image: '' }))}
+                          aria-label="Remove image"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                    {treeEdit.image && (
+                      <img
+                        src={treeEdit.image}
+                        alt="Image preview"
+                        className="mt-2 max-h-40 rounded border"
+                      />
+                    )}
+                  </div>
+
                   <button className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold w-full">
                     Save
                   </button>

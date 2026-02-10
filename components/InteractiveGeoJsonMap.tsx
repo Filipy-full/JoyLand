@@ -1,6 +1,47 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+// Modal simples para exibir imagem ampliada
+function ImageModal({ src, alt, onClose }: { src: string, alt: string, onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'transparent' }} onClick={onClose}>
+      <div
+        className="relative flex items-center justify-center"
+        style={{ maxWidth: '180vw', maxHeight: '180vh' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <img
+          src={src}
+          alt={alt}
+          className="rounded-lg shadow-2xl object-contain border-4 border-white"
+          style={{
+            background: '#fff',
+            maxHeight: '180vh',
+            maxWidth: '180vw',
+            width: 'auto',
+            height: 'auto',
+            display: 'block',
+            margin: '0 auto',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
+          }}
+        />
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 rounded-full px-4 py-2 text-2xl font-bold shadow-lg focus:outline-none"
+          style={{ zIndex: 10 }}
+          aria-label="Close image modal"
+        >
+          ×
+        </button>
+      </div>
+    </div>
+  )
+}
+// Imagens de exemplo para cada espécie
+const treeImages: Record<string, string> = {
+  Olive: '/rama-oliva.png',
+  Almond: '/about/aceitunas-rama.jpeg', // Substitua por uma imagem de amêndoa se houver
+}
 import { useSearchParams } from 'next/navigation'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -55,9 +96,12 @@ interface TreeData {
   height?: number
   root_zone?: string
   orientation?: string
+  description?: string
+  image_url?: string // url da imagem na supabase
 }
 
 export default function InteractiveGeoJsonMap() {
+  const [showImageModal, setShowImageModal] = useState(false)
   const searchParams = useSearchParams()
   const containerRef = useRef<HTMLDivElement>(null)
   const mapContainer = useRef<HTMLDivElement>(null)
@@ -177,8 +221,21 @@ export default function InteractiveGeoJsonMap() {
   const updateTreeStates = async (geojsonData: GeoJSONData) => {
     try {
       const treesResponse = await fetch('/api/trees').then((res) => res.json())
-      const statusMap = new Map<string, { status?: string; name?: string; year?: number; width?: number; height?: number; root_zone?: string; orientation?: string }>()
+      const statusMap = new Map<string, { status?: string; name?: string; year?: number; width?: number; height?: number; root_zone?: string; orientation?: string; description?: string; image_url?: string }>()
       ;(treesResponse.trees || []).forEach((t: any) => {
+        // images puede ser null, string o array JSON
+        let imageUrl = ''
+        if (t.images) {
+          try {
+            const imgs = typeof t.images === 'string' ? JSON.parse(t.images) : t.images
+            if (Array.isArray(imgs) && imgs.length > 0) {
+              imageUrl = imgs[0]
+            }
+          } catch (e) {
+            // Si no es JSON válido, usar como string directa
+            if (typeof t.images === 'string') imageUrl = t.images
+          }
+        }
         statusMap.set(t.id, {
           status: t.status,
           name: t.name,
@@ -187,6 +244,8 @@ export default function InteractiveGeoJsonMap() {
           height: t.height,
           root_zone: t.root_zone,
           orientation: t.orientation,
+          description: t.description,
+          image_url: imageUrl,
         })
       })
 
@@ -216,6 +275,8 @@ export default function InteractiveGeoJsonMap() {
             height: typeof dbInfo?.height === 'number' ? dbInfo.height : undefined,
             root_zone: dbInfo?.root_zone || '',
             orientation: dbInfo?.orientation || '',
+            description: dbInfo?.description || '',
+            image_url: dbInfo?.image_url || '',
           }
           parsedTrees.push(tree)
 
@@ -392,7 +453,7 @@ export default function InteractiveGeoJsonMap() {
       // Primero, sincronizar las adopciones con la BD
       fetch('/api/trees?sync=true')
         .then((res) => res.json())
-        .catch((error) => console.error('Error syncing adoptions:', error))
+        .catch((error) => console.error('Error syncing adopciones:', error))
         .then(() => {
           // Luego cargar el GeoJSON
           return fetch('/mapa/mapa-main.json').then((res) => res.json())
@@ -646,46 +707,56 @@ export default function InteractiveGeoJsonMap() {
           <div className="flex-1 overflow-hidden p-3 md:p-4">
             {selectedTree.adopted ? (
               <div className="bg-amber-50 border border-amber-300 rounded p-2 mb-3 text-xs">
-                <p className="font-semibold text-amber-900">⚠️ Adopted</p>
+                <p className="font-semibold text-amber-900"> Adopted</p>
               </div>
             ) : (
               <div className="bg-green-50 border border-green-300 rounded p-2 mb-3 text-xs">
-                <p className="font-semibold text-green-900">✨ Available</p>
+                <p className="font-semibold text-green-900"> Available</p>
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="border-b border-gray-200 pb-2">
-                <p className="text-gray-500 text-xs">Species</p>
-                <p className="font-semibold text-gray-800">{selectedTree.species}</p>
-              </div>
-              <div className="border-b border-gray-200 pb-2">
-                <p className="text-gray-500 text-xs">Year</p>
-                <p className="font-semibold text-gray-800">{String(selectedTree.year || 0).padStart(4, '0')}</p>
-              </div>
-              <div className="border-b border-gray-200 pb-2">
-                <p className="text-gray-500 text-xs">Zone</p>
-                <p className="font-semibold text-gray-800">{selectedTree.area}</p>
-              </div>
-              {selectedTree.root_zone && (
-                <div className="border-b border-gray-200 pb-2 col-span-2">
-                  <p className="text-gray-500 text-xs">Root Zone</p>
-                  <p className="font-semibold text-gray-800">{selectedTree.root_zone}</p>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="border-b border-gray-200 pb-2">
+                  <p className="text-gray-500 text-xs">Specie</p>
+                  <p className="font-semibold text-gray-800">{selectedTree.species}</p>
                 </div>
-              )}
+                <div className="border-b border-gray-200 pb-2">
+                  <p className="text-gray-500 text-xs">Year</p>
+                  <p className="font-semibold text-gray-800">{String(selectedTree.year || 0).padStart(4, '0')}</p>
+                </div>
+                {selectedTree.description && (
+                  <div className="border-b border-gray-200 pb-2 col-span-2">
+                    <p className="text-gray-500 text-xs">Description</p>
+                    <p className="font-semibold text-gray-800 whitespace-pre-line">{selectedTree.description}</p>
+                  </div>
+                )}
+              <div className="border-b border-gray-200 pb-2 col-span-2 grid grid-cols-2 gap-2">
+                <div>
+                  <p className="text-gray-500 text-xs">Zone</p>
+                  <p className="font-semibold text-gray-800">{selectedTree.area}</p>
+                </div>
+                {selectedTree.root_zone && (
+                  <div>
+                    <p className="text-gray-500 text-xs">Root Zone</p>
+                    <p className="font-semibold text-gray-800">{selectedTree.root_zone}</p>
+                  </div>
+                )}
+              </div>
               {selectedTree.orientation && (
                 <div className="border-b border-gray-200 pb-2 col-span-2">
                   <p className="text-gray-500 text-xs">Orientation</p>
                   <p className="font-semibold text-gray-800">{selectedTree.orientation}</p>
                 </div>
               )}
-              <div className="border-b border-gray-200 pb-2">
-                <p className="text-gray-500 text-xs">Lat</p>
-                <p className="font-mono text-gray-800 text-xs">{selectedTree.latitude.toFixed(4)}</p>
-              </div>
-              <div className="col-span-2 border-b border-gray-200 pb-2">
-                <p className="text-gray-500 text-xs">Lon</p>
-                <p className="font-mono text-gray-800 text-xs">{selectedTree.longitude.toFixed(4)}</p>
+              <div className="border-b border-gray-200 pb-2 col-span-2 grid grid-cols-2 gap-2">
+                <div>
+                  <p className="text-gray-500 text-xs">Lat</p>
+                  <p className="font-mono text-gray-800 text-xs">{selectedTree.latitude.toFixed(4)}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">Lon</p>
+                  <p className="font-mono text-gray-800 text-xs">{selectedTree.longitude.toFixed(4)}</p>
+                </div>
               </div>
               {(typeof selectedTree.width === 'number' || typeof selectedTree.height === 'number') && (
                 <div className="col-span-2 border-b border-gray-200 pb-2">
@@ -697,11 +768,23 @@ export default function InteractiveGeoJsonMap() {
                   </p>
                 </div>
               )}
+
               <div className="col-span-2 border-b border-gray-200 pb-2">
                 <p className="text-gray-500 text-xs">Price</p>
                 <p className="font-bold text-lg text-green-600">
                   €{selectedTree.species === 'Olive' ? (olivePrice / 100).toFixed(2) : (almondPrice / 100).toFixed(2)}
                 </p>
+                {/* Foto da árvore */}
+                <div className="w-full flex flex-col items-center mt-2">
+                  <img
+                    src={selectedTree.image_url || treeImages[selectedTree.species] || '/logo.jpeg'}
+                    alt={selectedTree.species + ' tree'}
+                    className="rounded-lg shadow-md object-cover cursor-pointer transition hover:scale-105"
+                    style={{ maxWidth: '120px', maxHeight: '180px', width: 'auto', height: '240px', border: '2px solid #e5e7eb', objectFit: 'cover' }}
+                    onClick={() => setShowImageModal(true)}
+                  />
+                  <span className="text-xs text-gray-500 mt-1">Click to enlarge</span>
+                </div>
               </div>
             </div>
           </div>
@@ -743,6 +826,14 @@ export default function InteractiveGeoJsonMap() {
               Close
             </button>
           </div>
+        {/* Modal de imagem ampliada */}
+        {showImageModal && (
+          <ImageModal
+            src={selectedTree.image_url || treeImages[selectedTree.species] || '/logo.jpeg'}
+            alt={selectedTree.species + ' tree'}
+            onClose={() => setShowImageModal(false)}
+          />
+        )}
         </div>
       ) : (
         <div className="w-full md:w-96 bg-white shadow-lg md:shadow-none md:border-l border-gray-200 flex flex-col overflow-hidden order-1 md:order-2 h-auto md:h-full">
