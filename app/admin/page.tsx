@@ -974,89 +974,86 @@ export default function AdminDashboard() {
                       inputMode="decimal"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Root Zone</label>
-                    <input
-                      className="w-full border rounded-lg px-3 py-2"
-                      value={treeEdit.root_zone ?? ''}
-                      onChange={(e) => setTreeEdit((p) => ({ ...p, root_zone: e.target.value }))}
-                      placeholder={treeEdit.root_zone ? treeEdit.root_zone : "e.g. Terrace edge / Field"}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Orientation</label>
-                    <input
-                      className="w-full border rounded-lg px-3 py-2"
-                      value={treeEdit.orientation ?? ''}
-                      onChange={(e) => setTreeEdit((p) => ({ ...p, orientation: e.target.value }))}
-                      placeholder={treeEdit.orientation ? treeEdit.orientation : "e.g. East facing. Morning sun"}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                    <textarea
-                      className="w-full border rounded-lg px-3 py-2"
-                      value={treeEdit.description ?? ''}
-                      onChange={e => setTreeEdit((p) => ({ ...p, description: e.target.value }))}
-                      placeholder={treeEdit.description ? treeEdit.description : "Tree description"}
-                      rows={3}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Image (URL or upload)
-                    </label>
-                    <div className="flex gap-2 items-center">
+                  <div className="flex flex-col md:flex-row gap-4 items-start w-full">
+                    <div className="flex-1 w-full">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Root Zone</label>
                       <input
-                        className="w-full border rounded-lg px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400"
-                        value={treeEdit.image ?? ''}
-                        onChange={e =>
-                          setTreeEdit((p) => ({ ...p, image: e.target.value }))
-                        }
-                        placeholder="Image URL (optional)"
-                        autoComplete="off"
-                        spellCheck={false}
+                        className="w-full border rounded-lg px-3 py-2"
+                        value={treeEdit.root_zone ?? (treeEdit.treeId ? (trees.find(t => t.id === treeEdit.treeId)?.root_zone ?? '') : '')}
+                        onChange={(e) => setTreeEdit((p) => ({ ...p, root_zone: e.target.value }))}
+                        placeholder={treeEdit.root_zone || (treeEdit.treeId ? (trees.find(t => t.id === treeEdit.treeId)?.root_zone ?? "e.g. Terrace edge / Field") : "e.g. Terrace edge / Field")}
                       />
+                      <label className="block text-sm font-medium text-gray-700 mb-1 mt-2">Orientation</label>
                       <input
-                        type="file"
-                        accept="image/*"
-                        onChange={async (e) => {
-                          const file = e.target.files?.[0];
-                          if (!file) return;
-                          if (!treeEdit.treeId) {
-                            alert('Select a tree before uploading an image.');
-                            return;
-                          }
-                          setLoading(true);
-                          const { uploadTreeImage } = await import('@/lib/uploadTreeImage');
-                          const url = await uploadTreeImage(file, treeEdit.treeId);
-                          setLoading(false);
-                          if (url) {
-                            setTreeEdit((p) => ({ ...p, image: url }));
-                          } else {
-                            alert('Error uploading the image.');
-                          }
-                        }}
-                        style={{ maxWidth: 180 }}
+                        className="w-full border rounded-lg px-3 py-2"
+                        value={treeEdit.orientation ?? (treeEdit.treeId ? (trees.find(t => t.id === treeEdit.treeId)?.orientation ?? '') : '')}
+                        onChange={(e) => setTreeEdit((p) => ({ ...p, orientation: e.target.value }))}
+                        placeholder={treeEdit.orientation || (treeEdit.treeId ? (trees.find(t => t.id === treeEdit.treeId)?.orientation ?? "e.g. East facing. Morning sun") : "e.g. East facing. Morning sun")}
                       />
-                      {treeEdit.image && (
-                        <button
-                          type="button"
-                          className="ml-2 px-2 py-1 rounded bg-red-100 text-red-700 border border-red-300 hover:bg-red-200 text-xs"
-                          onClick={() => setTreeEdit((p) => ({ ...p, image: '' }))}
-                          aria-label="Remove image"
-                        >
-                          Remove
-                        </button>
+                      <label className="block text-sm font-medium text-gray-700 mb-1 mt-2">Description</label>
+                      <textarea
+                        className="w-full border rounded-lg px-3 py-2"
+                        value={treeEdit.description ?? (treeEdit.treeId ? (trees.find(t => t.id === treeEdit.treeId)?.description ?? '') : '')}
+                        onChange={e => setTreeEdit((p) => ({ ...p, description: e.target.value }))}
+                        placeholder={treeEdit.description || (treeEdit.treeId ? (trees.find(t => t.id === treeEdit.treeId)?.description ?? "Tree description") : "Tree description")}
+                        rows={3}
+                      />
+                      <label className="block text-sm font-medium text-gray-700 mb-1 mt-2">Image (URL or upload)</label>
+                      <div className="flex gap-2 items-center">
+                        <input
+                          className="w-full border rounded-lg px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400"
+                          value={treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')}
+                          onChange={e => setTreeEdit((p) => ({ ...p, image: e.target.value }))}
+                          placeholder={treeEdit.image || (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : "Image URL (optional)") : "Image URL (optional)")}
+                          autoComplete="off"
+                          spellCheck={false}
+                        />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+                            if (!treeEdit.treeId) {
+                              alert('Select a tree before uploading an image.');
+                              return;
+                            }
+                            setLoading(true);
+                            const { uploadTreeImage } = await import('@/lib/uploadTreeImage');
+                            const url = await uploadTreeImage(file, treeEdit.treeId);
+                            setLoading(false);
+                            if (url) {
+                              setTreeEdit((p) => ({ ...p, image: url }));
+                            } else {
+                              alert('Error uploading the image.');
+                            }
+                          }}
+                          style={{ maxWidth: 180 }}
+                        />
+                      </div>
+                    </div>
+                    {/* Image preview to the right with remove option */}
+                    <div className="flex flex-col items-center min-w-[120px] max-w-[180px] md:ml-4 mt-4 md:mt-0">
+                      {(treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')) ? (
+                        <>
+                          <img
+                            src={treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')}
+                            alt="Image preview"
+                            className="rounded border object-cover max-h-40 max-w-[180px] mb-2"
+                          />
+                          <button
+                            type="button"
+                            className="px-2 py-1 rounded bg-red-100 text-red-700 border border-red-300 hover:bg-red-200 text-xs mt-1"
+                            onClick={() => setTreeEdit((p) => ({ ...p, image: '' }))}
+                            aria-label="Remove image"
+                          >
+                            Remove
+                          </button>
+                        </>
+                      ) : (
+                        <div className="text-xs text-gray-400 text-center">No image</div>
                       )}
                     </div>
-                    {treeEdit.image && (
-                      <img
-                        src={treeEdit.image}
-                        alt="Image preview"
-                        className="mt-2 max-h-40 rounded border"
-                      />
-                    )}
                   </div>
 
                   <button className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold w-full">
