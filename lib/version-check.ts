@@ -32,7 +32,7 @@ export async function checkVersionCompatibility(): Promise<VersionCheckResponse>
     const versionMatch = data.version === clientVersion;
     
     if (!versionMatch) {
-      console.warn(
+      // ...existing code...
         `⚠️ Version mismatch detected. Client: ${clientVersion}, Server: ${data.version}`
       );
     }
@@ -44,7 +44,7 @@ export async function checkVersionCompatibility(): Promise<VersionCheckResponse>
       timestamp: data.timestamp,
     };
   } catch (error) {
-    console.error('Version check failed:', error);
+    // ...existing code...
     return {
       status: 'error',
       version: 'unknown',

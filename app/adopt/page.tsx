@@ -25,7 +25,7 @@ export default function AdoptPage() {
           setOlivePrice(Math.round(data.olivePrice * 100))
         }
       } catch (err) {
-        console.error('Error fetching prices:', err)
+        // ...existing code...
       }
     }
     fetchPrices()

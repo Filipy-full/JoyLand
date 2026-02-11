@@ -46,7 +46,7 @@ export function AdoptionCartProvider({ children }: { children: React.ReactNode }
         setTrees(trees)
         return
       } catch (e) {
-        console.error('Error loading cart:', e)
+        // ...existing code...
       }
     }
     setTrees([])

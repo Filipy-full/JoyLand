@@ -31,14 +31,14 @@ export async function sendConfirmationEmailResend({ to, userName, treeName, star
       subject: 'JoyLand - Adoption Confirmation',
       html,
     });
-    console.log('Resend API response:', response);
+    // ...existing code...
     if (response.error) {
-      console.error('Resend API error:', response.error);
+      // ...existing code...
       return false;
     }
     return true;
   } catch (err) {
-    console.error('Error sending confirmation email with Resend:', err);
+    // ...existing code...
     return false;
   }
 }

@@ -48,7 +48,7 @@ export default async function TreePage({ params }: { params: Promise<{ id?: stri
     .order('created_at', { ascending: false })
 
   if (reportsError) {
-    console.error('Error fetching reports:', reportsError)
+    // ...existing code...
   }
 
   const yearValue = tree.year !== undefined && tree.year !== null

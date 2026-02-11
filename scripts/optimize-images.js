@@ -21,19 +21,19 @@ function optimizeImagesRecursively(currentInputDir, currentOutputDir) {
         .resize({ width: 1920, withoutEnlargement: true })
         .jpeg({ quality: 88, mozjpeg: true })
         .toFile(outputPath)
-        .then(() => console.log(`JPEG otimizado: ${outputPath}`))
-        .catch(err => console.error(`Erro ao otimizar ${file}:`, err));
+        .then(() => {})
+        .catch(() => {})
     } else if (/\.(png)$/i.test(file)) {
       sharp(inputPath)
         .resize({ width: 1920, withoutEnlargement: true })
         .png({ compressionLevel: 9 })
         .toFile(outputPath)
-        .then(() => console.log(`PNG otimizado: ${outputPath}`))
-        .catch(err => console.error(`Erro ao otimizar ${file}:`, err));
+        .then(() => {})
+        .catch(() => {})
     }
   });
 }
 
 optimizeImagesRecursively(inputDir, outputDir);
 
-console.log('Processo de otimização iniciado.');
+// ...existing code...

@@ -10,7 +10,7 @@ export async function uploadTreeImage(file: File, treeId: string): Promise<strin
     contentType: file.type,
   });
   if (error) {
-    console.error('Supabase upload error:', error.message);
+    // ...existing code...
     return null;
   }
   // URL pública

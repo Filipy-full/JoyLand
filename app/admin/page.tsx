@@ -81,7 +81,7 @@ export default function AdminDashboard() {
     })
     if (res.ok) {
       const body = await res.json()
-      console.log('Adoptions data:', body.adoptions)
+      // ...existing code...
       setAdoptions(body.adoptions || [])
     }
   }

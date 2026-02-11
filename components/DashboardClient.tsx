@@ -85,7 +85,7 @@ export default function DashboardClient() {
         const reportsData = await reportsRes.json()
         setReports(reportsData.reports || [])
       } catch (error) {
-        console.error('Error fetching dashboard data:', error)
+        // ...existing code...
       } finally {
         setLoading(false)
       }

@@ -142,7 +142,7 @@ export default function InteractiveGeoJsonMap() {
           setOlivePrice(Math.round(data.olivePrice * 100))
         }
       } catch (err) {
-        console.error('Error fetching prices:', err)
+        // ...existing code...
       }
     }
     fetchPrices()
@@ -177,7 +177,7 @@ export default function InteractiveGeoJsonMap() {
       })
       // NO cerrar el panel, dejar que aparezca el botón del carrito
     } catch (err) {
-      console.error('Error adding tree:', err)
+      // ...existing code...
     } finally {
       setAddingToCart(false)
     }
@@ -303,7 +303,7 @@ export default function InteractiveGeoJsonMap() {
 
       return parsedTrees
     } catch (error) {
-      console.error('Error updating tree states:', error)
+      // ...existing code...
       return []
     }
   }
@@ -348,7 +348,7 @@ export default function InteractiveGeoJsonMap() {
 
       const coords = feature.geometry.coordinates as number[]
       if (!Array.isArray(coords) || coords.length < 2 || typeof coords[0] !== 'number' || typeof coords[1] !== 'number' || isNaN(coords[0]) || isNaN(coords[1])) {
-        console.warn('Coordenadas inválidas para marker:', coords, feature)
+        // ...existing code...
         return
       }
       const color = tree.adopted ? '#f44336' : feature.properties.species === 'Olive' ? '#4caf50' : '#8d6e63'
@@ -408,7 +408,7 @@ export default function InteractiveGeoJsonMap() {
         )
         markers.current.push(marker)
       } catch (e) {
-        console.error('Error creando marker:', coords, e)
+        // ...existing code...
       }
     })
   }
@@ -454,7 +454,7 @@ export default function InteractiveGeoJsonMap() {
       // Primero, sincronizar las adopciones con la BD
       fetch('/api/trees?sync=true')
         .then((res) => res.json())
-        .catch((error) => console.error('Error syncing adopciones:', error))
+        .catch(() => {})
         .then(() => {
           // Luego cargar el GeoJSON
           return fetch('/mapa/mapa-main.json').then((res) => res.json())
@@ -466,7 +466,7 @@ export default function InteractiveGeoJsonMap() {
             renderMarkers(parsedTrees, data)
           })
         })
-        .catch((error) => console.error('Error loading GeoJSON:', error))
+        .catch(() => {})
     }
   }, [geoJsonData])
 
@@ -504,7 +504,7 @@ export default function InteractiveGeoJsonMap() {
 
       setIsPseudoFullscreen((prev) => !prev)
     } catch (error) {
-      console.error('Fullscreen error:', error)
+      // ...existing code...
       setIsPseudoFullscreen((prev) => !prev)
     }
   }

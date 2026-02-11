@@ -19,13 +19,13 @@ export function MyAdoptionsButton({ className }: MyAdoptionsButtonProps) {
       }
       const userId = userData.user.id;
       const userEmail = userData.user.email;
-      console.log('MyAdoptionsButton - userId:', userId, 'userEmail:', userEmail);
+      // ...existing code...
       const { data, error } = await supabase
         .from('adoptions')
         .select('id')
         .or(`user_id.eq.${userId},user_email.eq.${userEmail}`)
         .limit(1)
-      console.log('MyAdoptionsButton - query result:', data, 'error:', error);
+      // ...existing code...
       setHasAdoptions(!!(data && data.length > 0))
       setLoading(false)
     }

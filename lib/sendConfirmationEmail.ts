@@ -40,7 +40,7 @@ export async function sendConfirmationEmail({ to, userName, treeName, startDate,
     await transporter.sendMail(mailOptions);
     return true;
   } catch (err) {
-    console.error('Error sending confirmation email:', err);
+    // ...existing code...
     return false;
   }
 }

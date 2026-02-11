@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       ])
 
     if (dbError) {
-      console.error('Database error:', dbError)
+      // ...existing code...
     }
 
     // ...envio via Resend já implementado abaixo...
@@ -46,9 +46,9 @@ export async function POST(req: NextRequest) {
           <p>${message.replace(/\n/g, '<br>')}</p>
         `
       });
-      console.log('Admin notification email sent via Resend');
+      // ...existing code...
     } catch (emailError) {
-      console.error('Email notification error (Resend):', emailError);
+      // ...existing code...
     }
 
     // Enviar email de confirmação ao usuário
@@ -67,13 +67,13 @@ export async function POST(req: NextRequest) {
           <p>Saludos,<br>Equipo Joyland</p>
         `
       });
-      console.log('User confirmation email sent via Resend');
+      // ...existing code...
     } catch (emailError) {
-      console.error('User confirmation email error (Resend):', emailError);
+      // ...existing code...
     }
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Contact form error:', error)
+    // ...existing code...
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
