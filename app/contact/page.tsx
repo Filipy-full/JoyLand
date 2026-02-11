@@ -161,7 +161,7 @@ export default function ContactPage() {
                       className="text-sage-600 hover:text-sage-700 no-underline"
                       style={{ textDecoration: 'none' }}
                     >
-                      Bages
+                      Bages, Spain
                     </a><br />
                   </p>
                 </div>
