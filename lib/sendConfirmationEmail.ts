@@ -24,13 +24,13 @@ export async function sendConfirmationEmail({ to, userName, treeName, startDate,
     subject: 'JoyLand - Adoption Confirmation',
     html: `
       <h2>Adoption Confirmation</h2>
-      <p>Dear ${userName || 'Friend'},</p>
-      <p>We are delighted to confirm your adoption of the tree <strong>${treeName}</strong> at JoyLand.</p>
-      <p>Your adoption period is from <strong>${new Date(startDate).toLocaleDateString()}</strong> to <strong>${new Date(endDate).toLocaleDateString()}</strong>.</p>
-      <p>Thank you for supporting our project and making a positive impact on nature!</p>
-      <p>If you have any questions or need assistance, please reply to this email and our team will be happy to help.</p>
-      <br />
-      <p>Best regards,<br />JoyLand Team</p>
+      <p>Hello ${userName || 'Friend'},</p>
+      <p>Thank you for choosing to adopt a tree at Joyland 🌿 You have adopted the tree ${treeName} </p>
+      <p>Adoption period: ${new Date(startDate).toLocaleDateString()} to ${new Date(endDate).toLocaleDateString()}.</p>
+      <p>We are so happy you felt the call to join the grove and officially start your tree journey 🌳 Your support nourishes the land, the trees, the bees, and this small-scale project. Your tree is now part of your extended green family ☘️ From gentle seasonal updates to your artisanal Joyland giftbox, you’ll receive little echoes of the land throughout the year. Our online portal is still sprouting but will soon bloom with details on your personal tree 🏵️</p>
+      <p><a href="https://joyland.earth/dashboard" style="color:#4b8c4a;text-decoration:underline;font-weight:bold;">Go to your Joyland Dashboard</a></p>
+      <p>Thank you for growing together with Joyland 💚 More magic soon!</p>
+      <p>Smiley,<br/>Joyland</p>
     `,
   };
 

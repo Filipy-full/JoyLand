@@ -1,7 +1,7 @@
 "use client"
 import Particles from './Particles';
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 const oliveImages = ["box-1.jpeg", "box-5.jpg"];
 const almondImages = ["box-2.jpeg", "box-3.jpeg"];
@@ -10,10 +10,19 @@ export default function Giftbox3D() {
   const [opened, setOpened] = useState<string|null>(null);
   const [slide, setSlide] = useState<number>(0);
   const [randomMsg, setRandomMsg] = useState<string>("");
-  const cardRef = {
-    olive: typeof window !== 'undefined' ? document.getElementById('giftbox-card-olive') : null,
-    almond: typeof window !== 'undefined' ? document.getElementById('giftbox-card-almond') : null,
-  };
+
+  const oliveBoxRef = useRef<HTMLDivElement>(null);
+  const [oliveBoxHeight, setOliveBoxHeight] = useState<number>(0);
+
+  useEffect(() => {
+    if (opened === 'olive' && oliveBoxRef.current) {
+      setTimeout(() => {
+        setOliveBoxHeight(oliveBoxRef.current?.offsetHeight || 0);
+      }, 400);
+    } else {
+      setOliveBoxHeight(0);
+    }
+  }, [opened]);
 
   const oliveMsgs = [
     "May your olive oil bring joy and flavor to your table!",
@@ -50,16 +59,20 @@ export default function Giftbox3D() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-12 justify-center items-center mb-16">
+    <div className={`flex flex-col md:flex-row justify-center items-center mb-16 md:space-x-12`}>
       {/* Caixa Olive */}
-      <div className="relative w-[260px] h-[260px] md:w-[340px] md:h-[340px] perspective">
+      <div
+        ref={oliveBoxRef}
+        className={`relative w-[260px] h-[260px] md:w-[340px] md:h-[340px] perspective transition-all duration-500 ${opened && opened !== 'olive' ? 'hidden sm:block' : ''} mb-8 md:mb-0`}
+        style={opened === 'olive' ? { marginBottom: oliveBoxHeight ? oliveBoxHeight - 260 + 32 : 480 } : {}}
+      >
         <div className={`giftbox-3d shadow-xl bg-gradient-to-br from-sage-100 via-white to-sage-200 animate-pulse-on-hover ${opened === "olive" ? "opened" : ""}`} onClick={() => handleOpen("olive")}> 
           <div className="giftbox-lid" />
           <div className="giftbox-body" />
           <span className="giftbox-label">Olive Giftbox</span>
         </div>
         {opened === "olive" && (
-          <div className="relative flex flex-col items-center mb-4" style={{minHeight: 420}}>
+          <div className="relative flex flex-col items-center mb-12" style={{minHeight: 420}}>
             <Particles type="olive" active={true} />
             <div id="giftbox-card-olive" className="giftbox-card animate-fade-in mb-4 bg-white/90 border-2 border-sage-400 rounded-xl shadow-xl p-6 w-[260px] md:w-[340px] text-center backdrop-blur-lg" style={{zIndex: 50, position: 'relative'}}>
               <div className="text-2xl font-serif text-sage-700 mb-2">Olive Giftbox</div>
@@ -88,7 +101,7 @@ export default function Giftbox3D() {
         )}
       </div>
       {/* Caixa Almond */}
-      <div className="relative w-[260px] h-[260px] md:w-[340px] md:h-[340px] perspective">
+      <div className={`relative w-[260px] h-[260px] md:w-[340px] md:h-[340px] perspective ${opened && opened !== 'almond' ? 'hidden sm:block' : ''} mb-8 md:mb-0`}>
         <div className={`giftbox-3d almond shadow-xl bg-gradient-to-br from-yellow-50 via-white to-yellow-100 animate-pulse-on-hover ${opened === "almond" ? "opened" : ""}`} onClick={() => handleOpen("almond")}> 
           <div className="giftbox-lid" />
           <div className="giftbox-body" />

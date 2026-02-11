@@ -98,6 +98,7 @@ interface TreeData {
   orientation?: string
   description?: string
   image_url?: string // url da imagem na supabase
+  tree_name?: string
 }
 
 export default function InteractiveGeoJsonMap() {
@@ -220,10 +221,9 @@ export default function InteractiveGeoJsonMap() {
   // Función para actualizar estados de árboles desde API
   const updateTreeStates = async (geojsonData: GeoJSONData) => {
     try {
-      const treesResponse = await fetch('/api/trees').then((res) => res.json())
-      const statusMap = new Map<string, { status?: string; name?: string; year?: number; width?: number; height?: number; root_zone?: string; orientation?: string; description?: string; image_url?: string }>()
+      const treesResponse = await fetch('/api/trees-with-adoptions').then((res) => res.json())
+      const statusMap = new Map<string, { status?: string; name?: string; year?: number; width?: number; height?: number; root_zone?: string; orientation?: string; description?: string; image_url?: string; tree_name?: string }>()
       ;(treesResponse.trees || []).forEach((t: any) => {
-        // images puede ser null, string o array JSON
         let imageUrl = ''
         if (t.images) {
           try {
@@ -232,7 +232,6 @@ export default function InteractiveGeoJsonMap() {
               imageUrl = imgs[0]
             }
           } catch (e) {
-            // Si no es JSON válido, usar como string directa
             if (typeof t.images === 'string') imageUrl = t.images
           }
         }
@@ -246,6 +245,7 @@ export default function InteractiveGeoJsonMap() {
           orientation: t.orientation,
           description: t.description,
           image_url: imageUrl,
+          tree_name: t.tree_name,
         })
       })
 
@@ -277,6 +277,7 @@ export default function InteractiveGeoJsonMap() {
             orientation: dbInfo?.orientation || '',
             description: dbInfo?.description || '',
             image_url: dbInfo?.image_url || '',
+            tree_name: dbInfo?.tree_name || '',
           }
           parsedTrees.push(tree)
 
@@ -691,9 +692,16 @@ export default function InteractiveGeoJsonMap() {
               background: `linear-gradient(135deg, ${selectedTree.species === 'Olive' ? '#4caf50' : '#8d6e63'} 0%, ${selectedTree.species === 'Olive' ? '#2e7d32' : '#5d4037'} 100%)`,
             }}
           >
-            <div className="flex-1">
-              <h2 className="text-lg md:text-xl font-bold">#{selectedTree.name}</h2>
-              <p className="text-xs opacity-90">{selectedTree.species}</p>
+            <div className="flex-1 flex flex-col items-center justify-center relative">
+              {/* Nome personalizado central */}
+              <h2 className="text-lg md:text-xl font-bold text-center w-full">
+                {selectedTree.adopted && selectedTree.tree_name ? selectedTree.tree_name : ''}
+              </h2>
+              {/* Número e espécie no canto inferior esquerdo */}
+              <div className="absolute left-0 bottom-0 flex items-center gap-2 pl-2 pb-1">
+                <span className="text-base md:text-lg font-bold">#{selectedTree.name}</span>
+                <span className="text-xs opacity-90">{selectedTree.species}</span>
+              </div>
             </div>
             <button
               onClick={() => setSelectedTree(null)}
@@ -716,6 +724,7 @@ export default function InteractiveGeoJsonMap() {
             )}
 
               <div className="grid grid-cols-2 gap-2 text-xs">
+        
                 <div className="border-b border-gray-200 pb-2">
                   <p className="text-gray-500 text-xs">Specie</p>
                   <p className="font-semibold text-gray-800">{selectedTree.species}</p>

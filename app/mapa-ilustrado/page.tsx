@@ -1,4 +1,4 @@
-import JoylandSVGMap from "@/components/JoylandSVGMap";
+import JoylandSVGMapWithNames from "@/components/JoylandSVGMapWithNames";
 
 export default function MapaIlustradoPage() {
   return (
@@ -7,7 +7,7 @@ export default function MapaIlustradoPage() {
       <p className="mb-8 text-center text-gray-600 max-w-xl">
         Explore Joyland's plantations. Click on the map areas to see the olive and almond groves.
       </p>
-      <JoylandSVGMap />
+      <JoylandSVGMapWithNames />
     </main>
   );
 }

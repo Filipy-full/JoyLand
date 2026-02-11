@@ -53,44 +53,44 @@ export default function GiftboxPage() {
           <h2 className="text-3xl font-serif text-sage-700 mb-6 text-center">
             What might be included
           </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="border-2 border-sage-200 p-6 rounded-lg">
-              <div className="mb-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="border-2 border-sage-200 p-6 rounded-lg flex flex-col h-full">
+              <div className="mb-3 flex justify-center">
                 <img src="/rama-oliva.png" alt="Olive branch" className="w-16 h-16 object-contain mb-3" />
-                <h3 className="text-xl font-serif mb-3 text-sage-700">
-                  Joyland’s Olive Oil
-                </h3>
               </div>
-              <p className="text-sage-700 leading-relaxed">
+              <h3 className="text-xl font-serif mb-3 text-sage-700 text-center">
+                Joyland’s Olive Oil
+              </h3>
+              <p className="text-sage-700 leading-relaxed text-center flex-1">
                 Cold-pressed from our own olive trees, bottled to preserve oil’s flavour & quality.
               </p>
             </div>
-            <div className="border-2 border-sage-200 p-6 rounded-lg">
-              <div className="mb-3 flex justify-start">
+            <div className="border-2 border-sage-200 p-6 rounded-lg flex flex-col h-full">
+              <div className="mb-3 flex justify-center">
                 <img src="/emoji/emoji_almendra.webp" alt="Almond emoji" className="w-12 h-12 object-contain" style={{fontSize: '2.25rem'}} />
               </div>
-              <h3 className="text-xl font-serif mb-3 text-sage-700">
+              <h3 className="text-xl font-serif mb-3 text-sage-700 text-center">
                 Almonds
               </h3>
-              <p className="text-sage-700 leading-relaxed">
+              <p className="text-sage-700 leading-relaxed text-center flex-1">
                 Bag of raw almonds in shell. From almond trees that bloom every spring, filling the valley with white and pink.
               </p>
             </div>
-            <div className="border-2 border-sage-200 p-6 rounded-lg">
-              <div className="text-4xl mb-3">🌿</div>
-              <h3 className="text-xl font-serif mb-3 text-sage-700">
+            <div className="border-2 border-sage-200 p-6 rounded-lg flex flex-col h-full">
+              <div className="text-4xl mb-3 text-center">🌿</div>
+              <h3 className="text-xl font-serif mb-3 text-sage-700 text-center">
                 Aromatic Herbal Bouquet
               </h3>
-              <p className="text-sage-700 leading-relaxed">
+              <p className="text-sage-700 leading-relaxed text-center flex-1">
                 Rosemary, thyme, lavender, oregano, or sage. Growing wild among the trees. Slow-dried with care.
               </p>
             </div>
-            <div className="border-2 border-sage-200 p-6 rounded-lg">
-              <div className="text-4xl mb-3">🎨​</div>
-              <h3 className="text-xl font-serif mb-3 text-sage-700">
+            <div className="border-2 border-sage-200 p-6 rounded-lg flex flex-col h-full">
+              <div className="text-4xl mb-3 text-center">🎨​</div>
+              <h3 className="text-xl font-serif mb-3 text-sage-700 text-center">
                 Creative Surprises from Nature
               </h3>
-              <p className="text-sage-700 leading-relaxed">
+              <p className="text-sage-700 leading-relaxed text-center flex-1">
                 Handicrafts shaped by nature’s bounty — <span className="italic">herbal oil infusions, vinegar blends, dried flower products, soaps, luffas, steam blends, smudgesticks, seed bags</span>, you name it. We ignite when inspiration strikes. Each piece reflects the creativity and warmth of our community, made with intention and heart.
               </p>
             </div>

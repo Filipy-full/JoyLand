@@ -143,7 +143,7 @@ export default function CheckoutPage() {
                 <ul className="list-disc list-inside space-y-1">
                   <li>Certificate</li>
                   <li>Tracking</li>
-                  <li>Impact</li>
+                  <li>Giftbox</li>
                 </ul>
               </div>
 
