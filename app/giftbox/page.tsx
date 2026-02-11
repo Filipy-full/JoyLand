@@ -29,7 +29,14 @@ export default function GiftboxPage() {
         {/* Modal para imagem em tela cheia no mobile */}
         {modalImg && (
           <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50" onClick={handleCloseModal}>
-            <img src={modalImg} alt="Gift Fullscreen" className="max-w-full max-h-full rounded-lg shadow-2xl" />
+            <Image
+              src={modalImg}
+              alt="Gift Fullscreen"
+              fill
+              className="max-w-full max-h-full rounded-lg shadow-2xl"
+              style={{ objectFit: 'contain' }}
+              loading="lazy"
+            />
             <button className="absolute top-4 right-4 text-white text-3xl font-bold" onClick={handleCloseModal}>&times;</button>
           </div>
         )}
@@ -56,7 +63,14 @@ export default function GiftboxPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="border-2 border-sage-200 p-6 rounded-lg flex flex-col h-full">
               <div className="mb-3 flex justify-center">
-                <img src="/rama-oliva.png" alt="Olive branch" className="w-16 h-16 object-contain mb-3" />
+                <Image
+                  src="/rama-oliva.png"
+                  alt="Olive branch"
+                  width={64}
+                  height={64}
+                  className="w-16 h-16 object-contain mb-3"
+                  loading="lazy"
+                />
               </div>
               <h3 className="text-xl font-serif mb-3 text-sage-700 text-center">
                 Joyland’s Olive Oil
@@ -67,7 +81,15 @@ export default function GiftboxPage() {
             </div>
             <div className="border-2 border-sage-200 p-6 rounded-lg flex flex-col h-full">
               <div className="mb-3 flex justify-center">
-                <img src="/emoji/emoji_almendra.webp" alt="Almond emoji" className="w-12 h-12 object-contain" style={{fontSize: '2.25rem'}} />
+                <Image
+                  src="/emoji/emoji_almendra.webp"
+                  alt="Almond emoji"
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 object-contain"
+                  style={{fontSize: '2.25rem'}} 
+                  loading="lazy"
+                />
               </div>
               <h3 className="text-xl font-serif mb-3 text-sage-700 text-center">
                 Almonds

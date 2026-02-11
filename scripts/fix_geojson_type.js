@@ -1,7 +1,6 @@
 // Script para adicionar "type": "tree" em cada properties do GeoJSON
 const fs = require('fs')
 const path = require('path')
-
 const filePath = path.join(__dirname, '../public/mapa/geojson-formatado.json')
 const outputPath = path.join(__dirname, '../public/mapa/geojson-formatado-fixed.json')
 

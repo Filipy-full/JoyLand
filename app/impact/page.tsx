@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function ImpactPage() {
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-green-50 via-sage-50 to-white py-12 px-2">
@@ -8,7 +10,7 @@ export default function ImpactPage() {
 				 <div className="w-24 h-1 bg-sage-300 rounded-full mx-auto mb-10" />
 				 {/* Imagem principal abaixo do título */}
 				<div className="flex justify-center mb-10">
-					<img src="/impact/image19.jpg" alt="Impact Main" className="rounded-2xl shadow-lg max-h-72 object-contain" />
+					<Image src="/impact/image19.jpg" alt="Impact Main" width={600} height={288} className="rounded-2xl shadow-lg max-h-72 object-contain" loading="lazy" />
 				</div>
 				<div className="prose prose-lg max-w-none text-sage-800">
 							 <section className="mb-14">
@@ -35,10 +37,10 @@ export default function ImpactPage() {
 							 <section className="mb-14">
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">Natural Succession in Motion</h2>
 								 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-									 <img src="/impact/image30.jpg" alt="Succession 1" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image33.jpg" alt="Succession 2" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image23.jpg" alt="Succession 3" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image5.jpg" alt="Succession 4" className="rounded-xl shadow w-full h-40 object-cover" />
+									<Image src="/impact/image30.jpg" alt="Succession 1" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image33.jpg" alt="Succession 2" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image23.jpg" alt="Succession 3" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image5.jpg" alt="Succession 4" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 								 </div>
 								 <p>Succession accelerated quickly once space and support were present.</p>
 								 <p>Organic matter remained on the land. Hay was spread in selected areas. Pioneer plants arrived first — amaranth, thistles, rockets, bur clover — followed by fennel, wild carrots, and other self-seeding species. Hay-supported areas produced abundant calendula and chamomile. Cooler, shaded zones welcomed lamiums and perennial clovers, laying foundations for long-term groundcover.</p>
@@ -51,9 +53,9 @@ export default function ImpactPage() {
 							 <section className="mb-14">
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">Groundcover, Soil Health & Water Retention</h2>
 								 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-									 <img src="/impact/image32.png" alt="Groundcover 1" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image4.png" alt="Groundcover 2" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image24.png" alt="Groundcover 3" className="rounded-xl shadow w-full h-40 object-cover" />
+									<Image src="/impact/image32.png" alt="Groundcover 1" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image4.png" alt="Groundcover 2" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image24.png" alt="Groundcover 3" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 								 </div>
 								 <p>Groundcover reshapes the land from the ground up.</p>
 								 <p>Living cover allows water to penetrate deeper into clay soil, supports organic matter buildup, and encourages microbial and bacterial life, while attracting beneficial biodiversity. Roots move freely through soil that becomes softer and more structured over time.</p>
@@ -64,10 +66,10 @@ export default function ImpactPage() {
 							 <section className="mb-14">
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">Biodiversity Returning</h2>
 								 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-									 <img src="/impact/image21.jpg" alt="Biodiversity 1" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image6.jpg" alt="Biodiversity 2" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image7.jpg" alt="Biodiversity 3" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image2.jpg" alt="Biodiversity 4" className="rounded-xl shadow w-full h-40 object-cover" />
+									<Image src="/impact/image21.jpg" alt="Biodiversity 1" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image6.jpg" alt="Biodiversity 2" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image7.jpg" alt="Biodiversity 3" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image2.jpg" alt="Biodiversity 4" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 								 </div>
 								 <p>As habitat strengthens, animal life responds.</p>
 								 <p>Ants, beetles, bees, wasps, and butterflies shape daily rhythms in the grove. Ants garden continuously — moving seeds, aerating soil, and improving water infiltration. Pollinators concentrate around flowering periods, creating dense moments of activity.</p>
@@ -83,8 +85,7 @@ export default function ImpactPage() {
 						<h2 className="text-3xl font-serif text-sage-700 mb-6 text-center">Trees, rhythm, and care</h2>
 						<div className="flex justify-center gap-8 mb-8">
 							<figure className="flex flex-col items-center w-64">
-								<img src="/impact/image1.jpg" alt="Olive tree canopy" className="rounded-xl shadow w-full h-40 object-cover" />
-								
+								<Image src="/impact/image1.jpg" alt="Olive tree canopy" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 							</figure>
 							<figure className="flex flex-col items-center w-64">
 								<img src="/impact/image35.jpg" alt="Pruning moment" className="rounded-xl shadow w-full h-40 object-cover" />
@@ -106,8 +107,8 @@ export default function ImpactPage() {
 							 <section className="mb-14">
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">Harvesting at Human Scale</h2>
 								 <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-6">
-									 <img src="/impact/image28.jpg" alt="Harvest 1" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image18.jpg" alt="Harvest 2" className="rounded-xl shadow w-full h-40 object-cover" />
+									<Image src="/impact/image28.jpg" alt="Harvest 1" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image18.jpg" alt="Harvest 2" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 								 </div>
 								 <p>Harvesting reflects the size and nature of the grove.</p>
 								 <p>Smaller trees are harvested by hand. Larger trees are worked with manual or small electric tools. Harvested olives move immediately into shaded storage, layered carefully, and transported to the mill within a narrow time window.</p>
@@ -118,9 +119,9 @@ export default function ImpactPage() {
 							 <section className="mb-14">
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3"> Fresh Unfiltered Oil</h2>
 								 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-									 <img src="/impact/image27.jpg" alt="Oil 1" className="rounded-xl shadow w-full h-80 object-cover" />
-									 <img src="/impact/image34.jpg" alt="Oil 2" className="rounded-xl shadow w-full h-80 object-cover" />
-									 <img src="/impact/image3.jpg" alt="Oil 3" className="rounded-xl shadow w-full h-80 object-cover" />
+									<Image src="/impact/image27.jpg" alt="Oil 1" width={320} height={320} className="rounded-xl shadow w-full h-80 object-cover" loading="lazy" />
+									<Image src="/impact/image34.jpg" alt="Oil 2" width={320} height={320} className="rounded-xl shadow w-full h-80 object-cover" loading="lazy" />
+									<Image src="/impact/image3.jpg" alt="Oil 3" width={320} height={320} className="rounded-xl shadow w-full h-80 object-cover" loading="lazy" />
 								 </div>
 								 <p>Joyland olive oil is pressed fresh and left unfiltered.</p>
 								 <p>This preserves the olive’s active compounds — polyphenols, antioxidants, and aromatic elements — resulting in a vibrant, expressive oil shaped by the harvest moment. Time is used carefully, allowing quality to remain intact.</p>
@@ -131,7 +132,7 @@ export default function ImpactPage() {
 							 <section className="mb-14">
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">Where Your Contribution Goes</h2>
 								  <div className="flex flex-row justify-center items-end gap-6 my-0">
-									<img src="/impact/image15.jpg" alt="Contribution 1" className="rounded-xl shadow object-cover mx-auto" style={{width: '480px', height: '220px'}} />
+									<Image src="/impact/image15.jpg" alt="Contribution 1" width={480} height={220} className="rounded-xl shadow object-cover mx-auto" style={{width: '480px', height: '220px'}} loading="lazy" />
 								 </div>
 								 <p>Tree adoption directly supports:</p>
 								 <ul className="list-disc pl-6 mb-4">
@@ -151,10 +152,10 @@ export default function ImpactPage() {
 							 <section className="mb-14">
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">Joyland This Year</h2>
 								 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-									 <img src="/impact/image11.jpg" alt="Year 1" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image16.jpg" alt="Year 2" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image17.jpg" alt="Year 3" className="rounded-xl shadow w-full h-40 object-cover" />
-									 <img src="/impact/image38.jpg" alt="Year 4" className="rounded-xl shadow w-full h-40 object-cover" />
+									<Image src="/impact/image11.jpg" alt="Year 1" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image16.jpg" alt="Year 2" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image17.jpg" alt="Year 3" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
+									<Image src="/impact/image38.jpg" alt="Year 4" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 								 </div>
 								 <p>This year revealed clear patterns.</p>
 								 <p>Layered vegetation supported olive trees. Groundcover strengthened soil structure. Ant activity increased aeration and seed movement. Areas opened by wild boar allowed plant life to establish quickly.</p>
@@ -165,9 +166,9 @@ export default function ImpactPage() {
 
 							 <section className="mb-14">
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">A Living Process</h2>
-								 <div className="flex justify-center mb-6">
-									 <img src="/impact/image26.jpg" alt="Living Process" className="rounded-xl shadow w-full max-w-md h-60 object-cover" />
-								 </div>
+								<div className="flex justify-center mb-6">
+									<Image src="/impact/image26.jpg" alt="Living Process" width={384} height={240} className="rounded-xl shadow w-full max-w-md h-60 object-cover" loading="lazy" />
+								</div>
 								 <p>Your support sustains an unfolding system.</p>
 								 <p>Soil builds over time. Biodiversity responds when space is created. Trees thrive with care that respects timing. Agriculture becomes collaboration rather than extraction.</p>
 								 <p>Each adopted tree actively supports this living process, season after season.</p>
@@ -183,7 +184,7 @@ export default function ImpactPage() {
 							Adopt a tree
 						</a>
 						<div className="flex justify-center mt-8">
-							<img src="/impact/impact-1.jpeg" alt="Joyland Impact" className="rounded-2xl shadow-lg max-h-80 object-contain" />
+							<Image src="/impact/impact-1.jpeg" alt="Joyland Impact" width={600} height={288} className="rounded-2xl shadow-lg max-h-80 object-contain" loading="lazy" />
 						</div>
 					</section>
 				</div>

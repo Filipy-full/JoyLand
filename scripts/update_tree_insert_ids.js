@@ -1,5 +1,4 @@
 const fs = require('fs');
-
 const filePath = 'public/mapa/insert_trees.sql';
 const outputPath = 'public/mapa/insert_trees_actualizado.sql';
 

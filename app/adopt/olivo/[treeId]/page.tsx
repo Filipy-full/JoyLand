@@ -132,7 +132,15 @@ export default function OlivoTreePage(props: any) {
               {reports.flatMap((report) =>
                 Array.isArray(report.photo_urls)
                   ? report.photo_urls.map((url: string, idx: number) => (
-                      <img key={url + idx} src={url} alt={`Foto ${idx + 1}`} className="w-32 h-32 object-cover rounded" />
+                      <Image
+                        key={url + idx}
+                        src={url}
+                        alt={`Foto ${idx + 1}`}
+                        width={128}
+                        height={128}
+                        className="w-32 h-32 object-cover rounded"
+                        loading="lazy"
+                      />
                     ))
                   : []
               )}

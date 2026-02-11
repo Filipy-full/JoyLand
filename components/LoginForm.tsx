@@ -35,6 +35,12 @@ export default function LoginForm() {
     setLoading(true)
     setError('')
     if (isRegister) {
+      // Validação extra: nome obrigatório
+      if (!name || name.trim().length < 2) {
+        setError('O nome é obrigatório para criar uma conta.')
+        setLoading(false)
+        return
+      }
       // Registro
       const { error } = await supabase.auth.signUp({
         email,
@@ -45,7 +51,7 @@ export default function LoginForm() {
         setError(error.message)
         setLoading(false)
       } else {
-        setError('Check your email to confirm your registration.')
+        setError('Conta criada! Você já pode acessar.')
         setLoading(false)
       }
     } else {
@@ -57,12 +63,10 @@ export default function LoginForm() {
       } else {
         const adminEmails = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com']
         const userEmail = data.user?.email || ''
-        
         // Priorizar checkout pendiente
         const pendingCheckout = typeof window !== 'undefined' ? sessionStorage.getItem('pendingCheckout') : null
         const redirectPath = pendingCheckout ? '/adopt/checkout' : (returnUrl || nextParam)
         sessionStorage.removeItem('pendingCheckout')
-        
         if (redirectPath) {
           router.push(redirectPath)
         } else if (adminEmails.includes(userEmail)) {

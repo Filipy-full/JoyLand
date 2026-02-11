@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image';
 import { useRouter } from 'next/navigation'
 import { TreeIcon } from '@/components/Icons'
 
@@ -187,7 +188,14 @@ export default function AdoptPage() {
             <div className="group glass-card p-6 sm:p-8 rounded-3xl hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative z-10">
-                <img src="/rama-oliva.png" alt="Olive Tree" className="w-24 h-24 sm:w-32 sm:h-32 object-contain mb-6" />
+                <Image
+                  src="/rama-oliva.png"
+                  alt="Olive Tree"
+                  width={128}
+                  height={128}
+                  className="w-24 h-24 sm:w-32 sm:h-32 object-contain mb-6"
+                  loading="lazy"
+                />
                 <h3 className="text-2xl sm:text-3xl font-serif text-sage-900 mb-2">
                   Olive Tree
                 </h3>

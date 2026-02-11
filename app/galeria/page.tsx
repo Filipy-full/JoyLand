@@ -68,7 +68,7 @@ export default function GaleriaPage() {
             {src.endsWith('.mp4') ? (
               <video src={src} controls className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
             ) : (
-              <img src={src} alt={`Joyland photo ${i+1}`} width={480} height={360} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+              <Image src={src} alt={`Joyland photo ${i+1}`} width={480} height={360} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" loading="lazy" />
             )}
             <span className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
           </button>
@@ -104,7 +104,7 @@ export default function GaleriaPage() {
             {galleryItems[selected].endsWith('.mp4') ? (
               <video src={galleryItems[selected]} controls autoPlay className="rounded-2xl w-full h-auto max-h-[80vh] object-contain shadow-2xl" />
             ) : (
-              <img src={galleryItems[selected]} alt={`Large Joyland gallery photo number ${selected+1}`} width={1400} height={1000} className="rounded-2xl w-full h-auto max-h-[80vh] object-contain shadow-2xl" loading="lazy" />
+              <Image src={galleryItems[selected]} alt={`Large Joyland gallery photo number ${selected+1}`} width={1400} height={1000} className="rounded-2xl w-full h-auto max-h-[80vh] object-contain shadow-2xl" loading="lazy" />
             )}
             {/* Next Button */}
             <button

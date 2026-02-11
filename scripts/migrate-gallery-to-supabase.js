@@ -1,6 +1,5 @@
 // Script para migrar imagens de public/galeria para Supabase Storage e registrar na tabela gallery
 // Requisitos: node, npm install @supabase/supabase-js dotenv, variáveis de ambiente SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY
-
 const fs = require('fs');
 const path = require('path');
 const { createClient } = require('@supabase/supabase-js');

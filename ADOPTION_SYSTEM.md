@@ -1,5 +1,4 @@
 # 🌳 Sistema de Adopción de Árboles
-
 ## Resumen Ejecutivo
 
 El sistema de adopción ahora está completamente implementado con:

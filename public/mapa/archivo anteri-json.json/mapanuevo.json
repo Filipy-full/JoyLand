@@ -1,43 +1,4 @@
-{
-  "type": "FeatureCollection",
-  "features": [
-  {
-    "type": "Feature",
-    "geometry": {
-      "type": "Point",
-      "coordinates": [
-        1.744567368615324,
-        41.78896339990519,
-        468.3816792860455
-      ]
-    },
-    "properties": {
-      "name": "1",
-      "styleUrl": "#__managed_style_2DF76E92303D79FB6BC4",
-      "fill-opacity": 0.25,
-      "fill": "#ffffff",
-      "stroke-opacity": 1,
-      "stroke": "#fbc02d",
-      "stroke-width": 2.66667,
-      "icon-scale": 0.75,
-      "icon-offset": [
-        64,
-        128
-      ],
-      "icon-offset-units": [
-        "pixels",
-        "insetPixels"
-      ],
-      "icon": "https://earth.google.com/earth/document/icon?color=388e3c&id=2000&scale=4",
-      "description": {
-        "@type": "html",
-        "value": "<p><b>Specie</b> Olive Feature<br></p><div><b>Year:</b> xxx<br></div><div><b>Region:</b> North<br></div>"
-      },
-      "type": "tree",
-      "species": "Olive",
-      "year": 2024,
-      "area": "North"
-    },
+// Arquivo esvaziado por limpeza
     "id": "23ae2071d5160e8"
   },
   {

@@ -1,6 +1,7 @@
 
 'use client'
 import React, { useState } from 'react'
+import Image from 'next/image';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -206,11 +207,14 @@ export default function ContactPage() {
             Adopt a tree
           </a>
           <div className="flex justify-center mb-12">
-          <img
+          <Image
             src="/contact/contact1.jpeg"
             alt="Contact Joyland"
+            width={1280}
+            height={548}
             className="rounded-2xl shadow-lg border-4 border-sage-100 max-w-2xl md:max-w-4xl w-full object-cover"
             style={{ aspectRatio: '21/9' }}
+            loading="lazy"
           />
         </div>
         </div>

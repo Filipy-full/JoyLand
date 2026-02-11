@@ -64,7 +64,14 @@ export default async function TreePage({ params }: { params: Promise<{ id?: stri
           <div className="flex flex-col md:flex-row md:items-center gap-8">
             {mainImage && (
               <div className="flex justify-center md:w-1/3">
-                <img src={mainImage} alt="Tree main image" className="rounded-2xl shadow-lg h-56 w-auto object-cover border border-sage-200 bg-white/60" />
+                <Image
+                  src={mainImage}
+                  alt="Tree main image"
+                  width={224}
+                  height={224}
+                  className="rounded-2xl shadow-lg h-56 w-auto object-cover border border-sage-200 bg-white/60"
+                  loading="lazy"
+                />
               </div>
             )}
             <div className="flex-1">

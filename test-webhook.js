@@ -1,6 +1,5 @@
 // Script para verificar configuración del webhook
 require('dotenv').config({ path: '.env.local' });
-
 console.log('🔍 Verificando configuración de Stripe...\n');
 
 console.log('✓ STRIPE_SECRET_KEY:', process.env.STRIPE_SECRET_KEY ? 'Configurada ✓' : '❌ No configurada');
