@@ -16,18 +16,18 @@ export default function AdminDashboard() {
           });
           const body = await res.json().catch(() => ({}));
           if (res.ok && body.success) {
-            alert('Confirmaciones enviadas!');
+            alert('Confirmations sent!');
           } else {
-            alert(body.error || 'Error al enviar confirmaciones');
+            alert(body.error || 'Error sending confirmations');
           }
         } catch (err) {
-          alert('Error de conexión: ' + String(err));
+          alert('Connection error: ' + String(err));
         } finally {
           setSendingConfirmations(false);
         }
       };
     // Estados e variáveis ausentes adicionados para evitar erros de compilação
-    const [treeEdit, setTreeEdit] = useState<{ treeId?: string; year?: string; width?: string; height?: string; root_zone?: string; orientation?: string; description?: string; image?: string }>({ treeId: '', year: '', width: '', height: '', root_zone: '', orientation: '', description: '', image: '' });
+    const [treeEdit, setTreeEdit] = useState<{ treeId?: string; year?: string; width?: string; height?: string; root_zone?: string; orientation?: string; description?: string; image?: string; videos?: string }>({ treeId: '', year: '', width: '', height: '', root_zone: '', orientation: '', description: '', image: '', videos: '' });
     const [almondPrice, setAlmondPrice] = useState<string>('200');
     const [olivePrice, setOlivePrice] = useState<string>('200');
     const [editingPrice, setEditingPrice] = useState<boolean>(false);
@@ -159,6 +159,7 @@ export default function AdminDashboard() {
     const orientationStr = treeEdit.orientation ?? '';
     const descriptionStr = treeEdit.description ?? '';
     const imageStr = treeEdit.image ?? '';
+    const videosStr = treeEdit.videos ?? '';
     const yearValue = yearStr.trim() === '' ? null : Number(yearStr);
     const widthValue = widthStr.trim() === '' ? null : Number(widthStr);
     const heightValue = heightStr.trim() === '' ? null : Number(heightStr);
@@ -166,6 +167,7 @@ export default function AdminDashboard() {
     const orientationValue = orientationStr.trim() === '' ? null : orientationStr.trim();
     const descriptionValue = descriptionStr.trim() === '' ? null : descriptionStr.trim();
     const imagesValue = imageStr.trim() === '' ? null : [imageStr.trim()];
+    const videosValue = videosStr.trim() === '' ? null : videosStr.trim();
     if (yearStr.trim() !== '' && (Number.isNaN(yearValue) || (yearValue !== null && yearValue < 0))) {
       setError('Invalid year');
       return;
@@ -194,6 +196,7 @@ export default function AdminDashboard() {
         orientation: orientationValue,
         description: descriptionValue,
         images: imagesValue,
+        videos: videosValue,
       }),
     })
 
@@ -445,7 +448,7 @@ export default function AdminDashboard() {
               onClick={sendAdoptionConfirmations}
             >
               <span role="img" aria-label="send" style={{ marginRight: 8 }}>📧</span>
-              Enviar confirmaciones de adopción
+              Send adoption confirmations
             </button>
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
@@ -1051,14 +1054,19 @@ export default function AdminDashboard() {
                       className="w-full border rounded-lg px-3 py-2"
                       value={treeEdit.treeId}
                       onChange={(e) => {
-                        const treeId = e.target.value
-                        const tree = trees.find((t) => t.id === treeId)
+                        const treeId = e.target.value;
+                        const tree = trees.find((t) => t.id === treeId);
                         setTreeEdit({
                           treeId,
                           year: tree?.year !== undefined && tree?.year !== null ? String(tree.year).padStart(4, '0') : '0000',
                           width: tree?.width !== undefined && tree?.width !== null ? String(tree.width) : '',
                           height: tree?.height !== undefined && tree?.height !== null ? String(tree.height) : '',
-                        })
+                          root_zone: tree?.root_zone || '',
+                          orientation: tree?.orientation || '',
+                          description: tree?.description || '',
+                          image: (Array.isArray(tree?.images) && tree?.images.length > 0) ? tree.images[0] : (tree?.image || ''),
+                          videos: tree?.videos || '',
+                        });
                       }}
                       required
                     >
@@ -1132,6 +1140,47 @@ export default function AdminDashboard() {
                         placeholder={treeEdit.description || (treeEdit.treeId ? (trees.find(t => t.id === treeEdit.treeId)?.description ?? "Tree description") : "Tree description")}
                         rows={3}
                       />
+                      <label className="block text-sm font-medium text-gray-700 mb-1 mt-2">Vídeos (URLs separados por vírgula)</label>
+                      <input
+                        className="w-full border rounded-lg px-3 py-2"
+                        value={typeof (treeEdit.videos ?? (treeEdit.treeId ? (trees.find(t => t.id === treeEdit.treeId)?.videos ?? '') : '')) === 'string' ? (treeEdit.videos ?? (treeEdit.treeId ? (trees.find(t => t.id === treeEdit.treeId)?.videos ?? '') : '')) : ''}
+                        onChange={e => setTreeEdit((p) => ({ ...p, videos: e.target.value }))}
+                        placeholder={treeEdit.videos || (treeEdit.treeId ? (trees.find(t => t.id === treeEdit.treeId)?.videos ?? "https://video1.com,https://video2.com") : "https://video1.com,https://video2.com")}
+                        autoComplete="off"
+                        spellCheck={false}
+                      />
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Or upload video</label>
+                      <input
+                        type="file"
+                        accept="video/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          if (!treeEdit.treeId) {
+                            alert('Select a tree before uploading a video.');
+                            return;
+                          }
+                          setLoading(true);
+                          // Subir vídeo a Supabase Storage
+                          const { uploadTreeImage } = await import('@/lib/uploadTreeImage');
+                          // Reutiliza uploadTreeImage para vídeos, ou crie uploadTreeVideo se necessário
+                          const url = await uploadTreeImage(file, treeEdit.treeId);
+                          setLoading(false);
+                          if (url) {
+                            try {
+                              const urlObj = new URL(url);
+                              const path = urlObj.pathname.split('/').slice(2).join('/');
+                              const customUrl = `https://media.floresfrescasonline.com/${path}`;
+                              setTreeEdit((p) => ({ ...p, videos: p.videos ? `${p.videos},${customUrl}` : customUrl }));
+                            } catch {
+                              setTreeEdit((p) => ({ ...p, videos: p.videos ? `${p.videos},${url}` : url }));
+                            }
+                          } else {
+                            alert('Error uploading the video.');
+                          }
+                        }}
+                        style={{ maxWidth: 180 }}
+                      />
                       <label className="block text-sm font-medium text-gray-700 mb-1 mt-2">Current image</label>
                       <div className="flex flex-col items-center min-w-[120px] max-w-[180px] md:ml-0 mb-2">
                         {(treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')) ? (
@@ -1157,7 +1206,7 @@ export default function AdminDashboard() {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
                       <input
                         className="w-full border rounded-lg px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400 mb-2"
-                        value={treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')}
+                        value={typeof (treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')) === 'string' ? (treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')) : ''}
                         onChange={e => setTreeEdit((p) => ({ ...p, image: e.target.value }))}
                         placeholder={treeEdit.image || (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : "Image URL (optional)") : "Image URL (optional)")}
                         autoComplete="off"

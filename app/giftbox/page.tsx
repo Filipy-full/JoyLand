@@ -2,6 +2,8 @@
 import Image from 'next/image'
 import { useState } from 'react'
 
+import Giftbox3D from './Giftbox3D'
+
 export default function GiftboxPage() {
   const [modalImg, setModalImg] = useState<string|null>(null)
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
@@ -19,18 +21,9 @@ export default function GiftboxPage() {
           The Joyland Giftbox
         </h1>
 
-
-        <div className="flex flex-row justify-center items-center gap-4 mb-12">
-          <div className="w-[230px] h-[250px] md:w-[420px] md:h-[520px] cursor-pointer" onClick={() => handleImgClick('/gift/gift-2.jpeg')}>
-            <Image
-              src="/gift/gift-2.jpeg"
-              alt="Gift 2"
-              width={350}
-              height={220}
-              className="rounded-lg shadow-md object-cover w-full h-full"
-              priority
-            />
-          </div>
+        {/* Giftbox 3D animado e slider */}
+        <div className="mb-12">
+          <Giftbox3D />
         </div>
 
         {/* Modal para imagem em tela cheia no mobile */}

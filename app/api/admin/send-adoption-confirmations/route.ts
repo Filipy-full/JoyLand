@@ -41,9 +41,9 @@ export async function POST(req: NextRequest) {
         <p style="font-size: 0.95rem; color: #64748b; margin-top: 24px;">With love,<br />The Joyland Team</p>
         <hr style="margin:32px 0; border:none; border-top:1px solid #e5e7eb;" />
         <p style="margin-bottom: 24px;">Thank you for choosing to adopt a tree at Joyland 🌿</p>
-        <p style="margin-bottom: 24px;">We're so happy you felt the call to join the grove and officially starting your tree journey 🌳 Your support nourishes the land, the trees, the bees, and this small scale project. Your tree is now part of your extended green family 🌱 From gentle seasonal updates to your artisanal Joyland giftbox, you’ll receive little echoes of the land throughout the year. Our online portal is still sprouting but will soon be blooming with details on your personal tree 🌼</p>
+        <p style="margin-bottom: 24px;">We are so happy you felt the call to join the grove and officially start your tree journey 🌳 Your support nourishes the land, the trees, the bees, and this small-scale project. Your tree is now part of your extended green family 🌱 From gentle seasonal updates to your artisanal Joyland giftbox, you’ll receive little echoes of the land throughout the year. Our online portal is still sprouting but will soon bloom with details on your personal tree 🌼</p>
         <p style="margin-bottom: 24px;">Thank you for growing together with Joyland 💚 More magic soon!</p>
-        <p style="font-size: 0.95rem; color: #64748b; margin-top: 24px;">Smiley,<br />JoYland</p>
+        <p style="font-size: 0.95rem; color: #64748b; margin-top: 24px;">Smiley,<br />Joyland</p>
       </div>
     `;
     try {

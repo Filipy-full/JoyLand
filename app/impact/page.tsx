@@ -15,15 +15,15 @@ export default function ImpactPage() {
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">How Your Support Shapes Joyland</h2>
 											<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-2xl mx-auto justify-items-center">
 												<figure>
-													<img src="/impact/image1.jpg" alt="Olive tree canopy" className="rounded-xl shadow w-full h-40 object-cover" />
+													<img src="/impact/image25.jpg" alt="Olive tree canopy" className="rounded-xl shadow w-full h-40 object-cover" />
 													<figcaption className="text-center text-sage-600 mt-2 text-sm">Olive tree canopy</figcaption>
 												</figure>
 												<figure>
-													<img src="/impact/image2.jpg" alt="Pruning moment" className="rounded-xl shadow w-full h-40 object-cover" />
+													<img src="/impact/image22.jpg" alt="Pruning moment" className="rounded-xl shadow w-full h-40 object-cover" />
 													<figcaption className="text-center text-sage-600 mt-2 text-sm">Pruning moment</figcaption>
 												</figure>
 												<figure>
-													<img src="/impact/image3.jpg" alt="Shade patterns under trees" className="rounded-xl shadow w-full h-40 object-cover" />
+													<img src="/impact/image37.jpg" alt="Shade patterns under trees" className="rounded-xl shadow w-full h-40 object-cover" />
 													<figcaption className="text-center text-sage-600 mt-2 text-sm">Shade patterns under trees</figcaption>
 												</figure>
 											</div>
@@ -84,15 +84,15 @@ export default function ImpactPage() {
 						<div className="flex justify-center gap-8 mb-8">
 							<figure className="flex flex-col items-center w-64">
 								<img src="/impact/image1.jpg" alt="Olive tree canopy" className="rounded-xl shadow w-full h-40 object-cover" />
-								<figcaption className="text-center text-sage-600 mt-2 text-sm">Olive tree canopy</figcaption>
+								
 							</figure>
 							<figure className="flex flex-col items-center w-64">
-								<img src="/impact/image2.jpg" alt="Pruning moment" className="rounded-xl shadow w-full h-40 object-cover" />
-								<figcaption className="text-center text-sage-600 mt-2 text-sm">Pruning moment</figcaption>
+								<img src="/impact/image35.jpg" alt="Pruning moment" className="rounded-xl shadow w-full h-40 object-cover" />
+							
 							</figure>
 							<figure className="flex flex-col items-center w-64">
-								<img src="/impact/image3.jpg" alt="Shade patterns under trees" className="rounded-xl shadow w-full h-40 object-cover" />
-								<figcaption className="text-center text-sage-600 mt-2 text-sm">Shade patterns under trees</figcaption>
+								<img src="/impact/image36.jpg" alt="Shade patterns under trees" className="rounded-xl shadow w-full h-40 object-cover" />
+								
 							</figure>
 						</div>
 						<p className="mb-2">Your support allows trees to be cared for individually.</p>
