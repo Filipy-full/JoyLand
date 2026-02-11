@@ -1,7 +1,7 @@
 export async function POST(req: NextRequest) {
   // ...existing code...
   const body = await req.json();
-  const { tree_id, user_id, giftMessage, status, durationYears } = body;
+  const { tree_id, user_id, tree_name: override_tree_name, status, durationYears } = body;
   // Buscar dados do usuário
   let user_name = null;
   let user_email = null;
@@ -16,8 +16,8 @@ export async function POST(req: NextRequest) {
   }
   // Buscar nome do árvore, mas permitir override manual
   let tree_name = null;
-  if (body.tree_name) {
-    tree_name = body.tree_name;
+  if (override_tree_name) {
+    tree_name = override_tree_name;
   } else {
     const { data: treeData } = await supabaseAdmin
       .from('trees')
@@ -51,42 +51,9 @@ export async function POST(req: NextRequest) {
     if (error || !user || !adminEmails.includes(user.email || '')) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
-    const body = await req.json()
-    const { tree_id, user_id, giftMessage, status, durationYears } = body
     if (!tree_id || !user_id) {
       return NextResponse.json({ error: 'Missing tree_id or user_id' }, { status: 400 })
     }
-    // Buscar dados do usuário
-    let user_name = null;
-    let user_email = null;
-    const { data: userData } = await supabaseAdmin
-      .from('users')
-      .select('name,email')
-      .eq('id', user_id)
-      .single();
-    if (userData) {
-      user_name = userData.name || null;
-      user_email = userData.email || null;
-    }
-    // Buscar nome do árvore, mas permitir override manual
-    let tree_name = null;
-    if (body.tree_name) {
-      tree_name = body.tree_name;
-    } else {
-      const { data: treeData } = await supabaseAdmin
-        .from('trees')
-        .select('name')
-        .eq('id', tree_id)
-        .single();
-      if (treeData) {
-        tree_name = treeData.name || null;
-      }
-    }
-    // Calcular datas
-    const startDate = new Date();
-    const endDate = new Date(startDate);
-    const years = Number(durationYears) || 1;
-    endDate.setFullYear(endDate.getFullYear() + years);
     // payment_status deve ser 'completed' para passar pelo constraint
     const { data, error: insertError } = await supabaseAdmin
       .from('adoptions')
@@ -97,7 +64,6 @@ export async function POST(req: NextRequest) {
           user_name,
           user_email,
           tree_name,
-          gift_message: giftMessage || null,
           status: status || 'adopted',
           payment_status: 'completed',
           start_date: startDate.toISOString(),
@@ -127,8 +93,6 @@ export async function POST(req: NextRequest) {
           <p>Your adoption period is from <strong>${new Date(startDate).toLocaleDateString()}</strong> to <strong>${new Date(endDate).toLocaleDateString()}</strong>.</p>
           <p>Thank you for supporting our project and making a positive impact on nature!</p>
           <p>If you have any questions or need assistance, please reply to this email and our team will be happy to help.</p>
-          <br />
-          <p>Best regards,<br />JoyLand Team</p>
         </div>
       `;
       await sendResendEmail({

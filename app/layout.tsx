@@ -23,6 +23,7 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://joyland.com'),
   title: "Joyland - Adopt a Tree in Spain",
   description: "A small regenerative olive and almond farm in northern Spain. Adopt a tree and follow its story.",
   openGraph: {

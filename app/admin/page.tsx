@@ -5,6 +5,27 @@ import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 
 export default function AdminDashboard() {
+      // Função para enviar confirmações manualmente
+      const [sendingConfirmations, setSendingConfirmations] = useState(false);
+      const sendAdoptionConfirmations = async () => {
+        setSendingConfirmations(true);
+        try {
+          const res = await fetch('/api/admin/send-adoption-confirmations', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+          });
+          const body = await res.json().catch(() => ({}));
+          if (res.ok && body.success) {
+            alert('Confirmaciones enviadas!');
+          } else {
+            alert(body.error || 'Error al enviar confirmaciones');
+          }
+        } catch (err) {
+          alert('Error de conexión: ' + String(err));
+        } finally {
+          setSendingConfirmations(false);
+        }
+      };
     // Estados e variáveis ausentes adicionados para evitar erros de compilação
     const [treeEdit, setTreeEdit] = useState<{ treeId?: string; year?: string; width?: string; height?: string; root_zone?: string; orientation?: string; description?: string; image?: string }>({ treeId: '', year: '', width: '', height: '', root_zone: '', orientation: '', description: '', image: '' });
     const [almondPrice, setAlmondPrice] = useState<string>('200');
@@ -418,6 +439,14 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-gray-50">
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-wrap gap-4 items-center justify-between">
+            <button
+              className="bg-sage-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all z-30"
+              disabled={sendingConfirmations}
+              onClick={sendAdoptionConfirmations}
+            >
+              <span role="img" aria-label="send" style={{ marginRight: 8 }}>📧</span>
+              Enviar confirmaciones de adopción
+            </button>
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
               <p className="text-sm text-gray-600">Manage messages, adoptions and reports</p>
@@ -818,7 +847,7 @@ export default function AdminDashboard() {
               <h2 className="text-xl font-semibold text-gray-900 mb-6">Adoptions</h2>
               {/* Formulário para adoção manual */}
               <div className="mb-8 p-4 border border-sage-200 rounded-lg bg-sage-50">
-                <h3 className="font-semibold mb-2 text-sage-800">Adoptar árvore manualmente</h3>
+                <h3 className="font-semibold mb-2 text-sage-800">Manually Adopt a Tree</h3>
                 <form
                   className="flex flex-col md:flex-row md:items-end gap-3"
                   onSubmit={async (e) => {
@@ -826,7 +855,7 @@ export default function AdminDashboard() {
                     const form = e.target as HTMLFormElement;
                     const treeId = form.treeId.value;
                     const userEmail = form.userEmail.value;
-                    const giftMessage = form.giftMessage.value;
+                    const treeName = form.treeName.value;
                     const durationYears = parseInt(form.durationYears.value, 10) || 1;
                     if (!treeId || !userEmail || !durationYears) {
                       alert('Selecione uma árvore, informe o e-mail do usuário e a duração.');
@@ -862,7 +891,7 @@ export default function AdminDashboard() {
                       body: JSON.stringify({
                         tree_id: treeId,
                         user_id: userId,
-                        giftMessage: giftMessage || undefined,
+                        tree_name: treeName || undefined,
                         status: 'adopted',
                         durationYears,
                       }),
@@ -885,31 +914,31 @@ export default function AdminDashboard() {
                   }}
                 >
                   <div className="flex-1">
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Árvore</label>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Tree</label>
                     <select name="treeId" className="w-full border rounded px-2 py-1" required>
-                      <option value="">Selecione</option>
+                      <option value="">Select</option>
                       {trees.filter(t => !adoptions.some(a => a.tree_id === t.id)).map(t => (
                         <option key={t.id} value={t.id}>{t.name || `Tree #${t.id}`} ({t.type})</option>
                       ))}
                     </select>
                   </div>
                   <div className="flex-1">
-                    <label className="block text-xs font-medium text-gray-700 mb-1">E-mail ou ID do usuário</label>
-                    <input name="userEmail" className="w-full border rounded px-2 py-1" required placeholder="email@dominio.com ou ID" />
+                    <label className="block text-xs font-medium text-gray-700 mb-1">User Email or ID</label>
+                    <input name="userEmail" className="w-full border rounded px-2 py-1" required placeholder="email@domain.com or ID" />
                   </div>
                   <div className="flex-1">
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Mensagem presente (opcional)</label>
-                    <input name="giftMessage" className="w-full border rounded px-2 py-1" placeholder="Mensagem de presente" />
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Tree Name</label>
+                    <input name="treeName" className="w-full border rounded px-2 py-1" placeholder="Tree name" />
                   </div>
                   <div className="flex-1">
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Duração (anos)</label>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Duration (years)</label>
                     <select name="durationYears" className="w-full border rounded px-2 py-1" required defaultValue="1">
                       {[...Array(10)].map((_, i) => (
-                        <option key={i+1} value={i+1}>{i+1} ano(s)</option>
+                                            <option key={i+1} value={i+1}>{i+1} year(s)</option>
                       ))}
                     </select>
                   </div>
-                  <button type="submit" className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold">Adoptar</button>
+                  <button type="submit" className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold">Adopt</button>
                 </form>
               </div>
               {/* Dropdowns de filtro e ordenação */}
@@ -975,6 +1004,7 @@ export default function AdminDashboard() {
                       <div className="flex flex-wrap justify-between gap-3">
                         <div>
                           <div className="font-semibold text-gray-900">{adopt.tree_name || `#{adopt.tree_id}`}</div>
+                                                    <div className="text-xs text-gray-600">Tree Name: {adopt.tree_name}</div>
                           <div className="text-sm text-gray-600">{adopt.user_name || adopt.shipping_name || adopt.user_id}</div>
                           <div className="text-xs text-gray-600">{adopt.user_email}</div>
                           {(() => {

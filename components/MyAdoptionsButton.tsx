@@ -17,11 +17,15 @@ export function MyAdoptionsButton({ className }: MyAdoptionsButtonProps) {
         setLoading(false)
         return
       }
-      const { data } = await supabase
+      const userId = userData.user.id;
+      const userEmail = userData.user.email;
+      console.log('MyAdoptionsButton - userId:', userId, 'userEmail:', userEmail);
+      const { data, error } = await supabase
         .from('adoptions')
         .select('id')
-        .eq('user_id', userData.user.id)
+        .or(`user_id.eq.${userId},user_email.eq.${userEmail}`)
         .limit(1)
+      console.log('MyAdoptionsButton - query result:', data, 'error:', error);
       setHasAdoptions(!!(data && data.length > 0))
       setLoading(false)
     }

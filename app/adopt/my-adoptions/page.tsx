@@ -17,10 +17,12 @@ export default function MyAdoptionsPage() {
         setLoading(false)
         return
       }
+      const userId = userData.user.id;
+      const userEmail = userData.user.email;
       const { data, error } = await supabase
         .from('adoptions')
         .select('*')
-        .eq('user_id', userData.user.id)
+        .or(`user_id.eq.${userId},user_email.eq.${userEmail}`)
         .order('created_at', { ascending: false })
       if (error) setError(error.message)
       else setAdoptions(data || [])
