@@ -250,12 +250,37 @@ export default function DashboardClient() {
                       <div>
                         <p className="text-xs text-gray-500 mb-2">ACTIONS</p>
                         <div className="space-y-2">
-                          {adoption.certificate_url && (
+                          {adoption.certificate_url ? (
                             <a href={adoption.certificate_url} target="_blank" rel="noopener noreferrer">
                               <button className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold py-1.5 rounded transition">
                                 📥 Download PDF
                               </button>
                             </a>
+                          ) : (
+                            adoption.certificate_code && (
+                              <button
+                                className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold py-1.5 rounded transition"
+                                onClick={async () => {
+                                  try {
+                                    const res = await fetch(`/api/certificate?adoption_id=${adoption.id}`);
+                                    if (!res.ok) throw new Error('Erro ao gerar PDF');
+                                    const blob = await res.blob();
+                                    const url = window.URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.download = `certificate-${adoption.certificate_code}.pdf`;
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    a.remove();
+                                    window.URL.revokeObjectURL(url);
+                                  } catch (err) {
+                                    alert('Erro ao gerar PDF do certificado');
+                                  }
+                                }}
+                              >
+                                📥 Generate PDF
+                              </button>
+                            )
                           )}
                           <Link href={`/tree/${adoption.tree_id}`}>
                             <button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 rounded transition">

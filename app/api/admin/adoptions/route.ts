@@ -81,27 +81,19 @@ export async function POST(req: NextRequest) {
       .update({ status: 'adopted' })
       .eq('id', tree_id);
 
-    // Enviar e-mail de confirmação com Resend (mesma estrutura do vencimento)
+    // Gerar certificado PDF e enviar e-mail bonito com link
     try {
-      const { sendResendEmail } = await import('@/lib/sendResendEmail');
-      const subject = 'JoyLand - Adoption Confirmation';
-      const html = `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937;">
-          <h2>Adoption Confirmation</h2>
-          <p>Dear ${user_name || 'Friend'},</p>
-          <p>We are delighted to confirm your adoption of the tree <strong>${tree_name}</strong> at JoyLand.</p>
-          <p>Your adoption period is from <strong>${new Date(startDate).toLocaleDateString()}</strong> to <strong>${new Date(endDate).toLocaleDateString()}</strong>.</p>
-          <p>Thank you for supporting our project and making a positive impact on nature!</p>
-          <p>If you have any questions or need assistance, please reply to this email and our team will be happy to help.</p>
-        </div>
-      `;
-      await sendResendEmail({
-        to: user_email,
-        subject,
-        html,
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/certificate/generate-and-send`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adoptionId: data.id }),
       });
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error('Erro ao gerar/enviar certificado:', errText);
+      }
     } catch (err) {
-      console.error('Erro ao enviar e-mail de confirmação com Resend:', err);
+      console.error('Erro ao gerar/enviar certificado:', err);
     }
 
     return NextResponse.json({ adoption: data })
