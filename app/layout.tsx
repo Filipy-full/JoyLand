@@ -50,18 +50,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <meta name="google-site-verification" content="YzvN7iUXjU7n3kMM6b4a0uJIz1zmAgNoouCWFbdem1Q" />
       </head>
       <body className={`${sans.variable} ${serif.variable} antialiased font-sans`}>
-        <SitePassword>
-          <AdoptionCartProvider>
-            <Header />
-            <FloatingCTA />
-            <AuthListener>
-              <main className="min-h-screen pt-20">
-                {children}
-              </main>
-            </AuthListener>
-            <Footer />
-          </AdoptionCartProvider>
-        </SitePassword>
+        <AdoptionCartProvider>
+          <Header />
+          <FloatingCTA />
+          <AuthListener>
+            <main className="min-h-screen pt-20">
+              {children}
+            </main>
+          </AuthListener>
+          <Footer />
+        </AdoptionCartProvider>
         <SpeedInsights />
       </body>
     </html>

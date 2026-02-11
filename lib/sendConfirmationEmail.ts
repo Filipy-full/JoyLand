@@ -20,7 +20,7 @@ export async function sendConfirmationEmail({ to, userName, treeName, startDate,
   });
 
   const mailOptions = {
-    from: process.env.SMTP_FROM || 'no-reply@joyland.com',
+    from: process.env.SMTP_FROM || 'admin@joylandweb.com',
     to,
     subject: 'JoyLand - Adoption Confirmation',
     html: `

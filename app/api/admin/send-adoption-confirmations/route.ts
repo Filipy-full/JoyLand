@@ -25,7 +25,13 @@ export async function POST(req: NextRequest) {
   let failCount = 0;
 
   for (const adoption of adoptions || []) {
-    if (!adoption.user_email || !adoption.tree_name || !adoption.start_date || !adoption.end_date) {
+    const missingFields = [];
+    if (!adoption.user_email) missingFields.push('user_email');
+    if (!adoption.tree_name) missingFields.push('tree_name');
+    if (!adoption.start_date) missingFields.push('start_date');
+    if (!adoption.end_date) missingFields.push('end_date');
+    if (missingFields.length > 0) {
+      console.warn(`Adoption ${adoption.id} missing fields: ${missingFields.join(', ')}`);
       failCount++;
       continue;
     }
@@ -43,9 +49,12 @@ export async function POST(req: NextRequest) {
           .eq('id', adoption.id);
         successCount++;
       } else {
+        const errorText = await res.text();
+        console.error(`Failed to send confirmation for adoption ${adoption.id}: ${errorText}`);
         failCount++;
       }
     } catch (err) {
+      console.error(`Exception sending confirmation for adoption ${adoption.id}:`, err);
       failCount++;
     }
   }

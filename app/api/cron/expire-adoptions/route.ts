@@ -82,9 +82,9 @@ export async function POST(req: NextRequest) {
 
     const now = new Date()
     const nowIso = now.toISOString()
-    // Para test: enviar lembrete para adoções que expiram nos próximos 10 dias
+    // Enviar lembrete para adoções que expiram en el próximo mes
     const reminderStart = new Date(now.getTime())
-    const reminderEnd = new Date(now.getTime() + 10 * DAY_IN_MS)
+    const reminderEnd = new Date(now.getTime() + 30 * DAY_IN_MS)
     console.log('[CRON] now:', now.toISOString())
     console.log('[CRON] reminderStart:', reminderStart.toISOString())
     console.log('[CRON] reminderEnd:', reminderEnd.toISOString())
@@ -138,21 +138,26 @@ export async function POST(req: NextRequest) {
           const treeType = treeObj?.type ? treeObj.type : 'árbol'
           const endDate = formatDate(adoption.end_date)
 
-          const subject = 'Renew your Joyland Tree Adoption'
+          const subject = 'Your adoption is about to end 🌿'
           const html = `
-            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937;">
-              <h2>Your adoption is about to end</h2>
-              <p>Hello ${adoption.user_name || ''},</p>
-              <p>Your adoption of the ${treeType} ${treeName} ends on <strong>${endDate}</strong>.</p>
-              <p>If you want to renew it or adopt another tree, you can do it here:</p>
-              <p>
-                <a href="${baseUrl}/adopt" style="display:inline-block;padding:10px 16px;background:#16a34a;color:#fff;text-decoration:none;border-radius:6px;">
-                  Renew / adopt another tree
-                </a>
-              </p>
-              <p>You can also check your dashboard:</p>
-              <p><a href="${baseUrl}/dashboard">Go to dashboard</a></p>
-              <p>Thank you for supporting JoyLand 💚</p>
+            <div style="font-family: 'Segoe UI', Arial, sans-serif; background: #f6f8fa; border-radius: 24px; box-shadow: 0 4px 24px #a7f3d0; padding: 40px 32px; max-width: 540px; margin: 32px auto; color: #1f2937;">
+              <div style="text-align:center; margin-bottom:32px;">
+                <h2 style="font-size:2.2em; color:#16a34a; margin:0; letter-spacing:-1px;">🌳 Your adoption is about to end</h2>
+              </div>
+              <div style="background:#e7f6e7; border-radius:16px; padding:20px; margin:24px 0; box-shadow:0 2px 8px #d1d5db;">
+                <p style="font-size:1.15em; margin:0;">Hello <b>${adoption.user_name || ''}</b>,</p>
+                <p style="margin:8px 0 0 0;">Your adoption of the <b>${treeType} ${treeName}</b> ends on <strong>${endDate}</strong>.</p>
+              </div>
+              <div style="text-align:center; margin:32px 0;">
+                <a href="${baseUrl}/adopt" style="display:inline-block;padding:16px 32px;background:#16a34a;color:#fff;text-decoration:none;font-weight:bold;font-size:1.15em;border-radius:12px;box-shadow:0 2px 8px #a7f3d0;transition:background 0.2s;">🌱 Renew / adopt another tree</a>
+              </div>
+              <div style="text-align:center; margin-bottom:32px;">
+                <a href="${baseUrl}/dashboard" style="color:#2563eb;text-decoration:underline;font-weight:bold;font-size:1.1em;">Go to dashboard</a>
+              </div>
+              <div style="background:#fff; border-radius:12px; box-shadow:0 2px 8px #d1d5db; padding:18px; margin-bottom:24px;">
+                <p style="text-align:center;font-size:1.1em; margin:0;">Thank you for supporting JoyLand 💚<br>We hope to see you again soon!</p>
+              </div>
+              <div style="text-align:center; margin-top:16px; color:#94a3b8; font-size:0.95em;">Joyland Sanctuary · joylandweb.com</div>
             </div>
           `
 
