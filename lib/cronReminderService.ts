@@ -43,7 +43,7 @@ export async function sendReminders({ nowIso, reminderAdoptions, sendResendEmail
             <p style="margin:8px 0 0 0;">Your adoption of the <b>${treeType} ${treeName}</b> ends on <strong>${endDate}</strong>.</p>
           </div>
           <div style="text-align:center; margin:32px 0;">
-            <a href="${baseUrl}/adopt" style="display:inline-block;padding:16px 32px;background:#16a34a;color:#fff;text-decoration:none;font-weight:bold;font-size:1.15em;border-radius:12px;box-shadow:0 2px 8px #a7f3d0;transition:background 0.2s;">🌱 Renew / adopt another tree</a>
+            <a href="${baseUrl}/adopt/map" style="display:inline-block;padding:16px 32px;background:#16a34a;color:#fff;text-decoration:none;font-weight:bold;font-size:1.15em;border-radius:12px;box-shadow:0 2px 8px #a7f3d0;transition:background 0.2s;">🌱 Renew / adopt another tree</a>
           </div>
           <div style="text-align:center; margin-bottom:32px;">
             <a href="${baseUrl}/dashboard" style="color:#2563eb;text-decoration:underline;font-weight:bold;font-size:1.1em;">Go to dashboard</a>
