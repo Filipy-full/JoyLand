@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateCertificatePDF } from '@/lib/generateCertificatePDF';
+import { fillCertificatePDF } from '@/lib/fillCertificatePDF';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { sendConfirmationEmail } from '@/lib/sendConfirmationEmail';
 import { sendConfirmationEmailResend } from '@/lib/sendConfirmationEmailResend';
@@ -23,7 +23,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error?.message || 'Adoption not found' }, { status: 404 });
   }
 
-  // Monta dados para o PDF
+
+  // Monta dados para o PDF (igual ao dashboard)
   const certData = {
     certificate_code: adoption.certificate_code,
     tree_id: adoption.tree_id,
@@ -31,17 +32,44 @@ export async function POST(req: NextRequest) {
     tree_type: adoption.tree?.type || '',
     latitude: adoption.tree?.latitude || 0,
     longitude: adoption.tree?.longitude || 0,
-    user_name: adoption.user_name || adoption.user?.name || '',
-    user_email: adoption.user_email || adoption.user?.email || '',
+    user_name: adoption.user_name || '',
+    user_email: adoption.user_email || '',
     start_date: adoption.start_date,
     end_date: adoption.end_date,
     photo_url: adoption.tree?.images?.[0] || undefined,
     adoption_type: adoption.type || undefined,
   };
 
-  // Gerar PDF
-  const doc = generateCertificatePDF(certData);
-  const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
+
+  // Selecionar template conforme tipo
+  const path = await import('path');
+  const fs = await import('fs/promises');
+  let templatePath = '';
+  if ((certData.tree_type || '').toLowerCase().includes('olive')) {
+    templatePath = path.join(process.cwd(), 'app/pdf/OliveTreeAdoptionCertificate.pdf');
+  } else {
+    templatePath = path.join(process.cwd(), 'app/pdf/AlmondTreeAdoptionCertificate.pdf');
+  }
+
+  // Arquivo temporário
+  const tmpPath = path.join('/tmp', `certificate-${adoption.certificate_code}.pdf`);
+  let pdfFields: any = {};
+  if ((certData.tree_type || '').toLowerCase().includes('almond')) {
+    pdfFields = {
+      'Chosen tree name': certData.tree_name,
+      'Adopter': certData.user_name,
+      'year': certData.start_date ? new Date(certData.start_date).getFullYear().toString() : '',
+    };
+  } else {
+    pdfFields = {
+      tree_name: certData.tree_name,
+      user_name: certData.user_name,
+      startDate: certData.start_date,
+      endDate: certData.end_date,
+    };
+  }
+  await fillCertificatePDF(templatePath, tmpPath, pdfFields);
+  const pdfBuffer = await fs.readFile(tmpPath);
   const fileName = `certificates/${adoption.certificate_code}.pdf`;
 
   // Salvar no Supabase Storage

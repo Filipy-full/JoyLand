@@ -250,38 +250,16 @@ export default function DashboardClient() {
                       <div>
                         <p className="text-xs text-gray-500 mb-2">ACTIONS</p>
                         <div className="space-y-2">
-                          {adoption.certificate_url ? (
-                            <a href={adoption.certificate_url} target="_blank" rel="noopener noreferrer">
-                              <button className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold py-1.5 rounded transition">
-                                📥 Download PDF
-                              </button>
-                            </a>
-                          ) : (
-                            adoption.certificate_code && (
-                              <button
-                                className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold py-1.5 rounded transition"
-                                onClick={async () => {
-                                  try {
-                                    const res = await fetch(`/api/certificate?adoption_id=${adoption.id}`);
-                                    if (!res.ok) throw new Error('Erro ao gerar PDF');
-                                    const blob = await res.blob();
-                                    const url = window.URL.createObjectURL(blob);
-                                    const a = document.createElement('a');
-                                    a.href = url;
-                                    a.download = `certificate-${adoption.certificate_code}.pdf`;
-                                    document.body.appendChild(a);
-                                    a.click();
-                                    a.remove();
-                                    window.URL.revokeObjectURL(url);
-                                  } catch (err) {
-                                    alert('Erro ao gerar PDF do certificado');
-                                  }
-                                }}
-                              >
-                                📥 Generate PDF
-                              </button>
-                            )
-                          )}
+                          {/* Preferir download do PDF visual gerado por fillCertificatePDF */}
+                          <a
+                            href={`/api/certificate?adoption_id=${adoption.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full bg-sage-600 hover:bg-sage-700 text-white text-xs font-semibold py-2 rounded transition mt-3 text-center"
+                            download
+                          >
+                            📄 Download certificate PDF
+                          </a>
                           <Link href={`/tree/${adoption.tree_id}`}>
                             <button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 rounded transition">
                               🌳 View Tree
@@ -296,14 +274,6 @@ export default function DashboardClient() {
                       <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded">
                         <p className="text-xs text-amber-700 font-semibold mb-1">💝 Personal Message:</p>
                         <p className="text-sm text-amber-900 italic">"{adoption.gift_message}"</p>
-                      </div>
-                    )}
-
-                    {/* Certificado Info */}
-                    {adoption.certificate_code && (
-                      <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded">
-                        <p className="text-xs text-blue-700 font-semibold mb-1">📜 Certificate:</p>
-                        <p className="text-sm text-blue-900 font-mono">{adoption.certificate_code}</p>
                       </div>
                     )}
 

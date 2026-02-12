@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateCertificatePDF } from '@/lib/generateCertificatePDF';
+import { fillCertificatePDF } from '@/lib/fillCertificatePDF';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { sendConfirmationEmail } from '@/lib/sendConfirmationEmail';
 import { sendConfirmationEmailResend } from '@/lib/sendConfirmationEmailResend';
+
+import path from 'path';
+import fs from 'fs/promises';
 
 export const runtime = 'nodejs';
 
@@ -39,9 +42,28 @@ export async function POST(req: NextRequest) {
     adoption_type: adoption.type || undefined,
   };
 
-  // Gerar PDF
-  const doc = generateCertificatePDF(certData);
-  const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
+  // Gerar PDF visual com fillCertificatePDF
+  let templatePath = '';
+  let pdfFields: any = {};
+  if ((certData.tree_type || '').toLowerCase().includes('almond')) {
+    templatePath = path.join(process.cwd(), 'app/pdf/AlmondTreeAdoptionCertificate.pdf');
+    pdfFields = {
+      'Chosen tree name': certData.tree_name,
+      'Adopter': certData.user_name,
+      'year': certData.start_date ? new Date(certData.start_date).getFullYear().toString() : '',
+    };
+  } else {
+    templatePath = path.join(process.cwd(), 'app/pdf/OliveTreeAdoptionCertificate.pdf');
+    pdfFields = {
+      tree_name: certData.tree_name,
+      user_name: certData.user_name,
+      startDate: certData.start_date,
+      endDate: certData.end_date,
+    };
+  }
+  const tmpPath = path.join('/tmp', `certificate-${adoption.certificate_code}.pdf`);
+  await fillCertificatePDF(templatePath, tmpPath, pdfFields);
+  const pdfBuffer = await fs.readFile(tmpPath);
   const fileName = `certificates/${adoption.certificate_code}.pdf`;
 
   // Salvar no Supabase Storage

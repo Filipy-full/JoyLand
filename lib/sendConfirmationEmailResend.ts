@@ -1,4 +1,3 @@
-
 export async function sendConfirmationEmailResend({ to, userName, treeName, startDate, endDate, attachmentUrl }: {
   to: string;
   userName: string;
@@ -23,13 +22,15 @@ export async function sendConfirmationEmailResend({ to, userName, treeName, star
       <div style="text-align:center; margin:32px 0;">
         <a href="https://joylandweb.com/dashboard" style="display:inline-block;padding:16px 32px;background:#16a34a;color:#fff;text-decoration:none;font-weight:bold;font-size:1.15em;border-radius:12px;box-shadow:0 2px 8px #a7f3d0;transition:background 0.2s;">🌱 Go to your Joyland Dashboard</a>
       </div>
-      ${attachmentUrl ? `<div style=\"text-align:center;margin-bottom:24px;\"><a href=\"${attachmentUrl}\" style=\"color:#4b8c4a;text-decoration:underline;font-weight:bold;font-size:1.1em;\">📎 Download your adoption certificate (PDF)</a></div>` : ''}
+      <div style="text-align:center;margin-bottom:24px;">
+        <a href="${attachmentUrl || '#'}" style="color:#4b8c4a;text-decoration:underline;font-weight:bold;font-size:1.1em;">📎 Download your adoption certificate (PDF)</a>
+      </div>
       <div style="background:#fff; border-radius:12px; box-shadow:0 2px 8px #d1d5db; padding:18px; margin-bottom:24px;">
         <p style="text-align:center;font-size:1.1em; margin:0;">Thank you for growing together with Joyland 💚<br/>More magic soon!</p>
       </div>
       <div style="text-align:center; margin-top:16px; color:#94a3b8; font-size:0.95em;">Smiley,<br/>Joyland Sanctuary · joylandweb.com</div>
     </div>
-  `;
+    `;
 
   const from = process.env.RESEND_FROM || 'admin@joylandweb.com';
   const subject = 'JoyLand - Adoption Confirmation';
