@@ -17,7 +17,7 @@ export default function AdminAuth({ children }: { children: React.ReactNode }) {
         return
       }
       // Permitir acceso a varios correos de admin
-      const allowedAdmins = ['filipyhenrique54@gmail.com', 'info@joylandspain.com']
+      const allowedAdmins = ['filipyhenrique54@gmail.com', 'info@joylandweb.com']
       if (user.email && allowedAdmins.includes(user.email)) {
         setIsAdmin(true)
       } else {
