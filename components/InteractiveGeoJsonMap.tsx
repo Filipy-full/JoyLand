@@ -113,7 +113,7 @@ export default function InteractiveGeoJsonMap() {
   const [isMobile, setIsMobile] = useState(false)
   const [geoJsonData, setGeoJsonData] = useState<GeoJSONData | null>(null)
   const [filters, setFilters] = useState({
-    adopted: false,
+    adopted: true,
     oliva: true,
     almendra: true,
   })
