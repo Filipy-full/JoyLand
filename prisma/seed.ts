@@ -128,7 +128,7 @@ async function main() {
     data: {
       id: randomUUID(),
       name: 'Test User',
-      email: 'test@joyland.es',
+      email: 'info@joylandweb.com',
     },
   })
 

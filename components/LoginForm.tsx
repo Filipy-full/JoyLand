@@ -61,7 +61,7 @@ export default function LoginForm() {
         setError(error.message)
         setLoading(false)
       } else {
-        const adminEmails = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com']
+        const adminEmails = ['filipyhenrique54@gmail.com', 'info@joylandweb.com']
         const userEmail = data.user?.email || ''
         // Priorizar checkout pendiente
         const pendingCheckout = typeof window !== 'undefined' ? sessionStorage.getItem('pendingCheckout') : null
