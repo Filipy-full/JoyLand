@@ -93,7 +93,7 @@ export default function ImpactPage() {
 							
 							</figure>
 							<figure className="flex flex-col items-center w-64">
-								<Image src="/impact/image36.jpg" alt="Shade patterns under trees" className="rounded-xl shadow w-full h-40 object-cover" />
+								<Image src="/impact/image36.jpg" alt="Shade patterns under trees" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 								
 							</figure>
 						</div>

@@ -21,7 +21,8 @@ type SessionData = {
 function SuccessContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const sessionId = searchParams.get('session_id')
+  // Evita error si searchParams es null
+  const sessionId = searchParams?.get('session_id') ?? ''
 
   const [loading, setLoading] = useState(true)
   const [session, setSession] = useState<SessionData | null>(null)

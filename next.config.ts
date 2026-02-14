@@ -18,6 +18,41 @@ const nextConfig: NextConfig = {
           hostname: 'media.floresfrescasonline.com',
           pathname: '/**',
         },
+        {
+          protocol: 'https',
+          hostname: 'hzajwfifjqdmryycufsp.supabase.co',
+          pathname: '/**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'lh3.googleusercontent.com',
+          pathname: '/**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'joylandweb.com',
+          pathname: '/**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'supabase.co',
+          pathname: '/**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'cdn.joylandweb.com',
+          pathname: '/**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'res.cloudinary.com',
+          pathname: '/**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'static.joylandweb.com',
+          pathname: '/**',
+        },
       ],
     },
   async headers() {

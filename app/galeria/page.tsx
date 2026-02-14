@@ -1,12 +1,19 @@
 'use client'
+
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 
+type GalleryItem = {
+  id: string;
+  url: string;
+  [key: string]: any;
+};
+
 // ...existing code...
 
 export default function GaleriaPage() {
-  const [galleryItems, setGalleryItems] = useState<string[]>([]);
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
   const [selected, setSelected] = useState<number|null>(null);
   const [visibleCount, setVisibleCount] = useState(28);
   // Touch state for swipe
@@ -15,16 +22,16 @@ export default function GaleriaPage() {
 
   useEffect(() => {
     async function fetchGallery() {
-      // Busca imagens do Supabase (tabela gallery), ordenadas
+      // Obtener imágenes desde la tabla gallery
       const { data, error } = await supabase
         .from('gallery')
-        .select('url')
+        .select('*')
         .order('order', { ascending: true });
       if (error) {
         console.error('Erro ao buscar galeria:', error.message);
         return;
       }
-      setGalleryItems(data.map((item: { url: string }) => item.url));
+      setGalleryItems(data);
     }
     fetchGallery();
   }, []);
@@ -58,17 +65,17 @@ export default function GaleriaPage() {
     <div className="min-h-screen bg-sage-50 py-10 px-2">
       <h1 className="text-3xl sm:text-4xl font-serif text-sage-800 mb-8 text-center">Joyland Gallery</h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-6xl mx-auto pb-6">
-        {galleryItems.slice(0, visibleCount).map((src, i) => (
+        {galleryItems.slice(0, visibleCount).map((item, i) => (
           <button
-            key={src}
+            key={item.id || i}
             className="group relative rounded-2xl overflow-hidden border-2 border-sage-200 hover:border-sage-500 focus:outline-none focus:ring-2 focus:ring-sage-400 transition-all shadow-lg bg-white"
             style={{ aspectRatio: '4/3' }}
             onClick={() => setSelected(i)}
           >
-            {src.endsWith('.mp4') ? (
-              <video src={src} controls className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
+            {item.url.endsWith('.mp4') ? (
+              <video src={item.url} controls className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
             ) : (
-              <Image src={src} alt={`Joyland photo ${i+1}`} width={480} height={360} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+              <Image src={item.url} alt={`Joyland photo ${i+1}`} width={480} height={360} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" loading="lazy" />
             )}
             <span className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
           </button>
@@ -83,7 +90,7 @@ export default function GaleriaPage() {
           </button>
         )}
       </div>
-      {selected !== null && (
+      {selected !== null && galleryItems[selected] && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50" onClick={() => setSelected(null)}>
           <div
             className="relative max-w-4xl w-full mx-4 flex items-center"
@@ -101,10 +108,10 @@ export default function GaleriaPage() {
               tabIndex={0}
             >&#8592;</button>
             {/* Large image or video */}
-            {galleryItems[selected].endsWith('.mp4') ? (
-              <video src={galleryItems[selected]} controls autoPlay className="rounded-2xl w-full h-auto max-h-[80vh] object-contain shadow-2xl" />
+            {galleryItems[selected].url.endsWith('.mp4') ? (
+              <video src={galleryItems[selected].url} controls autoPlay className="rounded-2xl w-full h-auto max-h-[80vh] object-contain shadow-2xl" />
             ) : (
-              <Image src={galleryItems[selected]} alt={`Large Joyland gallery photo number ${selected+1}`} width={1400} height={1000} className="rounded-2xl w-full h-auto max-h-[80vh] object-contain shadow-2xl" loading="lazy" />
+              <Image src={galleryItems[selected].url} alt={`Large Joyland gallery photo number ${selected+1}`} width={1400} height={1000} className="rounded-2xl w-full h-auto max-h-[80vh] object-contain shadow-2xl" loading="lazy" />
             )}
             {/* Next Button */}
             <button

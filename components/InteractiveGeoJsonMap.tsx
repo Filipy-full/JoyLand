@@ -151,7 +151,7 @@ export default function InteractiveGeoJsonMap() {
   }, [])
 
   useEffect(() => {
-    const filterParam = searchParams.get('filter')
+    const filterParam = searchParams?.get('filter') ?? ''
     if (filterParam === 'almond') {
       setFilters((prev) => ({ ...prev, almendra: true, oliva: false }))
     } else if (filterParam === 'olive') {
