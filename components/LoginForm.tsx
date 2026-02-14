@@ -41,6 +41,17 @@ export default function LoginForm() {
         setLoading(false)
         return
       }
+      // Validar email duplicado
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('id', { head: false })
+        .eq('email', email)
+        .single();
+      if (existingUser) {
+        setError('Este email já está em uso.')
+        setLoading(false)
+        return;
+      }
       // Registro
       const { data, error } = await supabase.auth.signUp({
         email,
