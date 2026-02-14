@@ -2,12 +2,12 @@ import { NextIntlClientProvider, useMessages } from 'next-intl';
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
-  params: {
-    locale: string;
-  };
+  params: Promise<{ locale: string }>;
 }
 
-export default function LocaleLayout({ children, params: { locale } }: LocaleLayoutProps) {
+export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
+  const resolvedParams = await params;
+  const locale = resolvedParams.locale;
   const messages = useMessages();
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>

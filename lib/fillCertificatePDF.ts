@@ -1,7 +1,7 @@
 import { PDFDocument, rgb } from 'pdf-lib';
 import fs from 'fs/promises';
 
-interface CertificateFields {
+export interface CertificateFields {
   name: string;
   email: string;
   date: string;

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fillCertificatePDF } from '@/lib/fillCertificatePDF';
+import type { CertificateFields } from '@/lib/fillCertificatePDF';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { sendConfirmationEmail } from '@/lib/sendConfirmationEmail';
 import { sendConfirmationEmailResend } from '@/lib/sendConfirmationEmailResend';
@@ -48,6 +49,9 @@ export async function POST(req: NextRequest) {
   if ((certData.tree_type || '').toLowerCase().includes('almond')) {
     templatePath = path.join(process.cwd(), 'app/pdf/AlmondTreeAdoptionCertificate.pdf');
     pdfFields = {
+      name: certData.tree_name,
+      email: certData.user_email,
+      date: certData.start_date ? new Date(certData.start_date).toISOString().split('T')[0] : '',
       'Chosen tree name': certData.tree_name,
       'Adopter': certData.user_name,
       'year': certData.start_date ? new Date(certData.start_date).getFullYear().toString() : '',
@@ -55,6 +59,9 @@ export async function POST(req: NextRequest) {
   } else {
     templatePath = path.join(process.cwd(), 'app/pdf/OliveTreeAdoptionCertificate.pdf');
     pdfFields = {
+      name: certData.tree_name,
+      email: certData.user_email,
+      date: certData.start_date ? new Date(certData.start_date).toISOString().split('T')[0] : '',
       tree_name: certData.tree_name,
       user_name: certData.user_name,
       startDate: certData.start_date,
@@ -62,7 +69,8 @@ export async function POST(req: NextRequest) {
     };
   }
   const tmpPath = path.join('/tmp', `certificate-${adoption.certificate_code}.pdf`);
-  await fillCertificatePDF(templatePath, tmpPath, pdfFields);
+  const certFields: CertificateFields = pdfFields as CertificateFields;
+  await fillCertificatePDF(templatePath, tmpPath, certFields);
   const pdfBuffer = await fs.readFile(tmpPath);
   const fileName = `certificates/${adoption.certificate_code}.pdf`;
 

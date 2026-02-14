@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 import { TreeIcon } from '@/components/Icons'
 
@@ -83,13 +84,13 @@ export default function AdoptPage() {
           </p>
           {/* Button to view adoption map over the background */}
           <div className="flex justify-center">
-            <a
+            <Link
               href="/adopt/map"
               className="bg-sage-600 text-white px-8 py-4 rounded-full text-lg font-bold shadow hover:bg-sage-700 transition-all relative z-20"
               style={{ boxShadow: '0 6px 32px 0 rgba(60, 80, 60, 0.18)' }}
             >
               View adoption map
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -104,12 +105,12 @@ export default function AdoptPage() {
               What does your adoption include?
             </h2>
             <ul className="text-sage-700 text-base sm:text-lg leading-relaxed mb-6 list-none space-y-2">
-              <li>🌱 Joyland membership for 1 year</li>
-              <li>🏷 Name your tree</li>
-              <li>💌 Personalized adoption certificate</li>
-              <li>📚 Annual report of your tree &amp; the land</li>
-              <li>🎁 Handmade Joyland giftbox, filled with artisanal creations of the land’s bounty</li>
-              <li>👑 Exclusive opportunities for members throughout the year</li>
+              <li className="text-left">🌱 Joyland membership for 1 year</li>
+              <li className="text-left">🏷 Name your tree</li>
+              <li className="text-left">💌 Personalized adoption certificate</li>
+              <li className="text-left">📚 Annual report of your tree &amp; the land</li>
+              <li className="text-left">🎁 Handmade Joyland giftbox, filled with artisanal creations of the land’s bounty</li>
+              <li className="text-left">👑 Exclusive opportunities for members throughout the year</li>
             </ul>
             <div className="bg-sage-50 border border-sage-200 rounded-xl p-4 text-sage-800 text-sm mb-4">
               <strong>Note:</strong> The giftbox is similar for both tree adoptions, only <b>olive adoptions</b> include a larger bottle of oil when available.
@@ -129,7 +130,7 @@ export default function AdoptPage() {
               <div className="relative z-10">
                 <div className="text-7xl sm:text-8xl mb-16">🌸</div>
                 <h3 className="text-2xl sm:text-3xl font-serif text-sage-900 mb-2">
-                  Almond Tree
+                  <span className="text-4xl sm:text-5xl font-bold">Almond Tree</span>
                 </h3>
                 <div className="flex items-baseline gap-2 mb-6">
                   <span className="text-4xl sm:text-5xl font-bold text-sage-700">€{(almondPrice / 100).toFixed(2)}</span>
@@ -197,7 +198,7 @@ export default function AdoptPage() {
                   loading="lazy"
                 />
                 <h3 className="text-2xl sm:text-3xl font-serif text-sage-900 mb-2">
-                  Olive Tree
+                  <span className="text-4xl sm:text-5xl font-bold">Olive Tree</span>
                 </h3>
                 <div className="flex items-baseline gap-2 mb-6">
                   <span className="text-4xl sm:text-5xl font-bold text-sage-700">€{(olivePrice / 100).toFixed(2)}</span>
