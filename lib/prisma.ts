@@ -22,6 +22,6 @@ function getPrisma() {
 // Export as a proxy to delay initialization
 export const prisma = new Proxy({} as PrismaClient, {
   get: (target, prop) => {
-    return (getPrisma() as PrismaClient)[prop]
+    return (getPrisma() as any)[prop];
   }
-})
+});
