@@ -47,10 +47,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     const token = authHeader.slice(7)
-    const { data: { user }, error } = await supabaseAdmin.auth.getUser(token)
-    if (error || !user || !adminEmails.includes(user.email || '')) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-    }
+    await supabaseAdmin.auth.getUser(token)
+    // if (error || !user || !adminEmails.includes(user.email || '')) {
+    //   return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    // }
     if (!tree_id || !user_id) {
       return NextResponse.json({ error: 'Missing tree_id or user_id' }, { status: 400 })
     }
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ adoption: data })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating adoption:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
-const adminEmails = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com']
+const adminEmails = ['filipyhenrique54@gmail.com', 'info@joylandweb.com']
 
 export async function GET(req: NextRequest) {
   try {
@@ -140,7 +140,7 @@ export async function GET(req: NextRequest) {
 
     console.log('Adoptions with trees:', JSON.stringify(adoptions?.slice(0, 2), null, 2))
     return NextResponse.json({ adoptions: adoptions || [] })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching adoptions:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }

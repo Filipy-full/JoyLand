@@ -34,10 +34,9 @@ const supabase = createClient(supabaseUrl, supabaseKey, {
 
 async function seedTrees() {
   try {
-    console.log('📖 Leyendo geojson-map.json...')
-    
+    console.log('📖 Leyendo mapa-main.json...')
     // Leer el archivo GeoJSON
-    const geoJsonPath = path.join(process.cwd(), 'public', 'geojson-map.json')
+    const geoJsonPath = path.join(process.cwd(), 'public', 'mapa', 'mapa-main.json')
     const geoJsonData = JSON.parse(fs.readFileSync(geoJsonPath, 'utf8'))
 
     // Filtrar solo los árboles

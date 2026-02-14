@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
-const adminEmails = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com']
+const adminEmails = ['filipyhenrique54@gmail.com', 'info@joylandweb.com']
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const { data: pricing, error } = await supabaseAdmin
       .from('config')
@@ -17,18 +17,23 @@ export async function GET(req: NextRequest) {
       })
     }
 
-    const prices: any = {
+    const prices: { almondPrice: number; olivePrice: number } = {
       almondPrice: 200,
       olivePrice: 200
     }
 
-    pricing?.forEach((item: any) => {
+    interface PricingItem {
+      key: string;
+      price: number;
+    }
+
+    (pricing as PricingItem[] | undefined)?.forEach((item: PricingItem) => {
       if (item.key === 'tree_price_almond') prices.almondPrice = item.price
       if (item.key === 'tree_price_olive') prices.olivePrice = item.price
     })
 
     return NextResponse.json(prices)
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching pricing:', error)
     return NextResponse.json({ 
       almondPrice: 200,
@@ -69,7 +74,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, almondPrice, olivePrice })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating pricing:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }

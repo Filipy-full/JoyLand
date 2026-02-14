@@ -53,7 +53,7 @@ import { useAdoptionCart } from '@/contexts/AdoptionCart'
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
-let DefaultIcon = L.icon({
+const DefaultIcon = L.icon({
   iconUrl: icon.src,
   shadowUrl: iconShadow.src,
 })
@@ -223,7 +223,20 @@ export default function InteractiveGeoJsonMap() {
     try {
       const treesResponse = await fetch('/api/trees-with-adoptions').then((res) => res.json())
       const statusMap = new Map<string, { status?: string; name?: string; year?: number; width?: number; height?: number; root_zone?: string; orientation?: string; description?: string; image_url?: string; tree_name?: string }>()
-      ;(treesResponse.trees || []).forEach((t: any) => {
+      interface ApiTree {
+        id: string
+        status?: string
+        name?: string
+        year?: number
+        width?: number
+        height?: number
+        root_zone?: string
+        orientation?: string
+        description?: string
+        images?: string | string[]
+        tree_name?: string
+      }
+      ;(treesResponse.trees || []).forEach((t: ApiTree) => {
         let imageUrl = ''
         if (t.images) {
           try {

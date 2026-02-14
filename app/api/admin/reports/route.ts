@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
-const adminEmails = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com']
+const adminEmails = ['filipyhenrique54@gmail.com', 'info@joylandweb.com']
 const REPORTS_BUCKET = 'reports'
 
 export async function GET(req: NextRequest) {
@@ -15,6 +15,8 @@ export async function GET(req: NextRequest) {
     const { data: { user }, error } = await supabaseAdmin.auth.getUser(token)
 
     if (error || !user || !adminEmails.includes(user.email || '')) {
+      // if (error || !user || !adminEmails.includes(user.email || '')) {
+      //   return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
@@ -46,6 +48,8 @@ export async function POST(req: NextRequest) {
     const { data: { user }, error } = await supabaseAdmin.auth.getUser(token)
 
     if (error || !user || !adminEmails.includes(user.email || '')) {
+      // if (error || !user || !adminEmails.includes(user.email || '')) {
+      //   return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 

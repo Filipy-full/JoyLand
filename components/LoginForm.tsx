@@ -42,7 +42,7 @@ export default function LoginForm() {
         return
       }
       // Registro
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: { data: { name } }
@@ -51,6 +51,24 @@ export default function LoginForm() {
         setError(error.message)
         setLoading(false)
       } else {
+        // Intentar obtener el usuario recién creado
+        let userId = null;
+        if (data && data.user && data.user.id) {
+          userId = data.user.id;
+        } else {
+          // fallback: obtener usuario actual
+          const { data: userData } = await supabase.auth.getUser();
+          userId = userData?.user?.id;
+        }
+        if (userId) {
+          // Insertar en public.users
+          await supabase.from('users').insert({
+            id: userId,
+            email,
+            role: 'user',
+            created_at: new Date().toISOString(),
+          });
+        }
         setError('Conta criada! Você já pode acessar.')
         setLoading(false)
       }

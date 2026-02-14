@@ -257,17 +257,24 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const loadAll = async () => {
-      const session = await supabase.auth.getSession()
-      const token = session.data.session?.access_token
-      if (!token) return
-      await fetchMessages(token)
-      await fetchAdoptions(token)
-      await fetchReports(token)
-      await fetchStats(token)
-      await fetchTrees(token)
-    }
-    loadAll()
-  }, [])
+      setLoading(true);
+      setError('');
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      if (!token) {
+        setError('No estás autenticado');
+        setLoading(false);
+        return;
+      }
+      await fetchMessages(token);
+      await fetchAdoptions(token);
+      await fetchReports(token);
+      await fetchStats(token);
+      await fetchTrees(token);
+      setLoading(false);
+    };
+    loadAll();
+  }, []);
 
   const handleDeleteAll = async () => {
     if (!confirm('Are you sure you want to delete ALL messages? This action cannot be undone.')) return;

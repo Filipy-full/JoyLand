@@ -27,6 +27,7 @@ function SuccessContent() {
   const [session, setSession] = useState<SessionData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [countdown, setCountdown] = useState(4)
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const assignedTrees = useMemo(() => {
     const metadata = session?.metadata
@@ -77,7 +78,7 @@ function SuccessContent() {
       const timer = setInterval(() => {
         setCountdown((prev) => {
           if (prev <= 1) {
-            router.push(`/tree/${singleTree.id}`)
+            setShouldRedirect(true)
             return 0
           }
           return prev - 1
@@ -92,6 +93,12 @@ function SuccessContent() {
       return () => clearTimeout(timer)
     }
   }, [router, singleTree?.id])
+
+  useEffect(() => {
+    if (shouldRedirect && singleTree?.id) {
+      router.push(`/tree/${singleTree.id}`)
+    }
+  }, [shouldRedirect, router, singleTree?.id])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-sage-50 flex items-center justify-center px-4">
