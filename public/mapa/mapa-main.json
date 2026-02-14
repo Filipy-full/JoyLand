@@ -6,10 +6,9 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          1.744527724330069,
-          41.78898599619048,
-          467.3368482648647
-        ]
+           1.744527724330069,
+         41.78898599619048,
+         467.3368482648647]
       },
       "properties": {
         "name": "1",
@@ -45,14 +44,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-         1.744527724330069,
-         41.78898599619048,
-         467.3368482648647
+          1.743518474452779,
+          41.79042599268991,
+          482.933791552207
         ]
       },
       "properties": {
         "name": "2",
-        "styleUrl": "#__managed_style_0EEDE00CB33D79FB6BC6",
+        "styleUrl": "#__managed_style_2DF76E92303D79FB6BC4",
         "fill-opacity": 0.25,
         "fill": "#ffffff",
         "stroke-opacity": 1,
@@ -70,10 +69,10 @@
         "icon": "https://earth.google.com/earth/document/icon?color=388e3c&id=2000&scale=4",
         "description": {
           "@type": "html",
-          "value": "<p><b>Specie</b> Almond Feature<br></p><div><b>Year:</b> xxx<br></div><div><b>Region:</b> North<br></div>"
+          "value": "<p><b>Specie</b> Olive Feature<br></p><div><b>Year:</b> xxx<br></div><div><b>Region:</b> North<br></div>"
         },
         "type": "tree",
-        "species": "Almond",
+        "species": "Olive",
         "year": 2024,
         "area": "North"
       },
@@ -87,6 +86,7 @@
           1.744320295163406,
           41.78951740445642,
           470.2253306814492
+          
         ]
       },
       "properties": {
@@ -15093,45 +15093,7 @@
         "area": "North"
       },
       "id": "treeid387"
-    },
-     {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          1.743518474452779,
-          41.79042599268991,
-          482.933791552207
-        ]
-      },
-      "properties": {
-        "name": "388",
-        "styleUrl": "#__managed_style_2DF76E92303D79FB6BC4",
-        "fill-opacity": 0.25,
-        "fill": "#ffffff",
-        "stroke-opacity": 1,
-        "stroke": "#fbc02d",
-        "stroke-width": 2.66667,
-        "icon-scale": 0.75,
-        "icon-offset": [
-          64,
-          128
-        ],
-        "icon-offset-units": [
-          "pixels",
-          "insetPixels"
-        ],
-        "icon": "https://earth.google.com/earth/document/icon?color=388e3c&id=2000&scale=4",
-        "description": {
-          "@type": "html",
-          "value": "<p><b>Specie</b> Olive Feature<br></p><div><b>Year:</b> xxx<br></div><div><b>Region:</b> North<br></div>"
-        },
-        "type": "tree",
-        "species": "Olive",
-        "year": 2024,
-        "area": "North"
-      },
-      "id": "treeid388"
     }
+     
   ]
 }
