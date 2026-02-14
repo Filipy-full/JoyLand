@@ -261,7 +261,7 @@ export default function FAQPage() {
             Still have questions?
           </h2>
           <p className="text-sage-600 mb-8 text-lg">
-            We're here to help. Contact us directly if you need more information.
+            We&#39;re here to help. Contact us directly if you need more information.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

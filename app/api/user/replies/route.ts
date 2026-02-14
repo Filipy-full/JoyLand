@@ -22,7 +22,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: queryError.message }, { status: 500 });
     }
     return NextResponse.json({ replies: replies || [] });
-  } catch (error: any) {
-    return NextResponse.json({ error: 'Internal server error', details: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ error: 'Internal server error', details: errorMessage }, { status: 500 });
   }
 }

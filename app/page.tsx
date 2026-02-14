@@ -5,28 +5,17 @@ import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 import { 
   OliveIcon, TreeIcon, LocationIcon, GalleryIcon, 
-  GiftIcon, DocumentIcon, LeafIcon, HeartIcon, StarIcon 
+  GiftIcon, DocumentIcon, LeafIcon, HeartIcon
 } from '@/components/Icons'
 
 
 export default function HomePage() {
-  const [particles, setParticles] = useState<Array<{ id: number; left: number; delay: number; duration: number }>>([])
+  // Removed unused particles state
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [scrollY, setScrollY] = useState(0)
   const observerRef = useRef<IntersectionObserver | null>(null)
 
   useEffect(() => {
-    // Generar partículas de hojas con física avanzada
-    // Reduce particle count for better mobile performance
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
-    setParticles(
-      Array.from({ length: isMobile ? 6 : 20 }, (_, i) => ({
-        id: i,
-        left: Math.random() * 100,
-        delay: Math.random() * 10,
-        duration: 12 + Math.random() * 8
-      }))
-    )
+    // Removed particles generation logic as particles are not used
 
     // Parallax avanzado con mouse
     const handleMouseMove = (e: MouseEvent) => {
@@ -37,7 +26,7 @@ export default function HomePage() {
 
     // Parallax con scroll
     const handleScroll = () => {
-      setScrollY(window.scrollY)
+      // No longer tracking scrollY
     }
 
     window.addEventListener('mousemove', handleMouseMove)
@@ -174,7 +163,7 @@ export default function HomePage() {
                     Joyland Tree Adoption
                   </h3>
                   <p className="text-base sm:text-lg md:text-xl text-sage-800 leading-relaxed">
-                    Through an adoption, you follow the growth of your tree within a sprouting food forest — learning how soil, biodiversity, and time work together to support resilient trees and landscapes. You will receive updates on your tree's progress, seasonal photos and the products it generates. A way to support natural living systems while staying closely connected to the land that nourishes them.
+                    Through an adoption, you follow the growth of your tree within a sprouting food forest — learning how soil, biodiversity, and time work together to support resilient trees and landscapes. You will receive updates on your trees progress, seasonal photos and the products it generates. A way to support natural living systems while staying closely connected to the land that nourishes them.
                   </p>
                 </div>
                 <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center flex-nowrap">

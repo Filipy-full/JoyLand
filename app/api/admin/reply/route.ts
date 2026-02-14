@@ -48,9 +48,12 @@ export async function POST(req: NextRequest) {
 		} else {
 			return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
 		}
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error('Error in admin reply:', error);
-		return NextResponse.json({ error: 'Internal server error', details: error.message }, { status: 500 });
+		const message = typeof error === 'object' && error !== null && 'message' in error
+			? (error as { message: string }).message
+			: 'Unknown error';
+		return NextResponse.json({ error: 'Internal server error', details: message }, { status: 500 });
 	}
 }
 

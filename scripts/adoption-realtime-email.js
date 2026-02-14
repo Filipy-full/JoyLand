@@ -1,6 +1,6 @@
 // Script para escuchar inserts en adoptions y enviar email
-const { createClient } = require('@supabase/supabase-js');
-const fetch = require('node-fetch');
+import { createClient } from '@supabase/supabase-js';
+import fetch from 'node-fetch';
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const ADOPTION_WEBHOOK_URL = 'https://joylandweb.com/api/webhooks/adoption';

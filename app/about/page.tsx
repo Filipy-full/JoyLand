@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function AboutPage() {
   return (
@@ -166,12 +167,12 @@ export default function AboutPage() {
           <h2 className="text-2xl font-serif text-sage-800 mb-4">
             Adopt a tree. Support a vibrant grove rooted in care.
           </h2>
-          <a
+          <Link
             href="/adopt"
             className="inline-block bg-sage-600 text-white px-8 py-3 rounded-full hover:bg-sage-700 transition-colors"
           >
             Adopt a tree
-          </a>
+          </Link>
           {/* Foto 3 após Adopt a tree */}
         <div className="relative w-full h-64 md:h-80 rounded-3xl overflow-hidden shadow-2xl mx-auto my-8">
           <Image

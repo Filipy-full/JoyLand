@@ -11,15 +11,15 @@
  *   - 5 adopciones de ejemplo para cada usuario
  */
 
-require('dotenv').config({ path: '.env.local' })
-
-const { createClient } = require('@supabase/supabase-js')
+import dotenv from 'dotenv'
+dotenv.config({ path: '.env.local' })
+import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_SERVICE_KEY
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error('❌ Error: NEXT_PUBLIC_SUPABASE_URL y SUPABASE_SERVICE_KEY no están configurados')
+  console.error(' Error: NEXT_PUBLIC_SUPABASE_URL y SUPABASE_SERVICE_KEY no están configurados')
   process.exit(1)
 }
 
@@ -74,7 +74,7 @@ async function seedUsers() {
         })
 
         if (profileError) {
-          console.error(`  ❌ Error creando profile para ${testUser.email}: ${profileError}`)
+          console.error(`   Error creando profile para ${testUser.email}: ${profileError}`)
           continue
         }
 
@@ -104,7 +104,7 @@ async function seedUsers() {
 
         console.log(`     → 5 adopciones de ejemplo creadas`)
       } catch (error) {
-        console.error(`  ❌ Error con ${testUser.email}:`, error.message)
+        console.error(`   Error con ${testUser.email}:`, error.message)
       }
     }
 
@@ -116,7 +116,7 @@ async function seedUsers() {
 
     process.exit(0)
   } catch (error) {
-    console.error('❌ Error fatal:', error)
+    console.error(' Error fatal:', error)
     process.exit(1)
   }
 }

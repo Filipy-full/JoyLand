@@ -14,7 +14,7 @@ export default function Particles({ type }: { type: 'olive' | 'almond', active: 
     const h = canvas.height = canvas.offsetHeight;
     const colors = type === 'olive' ? ['#a7f3d0', '#6ee7b7', '#10b981', '#facc15'] : ['#fde68a', '#fbbf24', '#f59e42', '#a3e635'];
     const shapes = type === 'olive' ? ['circle','olive'] : ['circle','almond'];
-    const particles = Array.from({length: 18}, (_,i) => ({
+    const particles = Array.from({length: 18}, (_, i) => ({
       x: Math.random()*w,
       y: h+Math.random()*60,
       r: 12+Math.random()*16,

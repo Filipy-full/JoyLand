@@ -1,9 +1,9 @@
 // Script para otimizar imagens JPEG/PNG de uma pasta usando sharp
 // Uso: node scripts/optimize-images.js
 
-const sharp = require('sharp');
-const fs = require('fs');
-const path = require('path');
+import sharp from 'sharp';
+import fs from 'fs';
+import path from 'path';
 
 
 const inputDir = path.join(__dirname, '../public');

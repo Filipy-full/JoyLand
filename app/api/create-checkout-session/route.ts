@@ -104,18 +104,19 @@ export async function POST(req: NextRequest) {
     
     console.log('✅ Checkout session created:', {
       sessionId: session.id,
-      url: session.url ? '✓ URL disponible' : '❌ URL no disponible',
+      url: session.url ? '✓ URL disponible' : ' URL no disponible',
       metadata: session.metadata,
     });
     
     if (!session.url) {
-      console.error('❌ ERROR: Session created but URL is null');
+      console.error(' ERROR: Session created but URL is null');
       return NextResponse.json({ error: 'Session created but no URL returned' }, { status: 500 });
     }
     
     return NextResponse.json({ url: session.url });
-  } catch (error: any) {
-    console.error('❌ Stripe error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    console.error(' Stripe error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

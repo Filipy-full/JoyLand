@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
 
   // Gerar PDF visual com fillCertificatePDF
   let templatePath = '';
-  let pdfFields: any = {};
+  let pdfFields: Record<string, string> = {};
   if ((certData.tree_type || '').toLowerCase().includes('almond')) {
     templatePath = path.join(process.cwd(), 'app/pdf/AlmondTreeAdoptionCertificate.pdf');
     pdfFields = {

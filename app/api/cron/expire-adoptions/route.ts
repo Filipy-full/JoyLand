@@ -180,9 +180,13 @@ export async function POST(req: NextRequest) {
 
           results.remindersSent++
           if (emailSent) results.emailsSent++
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error(`Error sending reminder for adoption ${adoption.id}:`, error)
-          results.errors.push(`Reminder ${adoption.id}: ${error.message}`)
+          if (error instanceof Error) {
+            results.errors.push(`Reminder ${adoption.id}: ${error.message}`)
+          } else {
+            results.errors.push(`Reminder ${adoption.id}: Unknown error`)
+          }
         }
       }
     }
@@ -253,9 +257,13 @@ export async function POST(req: NextRequest) {
 
         results.expired++
 
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error(`Error processing adoption ${adoption.id}:`, error)
-        results.errors.push(`Adoption ${adoption.id}: ${error.message}`)
+        if (error instanceof Error) {
+          results.errors.push(`Adoption ${adoption.id}: ${error.message}`)
+        } else {
+          results.errors.push(`Adoption ${adoption.id}: Unknown error`)
+        }
       }
     }
 
@@ -264,9 +272,13 @@ export async function POST(req: NextRequest) {
       ...results,
       timestamp: nowIso,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in expire-adoptions cron:', error)
-    return NextResponse.json({ error: 'Internal server error', details: error.message }, { status: 500 })
+    if (error instanceof Error) {
+      return NextResponse.json({ error: 'Internal server error', details: error.message }, { status: 500 })
+    } else {
+      return NextResponse.json({ error: 'Internal server error', details: 'Unknown error' }, { status: 500 })
+    }
   }
 }
 

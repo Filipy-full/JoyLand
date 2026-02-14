@@ -27,11 +27,18 @@ export async function GET(req: NextRequest) {
       payment_status: session.payment_status,
       metadata: session.metadata || {},
     })
-  } catch (error: any) {
-    console.error('❌ Error retrieving checkout session:', error)
-    return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: 500 }
-    )
+  } catch (error: unknown) {
+    console.error(' Error retrieving checkout session:', error)
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { error: error.message || 'Internal server error' },
+        { status: 500 }
+      )
+    } else {
+      return NextResponse.json(
+        { error: 'Internal server error' },
+        { status: 500 }
+      )
+    }
   }
 }

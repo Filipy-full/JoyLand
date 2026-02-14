@@ -3,7 +3,6 @@ import { Resend } from 'resend';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 const resendApiKey = process.env.RESEND_API_KEY;
-const resendFrom = process.env.RESEND_FROM || 'no-reply@joylandweb.com';
 
 export async function POST(req: NextRequest) {
   if (!resendApiKey) {

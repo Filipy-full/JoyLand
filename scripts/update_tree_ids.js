@@ -1,4 +1,5 @@
-const fs = require('fs');
+import fs from 'fs';
+
 const filePath = 'public/mapa/mapa-main.json';
 const outputPath = 'public/mapa/mapa-main-atualizado.json';
 

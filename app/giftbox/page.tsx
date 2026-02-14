@@ -1,6 +1,7 @@
 "use client"
 import Image from 'next/image'
 import { useState } from 'react'
+import Link from 'next/link'
 
 import Giftbox3D from './Giftbox3D'
 
@@ -141,12 +142,12 @@ export default function GiftboxPage() {
           <p className="text-lg text-sage-800 mb-6">
             Adopt a tree and receive your giftbox when the season is ready.
           </p>
-          <a
+          <Link
             href="/adopt"
             className="inline-block bg-sage-600 text-white px-10 py-4 rounded-full hover:bg-sage-700 transition-all transform hover:scale-105 text-lg font-medium"
           >
             Adopt a tree
-          </a>
+          </Link>
         </section>
         <div className="flex flex-row justify-center items-center gap-4 mb-12 mt-12">
           <div className="w-[230px] h-[250px] md:w-[420px] md:h-[520px] cursor-pointer" onClick={() => handleImgClick('/gift/gift-1.jpeg')}>

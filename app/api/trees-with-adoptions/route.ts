@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 // GET /api/trees-with-adoptions
-export async function GET(req: NextRequest) {
+export async function GET() {
   // Busca todas as árvores
   const { data: trees, error: treesError } = await supabaseAdmin
     .from('trees')

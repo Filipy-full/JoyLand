@@ -5,7 +5,7 @@ export async function uploadTreeImage(file: File, treeId: string): Promise<strin
   if (!file || !treeId) return null;
   const fileExt = file.name.split('.').pop();
   const filePath = `${treeId}.${fileExt}`;
-  const { data, error } = await supabase.storage.from('galeria').upload(filePath, file, {
+  const { error } = await supabase.storage.from('galeria').upload(filePath, file, {
     upsert: true,
     contentType: file.type,
   });

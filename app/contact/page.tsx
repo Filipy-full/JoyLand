@@ -2,6 +2,7 @@
 'use client'
 import React, { useState } from 'react'
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -200,12 +201,12 @@ export default function ContactPage() {
           <p className="text-gray-700 mb-6">
             You don’t need to contact us to adopt a tree. You can do it directly from the map.
           </p>
-          <a
+          <Link
             href="/adopt"
             className="inline-block bg-sage-600 text-white px-8 py-3 rounded-full hover:bg-sage-700 transition-colors"
           >
             Adopt a tree
-          </a>
+          </Link>
           <div className="flex justify-center mb-12">
           <Image
             src="/contact/contact1.jpeg"

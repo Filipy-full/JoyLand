@@ -18,20 +18,27 @@ export async function POST(req: NextRequest) {
       process.env.STRIPE_WEBHOOK_SECRET!
     )
     console.log('✅ Event verified successfully:', event.type)
-  } catch (err: any) {
-    console.error('❌ Webhook signature verification failed:', err.message)
-    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 })
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    console.error(' Webhook signature verification failed:', errorMessage)
+    return NextResponse.json({ error: `Webhook Error: ${errorMessage}` }, { status: 400 })
   }
 
   console.log('📌 Processing event type:', event.type)
 
   if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as Stripe.Checkout.Session
+    type CheckoutSessionWithShipping = Stripe.Checkout.Session & {
+      shipping_details?: {
+        address?: Stripe.Address | null;
+        name?: string | null;
+      }
+    };
+    const session = event.data.object as CheckoutSessionWithShipping;
     
     console.log('💳 Session data:', {
       sessionId: session.id,
       metadata: session.metadata,
-      shippingDetails: (session as any).shipping_details,
+      shippingDetails: session.shipping_details,
     })
     // Recuperar metadata del usuario
     const userId = session.metadata?.userId
@@ -44,8 +51,8 @@ export async function POST(req: NextRequest) {
     const isGift = session.metadata?.isGift === 'true'
 
     // Recuperar dirección de envío
-    const shippingAddress = (session as any).shipping_details?.address
-    const shippingName = (session as any).shipping_details?.name
+    const shippingAddress = session.shipping_details?.address
+    const shippingName = session.shipping_details?.name
 
     if (userId && treeIds) {
       try {
@@ -86,7 +93,7 @@ export async function POST(req: NextRequest) {
             });
 
           if (adoptionError) {
-            console.error(`❌ Error inserting adoption for tree ${currentTreeId}:`, adoptionError);
+            console.error(` Error inserting adoption for tree ${currentTreeId}:`, adoptionError);
             throw adoptionError;
           }
 
@@ -99,7 +106,7 @@ export async function POST(req: NextRequest) {
             .eq('id', currentTreeId);
 
           if (treeError) {
-            console.error('❌ Error updating tree status:', treeError);
+            console.error(' Error updating tree status:', treeError);
           } else {
             console.log(`✅ Tree ${currentTreeId} status updated to adopted`);
           }
@@ -180,13 +187,15 @@ export async function POST(req: NextRequest) {
               invoicePdf: finalizedInvoice.invoice_pdf,
             });
           }
-        } catch (invoiceError: any) {
-          console.error('❌ Error creating invoice:', invoiceError.message);
+        } catch (invoiceError: unknown) {
+          const errorMessage = invoiceError instanceof Error ? invoiceError.message : String(invoiceError);
+          console.error(' Error creating invoice:', errorMessage);
           // No lanzar error porque las adopciones ya fueron creadas exitosamente
         }
 
-      } catch (error: any) {
-        console.error('❌ Error creating adoption:', error)
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error(' Error creating adoption:', errorMessage);
         return NextResponse.json({ error: 'Failed to process adoption' }, { status: 500 })
       }
     } else {

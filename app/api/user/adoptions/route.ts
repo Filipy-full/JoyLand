@@ -31,10 +31,11 @@ export async function GET(req: NextRequest) {
       adoptions: adoptions || [],
       count: (adoptions || []).length,
     })
-  } catch (error: any) {
-    console.error('Error fetching adoptions:', error)
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('Error fetching adoptions:', errorMessage)
     return NextResponse.json(
-      { error: error.message || 'Internal server error' },
+      { error: errorMessage || 'Internal server error' },
       { status: 500 }
     )
   }

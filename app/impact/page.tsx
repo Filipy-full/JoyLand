@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ImpactPage() {
 	return (
@@ -17,15 +18,15 @@ export default function ImpactPage() {
 								 <h2 className="text-3xl font-serif text-sage-700 mb-3 border-l-4 border-sage-400 pl-3">How Your Support Shapes Joyland</h2>
 											<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-2xl mx-auto justify-items-center">
 												<figure>
-													<img src="/impact/image25.jpg" alt="Olive tree canopy" className="rounded-xl shadow w-full h-40 object-cover" />
+													<Image src="/impact/image25.jpg" alt="Olive tree canopy" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 													<figcaption className="text-center text-sage-600 mt-2 text-sm">Olive tree canopy</figcaption>
 												</figure>
 												<figure>
-													<img src="/impact/image22.jpg" alt="Pruning moment" className="rounded-xl shadow w-full h-40 object-cover" />
+													<Image src="/impact/image22.jpg" alt="Pruning moment" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 													<figcaption className="text-center text-sage-600 mt-2 text-sm">Pruning moment</figcaption>
 												</figure>
 												<figure>
-													<img src="/impact/image37.jpg" alt="Shade patterns under trees" className="rounded-xl shadow w-full h-40 object-cover" />
+													<Image src="/impact/image37.jpg" alt="Shade patterns under trees" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 													<figcaption className="text-center text-sage-600 mt-2 text-sm">Shade patterns under trees</figcaption>
 												</figure>
 											</div>
@@ -88,11 +89,11 @@ export default function ImpactPage() {
 								<Image src="/impact/image1.jpg" alt="Olive tree canopy" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 							</figure>
 							<figure className="flex flex-col items-center w-64">
-								<img src="/impact/image35.jpg" alt="Pruning moment" className="rounded-xl shadow w-full h-40 object-cover" />
+								<Image src="/impact/image35.jpg" alt="Pruning moment" width={320} height={160} className="rounded-xl shadow w-full h-40 object-cover" loading="lazy" />
 							
 							</figure>
 							<figure className="flex flex-col items-center w-64">
-								<img src="/impact/image36.jpg" alt="Shade patterns under trees" className="rounded-xl shadow w-full h-40 object-cover" />
+								<Image src="/impact/image36.jpg" alt="Shade patterns under trees" className="rounded-xl shadow w-full h-40 object-cover" />
 								
 							</figure>
 						</div>
@@ -177,12 +178,12 @@ export default function ImpactPage() {
 
 					<section className="bg-gradient-to-r from-sage-600 to-sage-700 text-white p-10 rounded-2xl text-center shadow-lg">
 						<h2 className="text-4xl font-serif mb-4 drop-shadow">Adopt a tree and grow with the land.</h2>
-						<a
+						<Link
 							href="/adopt"
 							className="inline-block bg-white text-sage-700 px-12 py-5 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 text-xl font-bold shadow-lg border border-sage-200"
 						>
 							Adopt a tree
-						</a>
+						</Link>
 						<div className="flex justify-center mt-8">
 							<Image src="/impact/impact-1.jpeg" alt="Joyland Impact" width={600} height={288} className="rounded-2xl shadow-lg max-h-80 object-contain" loading="lazy" />
 						</div>

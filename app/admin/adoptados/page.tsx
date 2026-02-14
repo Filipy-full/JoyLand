@@ -2,8 +2,22 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
+interface Adoption {
+  id: number;
+  userId: string;
+  treeId: string;
+  treeName: string;
+  userName: string | null;
+  userEmail: string | null;
+  shippingName: string | null;
+  shippingAddress: string | null;
+  status: string;
+  paymentStatus: string;
+  createdAt: string;
+}
+
 export default function AdminAdoptadosPage() {
-  const [adoptions, setAdoptions] = useState<any[]>([]);
+  const [adoptions, setAdoptions] = useState<Adoption[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

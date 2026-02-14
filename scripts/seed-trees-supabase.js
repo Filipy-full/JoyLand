@@ -10,18 +10,17 @@
  *   - NEXT_PUBLIC_SUPABASE_URL en .env.local
  *   - SUPABASE_SERVICE_KEY en .env.local
  */
-
-require('dotenv').config({ path: '.env.local' })
-
-const { createClient } = require('@supabase/supabase-js')
-const fs = require('fs')
-const path = require('path')
+import dotenv from 'dotenv'
+dotenv.config({ path: '.env.local' })
+import { createClient } from '@supabase/supabase-js'
+import fs from 'fs'
+import path from 'path'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_SERVICE_KEY
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error('❌ Error: NEXT_PUBLIC_SUPABASE_URL y SUPABASE_SERVICE_KEY no están configurados en .env.local')
+  console.error(' Error: NEXT_PUBLIC_SUPABASE_URL y SUPABASE_SERVICE_KEY no están configurados en .env.local')
   process.exit(1)
 }
 
@@ -61,7 +60,7 @@ async function seedTrees() {
     console.log(`\n🌳 Se encontraron ${trees.length} árboles`)
 
     if (trees.length === 0) {
-      console.error('❌ No se encontraron árboles en el GeoJSON')
+      console.error(' No se encontraron árboles en el GeoJSON')
       process.exit(1)
     }
 
@@ -80,7 +79,7 @@ async function seedTrees() {
         .neq('id', 'null') // Eliminar todos
       
       if (deleteError) {
-        console.error('❌ Error al eliminar árboles:', deleteError)
+        console.error(' Error al eliminar árboles:', deleteError)
         process.exit(1)
       }
       
@@ -97,7 +96,7 @@ async function seedTrees() {
       const { error } = await supabase.from('trees').insert(batch)
 
       if (error) {
-        console.error(`❌ Error en batch ${Math.floor(i / batchSize) + 1}:`, error)
+        console.error(` Error en batch ${Math.floor(i / batchSize) + 1}:`, error)
         process.exit(1)
       }
 
@@ -112,7 +111,7 @@ async function seedTrees() {
 
     process.exit(0)
   } catch (error) {
-    console.error('❌ Error fatal:', error)
+    console.error(' Error fatal:', error)
     process.exit(1)
   }
 }

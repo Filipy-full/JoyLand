@@ -18,7 +18,7 @@ interface SendRemindersParams {
 export async function sendReminders({ nowIso, reminderAdoptions, sendResendEmail }: SendRemindersParams) {
   let remindersSent = 0
   let emailsSent = 0
-  let errors: string[] = []
+  const errors: string[] = []
 
   for (const adoption of reminderAdoptions) {
     try {
@@ -65,8 +65,12 @@ export async function sendReminders({ nowIso, reminderAdoptions, sendResendEmail
       }
       remindersSent++
       if (emailSent) emailsSent++
-    } catch (error: any) {
-      errors.push(`Reminder ${adoption.id}: ${error.message}`)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        errors.push(`Reminder ${adoption.id}: ${error.message}`)
+      } else {
+        errors.push(`Reminder ${adoption.id}: Unknown error`)
+      }
     }
   }
   return { remindersSent, emailsSent, errors }

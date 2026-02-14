@@ -1,6 +1,6 @@
 // Script para transformar o GeoJSON de pontos para o novo formato solicitado
-const fs = require('fs');
-const crypto = require('crypto');
+import fs from 'fs';
+import crypto from 'crypto';
 const inputPath = 'public/test/JoyLand_Arboles_limpio.geojson';
 const outputPath = 'public/test/JoyLand_Arboles_limpio_formatado.json';
 

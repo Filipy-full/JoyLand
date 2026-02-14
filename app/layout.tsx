@@ -9,7 +9,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingCTA from "@/components/FloatingCTA";
 import AuthListener from "@/components/AuthListener";
-import SitePassword from "@/components/SitePassword";
 import { AdoptionCartProvider } from "@/contexts/AdoptionCart";
 
 const serif = Libre_Baskerville({

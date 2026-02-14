@@ -2,9 +2,18 @@
 "use client"
 import { useEffect, useState } from 'react'
 
+type Message = {
+  id: string;
+  name?: string;
+  user_name?: string;
+  email: string;
+  message: string;
+  created_at: string;
+};
+
 export default function AdminMessagesPage() {
-  const [messages, setMessages] = useState<any[]>([])
-  const [selected, setSelected] = useState<any | null>(null)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [selected, setSelected] = useState<Message | null>(null)
   const [reply, setReply] = useState('')
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState('')

@@ -20,7 +20,9 @@ export default function Giftbox3D() {
         setOliveBoxHeight(oliveBoxRef.current?.offsetHeight || 0);
       }, 400);
     } else {
-      setOliveBoxHeight(0);
+      setTimeout(() => {
+        setOliveBoxHeight(0);
+      }, 0);
     }
   }, [opened]);
 

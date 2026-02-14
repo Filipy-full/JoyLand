@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       });
       // ...existing code...
     } catch (emailError) {
-      // ...existing code...
+      console.error('Error sending confirmation email to user:', emailError);
     }
 
     // Enviar email de confirmação ao usuário

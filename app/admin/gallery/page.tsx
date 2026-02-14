@@ -3,8 +3,15 @@ import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 
+type GalleryImage = {
+  id: string;
+  url: string;
+  order: number;
+  created_at: string;
+};
+
 export default function AdminGalleryPage() {
-  const [images, setImages] = useState<any[]>([]);
+  const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");

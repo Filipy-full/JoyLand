@@ -51,12 +51,12 @@ export async function sendConfirmationEmailResend({ to, userName, treeName, star
     });
     if (!response.ok) {
       const errorText = await response.text();
-      // ...existing code...
+      console.error('Failed to send confirmation email:', errorText);
       return false;
     }
     return true;
   } catch (err) {
-    // ...existing code...
+    console.error('Error sending confirmation email:', err);
     return false;
   }
 }

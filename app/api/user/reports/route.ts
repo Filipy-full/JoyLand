@@ -26,8 +26,12 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({ reports: reports || [] })
-  } catch (error: any) {
-    console.error('Error fetching reports:', error)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Error fetching reports:', error.message)
+    } else {
+      console.error('Error fetching reports:', error)
+    }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
