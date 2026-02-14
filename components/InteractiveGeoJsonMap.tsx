@@ -365,23 +365,23 @@ export default function InteractiveGeoJsonMap() {
         // ...existing code...
         return
       }
-      // Si es el árbol especial, color azul
-      const color = isSpecialTree ? '#1976d2' : (tree.adopted ? '#f44336' : feature.properties.species === 'Olive' ? '#4caf50' : '#8d6e63')
+      // Si es el árbol especial, color verde igual que los demás
+      const color = isSpecialTree ? '#4caf50' : (tree.adopted ? '#f44336' : feature.properties.species === 'Olive' ? '#4caf50' : '#8d6e63')
 
       // Tamaño responsivo
-      let markerSize = isSpecialTree ? 28 : 16
-      let fontSize = isSpecialTree ? '14px' : '10px'
-      let borderWidth = isSpecialTree ? 3 : 2
+      let markerSize = 16
+      let fontSize = '10px'
+      let borderWidth = 2
 
       if (typeof window !== 'undefined') {
         if (window.innerWidth < 480) {
-          markerSize = isSpecialTree ? 20 : 10
-          fontSize = isSpecialTree ? '11px' : '8px'
-          borderWidth = isSpecialTree ? 2 : 1.5
+          markerSize = 10
+          fontSize = '8px'
+          borderWidth = 1.5
         } else if (window.innerWidth < 768) {
-          markerSize = isSpecialTree ? 24 : 12
-          fontSize = isSpecialTree ? '12px' : '9px'
-          borderWidth = isSpecialTree ? 2.5 : 1.5
+          markerSize = 12
+          fontSize = '9px'
+          borderWidth = 1.5
         }
       }
 
