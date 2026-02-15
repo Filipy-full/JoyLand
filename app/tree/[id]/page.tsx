@@ -92,7 +92,7 @@ export default async function TreePage({ params }: { params: Promise<{ id?: stri
                 </div>
                 <div className="bg-sage-50/60 rounded-xl p-4 shadow-sm">
                   <span className="font-semibold text-sage-700">Zone</span>
-                  <div className="text-gray-900 text-lg mt-1">{tree.area || tree.orientation || 'Unknown'}</div>
+                  <div className="text-gray-900 text-lg mt-1">{'area' in tree ? tree.area : (tree.orientation || 'Unknown')}</div>
                 </div>
                 <div className="bg-sage-50/60 rounded-xl p-4 shadow-sm">
                   <span className="font-semibold text-sage-700">Root Zone</span>

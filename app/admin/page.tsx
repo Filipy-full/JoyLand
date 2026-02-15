@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import AdminAuth from '@/components/AdminAuth';
 import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
@@ -26,7 +27,7 @@ export default function AdminDashboard() {
           setSendingConfirmations(false);
         }
       };
-      // Botón para enviar email a todos los usuarios
+      // Botón para enviar email a todos los usuarios desde el campo message
       const sendEmailToAllUsers = async () => {
         if (!window.confirm('¿Enviar email a todos los usuarios registrados?')) return;
         setSendingConfirmations(true);
@@ -34,10 +35,11 @@ export default function AdminDashboard() {
           const res = await fetch('/api/admin/send-email-all-users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: massEmailMessage, subject: massEmailSubject }),
           });
           const body = await res.json().catch(() => ({}));
           if (res.ok && body.success) {
-            alert('Emails enviados a todos los usuarios!');
+            alert(`Emails enviados: ${body.sent}, fallidos: ${body.failed}`);
           } else {
             alert(body.error || 'Error enviando emails');
           }
@@ -54,7 +56,7 @@ export default function AdminDashboard() {
     const [olivePrice, setOlivePrice] = useState<string>('200');
     const [editingPrice, setEditingPrice] = useState<boolean>(false);
     const [treesSuccess, setTreesSuccess] = useState<string>('');
-    const [replyingTo, setReplyingTo] = useState<any>(null);
+    const [replyingTo, setReplyingTo] = useState<Message | null>(null);
     const [replyMessage, setReplyMessage] = useState<string>('');
     const [replySending, setReplySending] = useState<boolean>(false);
     const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -77,10 +79,75 @@ export default function AdminDashboard() {
         setError('Error fetching messages');
       }
     };
-  const [messages, setMessages] = useState<any[]>([])
-  const [adoptions, setAdoptions] = useState<any[]>([])
-  const [reports, setReports] = useState<any[]>([])
-  const [stats, setStats] = useState<any>(null)
+  interface Message {
+    id: string;
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    created_at?: string;
+    // Add more fields as needed below, with explicit types:
+    // extraField?: string;
+  }
+  const [messages, setMessages] = useState<Message[]>([])
+  interface Adoption {
+    id: string;
+    tree_id: string;
+    tree_name?: string;
+    user_id: string;
+    user_name?: string;
+    user_email?: string;
+    shipping_name?: string;
+    shipping_address?: string;
+    status?: string;
+    payment_status?: string;
+    giftMessage?: string;
+    created_at: string;
+    trees?: {
+      type?: string;
+      // Add more specific fields as needed, or remove this index signature if not required
+      // For example: age?: number; location?: string;
+    };
+    // Add more explicit fields below as needed, for example:
+    // durationYears?: number;
+    // giftType?: string;
+  }
+  const [adoptions, setAdoptions] = useState<Adoption[]>([])
+  interface Report {
+    id: string;
+    adoption_id?: string;
+    user_id?: string;
+    tree_id?: string;
+    title?: string;
+    body?: string;
+    created_at?: string;
+    pdf_url?: string;
+    photos?: string[];
+    // Agrega más campos según tu modelo
+  }
+  const [reports, setReports] = useState<Report[]>([])
+  interface Stats {
+    almondPrice?: number;
+    olivePrice?: number;
+    totalRevenue?: number;
+    totalAdoptions?: number;
+    treePrice?: number;
+    maxRevenue?: number;
+    totalTrees?: number;
+    availableTrees?: number;
+    almondAdoptions?: number;
+    totalAlmondTrees?: number;
+    almondRevenue?: number;
+    maxAlmondRevenue?: number;
+    availableAlmond?: number;
+    oliveAdoptions?: number;
+    totalOliveTrees?: number;
+    oliveRevenue?: number;
+    maxOliveRevenue?: number;
+    availableOlive?: number;
+    // Agrega más campos según tu modelo
+  }
+  const [stats, setStats] = useState<Stats | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [tab, setTab] = useState<'messages' | 'adoptions' | 'reports' | 'stats' | 'trees' | 'gallery'>('messages')
@@ -93,10 +160,27 @@ export default function AdminDashboard() {
   })
   const [searchQuery, setSearchQuery] = useState('')
   const [treesWarning, setTreesWarning] = useState('')
-  const [trees, setTrees] = useState<any[]>([]);
+  interface Tree {
+    id: string;
+    name?: string;
+    year?: string | number;
+    width?: string | number;
+    height?: string | number;
+    root_zone?: string;
+    orientation?: string;
+    description?: string;
+    image?: string;
+    images?: string[];
+    videos?: string;
+    type?: string;
+    // Agrega más campos según tu modelo
+  }
+  const [trees, setTrees] = useState<Tree[]>([]);
   const [adoptionTypeFilter, setAdoptionTypeFilter] = useState('all');
   const [adoptionSortBy, setAdoptionSortBy] = useState('created_at');
   const [reportTreeType, setReportTreeType] = useState('all');
+  const [massEmailMessage, setMassEmailMessage] = useState('');
+  const [massEmailSubject, setMassEmailSubject] = useState('');
   const fetchAdoptions = async (token: string) => {
     const res = await fetch('/api/admin/adoptions', {
       headers: { Authorization: `Bearer ${token}` },
@@ -344,7 +428,7 @@ export default function AdminDashboard() {
         body: JSON.stringify(payload),
       });
       const text = await res.text();
-      let data: any = {};
+      let data: Record<string, unknown> = {};
       if (text) {
         try {
           data = JSON.parse(text);
@@ -465,6 +549,83 @@ export default function AdminDashboard() {
   return (
     <AdminAuth>
       <div className="min-h-screen bg-gray-50">
+        {/* Mass Email Form for Admin */}
+        <div className="max-w-2xl mx-auto mt-8 mb-8 bg-white rounded-xl border border-sage-200 p-6 shadow">
+          <h2 className="text-2xl font-serif text-sage-700 mb-4 flex items-center gap-2">
+            <span>📧</span> Send Email to All Users
+          </h2>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const form = e.target as HTMLFormElement;
+              const subject = form.subject.value;
+              const message = form.message.value;
+              if (!subject || !message) {
+                alert('Please enter both subject and message.');
+                return;
+              }
+              // Send email via API route
+              const session = await supabase.auth.getSession();
+              const token = session.data.session?.access_token;
+              if (!token) {
+                alert('Not authorized');
+                return;
+              }
+              const res = await fetch('/api/admin/send-mass-email', {
+                method: 'POST',
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ subject, message }),
+              });
+              const body = await res.json().catch(() => ({}));
+              if (!res.ok || !body.success) {
+                alert(body.error || 'Error sending email');
+              } else {
+                alert('Email sent to all users!');
+                // Optionally save the message in admin/messages
+                setMessages((prev) => [
+                  {
+                    id: Date.now().toString(),
+                    name: 'Admin',
+                    email: 'admin@joylandweb.com',
+                    subject,
+                    message,
+                    created_at: new Date().toISOString(),
+                  } as Message,
+                  ...prev,
+                ]);
+              }
+            }}
+          >
+            <div className="mb-3">
+              <label className="block text-sm font-medium text-sage-700 mb-1">Subject</label>
+              <input
+                name="subject"
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
+                placeholder="Subject of the email"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label className="block text-sm font-medium text-sage-700 mb-1">Message</label>
+              <textarea
+                name="message"
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
+                rows={6}
+                placeholder="Write your message..."
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold"
+            >
+              Send Email
+            </button>
+          </form>
+        </div>
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-wrap gap-4 items-center justify-between">
             <button
@@ -614,7 +775,7 @@ export default function AdminDashboard() {
                         return map;
                       }, new Map())
                       .values()
-                  ).map((msg: any) => (
+                  ).map((msg: Message) => (
                     <div key={msg.id} className="py-4 flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
                       <div className="flex-1">
                         <div className="flex flex-wrap gap-2 items-center mb-1">
@@ -769,18 +930,18 @@ export default function AdminDashboard() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl border border-green-200 p-6">
                       <p className="text-sm text-green-700 font-medium mb-1">Total Revenue</p>
-                      <p className="text-3xl font-bold text-green-900">€{stats.totalRevenue.toLocaleString()}</p>
-                      <p className="text-xs text-green-600 mt-2">{stats.totalAdoptions} adoptions × €{stats.treePrice}</p>
+                        <p className="text-3xl font-bold text-green-900">€{(stats.totalRevenue ?? 0).toLocaleString()}</p>
+                        <p className="text-xs text-green-600 mt-2">{(stats.totalAdoptions ?? 0)} adoptions × €{(stats.treePrice ?? 0)}</p>
                     </div>
                     <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200 p-6">
                       <p className="text-sm text-blue-700 font-medium mb-1">Potential Revenue</p>
-                      <p className="text-3xl font-bold text-blue-900">€{stats.maxRevenue.toLocaleString()}</p>
-                      <p className="text-xs text-blue-600 mt-2">{stats.totalTrees} total trees × €{stats.treePrice}</p>
+                        <p className="text-3xl font-bold text-blue-900">€{(stats.maxRevenue ?? 0).toLocaleString()}</p>
+                        <p className="text-xs text-blue-600 mt-2">{(stats.totalTrees ?? 0)} total trees × €{(stats.treePrice ?? 0)}</p>
                     </div>
                     <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200 p-6">
                       <p className="text-sm text-purple-700 font-medium mb-1">Available Trees</p>
-                      <p className="text-3xl font-bold text-purple-900">{stats.availableTrees}</p>
-                      <p className="text-xs text-purple-600 mt-2">Remaining: €{(stats.availableTrees * stats.treePrice).toLocaleString()}</p>
+                        <p className="text-3xl font-bold text-purple-900">{(stats.availableTrees ?? 0)}</p>
+                        <p className="text-xs text-purple-600 mt-2">Remaining: €{((stats.availableTrees ?? 0) * (stats.treePrice ?? 0)).toLocaleString()}</p>
                     </div>
                   </div>
 
@@ -794,27 +955,27 @@ export default function AdminDashboard() {
                       <div className="space-y-3">
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-gray-600">Adoptions</span>
-                          <span className="font-semibold text-gray-900">{stats.almondAdoptions} / {stats.totalAlmondTrees}</span>
+                            <span className="font-semibold text-gray-900">{(stats.almondAdoptions ?? 0)} / {(stats.totalAlmondTrees ?? 0)}</span>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-gray-600">Revenue</span>
-                          <span className="font-semibold text-green-600">€{stats.almondRevenue.toLocaleString()}</span>
+                            <span className="font-semibold text-green-600">€{(stats.almondRevenue ?? 0).toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-gray-600">Max Potential</span>
-                          <span className="font-semibold text-blue-600">€{stats.maxAlmondRevenue.toLocaleString()}</span>
+                            <span className="font-semibold text-blue-600">€{(stats.maxAlmondRevenue ?? 0).toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-gray-600">Available</span>
-                          <span className="font-semibold text-amber-600">{stats.availableAlmond} trees</span>
+                            <span className="font-semibold text-amber-600">{(stats.availableAlmond ?? 0)} trees</span>
                         </div>
                         <div className="mt-3 pt-3 border-t">
                           <div className="flex justify-between items-center">
                             <span className="text-xs text-gray-500">Completion</span>
-                            <span className="text-xs font-semibold text-gray-700">{((stats.almondAdoptions / stats.totalAlmondTrees) * 100).toFixed(1)}%</span>
+                              <span className="text-xs font-semibold text-gray-700">{(((stats.almondAdoptions ?? 0) / (stats.totalAlmondTrees ?? 1)) * 100).toFixed(1)}%</span>
                           </div>
                           <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                            <div className="bg-amber-500 h-2 rounded-full" style={{ width: `${(stats.almondAdoptions / stats.totalAlmondTrees) * 100}%` }}></div>
+                              <div className="bg-amber-500 h-2 rounded-full" style={{ width: `${((stats.almondAdoptions ?? 0) / (stats.totalAlmondTrees ?? 1)) * 100}%` }}></div>
                           </div>
                         </div>
                       </div>
@@ -828,27 +989,27 @@ export default function AdminDashboard() {
                       <div className="space-y-3">
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-gray-600">Adoptions</span>
-                          <span className="font-semibold text-gray-900">{stats.oliveAdoptions} / {stats.totalOliveTrees}</span>
+                            <span className="font-semibold text-gray-900">{(stats.oliveAdoptions ?? 0)} / {(stats.totalOliveTrees ?? 0)}</span>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-gray-600">Revenue</span>
-                          <span className="font-semibold text-green-600">€{stats.oliveRevenue.toLocaleString()}</span>
+                            <span className="font-semibold text-green-600">€{(stats.oliveRevenue ?? 0).toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-gray-600">Max Potential</span>
-                          <span className="font-semibold text-blue-600">€{stats.maxOliveRevenue.toLocaleString()}</span>
+                            <span className="font-semibold text-blue-600">€{(stats.maxOliveRevenue ?? 0).toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-gray-600">Available</span>
-                          <span className="font-semibold text-sage-600">{stats.availableOlive} trees</span>
+                            <span className="font-semibold text-sage-600">{(stats.availableOlive ?? 0)} trees</span>
                         </div>
                         <div className="mt-3 pt-3 border-t">
                           <div className="flex justify-between items-center">
                             <span className="text-xs text-gray-500">Completion</span>
-                            <span className="text-xs font-semibold text-gray-700">{((stats.oliveAdoptions / stats.totalOliveTrees) * 100).toFixed(1)}%</span>
+                              <span className="text-xs font-semibold text-gray-700">{(((stats.oliveAdoptions ?? 0) / (stats.totalOliveTrees ?? 1)) * 100).toFixed(1)}%</span>
                           </div>
                           <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                            <div className="bg-sage-500 h-2 rounded-full" style={{ width: `${(stats.oliveAdoptions / stats.totalOliveTrees) * 100}%` }}></div>
+                              <div className="bg-sage-500 h-2 rounded-full" style={{ width: `${((stats.oliveAdoptions ?? 0) / (stats.totalOliveTrees ?? 1)) * 100}%` }}></div>
                           </div>
                         </div>
                       </div>
@@ -1032,8 +1193,8 @@ export default function AdminDashboard() {
               </div>
               <div className="grid gap-3">
                 {adoptions
-                  .filter((a: any) => adoptionTypeFilter === 'all' ? true : a.trees?.type === adoptionTypeFilter)
-                  .filter((a: any) => {
+                  .filter((a: Adoption) => adoptionTypeFilter === 'all' ? true : a.trees?.type === adoptionTypeFilter)
+                  .filter((a: Adoption) => {
                     if (!searchQuery) return true;
                     const query = searchQuery.toLowerCase();
                     return [
@@ -1047,9 +1208,9 @@ export default function AdminDashboard() {
                       a.status,
                       a.payment_status,
                       a.giftMessage
-                    ].filter(Boolean).some(val => val.toString().toLowerCase().includes(query));
+                    ].filter(Boolean).some(val => typeof val !== 'undefined' && val !== null && val.toString().toLowerCase().includes(query));
                   })
-                  .sort((a: any, b: any) => {
+                  .sort((a: Adoption, b: Adoption) => {
                     if (adoptionSortBy === 'created_at') return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
                     if (adoptionSortBy === 'tree_id') return String(a.tree_id).localeCompare(String(b.tree_id), undefined, { numeric: true })
                     if (adoptionSortBy === 'tree_name') return (a.tree_name || '').localeCompare(b.tree_name || '', undefined, { numeric: true })
@@ -1057,7 +1218,7 @@ export default function AdminDashboard() {
                     if (adoptionSortBy === 'giftMessage') return (a.giftMessage || '').localeCompare(b.giftMessage || '', undefined, { numeric: true })
                     return 0
                   })
-                  .map((adopt: any) => (
+                  .map((adopt: Adoption) => (
                     <div key={adopt.id} className={`border rounded-lg p-4 ${adopt.trees?.type === 'almond' ? 'border-amber-200 bg-amber-50' : 'border-sage-200 bg-sage-50'}`}>
                       <div className="flex flex-wrap justify-between gap-3">
                         <div>
@@ -1238,12 +1399,40 @@ export default function AdminDashboard() {
                       />
                       <label className="block text-sm font-medium text-gray-700 mb-1">Current image</label>
                       <div className="flex flex-col items-center min-w-[120px] max-w-[180px] md:ml-0 mb-2">
-                        {(treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')) ? (
+                        {(treeEdit.image ?? (
+                          treeEdit.treeId
+                            ? (() => {
+                                const tree = trees.find(t => t.id === treeEdit.treeId);
+                                if (tree) {
+                                  if (Array.isArray(tree.images) && tree.images?.length > 0) return tree.images?.[0] ?? '';
+                                  return tree.image ?? '';
+                                }
+                                return '';
+                              })()
+                            : ''
+                        )) ? (
                           <>
-                            <img
-                              src={treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')}
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <Image
+                              src={
+                                (() => {
+                                  if (typeof treeEdit.image === 'string' && treeEdit.image) return treeEdit.image;
+                                  if (treeEdit.treeId) {
+                                    const tree = trees.find(t => t.id === treeEdit.treeId);
+                                    if (tree) {
+                                      if (Array.isArray(tree.images) && tree.images?.length > 0) return tree.images?.[0] ?? '';
+                                      if (typeof tree.image === 'string') return tree.image ?? '';
+                                    }
+                                  }
+                                  return '';
+                                })()
+                              }
                               alt="Image preview"
+                              width={180}
+                              height={160}
                               className="rounded border object-cover max-h-40 max-w-[180px] mb-2"
+                              style={{ objectFit: 'cover' }}
+                              unoptimized
                             />
                             <button
                               type="button"
@@ -1257,13 +1446,35 @@ export default function AdminDashboard() {
                         ) : (
                           <div className="text-xs text-gray-400 text-center">No image</div>
                         )}
-                      </div>
+                    </div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
                       <input
                         className="w-full border rounded-lg px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400 mb-2"
-                        value={typeof (treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')) === 'string' ? (treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')) : ''}
+                        value={treeEdit.image ?? (treeEdit.treeId ? (() => {
+                          const tree = trees.find(t => t.id === treeEdit.treeId);
+                          if (tree) {
+                            if (Array.isArray(tree.images) && tree.images.length > 0) return tree.images[0];
+                            if (tree.image) return tree.image;
+                          }
+                          return '';
+                        })() : '')}
                         onChange={e => setTreeEdit((p) => ({ ...p, image: e.target.value }))}
-                        placeholder={treeEdit.image || (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : "Image URL (optional)") : "Image URL (optional)")}
+                        placeholder={
+                          treeEdit.image ||
+                          (
+                            treeEdit.treeId
+                              ? (
+                                  (() => {
+                                    const foundTree = trees.find(t => t.id === treeEdit.treeId);
+                                    if (foundTree && Array.isArray(foundTree.images) && foundTree.images.length > 0) {
+                                      return foundTree.images[0];
+                                    }
+                                    return "Image URL (optional)";
+                                  })()
+                                )
+                              : "Image URL (optional)"
+                          )
+                        }
                         autoComplete="off"
                         spellCheck={false}
                       />
@@ -1518,14 +1729,14 @@ export default function AdminDashboard() {
                           <div className="font-semibold text-gray-900">{r.title}</div>
                           <div className="text-sm text-gray-600">Tree: {r.tree_id}</div>
                         </div>
-                        <div className="text-xs text-gray-500">{new Date(r.created_at).toLocaleString()}</div>
+                        <div className="text-xs text-gray-500">{r.created_at ? new Date(r.created_at).toLocaleString() : ''}</div>
                       </div>
                       {r.body && <p className="text-sm text-gray-700 mt-2">{r.body}</p>}
                       <div className="mt-3 flex flex-wrap gap-2">
                         {r.pdf_url && (
                           <a href={r.pdf_url} target="_blank" rel="noreferrer" className="inline-flex items-center px-3 py-1.5 bg-sage-600 text-white text-xs font-medium rounded-lg hover:bg-sage-700 transition-colors">📄 PDF</a>
                         )}
-                        {Array.isArray(r.photo_urls) && r.photo_urls.map((url: string, i: number) => (
+                        {Array.isArray(r.photos) && r.photos.map((url: string, i: number) => (
                           <a key={url} href={url} target="_blank" rel="noreferrer" className="inline-flex items-center px-3 py-1.5 bg-amber-600 text-white text-xs font-medium rounded-lg hover:bg-amber-700 transition-colors">📷 Photo {i + 1}</a>
                         ))}
                       </div>

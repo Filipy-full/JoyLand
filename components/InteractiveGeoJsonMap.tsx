@@ -279,7 +279,7 @@ export default function InteractiveGeoJsonMap() {
             id: feature.id,
             name: dbInfo?.name || feature.properties.name,
             species: feature.properties.species,
-            year: dbInfo?.year || 'Unknown',
+            year: typeof dbInfo?.year === 'number' ? dbInfo.year : (typeof feature.properties.year === 'number' ? feature.properties.year : 0),
             area: feature.properties.area,
             latitude: coords[1],
             longitude: coords[0],

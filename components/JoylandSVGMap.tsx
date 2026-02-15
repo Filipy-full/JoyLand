@@ -27,7 +27,14 @@ function normalizeCoords(lon: number, lat: number) {
 
 export default function JoylandSVGMap() {
   const [selected, setSelected] = useState<string | null>(null);
-  const [trees, setTrees] = useState<any[]>([]);
+  type Tree = {
+    id: string;
+    latitude: number;
+    longitude: number;
+    type: string;
+    status: string;
+  };
+  const [trees, setTrees] = useState<Tree[]>([]);
   const router = useRouter();
 
   useEffect(() => {
