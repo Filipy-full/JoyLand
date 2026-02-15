@@ -52,8 +52,8 @@ export default async function TreePage({ params }: { params: Promise<{ id?: stri
   }
 
   const yearValue = tree.year !== undefined && tree.year !== null
-    ? String(tree.year).padStart(4, '0')
-    : '0000'
+    ? String(tree.year)
+    : 'Unknown'
 
 
   // ...existing code...
@@ -92,11 +92,11 @@ export default async function TreePage({ params }: { params: Promise<{ id?: stri
                 </div>
                 <div className="bg-sage-50/60 rounded-xl p-4 shadow-sm">
                   <span className="font-semibold text-sage-700">Zone</span>
-                  <div className="text-gray-900 text-lg mt-1">{tree.orientation || 'n/a'}</div>
+                  <div className="text-gray-900 text-lg mt-1">{tree.area || tree.orientation || 'Unknown'}</div>
                 </div>
                 <div className="bg-sage-50/60 rounded-xl p-4 shadow-sm">
                   <span className="font-semibold text-sage-700">Root Zone</span>
-                  <div className="text-gray-900 text-lg mt-1">{tree.root_zone || 'n/a'}</div>
+                  <div className="text-gray-900 text-lg mt-1">{tree.root_zone || 'Unknown'}</div>
                 </div>
                 <div className="bg-sage-50/60 rounded-xl p-4 shadow-sm">
                   <span className="font-semibold text-sage-700">Lat</span>

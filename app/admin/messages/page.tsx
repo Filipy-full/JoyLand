@@ -16,8 +16,8 @@ export default function AdminMessagesPage() {
   const [selected, setSelected] = useState<Message | null>(null)
   const [reply, setReply] = useState('')
   const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   useEffect(() => {
     async function fetchMessages() {
@@ -66,10 +66,42 @@ export default function AdminMessagesPage() {
           <h2 className="text-xl font-semibold mb-2">Received Messages</h2>
           <ul className="divide-y">
             {messages.map(msg => (
-              <li key={msg.id} className={`py-3 cursor-pointer ${selected?.id === msg.id ? 'bg-sage-100' : ''}`} onClick={() => setSelected(msg)}>
-                <div className="font-bold">{msg.name || msg.user_name || 'User'} &lt;{msg.email}&gt;</div>
-                <div className="text-sage-700 text-sm">{msg.message?.slice(0, 80)}...</div>
-                <div className="text-xs text-sage-400">{new Date(msg.created_at).toLocaleString()}</div>
+              <li key={msg.id} className={`py-3 flex items-center justify-between ${selected?.id === msg.id ? 'bg-sage-100' : ''}`}>
+                <div className="flex-1 cursor-pointer" onClick={() => setSelected(msg)}>
+                  <div className="font-bold">{msg.name || msg.user_name || 'User'} &lt;{msg.email}&gt;</div>
+                  <div className="text-sage-700 text-sm">{msg.message?.slice(0, 80)}...</div>
+                  <div className="text-xs text-sage-400">{new Date(msg.created_at).toLocaleString()}</div>
+                </div>
+                <button
+                  className="ml-4 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs"
+                  title="Delete message"
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    if (!window.confirm('Are you sure you want to delete this message?')) return;
+                    setLoading(true);
+                    setError('');
+                    setSuccess('');
+                    try {
+                      const res = await fetch(`/api/admin/messages?id=${msg.id}`, {
+                        method: 'DELETE',
+                        headers: {
+                          Authorization: `Bearer ${localStorage.getItem('admin_token') || ''}`
+                        }
+                      });
+                      const data = await res.json();
+                      if (data.success) {
+                        setMessages(messages => messages.filter(m => m.id !== msg.id));
+                        if (selected?.id === msg.id) setSelected(null);
+                        setSuccess('Message deleted');
+                      } else {
+                        setError(data.error || 'Error deleting message');
+                      }
+                    } catch (err) {
+                      setError('Error deleting message');
+                    }
+                    setLoading(false);
+                  }}
+                >Delete</button>
               </li>
             ))}
           </ul>

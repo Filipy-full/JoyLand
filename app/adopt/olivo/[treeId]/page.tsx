@@ -92,7 +92,7 @@ export default function OlivoTreePage(props: any) {
         <div className="bg-white border border-sage-200 rounded-xl p-4 mb-4 text-sage-800 text-sm flex flex-col gap-1">
           <div><strong>Tree #{tree.id}</strong></div>
           <div>Species: {tree.type === 'olive' || tree.type === 'olivo' ? 'Olive tree' : tree.type}</div>
-          <div>Year: {tree.year?.toString().padStart(4, '0') || '0000'}</div>
+          <div>Year: {tree.year || 'Unknown'}</div>
           <div>Zone: {tree.area || 'Unknown'}</div>
           {tree.root_zone && <div>Root Zone: {tree.root_zone}</div>}
           {tree.orientation && <div>Orientation: {tree.orientation}</div>}

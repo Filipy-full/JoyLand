@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["public"]
 }
 
 model Tree {
@@ -20,6 +21,7 @@ model Tree {
   videos        String?
   latitude      Float?
   longitude     Float?
+  year          String?     @map("year")
   width         Float?      @map("width") // ancho
   height        Float?      @map("height") // altura
   createdAt     DateTime    @default(now()) @map("created_at")
@@ -27,6 +29,7 @@ model Tree {
   adoptions     Adoption[]
   
   @@map("trees")
+  @@schema("public")
 }
 
 model User {
@@ -38,6 +41,7 @@ model User {
   adoptions Adoption[]
   
   @@map("users")
+  @@schema("public")
 }
 
 model Adoption {
@@ -66,6 +70,7 @@ model Adoption {
   @@index([userId])
   @@index([treeId])
   @@map("adoptions")
+  @@schema("public")
 }
 
 model MessageReply {
@@ -80,6 +85,7 @@ model MessageReply {
 
   @@index([messageId])
   @@map("message_replies")
+  @@schema("public")
 }
 
 // Adicionar modelo ContactMessage se não existir
@@ -92,4 +98,5 @@ model ContactMessage {
   replies    MessageReply[]
 
   @@map("contact_messages")
+  @@schema("public")
 }

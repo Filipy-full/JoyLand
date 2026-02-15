@@ -24,19 +24,23 @@ export async function GET() {
   }
 
   // Mapeia o último nome de usuário e nome personalizado para cada árvore
+  // y si tiene adopción activa
   const adoptionMap: Record<string, { user_name?: string; tree_name?: string }> = {};
+  const adoptedSet = new Set();
   for (const adoption of adoptions) {
     if (!adoptionMap[adoption.tree_id]) {
       adoptionMap[adoption.tree_id] = {
         user_name: adoption.user_name,
         tree_name: adoption.tree_name,
       };
+      adoptedSet.add(adoption.tree_id);
     }
   }
 
-  // Junta os dados
+  // Junta os dados y fuerza status 'adopted' si corresponde
   const treesWithAdoptions = (trees || []).map(tree => ({
     ...tree,
+    status: adoptedSet.has(tree.id) ? 'adopted' : tree.status,
     user_name: adoptionMap[tree.id]?.user_name || null,
     tree_name: adoptionMap[tree.id]?.tree_name || null,
   }));

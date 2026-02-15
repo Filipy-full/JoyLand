@@ -41,20 +41,19 @@ export async function DELETE(req: NextRequest) {
 
     const token = authHeader.slice(7)
     await supabaseAdmin.auth.getUser(token);
-    // if (error || !user || !adminEmails.includes(user.email || '')) {
-    //   return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-    // }
-
+    const url = new URL(req.url);
+    const id = url.searchParams.get('id');
+    if (!id) {
+      return NextResponse.json({ error: 'Missing message id' }, { status: 400 });
+    }
     const { error: deleteError } = await supabaseAdmin
       .from('contact_messages')
       .delete()
-      .not('id', 'is', null)
-
+      .eq('id', id);
     if (deleteError) {
-      return NextResponse.json({ error: deleteError.message }, { status: 500 })
+      return NextResponse.json({ error: deleteError.message }, { status: 500 });
     }
-
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true });
   } catch (error: unknown) {
     console.error('Error deleting messages:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

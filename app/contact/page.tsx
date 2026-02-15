@@ -149,8 +149,8 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <div>
                   <h3 className="font-medium text-gray-800 mb-1">Email</h3>
-                    <a href="mailto:joylandspain@gmail.com?subject=JoyLand%20Contact%20Request" className="text-sage-600 hover:text-sage-700">
-                      joylandspain@gmail.com
+                    <a href="mailto:info@joylandweb.com?subject=JoyLand%20Contact%20Request" className="text-sage-600 hover:text-sage-700">
+                      info@joylandweb.com
                   </a>
                 </div>
                 <div>

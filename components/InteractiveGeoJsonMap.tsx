@@ -279,7 +279,7 @@ export default function InteractiveGeoJsonMap() {
             id: feature.id,
             name: dbInfo?.name || feature.properties.name,
             species: feature.properties.species,
-            year: typeof dbInfo?.year === 'number' ? dbInfo?.year : 0,
+            year: dbInfo?.year || 'Unknown',
             area: feature.properties.area,
             latitude: coords[1],
             longitude: coords[0],
@@ -366,7 +366,8 @@ export default function InteractiveGeoJsonMap() {
         return
       }
       // Si es el árbol especial, color verde igual que los demás
-      const color = isSpecialTree ? '#4caf50' : (tree.adopted ? '#f44336' : feature.properties.species === 'Olive' ? '#4caf50' : '#8d6e63')
+      // Si es el árbol especial, usar la misma lógica de color que los demás
+      const color = tree.adopted ? '#f44336' : feature.properties.species === 'Olive' ? '#4caf50' : '#8d6e63'
 
       // Tamaño responsivo
       let markerSize = 16
@@ -747,7 +748,7 @@ export default function InteractiveGeoJsonMap() {
                 </div>
                 <div className="border-b border-gray-200 pb-2">
                   <p className="text-gray-500 text-xs">Year</p>
-                  <p className="font-semibold text-gray-800">{String(selectedTree.year || 0).padStart(4, '0')}</p>
+                  <p className="font-semibold text-gray-800">{selectedTree.year || 'Unknown'}</p>
                 </div>
                 {selectedTree.description && (
                   <div className="border-b border-gray-200 pb-2 col-span-2">

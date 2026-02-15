@@ -26,6 +26,28 @@ export default function AdminDashboard() {
           setSendingConfirmations(false);
         }
       };
+      // Botón para enviar email a todos los usuarios
+      const sendEmailToAllUsers = async () => {
+        if (!window.confirm('¿Enviar email a todos los usuarios registrados?')) return;
+        setSendingConfirmations(true);
+        try {
+          const res = await fetch('/api/admin/send-email-all-users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+          });
+          const body = await res.json().catch(() => ({}));
+          if (res.ok && body.success) {
+            alert('Emails enviados a todos los usuarios!');
+          } else {
+            alert(body.error || 'Error enviando emails');
+          }
+        } catch (err) {
+          alert('Error de conexión: ' + String(err));
+        } finally {
+          setSendingConfirmations(false);
+        }
+      };
+
     // Estados e variáveis ausentes adicionados para evitar erros de compilação
     const [treeEdit, setTreeEdit] = useState<{ treeId?: string; year?: string; width?: string; height?: string; root_zone?: string; orientation?: string; description?: string; image?: string; videos?: string }>({ treeId: '', year: '', width: '', height: '', root_zone: '', orientation: '', description: '', image: '', videos: '' });
     const [almondPrice, setAlmondPrice] = useState<string>('200');
@@ -120,7 +142,7 @@ export default function AdminDashboard() {
       if (current) {
         setTreeEdit((prev) => ({
           ...prev,
-          year: current.year !== undefined && current.year !== null ? String(current.year).padStart(4, '0') : '0000',
+          year: current.year !== undefined && current.year !== null ? String(current.year) : '',
           width: current.width !== undefined && current.width !== null ? String(current.width) : '',
           height: current.height !== undefined && current.height !== null ? String(current.height) : '',
           root_zone: current.root_zone || '',
@@ -160,7 +182,7 @@ export default function AdminDashboard() {
     const descriptionStr = treeEdit.description ?? '';
     const imageStr = treeEdit.image ?? '';
     const videosStr = treeEdit.videos ?? '';
-    const yearValue = yearStr.trim() === '' ? null : Number(yearStr);
+    const yearValue = yearStr.trim() === '' ? null : yearStr.trim();
     const widthValue = widthStr.trim() === '' ? null : Number(widthStr);
     const heightValue = heightStr.trim() === '' ? null : Number(heightStr);
     const rootZoneValue = rootZoneStr.trim() === '' ? null : rootZoneStr.trim();
@@ -168,10 +190,6 @@ export default function AdminDashboard() {
     const descriptionValue = descriptionStr.trim() === '' ? null : descriptionStr.trim();
     const imagesValue = imageStr.trim() === '' ? null : [imageStr.trim()];
     const videosValue = videosStr.trim() === '' ? null : videosStr.trim();
-    if (yearStr.trim() !== '' && (Number.isNaN(yearValue) || (yearValue !== null && yearValue < 0))) {
-      setError('Invalid year');
-      return;
-    }
     if (widthStr.trim() !== '' && (Number.isNaN(widthValue) || (widthValue !== null && widthValue < 0))) {
       setError('Invalid width');
       return;
@@ -457,6 +475,12 @@ export default function AdminDashboard() {
               <span role="img" aria-label="send" style={{ marginRight: 8 }}>📧</span>
               Send adoption confirmations
             </button>
+            <button
+              className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold mb-4"
+              onClick={sendEmailToAllUsers}
+            >
+              Enviar email a todos los usuarios
+            </button>
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
               <p className="text-sm text-gray-600">Manage messages, adoptions and reports</p>
@@ -607,6 +631,30 @@ export default function AdminDashboard() {
                           onClick={() => setReplyingTo(msg)}
                         >
                           Reply
+                        </button>
+                        <button
+                          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm"
+                          onClick={async () => {
+                            if (!confirm('Are you sure you want to delete this message?')) return;
+                            const session = await supabase.auth.getSession();
+                            const token = session.data.session?.access_token;
+                            if (!token) {
+                              alert('Not authorized');
+                              return;
+                            }
+                            const res = await fetch(`/api/admin/messages?id=${msg.id}`, {
+                              method: 'DELETE',
+                              headers: { Authorization: `Bearer ${token}` },
+                            });
+                            const body = await res.json().catch(() => ({}));
+                            if (!res.ok || !body.success) {
+                              alert(body.error || 'Error deleting message');
+                            } else {
+                              setMessages((prev) => prev.filter((m) => m.id !== msg.id));
+                            }
+                          }}
+                        >
+                          Delete
                         </button>
                       </div>
                     </div>
@@ -1071,7 +1119,7 @@ export default function AdminDashboard() {
                           root_zone: tree?.root_zone || '',
                           orientation: tree?.orientation || '',
                           description: tree?.description || '',
-                          image: (Array.isArray(tree?.images) && tree?.images.length > 0) ? tree.images[0] : (tree?.image || ''),
+                          image: (Array.isArray(tree?.images) && tree?.images.length > 0) ? tree.images[0] : (tree?.image ?? ''),
                           videos: tree?.videos || '',
                         });
                       }}
@@ -1188,7 +1236,7 @@ export default function AdminDashboard() {
                         }}
                         style={{ maxWidth: 180 }}
                       />
-                      <label className="block text-sm font-medium text-gray-700 mb-1 mt-2">Current image</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Current image</label>
                       <div className="flex flex-col items-center min-w-[120px] max-w-[180px] md:ml-0 mb-2">
                         {(treeEdit.image ?? (treeEdit.treeId ? (Array.isArray(trees.find(t => t.id === treeEdit.treeId)?.images) && trees.find(t => t.id === treeEdit.treeId)?.images.length > 0 ? trees.find(t => t.id === treeEdit.treeId)?.images[0] : (trees.find(t => t.id === treeEdit.treeId)?.image ?? '')) : '')) ? (
                           <>
