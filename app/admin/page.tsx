@@ -1219,37 +1219,67 @@ export default function AdminDashboard() {
                     return 0
                   })
                   .map((adopt: Adoption) => (
-                    <div key={adopt.id} className={`border rounded-lg p-4 ${adopt.trees?.type === 'almond' ? 'border-amber-200 bg-amber-50' : 'border-sage-200 bg-sage-50'}`}>
+                    <div key={adopt.id} className={`border rounded-lg p-4 ${adopt.trees?.type === 'almond' ? 'border-amber-200 bg-amber-50' : 'border-sage-200 bg-sage-50'}`}
+                      style={{ marginBottom: '16px' }}>
                       <div className="flex flex-wrap justify-between gap-3">
-                        <div>
-                          <div className="font-semibold text-gray-900">{adopt.tree_name || `#{adopt.tree_id}`}</div>
-                                                    <div className="text-xs text-gray-600">Tree Name: {adopt.tree_name}</div>
-                          <div className="text-sm text-gray-600">{adopt.user_name || adopt.shipping_name || adopt.user_id}</div>
-                          <div className="text-xs text-gray-600">{adopt.user_email}</div>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-lg font-bold text-gray-900">{adopt.tree_name || `#{adopt.tree_id}`}</span>
+                          <span className="text-xs text-gray-600">Tree ID: <span className="font-mono">{adopt.tree_id}</span></span>
+                          <span className="text-xs text-gray-600">Nombre: {adopt.tree_name}</span>
+                          <span className="text-xs text-gray-600">Usuario: {adopt.user_name || adopt.shipping_name || adopt.user_id}</span>
+                          <span className="text-xs text-gray-600">Email: {adopt.user_email}</span>
+                          <span className="text-xs text-gray-600">Status: {adopt.status || 'n/a'} | Pago: {adopt.payment_status || 'n/a'}</span>
                           {(() => {
                             let addr = null;
                             try {
                               addr = adopt.shipping_address ? JSON.parse(adopt.shipping_address) : null;
                             } catch {}
-                            if (!addr) return <div className="text-xs text-gray-600 font-semibold">Address: -</div>;
+                            if (!addr) return <span className="text-xs text-gray-600 font-semibold">Dirección: -</span>;
                             return (
-                              <div className="text-xs text-gray-600 font-semibold">
-                                Address:<br />
+                              <span className="text-xs text-gray-600 font-semibold">
+                                Dirección:<br />
                                 {addr.line1 && <span>{addr.line1}<br /></span>}
                                 {addr.line2 && <span>{addr.line2}<br /></span>}
                                 {addr.city && <span>{addr.city}, </span>}
                                 {addr.state && <span>{addr.state}, </span>}
                                 {addr.postal_code && <span>{addr.postal_code}, </span>}
                                 {addr.country && <span>{addr.country}</span>}
-                              </div>
+                              </span>
                             );
                           })()}
+                          {adopt.giftMessage && <span className="mt-2 text-xs text-amber-700">🎁 Regalo: {adopt.giftMessage}</span>}
                         </div>
-                        <div className="text-xs text-gray-500">{new Date(adopt.created_at).toLocaleString()}</div>
+                        <div className="flex flex-col items-end gap-2">
+                          <span className="text-xs text-gray-500">{new Date(adopt.created_at).toLocaleString()}</span>
+                          <button
+                            className="mt-3 bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition-colors text-xs font-semibold"
+                            onClick={async () => {
+                              if (!confirm('¿Seguro que quieres quitar esta adopción? El árbol quedará disponible.')) return;
+                              const session = await supabase.auth.getSession();
+                              const token = session.data.session?.access_token;
+                              if (!token) {
+                                alert('No autorizado');
+                                return;
+                              }
+                              // Quitar adopción
+                              await fetch(`/api/admin/adoptions?id=${adopt.id}`, {
+                                method: 'DELETE',
+                                headers: { Authorization: `Bearer ${token}` },
+                              });
+                              // Actualizar estado del árbol
+                              await fetch(`/api/admin/trees`, {
+                                method: 'PATCH',
+                                headers: {
+                                  Authorization: `Bearer ${token}`,
+                                  'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ id: adopt.tree_id, status: 'available' }),
+                              });
+                              setAdoptions((prev) => prev.filter((a) => a.id !== adopt.id));
+                            }}
+                          >Quitar adopción</button>
+                        </div>
                       </div>
-                      <div className="mt-2 text-xs text-gray-600">Tree ID: <span className="font-mono">{adopt.tree_id}</span></div>
-                      <div className="mt-2 text-xs text-gray-600">Status: {adopt.status || 'n/a'} | Payment: {adopt.payment_status || 'n/a'}</div>
-                      {adopt.giftMessage && <div className="mt-2 text-xs text-amber-700">🎁 Gift: {adopt.giftMessage}</div>}
                     </div>
                   ))}
                 {adoptions.length === 0 && (

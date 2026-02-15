@@ -1,3 +1,29 @@
+export async function DELETE(req: NextRequest) {
+  try {
+    const authHeader = req.headers.get('authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const token = authHeader.slice(7);
+    await supabaseAdmin.auth.getUser(token);
+    const url = new URL(req.url);
+    const adoptionId = url.searchParams.get('id');
+    if (!adoptionId) {
+      return NextResponse.json({ error: 'Missing adoption id' }, { status: 400 });
+    }
+    const { error: deleteError } = await supabaseAdmin
+      .from('adoptions')
+      .delete()
+      .eq('id', adoptionId);
+    if (deleteError) {
+      return NextResponse.json({ error: deleteError.message }, { status: 500 });
+    }
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
+    console.error('Error deleting adoption:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
 export async function POST(req: NextRequest) {
   // ...existing code...
   const body = await req.json();
