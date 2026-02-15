@@ -14,13 +14,26 @@ export async function GET() {
   }
 
   // Busca as últimas adoções para cada árvore
-  const { data: adoptions, error: adoptionsError } = await supabaseAdmin
-    .from('adoptions')
-    .select('tree_id, user_name, tree_name')
-    .order('created_at', { ascending: false });
 
-  if (adoptionsError) {
-    return NextResponse.json({ error: adoptionsError.message }, { status: 500 });
+  let adoptions, adoptionsError;
+  try {
+    const result = await supabaseAdmin
+      .from('adoptions')
+      .select('tree_id, user_name, tree_name')
+      .order('created_at', { ascending: false });
+    adoptions = result.data;
+    adoptionsError = result.error;
+    if (adoptionsError) {
+      console.error('Supabase adoptionsError:', adoptionsError);
+      return NextResponse.json({ error: adoptionsError.message }, { status: 500 });
+    }
+    if (!Array.isArray(adoptions)) {
+      console.error('Supabase adoptions result is not array:', adoptions);
+      return NextResponse.json({ error: 'Adoptions result is not array' }, { status: 500 });
+    }
+  } catch (err) {
+    console.error('Unexpected error fetching adoptions:', err);
+    return NextResponse.json({ error: 'Unexpected error fetching adoptions' }, { status: 500 });
   }
 
   // Mapeia o último nome de usuário e nome personalizado para cada árvore
