@@ -38,8 +38,10 @@ export async function GET() {
   }
 
   // Junta os dados y fuerza status 'adopted' si corresponde
+
   const treesWithAdoptions = (trees || []).map(tree => ({
     ...tree,
+    year: tree.year !== undefined && tree.year !== null ? String(tree.year) : '',
     status: adoptedSet.has(tree.id) ? 'adopted' : tree.status,
     user_name: adoptionMap[tree.id]?.user_name || null,
     tree_name: adoptionMap[tree.id]?.tree_name || null,
