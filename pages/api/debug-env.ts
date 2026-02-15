@@ -11,5 +11,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     NEXT_PUBLIC_SITE_PASSWORD: process.env.NEXT_PUBLIC_SITE_PASSWORD,
     GMAIL_PASSWORD: process.env.GMAIL_PASSWORD,
     GMAIL_USER: process.env.GMAIL_USER,
+    SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY ? 'SET' : undefined,
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
   });
 }
