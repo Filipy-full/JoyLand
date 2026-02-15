@@ -550,85 +550,14 @@ export default function AdminDashboard() {
     <AdminAuth>
       <div className="min-h-screen bg-gray-50">
         {/* Mass Email Form for Admin */}
-        <div className="max-w-2xl mx-auto mt-8 mb-8 bg-white rounded-xl border border-sage-200 p-6 shadow">
-          <h2 className="text-2xl font-serif text-sage-700 mb-4 flex items-center gap-2">
-            <span>📧</span> Send Email to All Users
-          </h2>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              const form = e.target as HTMLFormElement;
-              const subject = form.subject.value;
-              const message = form.message.value;
-              if (!subject || !message) {
-                alert('Please enter both subject and message.');
-                return;
-              }
-              // Send email via API route
-              const session = await supabase.auth.getSession();
-              const token = session.data.session?.access_token;
-              if (!token) {
-                alert('Not authorized');
-                return;
-              }
-              const res = await fetch('/api/admin/send-mass-email', {
-                method: 'POST',
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ subject, message }),
-              });
-              const body = await res.json().catch(() => ({}));
-              if (!res.ok || !body.success) {
-                alert(body.error || 'Error sending email');
-              } else {
-                alert('Email sent to all users!');
-                // Optionally save the message in admin/messages
-                setMessages((prev) => [
-                  {
-                    id: Date.now().toString(),
-                    name: 'Admin',
-                    email: 'admin@joylandweb.com',
-                    subject,
-                    message,
-                    created_at: new Date().toISOString(),
-                  } as Message,
-                  ...prev,
-                ]);
-              }
-            }}
-          >
-            <div className="mb-3">
-              <label className="block text-sm font-medium text-sage-700 mb-1">Subject</label>
-              <input
-                name="subject"
-                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
-                placeholder="Subject of the email"
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label className="block text-sm font-medium text-sage-700 mb-1">Message</label>
-              <textarea
-                name="message"
-                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
-                rows={6}
-                placeholder="Write your message..."
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold"
-            >
-              Send Email
-            </button>
-          </form>
-        </div>
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-wrap gap-4 items-center justify-between">
-            <button
+      
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+              <p className="text-sm text-gray-600">Manage messages, adoptions and reports</p>
+            </div>
+             <button
               className="bg-sage-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-sage-700 transition-all z-30"
               disabled={sendingConfirmations}
               onClick={sendAdoptionConfirmations}
@@ -636,16 +565,6 @@ export default function AdminDashboard() {
               <span role="img" aria-label="send" style={{ marginRight: 8 }}>📧</span>
               Send adoption confirmations
             </button>
-            <button
-              className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold mb-4"
-              onClick={sendEmailToAllUsers}
-            >
-              Enviar email a todos los usuarios
-            </button>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-              <p className="text-sm text-gray-600">Manage messages, adoptions and reports</p>
-            </div>
             <div className="flex items-center gap-3">
               <button
                 onClick={handleLogout}
@@ -680,6 +599,7 @@ export default function AdminDashboard() {
             >
               Messages
             </button>
+            
             <button
               onClick={() => setTab('adoptions')}
               className={`px-4 py-2 rounded-lg text-sm font-semibold ${tab === 'adoptions' ? 'bg-sage-600 text-white' : 'bg-gray-100 text-gray-700'}`}
@@ -756,6 +676,7 @@ export default function AdminDashboard() {
                 {messages.length === 0 && (
                   <div className="text-gray-500 text-center py-8">No messages found.</div>
                 )}
+                
                 <div className="divide-y divide-sage-100">
                   {Array.from(
                     messages
@@ -819,8 +740,86 @@ export default function AdminDashboard() {
                         </button>
                       </div>
                     </div>
+                    
                   ))}
+                  <div className="max-w-2xl mx-auto mt-8 mb-8 bg-white rounded-xl border border-sage-200 p-6 shadow">
+          <h2 className="text-2xl font-serif text-sage-700 mb-4 flex items-center gap-2">
+            <span>📧</span> Send Email to All Users
+          </h2>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const form = e.target as HTMLFormElement;
+              const subject = form.subject.value;
+              const message = form.message.value;
+              if (!subject || !message) {
+                alert('Please enter both subject and message.');
+                return;
+              }
+              // Send email via API route
+              const session = await supabase.auth.getSession();
+              const token = session.data.session?.access_token;
+              if (!token) {
+                alert('Not authorized');
+                return;
+              }
+              const res = await fetch('/api/admin/send-mass-email', {
+                method: 'POST',
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ subject, message }),
+              });
+              const body = await res.json().catch(() => ({}));
+              if (!res.ok || !body.success) {
+                alert(body.error || 'Error sending email');
+              } else {
+                alert('Email sent to all users!');
+                // Optionally save the message in admin/messages
+                setMessages((prev) => [
+                  {
+                    id: Date.now().toString(),
+                    name: 'Admin',
+                    email: 'admin@joylandweb.com',
+                    subject,
+                    message,
+                    created_at: new Date().toISOString(),
+                  } as Message,
+                  ...prev,
+                ]);
+              }
+            }}
+          >
+            <div className="mb-3">
+              <label className="block text-sm font-medium text-sage-700 mb-1">Subject</label>
+              <input
+                name="subject"
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
+                placeholder="Subject of the email"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label className="block text-sm font-medium text-sage-700 mb-1">Message</label>
+              <textarea
+                name="message"
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
+                rows={6}
+                placeholder="Write your message..."
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-sage-600 text-white px-4 py-2 rounded-lg hover:bg-sage-700 transition-colors text-sm font-semibold"
+            >
+              Send Email
+            </button>
+          </form>
+        </div>
                 </div>
+                
 
                 {/* Modal/inline para responder */}
                 {replyingTo && (
@@ -859,6 +858,7 @@ export default function AdminDashboard() {
                   </div>
                 )}
               </div>
+              
             )}
 
             {tab === 'stats' && (
