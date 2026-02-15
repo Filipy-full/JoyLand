@@ -86,10 +86,11 @@ export async function POST(req: NextRequest) {
       shipping_address_collection: {
         allowed_countries: ['DE', 'AT', 'BE', 'BG', 'HR', 'DK', 'SK', 'SI', 'ES', 'FI', 'FR', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'NO', 'NL'],
       },
+      phone_number_collection: { enabled: true },
       line_items,
       success_url: `${origin}/adopt/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/adopt`,
-      allow_promotion_codes: true, // Permite que o usuário insira código de desconto
+      allow_promotion_codes: true, // Permite que o usuário insira código de descuento
       metadata: {
         userId: userId || '',
         userName: userName || '',

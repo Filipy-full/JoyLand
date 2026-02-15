@@ -34,12 +34,32 @@ export async function POST(req: NextRequest) {
       }
     };
     const session = event.data.object as CheckoutSessionWithShipping;
-    
+
     console.log('💳 Session data:', {
       sessionId: session.id,
       metadata: session.metadata,
       shippingDetails: session.shipping_details,
+      customerDetails: session.customer_details,
     })
+
+    // Guardar el teléfono si existe y hay email
+    const phone = session.customer_details?.phone;
+    const email = session.customer_details?.email || session.metadata?.userEmail;
+    if (phone && email) {
+      try {
+        const { error: phoneError } = await supabaseAdmin
+          .from('profiles')
+          .update({ phone })
+          .eq('email', email);
+        if (phoneError) {
+          console.error('Error updating phone in profiles:', phoneError);
+        } else {
+          console.log('✅ Phone updated in profiles:', { email, phone });
+        }
+      } catch (err) {
+        console.error('Exception updating phone in profiles:', err);
+      }
+    }
     // Recuperar metadata del usuario
     const userId = session.metadata?.userId
     const treeIds = session.metadata?.treeIds || session.metadata?.treeId // Soportar ambos formatos
@@ -90,6 +110,7 @@ export async function POST(req: NextRequest) {
               gift_message: isGift ? (giftMessage || null) : null,
               shipping_name: shippingName || null,
               shipping_address: shippingAddress ? JSON.stringify(shippingAddress) : null,
+              phone: session.customer_details?.phone || null,
             });
 
           if (adoptionError) {
