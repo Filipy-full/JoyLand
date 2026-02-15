@@ -15093,6 +15093,45 @@
         "area": "North"
       },
       "id": "treeid387"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.742870188681274,
+          41.79182156580685,
+          492.1692055901252
+        ]
+      },
+      "properties": {
+        "name": "388",
+        "styleUrl": "#__managed_style_0EEDE00CB33D79FB6BC6",
+        "fill-opacity": 0.25,
+        "fill": "#ffffff",
+        "stroke-opacity": 1,
+        "stroke": "#fbc02d",
+        "stroke-width": 2.66667,
+        "icon-scale": 0.75,
+        "icon-offset": [
+          64,
+          128
+        ],
+        "icon-offset-units": [
+          "pixels",
+          "insetPixels"
+        ],
+        "icon": "https://earth.google.com/earth/document/icon?color=795548&id=2000&scale=4",
+        "description": {
+          "@type": "html",
+          "value": "<p><b>Specie</b> Almond Feature<br></p><div><b>Year:</b> 2024<br></div><div><b>Region:</b> North<br></div>"
+        },
+        "type": "tree",
+        "species": "Almond",
+        "year": "50-100",
+        "area": "North"
+      },
+      "id": "treeid388"
     }
      
   ]

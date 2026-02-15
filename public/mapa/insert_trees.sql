@@ -3858,13 +3858,22 @@ INSERT INTO trees (id, name, type, latitude, longitude, year, status, orientatio
       'available',
       'North'
     );
-INSERT INTO trees (id, name, type, latitude, longitude, year, status, orientation) VALUES (
-      'treeid387',
-      '387',
-      'olive',
-      41.7896752,
-      1.7436336,
-      2024,
-      'available',
-      'North'
-    );
+INSERT INTO trees (
+  id,
+  name,
+  type,
+  latitude,
+  longitude,
+  year,
+  status,
+  orientation
+) VALUES (
+  'treeid388',
+  '388',
+  'Almond',
+  41.79182156580685,
+  1.742870188681274,
+  '50-100',
+  NULL,
+  NULL
+);

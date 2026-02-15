@@ -20,7 +20,7 @@ export default function Header() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setIsLoggedIn(true);
-        const allowedAdmins = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com'];
+        const allowedAdmins = ['filipyhenrique54@gmail.com', 'joylandspain@gmail.com', 'info@joylandweb.com'];
         setIsAdmin(!!user.email && allowedAdmins.includes(user.email));
       } else {
         setIsLoggedIn(false);
