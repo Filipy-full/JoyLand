@@ -1225,7 +1225,38 @@ export default function AdminDashboard() {
                         <div className="flex flex-col gap-1">
                           <span className="text-lg font-bold text-gray-900">{adopt.tree_name || `#{adopt.tree_id}`}</span>
                           <span className="text-xs text-gray-600">Tree ID: <span className="font-mono">{adopt.tree_id}</span></span>
-                          <span className="text-xs text-gray-600">Nombre: {adopt.tree_name}</span>
+                          <form
+                            onSubmit={async (e) => {
+                              e.preventDefault();
+                              const form = e.target as HTMLFormElement;
+                              const input = form.elements.namedItem('treeName') as HTMLInputElement;
+                              const newTreeName = input.value.trim();
+                              if (!newTreeName || newTreeName === adopt.tree_name) return;
+                              const token = localStorage.getItem('sb-access-token');
+                              const res = await fetch('/api/admin/adoptions', {
+                                method: 'PATCH',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                  'Authorization': `Bearer ${token}`,
+                                },
+                                body: JSON.stringify({ adoptionId: adopt.id, newTreeName }),
+                              });
+                              if (res.ok) {
+                                setAdoptions((prev) => prev.map((a) => a.id === adopt.id ? { ...a, tree_name: newTreeName } : a));
+                              } else {
+                                alert('Error updating tree name');
+                              }
+                            }}
+                            className="flex items-center gap-1 mt-1"
+                          >
+                            <input
+                              name="treeName"
+                              defaultValue={adopt.tree_name}
+                              className="border rounded px-1 py-0.5 w-28 text-xs"
+                              style={{ minWidth: 60 }}
+                            />
+                            <button type="submit" className="px-2 py-0.5 text-xs bg-sage-200 rounded hover:bg-sage-300" title="Guardar">💾</button>
+                          </form>
                           <span className="text-xs text-gray-600">Usuario: {adopt.user_name || adopt.shipping_name || adopt.user_id}</span>
                           <span className="text-xs text-gray-600">Email: {adopt.user_email}</span>
                           <span className="text-xs text-gray-600">Status: {adopt.status || 'n/a'} | Pago: {adopt.payment_status || 'n/a'}</span>

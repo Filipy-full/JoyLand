@@ -62,7 +62,39 @@ export default function AdminAdoptadosPage() {
                   <td className="px-2 sm:px-4 py-2 whitespace-nowrap">{a.userName || a.shippingName || a.userId}</td>
                   <td className="px-2 sm:px-4 py-2 whitespace-nowrap">{a.userEmail}</td>
                   <td className="px-2 sm:px-4 py-2 whitespace-nowrap">{a.shippingAddress}</td>
-                  <td className="px-2 sm:px-4 py-2 whitespace-nowrap">{a.treeName}</td>
+                  <td className="px-2 sm:px-4 py-2 whitespace-nowrap">
+                    <form
+                      onSubmit={async (e) => {
+                        e.preventDefault();
+                        const form = e.target as HTMLFormElement;
+                        const input = form.elements.namedItem('treeName') as HTMLInputElement;
+                        const newTreeName = input.value.trim();
+                        if (!newTreeName || newTreeName === a.treeName) return;
+                        const token = localStorage.getItem('sb-access-token');
+                        const res = await fetch('/api/admin/adoptions', {
+                          method: 'PATCH',
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,
+                          },
+                          body: JSON.stringify({ adoptionId: a.id, newTreeName }),
+                        });
+                        if (res.ok) {
+                          setAdoptions((prev) => prev.map((ad) => ad.id === a.id ? { ...ad, treeName: newTreeName } : ad));
+                        } else {
+                          alert('Error updating tree name');
+                        }
+                      }}
+                    >
+                      <input
+                        name="treeName"
+                        defaultValue={a.treeName}
+                        className="border rounded px-1 py-0.5 w-28 text-xs"
+                        style={{ minWidth: 60 }}
+                      />
+                      <button type="submit" className="ml-1 px-2 py-0.5 text-xs bg-sage-200 rounded hover:bg-sage-300">💾</button>
+                    </form>
+                  </td>
                   <td className="px-2 sm:px-4 py-2 font-mono whitespace-nowrap">{a.treeId}</td>
                   <td className="px-2 sm:px-4 py-2 whitespace-nowrap">{a.status}</td>
                   <td className="px-2 sm:px-4 py-2 whitespace-nowrap">{a.paymentStatus}</td>

@@ -1,3 +1,29 @@
+export async function PATCH(req: NextRequest) {
+  try {
+    const authHeader = req.headers.get('authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const token = authHeader.slice(7);
+    await supabaseAdmin.auth.getUser(token);
+    const body = await req.json();
+    const { adoptionId, newTreeName } = body;
+    if (!adoptionId || !newTreeName) {
+      return NextResponse.json({ error: 'Missing adoptionId or newTreeName' }, { status: 400 });
+    }
+    const { error } = await supabaseAdmin
+      .from('adoptions')
+      .update({ tree_name: newTreeName })
+      .eq('id', adoptionId);
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
+    console.error('Error updating tree name:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
 export async function DELETE(req: NextRequest) {
   try {
     const authHeader = req.headers.get('authorization');
