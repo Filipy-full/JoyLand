@@ -1285,19 +1285,19 @@ export default function AdminDashboard() {
                           <button
                             className="mt-3 bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition-colors text-xs font-semibold"
                             onClick={async () => {
-                              if (!confirm('¿Seguro que quieres quitar esta adopción? El árbol quedará disponible.')) return;
+                              if (!confirm('Are you sure you want to remove this adoption? The tree will be available.')) return;
                               const session = await supabase.auth.getSession();
                               const token = session.data.session?.access_token;
                               if (!token) {
-                                alert('No autorizado');
+                                alert('Not authorized');
                                 return;
                               }
-                              // Quitar adopción
+                              // Remove adoption
                               await fetch(`/api/admin/adoptions?id=${adopt.id}`, {
                                 method: 'DELETE',
                                 headers: { Authorization: `Bearer ${token}` },
                               });
-                              // Actualizar estado del árbol
+                              // Update tree status
                               await fetch(`/api/admin/trees`, {
                                 method: 'PATCH',
                                 headers: {
@@ -1308,7 +1308,7 @@ export default function AdminDashboard() {
                               });
                               setAdoptions((prev) => prev.filter((a) => a.id !== adopt.id));
                             }}
-                          >Quitar adopción</button>
+                          >Remove Adoption</button>
                         </div>
                       </div>
                     </div>

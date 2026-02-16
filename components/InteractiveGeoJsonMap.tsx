@@ -87,7 +87,7 @@ interface TreeData {
   id: string
   name: string
   species: string
-  year: number
+  year: string | number
   area: string
   latitude: number
   longitude: number
@@ -279,7 +279,7 @@ export default function InteractiveGeoJsonMap() {
             id: feature.id,
             name: dbInfo?.name || feature.properties.name,
             species: feature.properties.species,
-            year: typeof dbInfo?.year === 'number' ? dbInfo.year : (typeof feature.properties.year === 'number' ? feature.properties.year : 0),
+            year: dbInfo?.year !== undefined && dbInfo?.year !== null ? dbInfo.year : (feature.properties.year !== undefined && feature.properties.year !== null ? feature.properties.year : ''),
             area: feature.properties.area,
             latitude: coords[1],
             longitude: coords[0],

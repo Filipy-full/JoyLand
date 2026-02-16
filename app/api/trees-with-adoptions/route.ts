@@ -54,7 +54,7 @@ export async function GET() {
 
   const treesWithAdoptions = (trees || []).map(tree => ({
     ...tree,
-    year: tree.year !== undefined && tree.year !== null ? String(tree.year) : '',
+    year: tree.year ?? '', // Permitir string, número o rango
     status: adoptedSet.has(tree.id) ? 'adopted' : tree.status,
     user_name: adoptionMap[tree.id]?.user_name || null,
     tree_name: adoptionMap[tree.id]?.tree_name || null,
