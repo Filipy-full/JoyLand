@@ -66,7 +66,7 @@ export default function FAQPage() {
         },
         {
           question: 'How do I contact Joyland if I have questions?',
-          answer: `You can reach us through the contact page or by sending an email to joylandspain@gmail.com. We do our best to answer you as quickly as possible.`
+          answer: `You can reach us through the contact page or by sending an email to info@joylandweb.com. We do our best to answer you as quickly as possible.`
         },
         {
           question: 'Can I make a donation in addition to adoption?',
@@ -168,7 +168,7 @@ export default function FAQPage() {
         },
         {
           question: 'How do I contact Joyland if I have questions?',
-          answer: `You can reach us through the contact page, by email at joylandspain@gmail.com, or visit us in person in Sant Mateu de Bages. We're available from 11:00 to 21:00 o'clock.`
+          answer: `You can reach us through the contact page, by email at info@joylandweb.com, or visit us in person in Sant Mateu de Bages. We're available from 11:00 to 21:00 o'clock.`
         },
         {
           question: 'Can I make a donation in addition to adoption?',

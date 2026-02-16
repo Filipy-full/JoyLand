@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 // Modal simples para exibir imagem ampliada
 function ImageModal({ src, alt, onClose }: { src: string, alt: string, onClose: () => void }) {
   return (
@@ -10,7 +11,7 @@ function ImageModal({ src, alt, onClose }: { src: string, alt: string, onClose: 
         style={{ maxWidth: '180vw', maxHeight: '180vh' }}
         onClick={e => e.stopPropagation()}
       >
-        <img
+        <Image
           src={src}
           alt={alt}
           className="rounded-lg shadow-2xl object-contain border-4 border-white"
@@ -24,6 +25,10 @@ function ImageModal({ src, alt, onClose }: { src: string, alt: string, onClose: 
             margin: '0 auto',
             boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
           }}
+          width={800}
+          height={1200}
+          sizes="(max-width: 800px) 100vw, 800px"
+          priority
         />
         <button
           onClick={onClose}
@@ -173,7 +178,7 @@ export default function InteractiveGeoJsonMap() {
         type: treeType,
         price: price,
         area: tree.area,
-        year: tree.year,
+        year: typeof tree.year === 'number' ? tree.year : Number(tree.year),
       })
       // NO cerrar el panel, dejar que aparezca el botón del carrito
     } catch (err) {
