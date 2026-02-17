@@ -18,15 +18,27 @@ interface AdoptPageClientProps {
 }
 
 export default function AdoptPageClient({ trees }: AdoptPageClientProps) {
-  const [selectedTree, setSelectedTree] = useState<Tree | null>(null)
+  const [selectedTree, setSelectedTree] = useState<Tree | null>(null);
+  const router = typeof window !== 'undefined' ? require('next/router').useRouter() : null;
+  const supabase = require('@/lib/supabase').supabase;
 
-  const handleTreeSelect = (tree: import('./TreeMapLeafletClient').Tree) => {
-    // Se necessário, buscar o objeto original pelo id
+  const handleTreeSelect = async (tree: import('./TreeMapLeafletClient').Tree) => {
     const original = trees.find(t => t.id === tree.id);
     if (original && original.status === 'available') {
+      // Check session before allowing adoption
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        // Redirect to login with returnUrl
+        if (router) {
+          router.push(`/login?returnUrl=/adopt/${original.id}`);
+        } else {
+          window.location.href = `/login?returnUrl=/adopt/${original.id}`;
+        }
+        return;
+      }
       setSelectedTree(original);
     }
-  }
+  };
 
   return (
     <div className="container mx-auto px-6 py-12">
