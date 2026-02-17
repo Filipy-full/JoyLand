@@ -49,22 +49,22 @@ export default function LoginForm() {
 
       // Validaciones estrictas antes de llamar a signUp
       if (!cleanName || !cleanEmail || !cleanPassword) {
-        setError("Todos os campos são obrigatórios.");
+        setError("All fields are required.");
         setLoading(false);
         return;
       }
       if (cleanName.length < 2) {
-        setError("O nome deve ter pelo menos 2 caracteres.");
+        setError("The name must be at least 2 characters long.");
         setLoading(false);
         return;
       }
       if (cleanPassword.length < 6) {
-        setError("A senha deve ter pelo menos 6 caracteres.");
+        setError("The password must be at least 6 characters long.");
         setLoading(false);
         return;
       }
       if (!emailRegex.test(cleanEmail)) {
-        setError("Informe um email válido.");
+        setError("Please enter a valid email address.");
         setLoading(false);
         return;
       }
@@ -80,11 +80,11 @@ export default function LoginForm() {
       if (signUpError) {
         let msg = signUpError.message;
         if (msg.includes("already registered") || msg.includes("duplicate")) {
-          msg = "Email já está em uso.";
+          msg = "This email is already registered but not yet confirmed. Please check your inbox (and spam folder) for the confirmation link. If you did not receive the email, you can try logging in to trigger a new confirmation email or contact support for help.";
         } else if (msg.toLowerCase().includes("password")) {
-          msg = "A senha não cumpre os requisitos.";
+          msg = "The password does not meet the requirements.";
         } else if (msg.toLowerCase().includes("email")) {
-          msg = "O email não é válido.";
+          msg = "The email is not valid.";
         }
         setError(msg);
         setLoading(false);
@@ -110,16 +110,16 @@ export default function LoginForm() {
           if (insertError) {
             let msg = insertError.message;
             if (msg.includes("duplicate")) {
-              msg = "Email já está em uso.";
+              msg = "This email is already registered. If you haven't confirmed your email, please check your inbox (and spam folder) for the confirmation link.";
             } else if (msg.toLowerCase().includes("rls")) {
-              msg = "Você não tem permissão para criar usuário. Contate o suporte.";
+              msg = "You do not have permission to create a user. Please contact support.";
             }
             setError(msg);
             setLoading(false);
             return;
           }
         } catch (err) {
-          setError("Ocorreu um erro ao criar o perfil do usuário.");
+          setError("An error occurred while creating the user profile.");
           setLoading(false);
           return;
         }
@@ -140,6 +140,15 @@ export default function LoginForm() {
       }
       setError(msg);
       setLoading(false);
+      return;
+    }
+
+    // --- Check if email is confirmed ---
+    if (!loginData.user?.email_confirmed_at) {
+      setError("You must confirm your email before logging in. Please check your inbox (and spam folder) for the confirmation link.");
+      setLoading(false);
+      // Optionally, sign out the user to clear any session
+      await supabase.auth.signOut();
       return;
     }
 
@@ -217,6 +226,11 @@ export default function LoginForm() {
           <button type="submit" className="w-full bg-sage-600 text-white py-3 rounded-lg font-semibold hover:bg-sage-700 transition-colors shadow-md" disabled={loading}>
             {loading ? (isRegister ? "Creando..." : "Entrando...") : (isRegister ? "Crear cuenta" : "Iniciar sesión")}
           </button>
+          {isRegister && (
+            <div className="text-sage-700 text-xs text-center mt-3 bg-sage-50 border border-sage-200 rounded py-2 px-3">
+              After creating your account, please check your email and follow the confirmation link to activate your account before logging in.
+            </div>
+          )}
         </form>
         <div className="my-6 flex items-center justify-center">
           <span className="h-px bg-sage-200 flex-1" />
