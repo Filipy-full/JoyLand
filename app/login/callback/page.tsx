@@ -8,7 +8,7 @@ export default function Callback() {
 
   useEffect(() => {
     const handleAuth = async () => {
-      // Obtener sesión actual del usuario
+      // Get current user session
       const { data, error } = await supabase.auth.getSession();
 
       if (error) {

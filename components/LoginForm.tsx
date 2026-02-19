@@ -76,7 +76,7 @@ export default function LoginForm() {
         options: { data: { full_name: cleanName } },
       });
 
-      // 2. Captura errores de signup (usuario ya existe, email inválido, etc)
+      // 2. Capture signup errors (user already exists, invalid email, etc)
       if (signUpError) {
         let msg = signUpError.message;
         if (msg.includes("already registered") || msg.includes("duplicate")) {
@@ -126,7 +126,7 @@ export default function LoginForm() {
       }
 
       // 5. Sucesso: instrução para confirmar email
-      setError("Conta criada! Verifique seu email para confirmar e depois faça login.");
+      setError("Account created! Please check your email to confirm and then log in.");
       setLoading(false);
       return;
     }
@@ -136,7 +136,7 @@ export default function LoginForm() {
     if (loginError) {
       let msg = loginError.message;
       if (msg.toLowerCase().includes("invalid login")) {
-        msg = "Email o contraseña incorrectos.";
+        msg = "Incorrect email or password.";
       }
       setError(msg);
       setLoading(false);

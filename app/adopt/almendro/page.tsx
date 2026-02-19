@@ -12,7 +12,7 @@ export default function AdoptAlmendroPage() {
     setLoading(true);
     setError(null);
     try {
-      // Obtener datos del usuario autenticado
+      // Get authenticated user data
       const { data: { user } } = await supabase.auth.getUser();
       
       let userId = null, userName = '', userEmail = '';
