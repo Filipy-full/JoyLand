@@ -167,7 +167,7 @@ export default function Footer() {
         <div className="border-t border-sage-300 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-sage-600">
             <p className="text-center md:text-left">
-              © {new Date().getFullYear()} Joyland. All rights reserved.
+              © {new Date().getFullYear()} Joyland. Build by Global Growth Framework.
             </p>
             <div className="flex flex-wrap justify-center gap-4 md:gap-6">
               <span className="flex items-center gap-2">
